@@ -1,0 +1,36 @@
+{
+  "siteUrl": "https://www.dotplotmaker.com",
+  "siteName": "Dot Plot Maker®",
+  "legalName": "DotPlotMaker.com",
+  "contactEmail": "contact@dotplotmaker.com",
+  "author": "Dot Plot Maker® Team",
+  "metaImage": "/og-image.png",
+  "metaImageWidth": 1200,
+  "metaImageHeight": 630,
+  "metaImageAlt": "Dot Plot Maker® - Create Beautiful Dot Plots Online Free",
+  "verification": {
+    "google": "",
+    "bing": "",
+    "yandex": ""
+  },
+  "social": {
+    "facebook": "",
+    "twitter": "",
+    "linkedin": "",
+    "pinterest": ""
+  },
+  "headerNav": [
+    { "label": "nav.home", "href": "/" },
+    { "label": "nav.blog", "href": "/blog/" },
+    { "label": "nav.about", "href": "/about-us/" },
+    { "label": "nav.contact", "href": "/contact-us/" }
+  ],
+  "footerNav": [
+    { "label": "nav.about", "href": "/about-us/" },
+    { "label": "nav.contact", "href": "/contact-us/" },
+    { "label": "nav.blog", "href": "/blog/" },
+    { "label": "nav.terms", "href": "/terms/" },
+    { "label": "nav.privacy", "href": "/privacy/" },
+    { "label": "nav.sitemap", "href": "/sitemap/" }
+  ]
+}

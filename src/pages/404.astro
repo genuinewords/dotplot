@@ -1,0 +1,52 @@
+---
+import BaseLayout from "@theme/layouts/BaseLayout.astro";
+import { defaultLocale } from "@src/i18n/config";
+import { t } from "@src/i18n/utils";
+
+const locale = defaultLocale;
+---
+
+<BaseLayout locale={locale} title={t(locale, "common.pageNotFound")} description={t(locale, "common.pageNotFoundDesc")}>
+  <div class="page-content error-page">
+    <div class="error-container animate-fade-in-up" style="opacity: 0;">
+      <span class="error-code">404</span>
+      <h1>{t(locale, "common.pageNotFound")}</h1>
+      <p>{t(locale, "common.pageNotFoundDesc")}</p>
+      <a href="/" class="btn-primary">
+        <span>{t(locale, "common.backHome")}</span>
+      </a>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .error-page {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 50vh;
+  }
+  .error-container {
+    text-align: center;
+  }
+  .error-code {
+    display: block;
+    font-size: 8rem;
+    font-weight: 900;
+    line-height: 1;
+    background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 1rem;
+  }
+  .error-container h1 {
+    font-size: 2rem;
+    margin-bottom: 0.75rem;
+  }
+  .error-container p {
+    color: var(--color-text-secondary);
+    margin-bottom: 2rem;
+    font-size: 1.05rem;
+  }
+</style>

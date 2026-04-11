@@ -1,0 +1,125 @@
+﻿---
+import { type Locale, defaultLocale } from "@src/i18n/config";
+import { t } from "@src/i18n/utils";
+
+interface Props {
+  locale?: Locale;
+}
+
+const { locale = defaultLocale } = Astro.props;
+
+const steps = [
+  { icon: "data", title: t(locale, "home.howStep1Title"), desc: t(locale, "home.howStep1Desc") },
+  { icon: "customize", title: t(locale, "home.howStep2Title"), desc: t(locale, "home.howStep2Desc") },
+  { icon: "export", title: t(locale, "home.howStep3Title"), desc: t(locale, "home.howStep3Desc") },
+];
+---
+
+<section class="section" id="how-it-works">
+  <div class="how-head">
+    <h2 class="section-title">{t(locale, "home.howTitle")}</h2>
+    <p class="section-subtitle">{t(locale, "home.howSubtitle")}</p>
+  </div>
+
+  <div class="steps-grid">
+    {steps.map((step, i) => (
+      <div class="step-card glass-card animate-fade-in-up" style={`animation-delay: ${i * 0.15}s; opacity: 0;`}>
+        <div class="step-number">{i + 1}</div>
+        <div class="step-icon" aria-hidden="true">
+          {step.icon === "data" && (
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="4" y1="20" x2="20" y2="20"></line>
+              <rect x="6" y="12" width="3" height="8" rx="1"></rect>
+              <rect x="10.5" y="9" width="3" height="11" rx="1"></rect>
+              <rect x="15" y="6" width="3" height="14" rx="1"></rect>
+            </svg>
+          )}
+          {step.icon === "customize" && (
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 3l2.1 4.5 4.9.7-3.6 3.5.9 5-4.3-2.4-4.3 2.4.9-5-3.6-3.5 4.9-.7L12 3z"></path>
+            </svg>
+          )}
+          {step.icon === "export" && (
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 3v12"></path>
+              <path d="M7 10l5 5 5-5"></path>
+              <rect x="4" y="17" width="16" height="4" rx="1"></rect>
+            </svg>
+          )}
+        </div>
+        <h3 class="step-title">{step.title}</h3>
+        <p class="step-desc">{step.desc}</p>
+      </div>
+    ))}
+  </div>
+
+  <slot />
+</section>
+
+<style>
+  .how-head {
+    text-align: center;
+  }
+  .how-head .section-subtitle {
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .steps-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+  .step-card {
+    padding: 2rem;
+    text-align: center;
+    position: relative;
+    transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+  }
+  .step-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 212, 170, 0.12);
+    border-color: rgba(0, 212, 170, 0.35);
+  }
+  .step-number {
+    position: absolute;
+    top: -12px;
+    left: -12px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--color-primary), var(--color-primary-light));
+    color: white;
+    font-weight: 700;
+    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .step-icon {
+    width: 48px;
+    height: 48px;
+    margin: 0 auto 1rem;
+    border-radius: 12px;
+    border: 1px solid rgba(0, 212, 170, 0.3);
+    background: rgba(0, 212, 170, 0.12);
+    color: var(--color-primary);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .step-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+  }
+  .step-desc {
+    color: var(--color-text-secondary);
+    font-size: 0.92rem;
+    line-height: 1.7;
+  }
+  @media (max-width: 768px) {
+    .steps-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

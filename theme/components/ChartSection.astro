@@ -1,0 +1,132 @@
+---
+import { type Locale, defaultLocale } from "@src/i18n/config";
+import { t, getTranslations } from "@src/i18n/utils";
+
+interface Props {
+  locale?: Locale;
+}
+
+const { locale = defaultLocale } = Astro.props;
+const trans = getTranslations(locale);
+const whenItems: string[] = trans.home?.chartWhenItems || [];
+const vsItems: { chart: string; comparison: string }[] = trans.home?.chartVsItems || [];
+---
+
+<section class="section" id="chart-info">
+  <h2 class="section-title">{t(locale, "home.chartTitle")}</h2>
+  <p class="section-subtitle">{t(locale, "home.chartSubtitle")}</p>
+
+  <div class="chart-grid">
+    <!-- When to Use -->
+    <div class="glass-card chart-card">
+      <h3 class="chart-card-title">{t(locale, "home.chartWhen")}</h3>
+      <ul class="chart-list">
+        {whenItems.map((item: string) => (
+          <li class="chart-list-item">
+            <span class="check-icon">✓</span>
+            <span>{item}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <!-- Comparison Table -->
+    <div class="glass-card chart-card">
+      <h3 class="chart-card-title">{t(locale, "home.chartVs")}</h3>
+      <div class="comparison-table">
+        <div class="table-header">
+          <span>Chart Type</span>
+          <span>Comparison</span>
+        </div>
+        {vsItems.map((item: { chart: string; comparison: string }) => (
+          <div class="table-row">
+            <span class="chart-type-name">{item.chart}</span>
+            <span class="chart-type-desc">{item.comparison}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .chart-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+  .chart-card {
+    padding: 2rem;
+  }
+  .chart-card:hover {
+    transform: none;
+  }
+  .chart-card-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 1.25rem;
+    color: var(--color-primary);
+  }
+  .chart-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  .chart-list-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    color: var(--color-text-secondary);
+    font-size: 0.93rem;
+    line-height: 1.6;
+  }
+  .check-icon {
+    color: var(--color-primary);
+    font-weight: 700;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .comparison-table {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .table-header {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: 1rem;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--color-border);
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .table-row {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: 1rem;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--color-border);
+    font-size: 0.9rem;
+  }
+  .table-row:last-child {
+    border-bottom: none;
+  }
+  .chart-type-name {
+    color: var(--color-primary-light);
+    font-weight: 600;
+  }
+  .chart-type-desc {
+    color: var(--color-text-secondary);
+  }
+  @media (max-width: 768px) {
+    .chart-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

@@ -1,0 +1,50 @@
+---
+import { locales, localeNames, type Locale, defaultLocale } from "@src/i18n/config";
+import { getLocaleHomeUrl } from "@src/i18n/utils";
+
+interface Props {
+  locale?: Locale;
+}
+
+const { locale = defaultLocale } = Astro.props;
+---
+
+<div class="lang-switcher">
+  {locales.map((loc) => (
+    <a
+      href={getLocaleHomeUrl(loc)}
+      class:list={["lang-link", { active: loc === locale }]}
+      aria-label={localeNames[loc]}
+    >
+      {localeNames[loc]}
+    </a>
+  ))}
+</div>
+
+<style>
+  .lang-switcher {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+  .lang-link {
+    display: inline-block;
+    padding: 0.3rem 0.6rem;
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+    text-decoration: none;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+    border: 1px solid transparent;
+  }
+  .lang-link:hover {
+    color: var(--color-primary);
+    background: rgba(0, 212, 170, 0.06);
+  }
+  .lang-link.active {
+    color: var(--color-primary);
+    border-color: var(--color-primary);
+    background: rgba(0, 212, 170, 0.08);
+    font-weight: 600;
+  }
+</style>

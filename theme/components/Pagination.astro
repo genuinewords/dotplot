@@ -1,0 +1,92 @@
+---
+import { type Locale, defaultLocale } from "@src/i18n/config";
+import { t } from "@src/i18n/utils";
+
+interface Props {
+  currentPage: number;
+  totalPages: number;
+  baseUrl: string;
+  locale?: Locale;
+}
+
+const { currentPage, totalPages, baseUrl, locale = defaultLocale } = Astro.props;
+
+function pageUrl(page: number) {
+  if (page === 1) return baseUrl;
+  return `${baseUrl}${page}/`;
+}
+
+const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
+---
+
+{totalPages > 1 && (
+  <nav class="pagination" aria-label="Pagination">
+    <a
+      href={currentPage > 1 ? pageUrl(currentPage - 1) : undefined}
+      class:list={["page-link", "page-prev", { disabled: currentPage <= 1 }]}
+      aria-disabled={currentPage <= 1 ? "true" : undefined}
+    >
+      {t(locale, "common.previous")}
+    </a>
+
+    {pages.map((page) => (
+      <a
+        href={pageUrl(page)}
+        class:list={["page-link", "page-number", { active: page === currentPage }]}
+        aria-current={page === currentPage ? "page" : undefined}
+      >
+        {page}
+      </a>
+    ))}
+
+    <a
+      href={currentPage < totalPages ? pageUrl(currentPage + 1) : undefined}
+      class:list={["page-link", "page-next", { disabled: currentPage >= totalPages }]}
+      aria-disabled={currentPage >= totalPages ? "true" : undefined}
+    >
+      {t(locale, "common.next")}
+    </a>
+  </nav>
+)}
+
+<style>
+  .pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 3rem;
+    flex-wrap: wrap;
+  }
+  .page-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--color-text-secondary);
+    background: var(--color-bg-card);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    min-width: 40px;
+  }
+  .page-link:hover:not(.disabled):not(.active) {
+    color: var(--color-primary);
+    border-color: var(--color-primary);
+    background: rgba(0, 212, 170, 0.06);
+  }
+  .page-link.active {
+    color: white;
+    background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+    border-color: transparent;
+    font-weight: 700;
+  }
+  .page-link.disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+</style>

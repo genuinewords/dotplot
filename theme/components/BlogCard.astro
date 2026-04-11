@@ -1,0 +1,88 @@
+---
+import { type Locale, defaultLocale } from "@src/i18n/config";
+import { t } from "@src/i18n/utils";
+
+interface Props {
+  title: string;
+  description: string;
+  image?: string;
+  href: string;
+  locale?: Locale;
+}
+
+const { title, description, image, href, locale = defaultLocale } = Astro.props;
+---
+
+<a href={href} class="blog-card glass-card" id={`blog-card-${href.replace(/\//g, "-")}`}>
+  {image && (
+    <div class="blog-card-image">
+      <img src={image} alt={title} loading="lazy" />
+    </div>
+  )}
+  <div class="blog-card-body">
+    <h3 class="blog-card-title">{title}</h3>
+    <p class="blog-card-desc">{description}</p>
+    <span class="blog-card-cta">
+      {t(locale, "common.readMore")}
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="3" y1="8" x2="13" y2="8"/>
+        <polyline points="9 4 13 8 9 12"/>
+      </svg>
+    </span>
+  </div>
+</a>
+
+<style>
+  .blog-card {
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    overflow: hidden;
+    color: inherit;
+  }
+  .blog-card-image {
+    aspect-ratio: 16/9;
+    overflow: hidden;
+  }
+  .blog-card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+  }
+  .blog-card:hover .blog-card-image img {
+    transform: scale(1.05);
+  }
+  .blog-card-body {
+    padding: 1.5rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  .blog-card-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin-bottom: 0.6rem;
+    line-height: 1.35;
+    color: var(--color-text-primary);
+  }
+  .blog-card-desc {
+    color: var(--color-text-secondary);
+    font-size: 0.9rem;
+    line-height: 1.6;
+    flex: 1;
+    margin-bottom: 1rem;
+  }
+  .blog-card-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: var(--color-primary);
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: gap 0.2s ease;
+  }
+  .blog-card:hover .blog-card-cta {
+    gap: 0.7rem;
+  }
+</style>

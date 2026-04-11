@@ -1,0 +1,302 @@
+<section class="section visual-showcase" id="visual-showcase">
+  <div class="visual-head">
+    <h2 class="section-title">See your data story before you even export</h2>
+    <p class="section-subtitle">
+      Interactive illustrations show how Dot Plot Maker turns raw values into clean, presentation-ready visuals in seconds.
+    </p>
+  </div>
+
+  <div class="illustration-grid">
+    <article class="glass-card illustration-card" data-tilt>
+      <div class="illustration-frame">
+        <svg viewBox="0 0 360 220" role="img" aria-label="Dot distribution illustration">
+          <rect x="12" y="16" width="336" height="188" rx="18" class="frame-bg"></rect>
+          <line x1="52" y1="166" x2="308" y2="166" class="axis-line"></line>
+          <circle cx="88" cy="150" r="8" class="dot dot-main"></circle>
+          <circle cx="88" cy="130" r="8" class="dot dot-main"></circle>
+          <circle cx="132" cy="150" r="8" class="dot dot-main"></circle>
+          <circle cx="176" cy="150" r="8" class="dot dot-main"></circle>
+          <circle cx="176" cy="130" r="8" class="dot dot-main"></circle>
+          <circle cx="176" cy="110" r="8" class="dot dot-main"></circle>
+          <circle cx="220" cy="150" r="8" class="dot dot-main"></circle>
+          <circle cx="264" cy="150" r="8" class="dot dot-outlier"></circle>
+          <circle cx="264" cy="92" r="10" class="dot dot-highlight"></circle>
+        </svg>
+      </div>
+      <h3>Spot Patterns Fast</h3>
+      <p>Clusters, gaps, and outliers are obvious at a glance, so your readers get the point immediately.</p>
+    </article>
+
+    <article class="glass-card illustration-card" data-tilt>
+      <div class="illustration-frame">
+        <svg viewBox="0 0 360 220" role="img" aria-label="Category comparison illustration">
+          <rect x="12" y="16" width="336" height="188" rx="18" class="frame-bg"></rect>
+          <line x1="56" y1="58" x2="296" y2="58" class="guide-line"></line>
+          <line x1="56" y1="106" x2="296" y2="106" class="guide-line"></line>
+          <line x1="56" y1="154" x2="296" y2="154" class="guide-line"></line>
+
+          <line x1="126" y1="58" x2="214" y2="58" class="delta-line"></line>
+          <line x1="146" y1="106" x2="234" y2="106" class="delta-line"></line>
+          <line x1="116" y1="154" x2="184" y2="154" class="delta-line"></line>
+
+          <circle cx="126" cy="58" r="9" class="dot dot-main"></circle>
+          <circle cx="214" cy="58" r="9" class="dot dot-accent"></circle>
+          <circle cx="146" cy="106" r="9" class="dot dot-main"></circle>
+          <circle cx="234" cy="106" r="9" class="dot dot-accent"></circle>
+          <circle cx="116" cy="154" r="9" class="dot dot-main"></circle>
+          <circle cx="184" cy="154" r="9" class="dot dot-accent"></circle>
+        </svg>
+      </div>
+      <h3>Compare Categories Clearly</h3>
+      <p>Small value differences stay visible, making before-and-after and group comparisons easier to trust.</p>
+    </article>
+
+    <article class="glass-card illustration-card" data-tilt>
+      <div class="illustration-frame">
+        <svg viewBox="0 0 360 220" role="img" aria-label="Export ready chart illustration">
+          <rect x="12" y="16" width="336" height="188" rx="18" class="frame-bg"></rect>
+          <rect x="74" y="44" width="132" height="140" rx="10" class="sheet"></rect>
+          <line x1="92" y1="84" x2="188" y2="84" class="sheet-line"></line>
+          <line x1="92" y1="108" x2="188" y2="108" class="sheet-line"></line>
+          <line x1="92" y1="132" x2="172" y2="132" class="sheet-line"></line>
+
+          <rect x="214" y="72" width="74" height="74" rx="12" class="export-chip"></rect>
+          <path d="M251 88v28" class="arrow"></path>
+          <path d="M240 106l11 11 11-11" class="arrow"></path>
+
+          <circle cx="282" cy="60" r="4" class="spark"></circle>
+          <circle cx="302" cy="82" r="3" class="spark"></circle>
+          <circle cx="300" cy="160" r="3" class="spark"></circle>
+        </svg>
+      </div>
+      <h3>Deliver Professional Outputs</h3>
+      <p>Export-ready visuals help you move from analysis to report slides with less cleanup and better clarity.</p>
+    </article>
+  </div>
+</section>
+
+<script>
+  const cards = document.querySelectorAll(".illustration-card[data-tilt]");
+  const tiltEnabled = window.matchMedia("(pointer: fine)").matches;
+
+  if (tiltEnabled) {
+    cards.forEach((card) => {
+      card.addEventListener("mousemove", (event) => {
+        const rect = card.getBoundingClientRect();
+        const px = (event.clientX - rect.left) / rect.width;
+        const py = (event.clientY - rect.top) / rect.height;
+        const rx = (0.5 - py) * 7;
+        const ry = (px - 0.5) * 8;
+        card.style.setProperty("--rx", `${rx.toFixed(2)}deg`);
+        card.style.setProperty("--ry", `${ry.toFixed(2)}deg`);
+        card.style.setProperty("--mx", `${(px * 100).toFixed(1)}%`);
+        card.style.setProperty("--my", `${(py * 100).toFixed(1)}%`);
+      });
+
+      card.addEventListener("mouseleave", () => {
+        card.style.setProperty("--rx", "0deg");
+        card.style.setProperty("--ry", "0deg");
+        card.style.setProperty("--mx", "50%");
+        card.style.setProperty("--my", "50%");
+      });
+    });
+  }
+</script>
+
+<style>
+  .visual-showcase {
+    padding-top: 1rem;
+  }
+
+  .visual-head {
+    text-align: center;
+    max-width: 760px;
+    margin: 0 auto 2rem;
+  }
+
+  .visual-head .section-subtitle {
+    margin: 0 auto;
+  }
+
+  .illustration-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.5rem;
+  }
+
+  .illustration-card {
+    position: relative;
+    padding: 1.25rem 1.25rem 1.35rem;
+    overflow: hidden;
+    transform-style: preserve-3d;
+    transform: perspective(1000px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+    transition: transform 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
+    will-change: transform;
+  }
+
+  .illustration-card::after {
+    content: "";
+    position: absolute;
+    inset: -30%;
+    background: radial-gradient(circle at var(--mx, 50%) var(--my, 50%), rgba(0, 212, 170, 0.2), transparent 44%);
+    opacity: 0;
+    transition: opacity 0.22s ease;
+    pointer-events: none;
+  }
+
+  .illustration-card:hover::after {
+    opacity: 1;
+  }
+
+  .illustration-card h3 {
+    margin: 0.9rem 0 0.35rem;
+    font-size: 1.12rem;
+    font-weight: 700;
+    color: var(--color-text-primary);
+  }
+
+  .illustration-card p {
+    margin: 0;
+    font-size: 0.94rem;
+    line-height: 1.65;
+    color: var(--color-text-secondary);
+  }
+
+  .illustration-frame {
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0));
+    padding: 0.2rem;
+  }
+
+  .illustration-frame svg {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .frame-bg {
+    fill: rgba(9, 9, 28, 0.75);
+    stroke: rgba(255, 255, 255, 0.08);
+  }
+
+  .axis-line,
+  .guide-line {
+    stroke: rgba(255, 255, 255, 0.22);
+    stroke-width: 2;
+  }
+
+  .guide-line {
+    stroke-dasharray: 4 6;
+  }
+
+  .delta-line {
+    stroke: rgba(167, 139, 250, 0.85);
+    stroke-width: 2;
+    stroke-dasharray: 2 6;
+    animation: dashFlow 2.6s linear infinite;
+  }
+
+  .dot {
+    stroke: rgba(8, 8, 20, 0.6);
+    stroke-width: 1.5;
+  }
+
+  .dot-main {
+    fill: var(--color-primary);
+  }
+
+  .dot-accent {
+    fill: var(--color-accent);
+  }
+
+  .dot-outlier {
+    fill: rgba(0, 212, 170, 0.5);
+  }
+
+  .dot-highlight {
+    fill: var(--color-accent);
+    animation: pulseDot 1.8s ease-in-out infinite;
+    transform-origin: center;
+  }
+
+  .sheet {
+    fill: rgba(255, 255, 255, 0.9);
+  }
+
+  .sheet-line {
+    stroke: rgba(10, 10, 26, 0.22);
+    stroke-width: 3;
+    stroke-linecap: round;
+  }
+
+  .export-chip {
+    fill: rgba(0, 212, 170, 0.16);
+    stroke: rgba(0, 212, 170, 0.5);
+  }
+
+  .arrow {
+    fill: none;
+    stroke: var(--color-primary);
+    stroke-width: 4;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    animation: bobArrow 1.8s ease-in-out infinite;
+  }
+
+  .spark {
+    fill: var(--color-accent-light);
+    animation: sparkle 2.1s ease-in-out infinite;
+  }
+
+  @keyframes pulseDot {
+    0%, 100% {
+      transform: scale(1);
+      opacity: 0.95;
+    }
+    50% {
+      transform: scale(1.25);
+      opacity: 0.7;
+    }
+  }
+
+  @keyframes dashFlow {
+    to {
+      stroke-dashoffset: -32;
+    }
+  }
+
+  @keyframes bobArrow {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(3px);
+    }
+  }
+
+  @keyframes sparkle {
+    0%, 100% {
+      opacity: 0.35;
+    }
+    50% {
+      opacity: 1;
+    }
+  }
+
+  @media (max-width: 1024px) {
+    .illustration-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 768px) {
+    .illustration-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .illustration-card {
+      transform: none;
+    }
+  }
+</style>

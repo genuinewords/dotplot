@@ -1,0 +1,24 @@
+---
+import BaseLayout from "@theme/layouts/BaseLayout.astro";
+import ContactForm from "@theme/components/ContactForm.astro";
+import { defaultLocale } from "@src/i18n/config";
+import { t } from "@src/i18n/utils";
+
+const locale = defaultLocale;
+---
+
+<BaseLayout
+  locale={locale}
+  title={t(locale, "contact.title")}
+  description={t(locale, "contact.intro")}
+  pageType="contact"
+>
+  <div class="page-content">
+    <div class="page-header animate-fade-in-up" style="opacity: 0;">
+      <h1>{t(locale, "contact.title")}</h1>
+      <p>{t(locale, "contact.intro")}</p>
+    </div>
+
+    <ContactForm locale={locale} />
+  </div>
+</BaseLayout>

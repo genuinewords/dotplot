@@ -1,0 +1,65 @@
+---
+import BaseLayout from "@theme/layouts/BaseLayout.astro";
+import AdvancedDotPlotTool from "@theme/components/AdvancedDotPlotTool.astro";
+import HowItWorks from "@theme/components/HowItWorks.astro";
+import ChartSection from "@theme/components/ChartSection.astro";
+import FAQ from "@theme/components/FAQ.astro";
+import HomepageSchema from "@theme/components/HomepageSchema.astro";
+import { getStaticLocalePaths } from "@src/i18n/utils";
+import { t, getLocaleFromParams } from "@src/i18n/utils";
+import type { Locale } from "@src/i18n/config";
+
+export function getStaticPaths() {
+  return getStaticLocalePaths();
+}
+
+const locale = getLocaleFromParams(Astro.params) as Locale;
+---
+
+<BaseLayout locale={locale}>
+  <HomepageSchema locale={locale} slot="head" />
+
+  <div class="page-content">
+    <div class="hero animate-fade-in-up" style="opacity: 0;">
+      <span class="badge">{t(locale, "home.badge")}</span>
+      <h1 class="hero-title">{t(locale, "home.h1")}</h1>
+      <p class="hero-intro">{t(locale, "home.intro")}</p>
+    </div>
+
+    <AdvancedDotPlotTool locale={locale} />
+    <HowItWorks locale={locale} />
+    <ChartSection locale={locale} />
+    <FAQ locale={locale} />
+  </div>
+</BaseLayout>
+
+<style>
+  .hero {
+    text-align: center;
+    padding: 3rem 0 2rem;
+  }
+  .hero-title {
+    font-size: 3rem;
+    font-weight: 900;
+    line-height: 1.1;
+    margin: 1rem 0;
+    background: linear-gradient(135deg, var(--color-text-primary) 30%, var(--color-primary) 70%, var(--color-accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .hero-intro {
+    font-size: 1.15rem;
+    color: var(--color-text-secondary);
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.7;
+  }
+  @media (max-width: 768px) {
+    .hero-title { font-size: 2rem; }
+    .hero-intro { font-size: 1rem; }
+  }
+</style>

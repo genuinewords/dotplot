@@ -1,0 +1,45 @@
+---
+import BaseLayout from "@theme/layouts/BaseLayout.astro";
+import { defaultLocale } from "@src/i18n/config";
+import { t, getTranslations } from "@src/i18n/utils";
+
+const locale = defaultLocale;
+const trans = getTranslations(locale);
+const sections = trans.terms?.content || [];
+---
+
+<BaseLayout locale={locale} title={t(locale, "terms.title")} description={t(locale, "terms.intro")}>
+  <div class="page-content">
+    <div class="page-header animate-fade-in-up" style="opacity: 0;">
+      <h1>{t(locale, "terms.title")}</h1>
+      <p>{t(locale, "terms.intro")}</p>
+    </div>
+
+    <div class="legal-content">
+      {sections.map((section: { heading: string; text: string }) => (
+        <section class="legal-section">
+          <h2>{section.heading}</h2>
+          <p>{section.text}</p>
+        </section>
+      ))}
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .legal-content {
+    max-width: 800px;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+  .legal-section h2 {
+    font-size: 1.3rem;
+    margin-bottom: 0.75rem;
+    color: var(--color-text-primary);
+  }
+  .legal-section p {
+    color: var(--color-text-secondary);
+    line-height: 1.8;
+  }
+</style>

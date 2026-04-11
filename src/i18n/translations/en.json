@@ -1,0 +1,244 @@
+{
+  "site": {
+    "title": "Dot Plot Maker®",
+    "description": "Create beautiful dot plots online for free. Enter your data and instantly generate publication-ready dot plot charts with our easy-to-use interactive tool."
+  },
+  "nav": {
+    "home": "Home",
+    "blog": "Blog",
+    "about": "About Us",
+    "contact": "Contact Us",
+    "terms": "Terms of Service",
+    "privacy": "Privacy Policy",
+    "sitemap": "Sitemap"
+  },
+  "footer": {
+    "description": "Free online dot plot maker tool. Create, customize, and download beautiful dot plots for your data analysis, research papers, and presentations.",
+    "copyright": "All rights reserved."
+  },
+  "home": {
+    "badge": "Free Online Tool",
+    "h1": "Dot Plot Maker – Instant Beautiful Dot Plots",
+    "intro": "Transform your raw data into professional, publication-ready Cleveland dot plots. Simply paste your data, upload a spreadsheet, and customize your chart using our interactive BI-grade editor.",
+    "toolTitle": "Pro Dot Plot Editor",
+    "toolPlaceholder": "Load CSV, Excel, or enter data directly",
+    "toolGenerate": "Render Chart",
+    "toolDownload": "Export SVG / PNG",
+    "toolReset": "Reset Board",
+    "toolDotColor": "Series Coloring",
+    "toolAxisLabel": "Axis Configuration",
+    "toolChartTitle": "Chart Title",
+    "howTitle": "Steps to use our Dot Plot Maker® online",
+    "howSubtitle": "Build advanced data visualizations in three streamlined steps.",
+    "howStep1Title": "Input or Upload Data",
+    "howStep1Desc": "Type directly into our Excel-like grid, or instantly upload your existing CSV and Excel spreadsheets to populate the data matrix.",
+    "howStep2Title": "Bind & Customize",
+    "howStep2Desc": "Map your columns to the X and Y axes effortlessly. Use our professional styling tabs to toggle gridlines, customize legend behaviors, and format data markers.",
+    "howStep3Title": "Export Vector Graphics",
+    "howStep3Desc": "Download your finalized Cleveland dot plot as an infinitely scalable SVG or a high-DPI PNG, perfect for academic journals or corporate presentations.",
+    "chartTitle": "Why Dot Plot Maker® dot plots are best used for clear comparisons",
+    "chartSubtitle": "Dot plots help readers understand data fast because every point stays visible. They are ideal when you want exact values, cleaner comparisons than bars, and easy-to-spot patterns like clusters, gaps, and outliers.",
+    "chartWhen": "Our dot plots are best used for",
+    "chartWhenItems": [
+      "Comparing categories side by side while keeping exact values visible",
+      "Finding clusters, outliers, and gaps in small to medium datasets",
+      "Showing before-vs-after or group-vs-group differences without chart clutter",
+      "Presenting survey, classroom, KPI, or research results in a reader-friendly format",
+      "Exporting publication-ready visuals quickly for reports and slides"
+    ],
+    "chartVs": "Why Dot Plots Over Other Charts",
+    "chartVsItems": [
+      { "chart": "Bar Chart", "comparison": "Bar charts emphasize totals; dot plots make exact values and small differences easier to compare" },
+      { "chart": "Histogram", "comparison": "Histograms group values into bins; dot plots preserve each original data point" },
+      { "chart": "Box Plot", "comparison": "Box plots summarize distributions; dot plots let readers inspect all individual observations" },
+      { "chart": "Line Chart", "comparison": "Line charts focus on trends over time; dot plots focus on value distribution and frequency" }
+    ],
+    "faqTitle": "Frequently Asked Questions",
+    "faqSubtitle": "Everything you need to know about dot plots and our tool"
+  },
+  "faq": [
+    {
+      "question": "What is a dot plot?",
+      "answer": "A dot plot (also called a dot chart or strip plot) is a statistical graph that displays data points along a number line. Each data value is represented by a dot, and when values repeat, the dots are stacked vertically. This makes it easy to see the frequency distribution of your data at a glance.",
+      "display": true
+    },
+    {
+      "question": "How do I create a dot plot with this tool?",
+      "answer": "Simply enter your numerical data as comma-separated values in the input field (e.g., 1, 2, 2, 3, 4, 4, 4, 5). Click 'Generate Dot Plot' and your visualization will appear instantly. You can customize colors, add labels, and download the result as a PNG image.",
+      "display": true
+    },
+    {
+      "question": "Is Dot Plot Maker® free to use?",
+      "answer": "Yes, Dot Plot Maker® is completely free to use. There are no hidden charges, no account required, and no limitations on the number of plots you can create. Your data stays in your browser and is never sent to our servers.",
+      "display": true
+    },
+    {
+      "question": "What types of data work best with dot plots?",
+      "answer": "Dot plots work best with small to moderate-sized datasets of numerical values, typically up to about 50-100 data points. They are ideal for discrete data, test scores, survey responses, measurement data, and any scenario where you want to see the distribution and frequency of individual values.",
+      "display": true
+    },
+    {
+      "question": "Can I download or save my dot plot?",
+      "answer": "Yes! After generating your dot plot, click the 'Download as PNG' button to save a high-resolution image of your chart. The downloaded image is suitable for use in reports, research papers, presentations, and websites.",
+      "display": true
+    },
+    {
+      "question": "What is the difference between a dot plot and a histogram?",
+      "answer": "While both show data distribution, a dot plot displays each individual data point as a separate dot, preserving the exact values. A histogram groups data into bins or ranges and shows the count for each bin as a bar. Dot plots are better for smaller datasets where individual values matter, while histograms are better for larger datasets.",
+      "display": true
+    },
+    {
+      "question": "Is my data secure when using Dot Plot Maker®?",
+      "answer": "Absolutely. All data processing happens entirely in your web browser using client-side JavaScript. Your data is never uploaded to any server, stored in any database, or shared with any third party. When you close the page, the data is gone.",
+      "display": true
+    },
+    {
+      "question": "Can I use dot plots for academic or professional work?",
+      "answer": "Yes, dot plots are widely accepted in academic and professional settings. They are commonly used in statistics, research papers, scientific publications, business reports, and educational materials. Our tool produces clean, publication-ready charts.",
+      "display": true
+    },
+    {
+      "question": "How many variables does a dot plot represent?",
+      "answer": "A standard dot plot typically represents one single variable (univariate data) charted along a horizontal or vertical axis to show the frequency of each value. However, modern grouped dot plots can represent two or more variables by using different dot colors or placing multiple parallel axes to compare categories side-by-side.",
+      "display": true
+    },
+    {
+      "question": "How many axes are there in a dot plot?",
+      "answer": "A classic dot plot consists of two axes. The primary axis (usually the X-axis) represents the distinct values, scale, or categories of your data, while the secondary axis (usually the Y-axis) represents the count or frequency of dots stacked for each respective value.",
+      "display": true
+    },
+    {
+      "question": "Are dot plots categorical?",
+      "answer": "Yes, dot plots can absolutely be categorical. While they are famously used to display the frequency of continuous or discrete numerical data, they are just as effective at displaying categorical data by assigning categories along the baseline and stacking dots to represent the exact occurrence count inside each category.",
+      "display": true
+    },
+    {
+      "question": "What are dot plots best used for?",
+      "answer": "Dot plots are best used for clearly visualizing the distribution, spread, and central tendency of small to moderately sized datasets. Because every single dot represents an exact individual data point, they excel at highlighting specific clusters, data gaps, and outliers that might be hidden by other chart types.",
+      "display": true
+    },
+    {
+      "question": "When is a dot plot best applied?",
+      "answer": "A dot plot is best applied when you want to retain the absolute precision of your raw data points without grouping or abstracting them into bins (like you would in a histogram). It is ideal for presentations and reports where you have fewer than 100-200 observations and want your audience to instantly understand the exact frequency of specific values.",
+      "display": true
+    },
+    {
+      "question": "What is the difference between a dot plot vs. dot map?",
+      "answer": "A dot plot is a statistical chart that graphs the frequency of data points along standard numerical or categorical axes. A dot map (often called a dot distribution map), on the other hand, is a geographical map where dots are placed over physical geographical territories to visually represent the spatial density or location of a specific variable (like regional population or store locations).",
+      "display": true
+    }
+  ],
+  "about": {
+    "title": "About Dot Plot Maker®",
+    "intro": "Dot Plot Maker® is a free online tool designed to make data visualization accessible to everyone. Whether you are a student learning statistics, a researcher analyzing data, or a professional preparing a presentation, our tool helps you create beautiful dot plots in seconds.",
+    "missionTitle": "Our Mission",
+    "missionText": "We believe data visualization should be simple, free, and accessible. Our mission is to provide high-quality statistical visualization tools that anyone can use without specialized software, coding knowledge, or expensive subscriptions.",
+    "whyTitle": "Why Dot Plot Maker®?",
+    "whyItems": [
+      "100% free with no account or registration required",
+      "True BI-Grade editor with Excel/CSV spreadsheet importing",
+      "All processing happens client-side — your data never leaves your browser",
+      "Export directly to infinitely scalable SVG vector formats",
+      "Download as high-dpi PNG for immediate presentation use",
+      "Fully responsive architecture works beautifully on desktop and tablet"
+    ],
+    "techTitle": "Technology",
+    "techText": "Dot Plot Maker® is built with modern web technologies to ensure fast performance and reliability. The dot plot rendering engine uses SVG for crisp, scalable graphics at any resolution. The entire application runs client-side, meaning your data never leaves your device."
+  },
+  "contact": {
+    "title": "Contact Us",
+    "intro": "Have a question, suggestion, or found a bug? We would love to hear from you. Fill out the form below and we will get back to you as soon as possible.",
+    "nameLabel": "Your Name",
+    "namePlaceholder": "Enter your name",
+    "emailLabel": "Your Email",
+    "emailPlaceholder": "Enter your email address",
+    "messageLabel": "Message",
+    "messagePlaceholder": "Tell us what's on your mind...",
+    "submit": "Send Message",
+    "sending": "Sending...",
+    "success": "Thank you! Your message has been sent successfully. We will get back to you soon.",
+    "error": "Something went wrong. Please try again later.",
+    "networkError": "Network error. Please check your connection and try again.",
+    "fallback": "You can also reach us directly at"
+  },
+  "terms": {
+    "title": "Terms of Service",
+    "intro": "Please read these terms of service carefully before using Dot Plot Maker®.",
+    "content": [
+      {
+        "heading": "Acceptance of Terms",
+        "text": "By accessing and using DotPlotMaker.com, you agree to be bound by these Terms of Service. If you do not agree with any part of these terms, please do not use our website."
+      },
+      {
+        "heading": "Description of Service",
+        "text": "Dot Plot Maker® provides a free online tool for creating dot plot visualizations from numerical data. The service is provided as-is and is available for personal, educational, and commercial use."
+      },
+      {
+        "heading": "User Responsibilities",
+        "text": "You are responsible for the data you input into the tool. Do not input sensitive, confidential, or personally identifiable information. While all data processing occurs client-side in your browser, you use the service at your own risk."
+      },
+      {
+        "heading": "Intellectual Property",
+        "text": "The dot plots you create using our tool are yours to use as you see fit. The website design, code, branding, and content of DotPlotMaker.com remain the intellectual property of its owners."
+      },
+      {
+        "heading": "Limitation of Liability",
+        "text": "Dot Plot Maker® is provided without warranty of any kind. We are not liable for any damages arising from the use or inability to use our service, including but not limited to data loss, inaccurate visualizations, or service interruptions."
+      },
+      {
+        "heading": "Changes to Terms",
+        "text": "We reserve the right to modify these terms at any time. Continued use of the service after changes constitutes acceptance of the new terms."
+      }
+    ]
+  },
+  "privacy": {
+    "title": "Privacy Policy",
+    "intro": "Your privacy is important to us. This Privacy Policy explains how Dot Plot Maker® handles your information.",
+    "content": [
+      {
+        "heading": "Data Collection",
+        "text": "Dot Plot Maker® does not collect, store, or transmit the data you enter into the dot plot tool. All data processing occurs entirely within your web browser using client-side JavaScript."
+      },
+      {
+        "heading": "Analytics",
+        "text": "We may use privacy-respecting analytics tools to understand how visitors use our website. This may include anonymous data such as page views, browser type, and general geographic region. No personally identifiable information is collected through analytics."
+      },
+      {
+        "heading": "Cookies",
+        "text": "Our website may use essential cookies for basic functionality such as remembering your preferences. We do not use tracking cookies or share data with third-party advertisers."
+      },
+      {
+        "heading": "Contact Form",
+        "text": "If you use our contact form, the information you provide (name, email, message) is sent to our email via a third-party form service (Web3Forms). This data is used solely to respond to your inquiry and is not stored beyond what is necessary."
+      },
+      {
+        "heading": "Third-Party Links",
+        "text": "Our website may contain links to external sites. We are not responsible for the privacy practices of these third-party websites."
+      },
+      {
+        "heading": "Changes to This Policy",
+        "text": "We may update this Privacy Policy from time to time. Any changes will be posted on this page with an updated revision date."
+      },
+      {
+        "heading": "Contact",
+        "text": "If you have questions about this Privacy Policy, please contact us through our contact page or email us at contact@dotplotmaker.com."
+      }
+    ]
+  },
+  "common": {
+    "readMore": "Read More",
+    "backHome": "Back to Home",
+    "pageNotFound": "Page Not Found",
+    "pageNotFoundDesc": "The page you are looking for does not exist or has been moved.",
+    "blogTitle": "Blog",
+    "blogSubtitle": "Tips, tutorials, and insights about data visualization and dot plots.",
+    "showing": "Showing",
+    "of": "of",
+    "results": "results",
+    "previous": "Previous",
+    "next": "Next",
+    "page": "Page",
+    "switchLanguage": "Language",
+    "allPosts": "All Posts"
+  }
+}

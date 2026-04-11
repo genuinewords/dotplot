@@ -1,0 +1,321 @@
+﻿---
+import BaseLayout from "@theme/layouts/BaseLayout.astro";
+import AdvancedDotPlotTool from "@theme/components/AdvancedDotPlotTool.astro";
+import HowItWorks from "@theme/components/HowItWorks.astro";
+import ChartSection from "@theme/components/ChartSection.astro";
+import FAQ from "@theme/components/FAQ.astro";
+import InteractiveIllustrations from "@theme/components/InteractiveIllustrations.astro";
+import HomepageSchema from "@theme/components/HomepageSchema.astro";
+import { defaultLocale } from "@src/i18n/config";
+import { t } from "@src/i18n/utils";
+
+const locale = defaultLocale;
+---
+
+<BaseLayout locale={locale}>
+  <HomepageSchema locale={locale} slot="head" />
+
+  <div class="page-content">
+    <!-- Hero -->
+    <div class="hero animate-fade-in-up" style="opacity: 0;">
+      <span class="badge">{t(locale, "home.badge")}</span>
+      <h1 class="hero-title">{t(locale, "home.h1")}</h1>
+      <p class="hero-intro">{t(locale, "home.intro")}</p>
+    </div>
+
+    <!-- Advanced Dot Plot Tool -->
+    <AdvancedDotPlotTool locale={locale} />
+
+    <InteractiveIllustrations />
+
+    <!-- What is a Dot Plot Maker®? -->
+    <section class="educational-section section" style="margin-top: 4rem;">
+      <div class="educational-container">
+        <h2 class="section-title edu-title">What is a Dot Plot Maker®?</h2>
+        <p class="educational-intro" style="text-align: center; max-width: 600px; margin: 0 auto 2.5rem; color: var(--color-text-secondary); font-size: 1.1rem; line-height: 1.6;">
+          Dot Plot Maker helps you communicate data with clarity and precision. Here is why dot plots are often a stronger choice than other common chart types:
+        </p>
+        <ul class="educational-list">
+          <li>
+            <span class="edu-icon" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="4" y1="20" x2="20" y2="20"></line>
+                <rect x="6" y="12" width="2.8" height="8" rx="1"></rect>
+                <rect x="10.6" y="9" width="2.8" height="11" rx="1"></rect>
+                <rect x="15.2" y="6" width="2.8" height="14" rx="1"></rect>
+              </svg>
+            </span>
+            <div>
+              <strong>Bar Chart:</strong> Bar charts emphasize totals, while dot plots keep exact values visible so small differences are easier to compare.
+            </div>
+          </li>
+          <li>
+            <span class="edu-icon" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="4" y1="20" x2="20" y2="20"></line>
+                <rect x="5" y="14" width="3.2" height="6" rx="0.8"></rect>
+                <rect x="9.3" y="10" width="3.2" height="10" rx="0.8"></rect>
+                <rect x="13.6" y="7" width="3.2" height="13" rx="0.8"></rect>
+              </svg>
+            </span>
+            <div>
+              <strong>Histogram:</strong> Histograms group values into bins, but dot plots preserve each original data point for more transparent analysis.
+            </div>
+          </li>
+          <li>
+            <span class="edu-icon" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="4" y1="20" x2="20" y2="20"></line>
+                <line x1="12" y1="6" x2="12" y2="20"></line>
+                <rect x="9.2" y="9" width="5.6" height="8.5" rx="1.2"></rect>
+                <line x1="8.2" y1="13.2" x2="9.2" y2="13.2"></line>
+                <line x1="14.8" y1="13.2" x2="15.8" y2="13.2"></line>
+              </svg>
+            </span>
+            <div>
+              <strong>Box Plot:</strong> Box plots summarize distributions, while dot plots let readers inspect individual observations directly.
+            </div>
+          </li>
+          <li>
+            <span class="edu-icon" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="4" y1="20" x2="20" y2="20"></line>
+                <polyline points="5,16 9,13 13,14.5 19,8"></polyline>
+                <circle cx="5" cy="16" r="0.9" fill="currentColor" stroke="none"></circle>
+                <circle cx="9" cy="13" r="0.9" fill="currentColor" stroke="none"></circle>
+                <circle cx="13" cy="14.5" r="0.9" fill="currentColor" stroke="none"></circle>
+                <circle cx="19" cy="8" r="0.9" fill="currentColor" stroke="none"></circle>
+              </svg>
+            </span>
+            <div>
+              <strong>Line Chart:</strong> Line charts focus on trends over time, while dot plots focus on value distribution and frequency across categories.
+            </div>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- How It Works -->
+    <HowItWorks locale={locale} />
+
+    <!-- Chart Info Section -->
+    <ChartSection locale={locale} />
+
+    <!-- Feature Grid -->
+    <section class="feature-grid-section animate-fade-in-up" style="opacity: 0; animation-delay: 0.3s; margin-top: 1rem;">
+      <div style="text-align: center; margin-bottom: 2.5rem;">
+        <h2 class="section-title">Why our Dot Plot MakerÂ®?</h2>
+      </div>
+      <div class="feature-grid-container">
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+          </div>
+          <h3>Easy</h3>
+          <p>Dot Plot MakerÂ® makes it incredibly easy to build a dot plot in seconds.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+          </div>
+          <h3>Copy & Paste</h3>
+          <p>Instantly copy and paste your raw data directly into the Dot Plot MakerÂ® spreadsheet.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+          </div>
+          <h3>Online</h3>
+          <p>Dot Plot MakerÂ® is the sharpest way to build beautiful data visualizations completely online.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <FAQ locale={locale} />
+    
+    <!-- Final CTA -->
+    <div class="final-cta">
+      <h2>Start creating your dot plot with Dot Plot MakerÂ® â€“ no email required.</h2>
+      <a href="#pro-dot-plot-tool" class="btn-primary cta-btn"><span>Build Your Dot Plot</span></a>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .hero {
+    text-align: center;
+    padding: 3rem 0 2rem;
+  }
+  .hero-title {
+    font-size: 3rem;
+    font-weight: 900;
+    line-height: 1.1;
+    margin: 1rem 0;
+    background: linear-gradient(135deg, var(--color-text-primary) 30%, var(--color-primary) 70%, var(--color-accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .hero-intro {
+    font-size: 1.15rem;
+    color: var(--color-text-secondary);
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.7;
+  }
+  @media (max-width: 768px) {
+    .hero-title {
+      font-size: 2rem;
+    }
+    .hero-intro {
+      font-size: 1rem;
+    }
+    .feature-grid-container {
+      grid-template-columns: 1fr;
+      padding: 0 1rem;
+    }
+    .final-cta {
+      padding: 3rem 1rem;
+    }
+    .final-cta h2 {
+      font-size: 1.5rem;
+    }
+  }
+
+  .final-cta {
+    text-align: center;
+    padding: 6rem 1rem 4rem;
+    margin-top: 2rem;
+    background: linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(0, 82, 255, 0.04) 100%);
+    border-top: 1px solid var(--color-border);
+  }
+  .final-cta h2 {
+    font-size: 2.2rem;
+    font-weight: 800;
+    max-width: 800px;
+    margin: 0 auto 2rem;
+    line-height: 1.3;
+    color: var(--color-text-primary);
+  }
+  .cta-btn {
+    display: inline-block;
+    padding: 1rem 2.5rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 8px;
+    background: #0052ff;
+    color: #ffffff;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 14px 0 rgba(0, 118, 255, 0.39);
+  }
+  .cta-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 118, 255, 0.23);
+    background: #0040cc;
+    color: #ffffff !important;
+  }
+
+  .feature-grid-section {
+    max-width: 1200px;
+    margin: 0 auto 5rem;
+    padding: 0 1rem;
+  }
+  .feature-grid-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+  }
+  .feature-card {
+    background: var(--color-bg-card, #ffffff);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 2rem;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .feature-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 82, 255, 0.06);
+  }
+  .feature-icon {
+    width: 48px;
+    height: 48px;
+    margin: 0 auto 1.25rem;
+    background: rgba(0, 82, 255, 0.08);
+    color: var(--accent-blue, #0052ff);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .feature-card h3 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+    color: var(--color-text-primary);
+  }
+  .feature-card p {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--color-text-secondary);
+    margin: 0;
+  }
+
+  .educational-section {
+    padding: 2rem 1rem 5rem;
+  }
+  .educational-container {
+    max-width: 860px;
+    margin: 0 auto;
+    background: var(--color-bg-card, #ffffff);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 3rem 2.5rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+  }
+  .edu-title {
+    text-align: center;
+  }
+  .educational-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1.75rem;
+  }
+  .educational-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.25rem;
+    font-size: 1.05rem;
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+  }
+  .edu-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    border: 1px solid rgba(0, 212, 170, 0.3);
+    background: rgba(0, 212, 170, 0.12);
+    color: var(--color-primary);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .educational-list strong {
+    color: var(--color-text-primary);
+    display: block;
+    margin-bottom: 0.2rem;
+    font-size: 1.1rem;
+  }
+</style>
+

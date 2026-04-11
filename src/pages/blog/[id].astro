@@ -1,0 +1,172 @@
+---
+import BaseLayout from "@theme/layouts/BaseLayout.astro";
+import { getCollection, render } from "astro:content";
+import { defaultLocale } from "@src/i18n/config";
+import siteConfig from "@src/config/site.json";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("blog");
+  return posts.map((post) => ({
+    params: { id: post.id },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+const locale = defaultLocale;
+const canonicalUrl = `${siteConfig.siteUrl}/blog/${post.id}/`;
+
+// Article Schema
+const articleSchema = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  headline: post.data.title,
+  description: post.data.description,
+  image: post.data.image ? `${siteConfig.siteUrl}${post.data.image}` : undefined,
+  datePublished: post.data.date.toISOString(),
+  author: {
+    "@type": "Person",
+    name: post.data.author,
+  },
+  publisher: {
+    "@type": "Organization",
+    name: siteConfig.siteName,
+    logo: {
+      "@type": "ImageObject",
+      url: `${siteConfig.siteUrl}/favicon.svg`,
+    },
+  },
+  mainEntityOfPage: canonicalUrl,
+};
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    {
+      "@type": "ListItem",
+      position: 1,
+      name: siteConfig.siteName,
+      item: siteConfig.siteUrl,
+    },
+    {
+      "@type": "ListItem",
+      position: 2,
+      name: "Blog",
+      item: `${siteConfig.siteUrl}/blog/`,
+    },
+    {
+      "@type": "ListItem",
+      position: 3,
+      name: post.data.title,
+      item: canonicalUrl,
+    },
+  ],
+};
+---
+
+<BaseLayout
+  locale={locale}
+  title={post.data.title}
+  description={post.data.description}
+  canonicalUrl={canonicalUrl}
+  ogType="article"
+>
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify(articleSchema)} />
+    <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+  </Fragment>
+
+  <article class="page-content blog-post">
+    <!-- Hero -->
+    <header class="post-hero animate-fade-in-up" style="opacity: 0;">
+      <div class="post-meta">
+        <span class="badge">{post.data.category}</span>
+        <time datetime={post.data.date.toISOString()}>
+          {post.data.date.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}
+        </time>
+      </div>
+      <h1 class="post-title">{post.data.title}</h1>
+      <p class="post-desc">{post.data.description}</p>
+      <p class="post-author">By {post.data.author}</p>
+    </header>
+
+    {post.data.image && (
+      <div class="post-image">
+        <img src={post.data.image} alt={post.data.title} loading="lazy" />
+      </div>
+    )}
+
+    <!-- Content -->
+    <div class="prose">
+      <Content />
+    </div>
+
+    <!-- Back link -->
+    <div class="post-back">
+      <a href="/blog/" class="btn-secondary">
+        <span>← {`Back to Blog`}</span>
+      </a>
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .blog-post {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  .post-hero {
+    margin-bottom: 2rem;
+  }
+  .post-meta {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+  }
+  .post-meta time {
+    color: var(--color-text-muted);
+    font-size: 0.88rem;
+  }
+  .post-title {
+    font-size: 2.5rem;
+    font-weight: 900;
+    line-height: 1.15;
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, var(--color-text-primary), var(--color-primary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .post-desc {
+    font-size: 1.15rem;
+    color: var(--color-text-secondary);
+    line-height: 1.7;
+    margin-bottom: 0.5rem;
+  }
+  .post-author {
+    color: var(--color-text-muted);
+    font-size: 0.9rem;
+  }
+  .post-image {
+    margin-bottom: 2rem;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid var(--color-border);
+  }
+  .post-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+  .post-back {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--color-border);
+  }
+  @media (max-width: 768px) {
+    .post-title { font-size: 1.8rem; }
+  }
+</style>

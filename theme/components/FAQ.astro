@@ -1,0 +1,41 @@
+---
+import { type Locale, defaultLocale } from "@src/i18n/config";
+import { t, getTranslations } from "@src/i18n/utils";
+
+interface Props {
+  locale?: Locale;
+}
+
+const { locale = defaultLocale } = Astro.props;
+const trans = getTranslations(locale);
+const faqs: { question: string; answer: string; display: boolean }[] = trans.faq || [];
+const visibleFaqs = faqs.filter((f) => f.display !== false);
+---
+
+<section class="section" id="faq">
+  <div style="text-align: center;">
+    <h2 class="section-title">{t(locale, "home.faqTitle")}</h2>
+    <p class="section-subtitle" style="margin: 0 auto 3rem;">{t(locale, "home.faqSubtitle")}</p>
+  </div>
+
+  <div class="faq-list">
+    {visibleFaqs.map((faq) => (
+      <details class="faq-item">
+        <summary>{faq.question}</summary>
+        <div class="faq-answer">
+          <p>{faq.answer}</p>
+        </div>
+      </details>
+    ))}
+  </div>
+</section>
+
+<style>
+  .faq-list {
+    max-width: 800px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+</style>

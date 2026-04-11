@@ -1,0 +1,239 @@
+---
+import { type Locale, defaultLocale } from "@src/i18n/config";
+import { t, getLocaleHomeUrl } from "@src/i18n/utils";
+import siteConfig from "@src/config/site.json";
+
+interface Props {
+  locale?: Locale;
+}
+
+const { locale = defaultLocale } = Astro.props;
+const homeUrl = getLocaleHomeUrl(locale);
+---
+
+<header class="site-header" id="site-header">
+  <div class="container header-inner">
+    <!-- Brand -->
+    <a href={homeUrl} class="header-brand" aria-label={t(locale, "site.title")}>
+      <svg class="header-logo" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" width="32" height="32" aria-hidden="true">
+        <rect width="32" height="32" rx="8" fill="#0a0a1a"/>
+        <circle cx="10" cy="22" r="3" fill="#00d4aa"/>
+        <circle cx="10" cy="14" r="3" fill="#00d4aa" opacity="0.7"/>
+        <circle cx="18" cy="22" r="3" fill="#8b5cf6"/>
+        <circle cx="18" cy="14" r="3" fill="#8b5cf6" opacity="0.7"/>
+        <circle cx="18" cy="6" r="3" fill="#8b5cf6" opacity="0.4"/>
+        <circle cx="26" cy="22" r="3" fill="#00d4aa" opacity="0.5"/>
+      </svg>
+      <span class="header-title">{t(locale, "site.title")}</span>
+    </a>
+
+    <!-- Desktop Nav -->
+    <nav class="header-nav-desktop" aria-label="Main navigation">
+      {siteConfig.headerNav.map((item: any) => (
+        <a
+          href={item.href === "/" ? homeUrl : item.href}
+          class="nav-link"
+        >
+          {t(locale, item.label)}
+        </a>
+      ))}
+    </nav>
+
+    <!-- Mobile Toggle Button -->
+    <button
+      class="mobile-menu-btn"
+      id="mobile-menu-btn"
+      aria-expanded="false"
+      aria-controls="mobile-menu"
+      aria-label="Toggle navigation menu"
+    >
+      <svg class="menu-icon-open" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <line x1="3" y1="6" x2="21" y2="6"/>
+        <line x1="3" y1="12" x2="21" y2="12"/>
+        <line x1="3" y1="18" x2="21" y2="18"/>
+      </svg>
+      <svg class="menu-icon-close" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="display:none;">
+        <line x1="18" y1="6" x2="6" y2="18"/>
+        <line x1="6" y1="6" x2="18" y2="18"/>
+      </svg>
+    </button>
+  </div>
+
+  <!-- Mobile Menu Panel -->
+  <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
+    <nav class="mobile-nav" aria-label="Mobile navigation">
+      {siteConfig.headerNav.map((item: any) => (
+        <a
+          href={item.href === "/" ? homeUrl : item.href}
+          class="mobile-nav-link"
+        >
+          {t(locale, item.label)}
+        </a>
+      ))}
+    </nav>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(10, 10, 26, 0.85);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--color-border);
+  }
+  .header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 72px;
+  }
+  .header-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    text-decoration: none;
+    color: var(--color-text-primary);
+    font-weight: 700;
+    font-size: 1.15rem;
+  }
+  .header-brand:hover {
+    color: var(--color-primary);
+  }
+  .header-logo {
+    border-radius: 8px;
+    border: 1px solid var(--color-border);
+  }
+  .header-title {
+    background: linear-gradient(135deg, var(--color-text-primary), var(--color-primary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .header-nav-desktop {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+  }
+  .nav-link {
+    color: var(--color-text-secondary);
+    font-size: 0.93rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: color 0.2s ease;
+    position: relative;
+  }
+  .nav-link::after {
+    content: "";
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--color-primary);
+    transition: width 0.3s ease;
+    border-radius: 1px;
+  }
+  .nav-link:hover {
+    color: var(--color-primary);
+  }
+  .nav-link:hover::after {
+    width: 100%;
+  }
+  .mobile-menu-btn {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    color: var(--color-text-primary);
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 8px;
+    transition: background 0.2s ease;
+  }
+  .mobile-menu-btn:hover {
+    background: var(--color-bg-card);
+  }
+  .mobile-menu {
+    display: none;
+    background: var(--color-bg-primary);
+    border-bottom: 1px solid var(--color-border);
+    padding: 1rem 0 1.5rem;
+  }
+  .mobile-menu.is-open {
+    display: block;
+  }
+  .mobile-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    padding: 0 1.5rem;
+  }
+  .mobile-nav-link {
+    display: block;
+    padding: 0.875rem 1rem;
+    color: var(--color-text-secondary);
+    font-weight: 500;
+    text-decoration: none;
+    border-radius: 10px;
+    transition: all 0.2s ease;
+  }
+  .mobile-nav-link:hover {
+    color: var(--color-primary);
+    background: var(--color-bg-card);
+  }
+
+  @media (max-width: 768px) {
+    .header-nav-desktop {
+      display: none;
+    }
+    .mobile-menu-btn {
+      display: flex;
+    }
+  }
+</style>
+
+<script>
+  const btn = document.getElementById("mobile-menu-btn");
+  const menu = document.getElementById("mobile-menu");
+  const iconOpen = btn?.querySelector(".menu-icon-open") as HTMLElement;
+  const iconClose = btn?.querySelector(".menu-icon-close") as HTMLElement;
+
+  function toggleMenu() {
+    const isOpen = menu?.classList.contains("is-open");
+    if (isOpen) {
+      closeMenu();
+    } else {
+      openMenu();
+    }
+  }
+
+  function openMenu() {
+    menu?.classList.add("is-open");
+    menu?.setAttribute("aria-hidden", "false");
+    btn?.setAttribute("aria-expanded", "true");
+    if (iconOpen) iconOpen.style.display = "none";
+    if (iconClose) iconClose.style.display = "block";
+    document.body.style.overflow = "hidden";
+  }
+
+  function closeMenu() {
+    menu?.classList.remove("is-open");
+    menu?.setAttribute("aria-hidden", "true");
+    btn?.setAttribute("aria-expanded", "false");
+    if (iconOpen) iconOpen.style.display = "block";
+    if (iconClose) iconClose.style.display = "none";
+    document.body.style.overflow = "";
+  }
+
+  btn?.addEventListener("click", toggleMenu);
+
+  // Close when any mobile nav link is clicked
+  const mobileLinks = menu?.querySelectorAll(".mobile-nav-link");
+  mobileLinks?.forEach((link) => {
+    link.addEventListener("click", closeMenu);
+  });
+</script>

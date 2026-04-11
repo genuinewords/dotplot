@@ -1,0 +1,90 @@
+---
+import BaseLayout from "@theme/layouts/BaseLayout.astro";
+import { defaultLocale } from "@src/i18n/config";
+import { t, getTranslations } from "@src/i18n/utils";
+
+const locale = defaultLocale;
+const trans = getTranslations(locale);
+---
+
+<BaseLayout
+  locale={locale}
+  title={t(locale, "about.title")}
+  description={t(locale, "about.intro")}
+  pageType="about"
+>
+  <div class="page-content">
+    <div class="page-header animate-fade-in-up" style="opacity: 0;">
+      <h1>{t(locale, "about.title")}</h1>
+      <p>{t(locale, "about.intro")}</p>
+    </div>
+
+    <div class="about-content">
+      <!-- Mission -->
+      <section class="about-section glass-card">
+        <h2>{t(locale, "about.missionTitle")}</h2>
+        <p>{t(locale, "about.missionText")}</p>
+      </section>
+
+      <!-- Why Us -->
+      <section class="about-section glass-card">
+        <h2>{t(locale, "about.whyTitle")}</h2>
+        <ul class="why-list">
+          {(trans.about?.whyItems || []).map((item: string) => (
+            <li>
+              <span class="check-icon">✓</span>
+              <span>{item}</span>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <!-- Technology -->
+      <section class="about-section glass-card">
+        <h2>{t(locale, "about.techTitle")}</h2>
+        <p>{t(locale, "about.techText")}</p>
+      </section>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .about-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    max-width: 800px;
+  }
+  .about-section {
+    padding: 2rem;
+  }
+  .about-section:hover {
+    transform: none;
+  }
+  .about-section h2 {
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+    color: var(--color-primary);
+  }
+  .about-section p {
+    color: var(--color-text-secondary);
+    line-height: 1.8;
+  }
+  .why-list {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  .why-list li {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: var(--color-text-secondary);
+  }
+  .check-icon {
+    color: var(--color-primary);
+    font-weight: 700;
+  }
+</style>

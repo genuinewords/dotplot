@@ -1,0 +1,286 @@
+---
+import { type Locale, defaultLocale } from "@src/i18n/config";
+import { t } from "@src/i18n/utils";
+
+interface Props {
+  locale?: Locale;
+}
+
+const { locale = defaultLocale } = Astro.props;
+---
+
+<section class="section" id="dot-plot-tool">
+  <div class="tool-card glass-card" style="padding: 2rem; transform: none;">
+    <h2 class="tool-title">{t(locale, "home.toolTitle")}</h2>
+
+    <!-- Data Input -->
+    <div class="tool-input-group">
+      <label for="data-input" class="tool-label">{t(locale, "home.toolPlaceholder")}</label>
+      <textarea id="data-input" class="form-input" rows="3" placeholder={t(locale, "home.toolPlaceholder")}></textarea>
+    </div>
+
+    <!-- Options Row -->
+    <div class="tool-options">
+      <div class="tool-option">
+        <label for="dot-color" class="tool-label-sm">{t(locale, "home.toolDotColor")}</label>
+        <input type="color" id="dot-color" value="#00d4aa" class="color-picker" />
+      </div>
+      <div class="tool-option">
+        <label for="axis-label" class="tool-label-sm">{t(locale, "home.toolAxisLabel")}</label>
+        <input type="text" id="axis-label" class="form-input" placeholder="Value" style="max-width: 200px;" />
+      </div>
+      <div class="tool-option">
+        <label for="chart-title" class="tool-label-sm">{t(locale, "home.toolChartTitle")}</label>
+        <input type="text" id="chart-title" class="form-input" placeholder="My Dot Plot" style="max-width: 200px;" />
+      </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="tool-actions">
+      <button id="generate-btn" class="btn-primary">
+        <span>{t(locale, "home.toolGenerate")}</span>
+      </button>
+      <button id="download-btn" class="btn-secondary" style="display:none;">
+        <span>{t(locale, "home.toolDownload")}</span>
+      </button>
+      <button id="reset-btn" class="btn-secondary" style="display:none;">
+        <span>{t(locale, "home.toolReset")}</span>
+      </button>
+    </div>
+
+    <!-- Chart Output -->
+    <div id="chart-output" class="chart-output" style="display:none;">
+      <canvas id="dot-plot-canvas"></canvas>
+    </div>
+  </div>
+</section>
+
+<style>
+  .tool-card {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .tool-card:hover {
+    transform: none !important;
+  }
+  .tool-title {
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    color: var(--color-primary);
+  }
+  .tool-input-group {
+    margin-bottom: 1.5rem;
+  }
+  .tool-label {
+    display: block;
+    font-size: 0.9rem;
+    color: var(--color-text-secondary);
+    margin-bottom: 0.5rem;
+  }
+  .tool-label-sm {
+    display: block;
+    font-size: 0.82rem;
+    color: var(--color-text-muted);
+    margin-bottom: 0.35rem;
+  }
+  .tool-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.25rem;
+    margin-bottom: 1.5rem;
+    align-items: flex-end;
+  }
+  .tool-option {
+    flex: 1;
+    min-width: 140px;
+  }
+  .color-picker {
+    width: 48px;
+    height: 40px;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    background: var(--color-bg-card);
+    cursor: pointer;
+    padding: 2px;
+  }
+  .tool-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+  }
+  .chart-output {
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 1.5rem;
+    background: #fff;
+    overflow-x: auto;
+  }
+  #dot-plot-canvas {
+    display: block;
+    max-width: 100%;
+    height: auto;
+  }
+  @media (max-width: 600px) {
+    .tool-options {
+      flex-direction: column;
+    }
+  }
+</style>
+
+<script>
+  const dataInput = document.getElementById("data-input") as HTMLTextAreaElement;
+  const generateBtn = document.getElementById("generate-btn") as HTMLButtonElement;
+  const downloadBtn = document.getElementById("download-btn") as HTMLButtonElement;
+  const resetBtn = document.getElementById("reset-btn") as HTMLButtonElement;
+  const chartOutput = document.getElementById("chart-output") as HTMLDivElement;
+  const canvas = document.getElementById("dot-plot-canvas") as HTMLCanvasElement;
+  const dotColorInput = document.getElementById("dot-color") as HTMLInputElement;
+  const axisLabelInput = document.getElementById("axis-label") as HTMLInputElement;
+  const chartTitleInput = document.getElementById("chart-title") as HTMLInputElement;
+
+  function parseData(raw: string): number[] {
+    return raw
+      .split(/[,\s\n]+/)
+      .map((s) => s.trim())
+      .filter((s) => s !== "")
+      .map(Number)
+      .filter((n) => !isNaN(n));
+  }
+
+  function drawDotPlot(data: number[]) {
+    if (data.length === 0) return;
+
+    const dotColor = dotColorInput?.value || "#00d4aa";
+    const axisLabel = axisLabelInput?.value || "Value";
+    const chartTitle = chartTitleInput?.value || "";
+
+    // Count frequencies
+    const freq: Record<number, number> = {};
+    data.forEach((v) => {
+      freq[v] = (freq[v] || 0) + 1;
+    });
+
+    const uniqueValues = Object.keys(freq).map(Number).sort((a, b) => a - b);
+    const maxFreq = Math.max(...Object.values(freq));
+
+    // Layout
+    const dpr = window.devicePixelRatio || 1;
+    const dotRadius = 12;
+    const dotSpacing = dotRadius * 2 + 4;
+    const marginLeft = 60;
+    const marginRight = 40;
+    const marginTop = chartTitle ? 60 : 30;
+    const marginBottom = 60;
+    const colWidth = Math.max(dotSpacing + 8, 50);
+
+    const chartWidth = marginLeft + uniqueValues.length * colWidth + marginRight;
+    const chartHeight = marginTop + maxFreq * dotSpacing + marginBottom;
+
+    canvas.width = chartWidth * dpr;
+    canvas.height = chartHeight * dpr;
+    canvas.style.width = chartWidth + "px";
+    canvas.style.height = chartHeight + "px";
+
+    const ctx = canvas.getContext("2d")!;
+    ctx.scale(dpr, dpr);
+
+    // Background
+    ctx.fillStyle = "#ffffff";
+    ctx.fillRect(0, 0, chartWidth, chartHeight);
+
+    // Title
+    if (chartTitle) {
+      ctx.fillStyle = "#1a1a2e";
+      ctx.font = "bold 18px Inter, sans-serif";
+      ctx.textAlign = "center";
+      ctx.fillText(chartTitle, chartWidth / 2, 28);
+    }
+
+    // Axis line
+    const axisY = chartHeight - marginBottom;
+    ctx.strokeStyle = "#cbd5e1";
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(marginLeft - 10, axisY);
+    ctx.lineTo(chartWidth - marginRight + 10, axisY);
+    ctx.stroke();
+
+    // Draw dots and labels
+    uniqueValues.forEach((val, i) => {
+      const x = marginLeft + i * colWidth + colWidth / 2;
+
+      // Axis tick labels
+      ctx.fillStyle = "#64748b";
+      ctx.font = "500 13px Inter, sans-serif";
+      ctx.textAlign = "center";
+      ctx.fillText(String(val), x, axisY + 22);
+
+      // Tick marks
+      ctx.strokeStyle = "#cbd5e1";
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(x, axisY);
+      ctx.lineTo(x, axisY + 6);
+      ctx.stroke();
+
+      // Dots
+      const count = freq[val];
+      for (let j = 0; j < count; j++) {
+        const y = axisY - dotRadius - j * dotSpacing - 4;
+        ctx.beginPath();
+        ctx.arc(x, y, dotRadius, 0, Math.PI * 2);
+        ctx.fillStyle = dotColor;
+        ctx.fill();
+        ctx.strokeStyle = "rgba(0,0,0,0.1)";
+        ctx.lineWidth = 1;
+        ctx.stroke();
+      }
+    });
+
+    // Axis label
+    ctx.fillStyle = "#64748b";
+    ctx.font = "500 14px Inter, sans-serif";
+    ctx.textAlign = "center";
+    ctx.fillText(axisLabel, chartWidth / 2, chartHeight - 8);
+
+    // Frequency label (vertical)
+    ctx.save();
+    ctx.translate(16, (chartHeight - marginBottom) / 2 + marginTop / 2);
+    ctx.rotate(-Math.PI / 2);
+    ctx.fillStyle = "#64748b";
+    ctx.font = "500 13px Inter, sans-serif";
+    ctx.textAlign = "center";
+    ctx.fillText("Frequency", 0, 0);
+    ctx.restore();
+
+    // Show result
+    chartOutput.style.display = "block";
+    downloadBtn.style.display = "inline-flex";
+    resetBtn.style.display = "inline-flex";
+  }
+
+  generateBtn?.addEventListener("click", () => {
+    const data = parseData(dataInput?.value || "");
+    if (data.length === 0) {
+      dataInput?.focus();
+      return;
+    }
+    drawDotPlot(data);
+  });
+
+  downloadBtn?.addEventListener("click", () => {
+    const link = document.createElement("a");
+    link.download = "dot-plot.png";
+    link.href = canvas.toDataURL("image/png");
+    link.click();
+  });
+
+  resetBtn?.addEventListener("click", () => {
+    dataInput.value = "";
+    chartOutput.style.display = "none";
+    downloadBtn.style.display = "none";
+    resetBtn.style.display = "none";
+  });
+</script>

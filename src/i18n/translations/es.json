@@ -1,0 +1,38 @@
+{
+  "site": { "title": "Generador de Diagrama de Puntos", "description": "Cree hermosos diagramas de puntos en línea de forma gratuita. Ingrese sus datos y genere instantáneamente gráficos de puntos listos para publicación." },
+  "nav": { "home": "Inicio", "blog": "Blog", "about": "Sobre Nosotros", "contact": "Contáctenos", "terms": "Términos de Servicio", "privacy": "Política de Privacidad", "sitemap": "Mapa del Sitio" },
+  "footer": { "description": "Herramienta gratuita en línea para crear diagramas de puntos. Cree, personalice y descargue hermosos diagramas de puntos.", "copyright": "Todos los derechos reservados." },
+  "home": {
+    "badge": "Herramienta Gratuita",
+    "h1": "Cree Hermosos Diagramas de Puntos al Instante",
+    "intro": "Ingrese sus datos a continuación y observe cómo nuestra herramienta transforma números en visualizaciones claras.",
+    "toolTitle": "Generador de Diagrama de Puntos", "toolPlaceholder": "Ingrese números separados por comas (ej., 1, 2, 2, 3, 4, 4, 4, 5)",
+    "toolGenerate": "Generar Diagrama", "toolDownload": "Descargar como PNG", "toolReset": "Reiniciar",
+    "toolDotColor": "Color del Punto", "toolAxisLabel": "Etiqueta del Eje", "toolChartTitle": "Título del Gráfico",
+    "howTitle": "Cómo Funciona", "howSubtitle": "Cree diagramas de puntos profesionales en tres pasos simples",
+    "howStep1Title": "Ingrese Sus Datos", "howStep1Desc": "Escriba o pegue sus datos numéricos separados por comas.",
+    "howStep2Title": "Personalice Su Gráfico", "howStep2Desc": "Elija colores, agregue etiquetas y establezca un título.",
+    "howStep3Title": "Descargue y Comparta", "howStep3Desc": "Descargue su diagrama como imagen PNG de alta resolución.",
+    "chartTitle": "Entendiendo los Diagramas de Puntos", "chartSubtitle": "Un diagrama de puntos muestra datos en una línea numérica apilando puntos para valores repetidos.",
+    "chartWhen": "Cuándo Usar un Diagrama de Puntos",
+    "chartWhenItems": ["Visualizar distribución de conjuntos de datos pequeños", "Identificar grupos y valores atípicos", "Comparar frecuencias", "Enseñar estadística básica", "Análisis exploratorio rápido"],
+    "chartVs": "Diagrama de Puntos vs Otros Gráficos",
+    "chartVsItems": [
+      { "chart": "Gráfico de Barras", "comparison": "Los diagramas de puntos muestran puntos individuales; los de barras muestran cantidades agregadas" },
+      { "chart": "Histograma", "comparison": "Los diagramas de puntos preservan valores individuales; los histogramas agrupan datos" },
+      { "chart": "Diagrama de Caja", "comparison": "Los diagramas de puntos muestran cada dato; los de caja resumen con cuartiles" },
+      { "chart": "Gráfico de Líneas", "comparison": "Los diagramas de puntos muestran distribución; los de líneas muestran tendencias" }
+    ],
+    "faqTitle": "Preguntas Frecuentes", "faqSubtitle": "Todo sobre diagramas de puntos y nuestra herramienta"
+  },
+  "faq": [
+    { "question": "¿Qué es un diagrama de puntos?", "answer": "Un diagrama de puntos es un gráfico estadístico que muestra datos en una línea numérica. Cada valor se representa con un punto.", "display": true },
+    { "question": "¿Es gratuito?", "answer": "Sí, es completamente gratuito. Sin cargos ocultos ni cuenta requerida.", "display": true },
+    { "question": "¿Mis datos están seguros?", "answer": "Sí. Todo el procesamiento ocurre en su navegador. Sus datos nunca se envían a ningún servidor.", "display": true }
+  ],
+  "about": { "title": "Sobre Nosotros", "intro": "Dot Plot Maker® es una herramienta gratuita para hacer la visualización de datos accesible para todos.", "missionTitle": "Nuestra Misión", "missionText": "Creemos que la visualización de datos debe ser simple, gratuita y accesible.", "whyTitle": "¿Por Qué Dot Plot Maker®?", "whyItems": ["100% gratuito", "Datos privados", "Calidad de publicación", "Descarga PNG", "Multiplataforma", "Sin instalación"], "techTitle": "Tecnología", "techText": "Construido con tecnologías web modernas." },
+  "contact": { "title": "Contáctenos", "intro": "¿Tiene preguntas? Nos encantaría saber de usted.", "nameLabel": "Su Nombre", "namePlaceholder": "Ingrese su nombre", "emailLabel": "Su Email", "emailPlaceholder": "Ingrese su email", "messageLabel": "Mensaje", "messagePlaceholder": "Escriba su mensaje...", "submit": "Enviar Mensaje", "sending": "Enviando...", "success": "¡Gracias! Su mensaje ha sido enviado.", "error": "Algo salió mal. Intente de nuevo.", "networkError": "Error de red. Verifique su conexión.", "fallback": "También puede contactarnos en" },
+  "terms": { "title": "Términos de Servicio", "intro": "Lea estos términos antes de usar Dot Plot Maker®.", "content": [{ "heading": "Aceptación", "text": "Al usar DotPlotMaker.com, acepta estos términos." }, { "heading": "Servicio", "text": "Herramienta gratuita para crear diagramas de puntos." }, { "heading": "Limitación", "text": "Se proporciona sin garantía." }] },
+  "privacy": { "title": "Política de Privacidad", "intro": "Su privacidad es importante para nosotros.", "content": [{ "heading": "Datos", "text": "No recopilamos sus datos de la herramienta." }, { "heading": "Cookies", "text": "Usamos solo cookies esenciales." }] },
+  "common": { "readMore": "Leer Más", "backHome": "Volver al Inicio", "pageNotFound": "Página No Encontrada", "pageNotFoundDesc": "La página que busca no existe.", "blogTitle": "Blog", "blogSubtitle": "Consejos sobre visualización de datos.", "showing": "Mostrando", "of": "de", "results": "resultados", "previous": "Anterior", "next": "Siguiente", "page": "Página", "switchLanguage": "Idioma", "allPosts": "Todas las Publicaciones" }
+}

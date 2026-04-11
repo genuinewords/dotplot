@@ -1,0 +1,98 @@
+---
+import BaseLayout from "@theme/layouts/BaseLayout.astro";
+import BlogCard from "@theme/components/BlogCard.astro";
+import Pagination from "@theme/components/Pagination.astro";
+import { getCollection } from "astro:content";
+import { defaultLocale } from "@src/i18n/config";
+import { t } from "@src/i18n/utils";
+import siteConfig from "@src/config/site.json";
+
+export async function getStaticPaths({ paginate }: any) {
+  const posts = await getCollection("blog");
+  const sorted = posts.sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime());
+  return paginate(sorted, { pageSize: 12 });
+}
+
+const { page } = Astro.props;
+const locale = defaultLocale;
+
+const start = (page.currentPage - 1) * 12 + 1;
+const end = Math.min(page.currentPage * 12, page.total);
+
+// Blog listing schema
+const blogSchema = {
+  "@context": "https://schema.org",
+  "@type": "Blog",
+  name: `${siteConfig.siteName} Blog`,
+  url: `${siteConfig.siteUrl}/blog/`,
+  description: t(locale, "common.blogSubtitle"),
+};
+
+const itemListSchema = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  itemListElement: page.data.map((post: any, i: number) => ({
+    "@type": "ListItem",
+    position: start + i,
+    url: `${siteConfig.siteUrl}/blog/${post.id}/`,
+    name: post.data.title,
+  })),
+};
+---
+
+<BaseLayout locale={locale} title={t(locale, "common.blogTitle")} description={t(locale, "common.blogSubtitle")}>
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify(blogSchema)} />
+    <script type="application/ld+json" set:html={JSON.stringify(itemListSchema)} />
+  </Fragment>
+
+  <div class="page-content">
+    <div class="page-header animate-fade-in-up" style="opacity: 0;">
+      <h1>{t(locale, "common.blogTitle")}</h1>
+      <p>{t(locale, "common.blogSubtitle")}</p>
+    </div>
+
+    <!-- Results meta -->
+    <p class="results-meta">
+      {t(locale, "common.showing")} {start}–{end} {t(locale, "common.of")} {page.total} {t(locale, "common.results")}
+    </p>
+
+    <!-- Blog Grid -->
+    <div class="blog-grid">
+      {page.data.map((post: any) => (
+        <BlogCard
+          title={post.data.title}
+          description={post.data.description}
+          image={post.data.image}
+          href={`/blog/${post.id}/`}
+          locale={locale}
+        />
+      ))}
+    </div>
+
+    <Pagination
+      currentPage={page.currentPage}
+      totalPages={page.lastPage}
+      baseUrl="/blog/"
+      locale={locale}
+    />
+  </div>
+</BaseLayout>
+
+<style>
+  .results-meta {
+    color: var(--color-text-muted);
+    font-size: 0.88rem;
+    margin-bottom: 1.5rem;
+  }
+  .blog-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1.5rem;
+  }
+  @media (max-width: 768px) {
+    .blog-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

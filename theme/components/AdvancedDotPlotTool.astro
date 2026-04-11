@@ -1,0 +1,1351 @@
+---
+import { type Locale, defaultLocale } from "@src/i18n/config";
+
+interface Props {
+  locale?: Locale;
+}
+
+const { locale = defaultLocale } = Astro.props;
+---
+
+<section class="pro-tool-section" id="pro-dot-plot-tool">
+  <div class="pro-tool-container">
+    <div class="pro-tool-header">
+      <div class="window-controls"><span></span><span></span><span></span></div>
+      <div class="window-title">DotPlotMaker Pro Server</div>
+    </div>
+    <div class="pro-tool-grid">
+    <!-- LEFT: Spreadsheet -->
+    <div class="tool-panel panel-left">
+      <div class="spreadsheet-toolbar">
+        <span style="font-size: 13px; font-weight: 600; color: var(--text-dark);">Data Editor</span>
+        <label class="btn-upload">
+          Upload CSV/Excel
+          <input type="file" id="file-upload" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" />
+        </label>
+      </div>
+      <div class="spreadsheet-scroll-wrapper">
+        <div id="spreadsheet-container"></div>
+      </div>
+    </div>
+
+    <!-- CENTER: Chart Preview -->
+    <div class="tool-panel panel-center">
+      
+      <div class="preview-toolbar">
+        <!-- View Mode Dropdown -->
+        <div class="custom-dropdown" id="layout-dropdown-container">
+          <button id="btn-layout-mode" class="toolbar-btn">
+            <svg class="layout-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="9" y1="3" x2="9" y2="21"></line><line x1="15" y1="3" x2="15" y2="21"></line></svg>
+            <span id="layout-label">All panels</span>
+            <svg class="chevron-down" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+          <div class="dropdown-menu" id="layout-dropdown">
+            <div class="dropdown-item active" data-layout="all">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="9" y1="3" x2="9" y2="21"></line><line x1="15" y1="3" x2="15" y2="21"></line></svg>
+              <span>All panels</span>
+            </div>
+            <div class="dropdown-item" data-layout="styles">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="15" y1="3" x2="15" y2="21"></line></svg>
+              <span>View styles</span>
+            </div>
+            <div class="dropdown-item" data-layout="data">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="9" y1="3" x2="9" y2="21"></line></svg>
+              <span>View data</span>
+            </div>
+            <div class="dropdown-item" data-layout="preview">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect></svg>
+              <span>Only preview</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Zoom Controls -->
+        <div class="zoom-controls">
+          <button class="toolbar-btn icon-only" id="btn-zoom-out" title="Zoom Out"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg></button>
+          <button class="toolbar-btn icon-only" id="btn-zoom-in" title="Zoom In"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg></button>
+          <button class="toolbar-btn icon-only" id="btn-zoom-fit" title="Fit to Screen"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" y1="3" x2="14" y2="10"></line><line x1="3" y1="21" x2="10" y2="14"></line></svg></button>
+        </div>
+
+        <!-- Zoom Select -->
+        <select id="zoom-select" class="toolbar-select">
+          <option value="50">50%</option>
+          <option value="75">75%</option>
+          <option value="100" selected>100%</option>
+          <option value="125">125%</option>
+          <option value="150">150%</option>
+          <option value="200">200%</option>
+        </select>
+      </div>
+
+      <div class="chart-scroll-area">
+        <div id="chart-wrapper">
+          <div id="chart-container"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: Configuration / Binding -->
+    <div class="tool-panel panel-right">
+      
+      <!-- Right Panel Header (Chart Selection) -->
+      <div class="right-panel-header">
+        <div class="chart-type-info">
+          <svg class="header-logo" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" width="24" height="24" aria-hidden="true" style="border-radius: 6px;">
+            <rect width="32" height="32" rx="8" fill="#0a0a1a"/>
+            <circle cx="10" cy="22" r="3" fill="#00d4aa"/>
+            <circle cx="10" cy="14" r="3" fill="#00d4aa" opacity="0.7"/>
+            <circle cx="18" cy="22" r="3" fill="#8b5cf6"/>
+            <circle cx="18" cy="14" r="3" fill="#8b5cf6" opacity="0.7"/>
+            <circle cx="18" cy="6" r="3" fill="#8b5cf6" opacity="0.4"/>
+            <circle cx="26" cy="22" r="3" fill="#00d4aa" opacity="0.5"/>
+          </svg>
+          <span class="chart-title-lbl" style="font-weight: 700; font-size: 14px; color: var(--text-dark);">Dot Plot <span style="color: #00c896;">Maker&reg;</span></span>
+        </div>
+        <div class="header-actions">
+          <div class="custom-dropdown" id="select-chart-container">
+            <button class="action-btn" id="btn-select-chart">Select chart</button>
+            <div class="dropdown-menu" id="dropdown-select-chart" style="right: 0; left: auto; top: 100%; min-width: 140px;">
+              <div class="dropdown-item active" data-chart="scatter">Dot Plot</div>
+              <div class="dropdown-item" data-chart="bar">Bar Chart</div>
+              <div class="dropdown-item" data-chart="line">Line Chart</div>
+            </div>
+          </div>
+          <button class="action-btn">Help</button>
+        </div>
+      </div>
+
+      <div class="config-tabs">
+        <button class="tab-btn active" data-target="tab-binding">Binding</button>
+        <button class="tab-btn" data-target="tab-formatting">Formatting</button>
+        <button class="tab-btn" data-target="tab-styling">Styling</button>
+      </div>
+
+      <div class="config-content-area">
+        
+        <!-- BINDING TAB -->
+        <div id="tab-binding" class="tab-pane active">
+          <div class="config-section">
+            <h4 class="config-heading">DATASET</h4>
+            <label class="custom-checkbox">
+              <span id="label-headings">First row are headings</span>
+              <input type="checkbox" id="chk-headings" checked />
+              <div class="chk-box"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
+            </label>
+            <label class="custom-checkbox" id="container-series-names">
+              <span>Headings are series names</span>
+              <input type="checkbox" id="chk-series-names" checked />
+              <div class="chk-box"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
+            </label>
+            
+            <div class="toggle-group" style="margin-top: 1.25rem;">
+              <span style="font-size: 0.85rem; font-weight: 500; color: var(--text-gray);">Data is in</span>
+              <div class="toggle-buttons" id="toggle-data-mode">
+                <button class="toggle-btn active" data-mode="rows">Rows</button>
+                <button class="toggle-btn" data-mode="columns">Columns</button>
+              </div>
+            </div>
+          </div>
+          
+          <div class="config-section">
+            <div class="section-header">
+              <h4 class="config-heading" style="margin:0;">SERIES</h4>
+            </div>
+            
+            <div class="accordion">
+              <div class="accordion-header">
+                <span>New series 1</span>
+                <svg class="chevron" style="transform: rotate(90deg);" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+              </div>
+              <div class="accordion-content open">
+                <div class="mapping-group">
+                  <label>Name</label>
+                  <input type="text" class="form-input" value="New series 1" />
+                </div>
+                <div class="mapping-group">
+                  <label>Category (Y-axis)</label>
+                  <select id="map-category" class="form-select"></select>
+                </div>
+                <div class="mapping-group">
+                  <label>Value (X-axis)</label>
+                  <select id="map-value" class="form-select"></select>
+                </div>
+                <div class="mapping-group">
+                  <label>Color (Series grouping)</label>
+                  <select id="map-series" class="form-select"></select>
+                </div>
+              </div>
+            </div>
+          <div class="export-actions" style="display: flex; gap: 0.5rem; margin-top: 1rem; width: 100%;">
+            <button id="btn-export-png" class="btn-primary" style="flex: 1;">Download PNG</button>
+            <button id="btn-export-svg" class="btn-primary" style="flex: 1; background: #1c1c1e; border-color: #1c1c1e;">Download SVG</button>
+          </div>
+        </div> <!-- closes config-section -->
+        </div> <!-- closes tab-binding -->
+
+        <!-- FORMATTING TAB -->
+        <div id="tab-formatting" class="tab-pane">
+           <div class="mapping-group">
+             <select class="form-select" id="fmt-column">
+               <option>Select column...</option>
+             </select>
+           </div>
+           <div class="empty-state">
+             <p>Please select a column to format.</p>
+           </div>
+        </div>
+
+        <!-- STYLING TAB -->
+        <div id="tab-styling" class="tab-pane">
+          
+          <h4 class="config-heading">GENERAL</h4>
+          
+          <div class="accordion alt">
+             <div class="accordion-header">
+               <span>Position And Size</span>
+               <div class="right-icons"><svg class="chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg></div>
+             </div>
+             <div class="accordion-content"><p class="placeholder-text">Dimensions setting applied globally.</p></div>
+          </div>
+          <div class="accordion alt">
+             <div class="accordion-header">
+               <span>Appearance</span>
+               <div class="right-icons"><svg class="chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg></div>
+             </div>
+             <div class="accordion-content"><p class="placeholder-text">Global canvas styles defined.</p></div>
+          </div>
+          <div class="accordion alt">
+             <div class="accordion-header">
+               <span>Legend</span>
+               <div class="right-icons">
+                 <button class="icon-btn active" id="toggle-legend" title="Toggle Legend">
+                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                 </button>
+                 <svg class="chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+               </div>
+             </div>
+             <div class="accordion-content"><p class="placeholder-text">Use the eye icon to toggle visibility.</p></div>
+          </div>
+
+          <h4 class="config-heading" style="margin-top: 1.5rem;">DATA</h4>
+          
+          <div class="accordion alt">
+             <div class="accordion-header">
+               <span>Data Marks</span>
+               <div class="right-icons">
+                 <button class="icon-btn active"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg></button>
+                 <svg class="chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+               </div>
+             </div>
+             <div class="accordion-content"><p class="placeholder-text">Marks configured by binding tab.</p></div>
+          </div>
+          <div class="accordion alt">
+             <div class="accordion-header">
+               <span>Data Labels</span>
+               <div class="right-icons">
+                 <button class="icon-btn" id="toggle-labels"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg></button>
+                 <svg class="chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+               </div>
+             </div>
+             <div class="accordion-content"><p class="placeholder-text">Use the eye icon to toggle visibility.</p></div>
+          </div>
+
+          <h4 class="config-heading" style="margin-top: 1.5rem;">AXES & GRID</h4>
+
+          <div class="accordion alt">
+             <div class="accordion-header">
+               <span>Numerical Axis</span>
+               <div class="right-icons">
+                 <button class="icon-btn active" id="toggle-grid"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg></button>
+                 <svg class="chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+               </div>
+             </div>
+             <div class="accordion-content"><p class="placeholder-text">Use the eye icon to toggle visibility.</p></div>
+          </div>
+          <div class="accordion alt">
+             <div class="accordion-header">
+               <span>Categorical Axis</span>
+               <div class="right-icons">
+                 <button class="icon-btn active"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg></button>
+                 <svg class="chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+               </div>
+             </div>
+             <div class="accordion-content"><p class="placeholder-text">Settings managed dynamically.</p></div>
+          </div>
+
+        </div> <!-- End styling tab -->
+
+      </div>
+    </div>
+  </div>
+  </div>
+</section>
+
+<!-- Include required CDNs -->
+<link rel="stylesheet" href="https://bossanova.uk/jspreadsheet/v4/jexcel.css" type="text/css" />
+<link rel="stylesheet" href="https://jsuites.net/v4/jsuites.css" type="text/css" />
+
+<script is:inline src="https://bossanova.uk/jspreadsheet/v4/jexcel.js"></script>
+<script is:inline src="https://jsuites.net/v4/jsuites.js"></script>
+<script is:inline src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
+<script is:inline src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+
+<style>
+  :root {
+    --pro-bg: #f8f9fa;
+    --pro-border: #e0e4e8;
+    --pro-panel: #ffffff;
+    --text-dark: #1a1f36;
+    --text-gray: #4f566b;
+    --text-light: #8792a2;
+    --accent-blue: #0052ff;
+  }
+  
+  .pro-tool-section {
+    width: 100%;
+    margin: 4rem 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  /* Wrapper Container */
+  .pro-tool-container {
+    width: 100%;
+    max-width: 1200px;
+    border-radius: 16px;
+    background: var(--pro-bg);
+    overflow: hidden;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255,255,255,0.1);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transform: translateY(0);
+    transition: transform 0.3s ease;
+  }
+  .pro-tool-container:hover {
+    box-shadow: 0 30px 60px -12px rgba(0, 212, 170, 0.15), 0 0 0 1px rgba(255,255,255,0.1);
+  }
+  .pro-tool-header {
+    height: 38px;
+    background: #1c1c1e;
+    display: flex;
+    align-items: center;
+    padding: 0 1rem;
+    border-bottom: 1px solid #2c2c2e;
+  }
+  .window-controls {
+    display: flex;
+    gap: 6px;
+  }
+  .window-controls span {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #ed6a5e;
+  }
+  .window-controls span:nth-child(2) { background: #f4bf4f; }
+  .window-controls span:nth-child(3) { background: #61c554; }
+  .window-title {
+    flex: 1;
+    text-align: center;
+    color: #8e8e93;
+    font-size: 13px;
+    font-weight: 500;
+    margin-right: 48px; /* Offset the controls for true center */
+  }
+
+  .pro-tool-grid {
+    display: flex;
+    height: 700px; 
+    border-top: none;
+    border-bottom: none;
+    transition: all 0.3s ease;
+  }
+  
+  .tool-panel {
+    background: var(--pro-panel);
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* Left Panel & Spreadsheet wrapper */
+  .panel-left {
+    border-right: 1px solid #e0e4e8;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    width: 350px;
+    flex-shrink: 0;
+    transition: width 0.3s ease;
+  }
+  .spreadsheet-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.5rem 1rem;
+    border-bottom: 1px solid var(--pro-border);
+    background: #fdfdfd;
+  }
+  .btn-upload {
+    background: var(--accent-blue);
+    color: #fff;
+    padding: 0.4rem 0.75rem;
+    font-size: 11px;
+    font-weight: 600;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .btn-upload:hover { background: #0040cc; }
+  .btn-upload input[type="file"] { display: none; }
+  
+  .spreadsheet-scroll-wrapper {
+    flex: 1;
+    overflow: auto; /* Forces vertical and horizontal scroll */
+    max-width: 100%;
+    max-height: 100%;
+  }
+
+  /* Break out of Astro scoping using :global() for dynamically injected elements */
+  :global(.jexcel_container) { width: 100% !important; }
+  :global(.jexcel > thead > tr > td) { background-color: #f1f3f5 !important; color: #4f566b !important; font-weight: 600 !important; font-size: 13px !important; }
+  :global(.jexcel > tbody > tr > td) { color: #000000 !important; font-size: 13px !important; font-weight: 500 !important; background-color: #ffffff !important; }
+  :global(.jexcel > tbody > tr > td.readonly) { color: #000000 !important; }
+  
+  /* Center Panel */
+  .panel-center {
+    background: #f1f3f5;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    overflow: hidden;
+  }
+  
+  /* Preview Toolbar */
+  .preview-toolbar {
+    height: 48px;
+    background: #fff;
+    border-bottom: 1px solid var(--pro-border);
+    display: flex;
+    align-items: center;
+    padding: 0 1rem;
+    gap: 0.5rem;
+    position: relative;
+    z-index: 10;
+  }
+  .toolbar-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    background: #f1f3f5;
+    border: 1px solid transparent;
+    border-radius: 6px;
+    color: var(--text-dark);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .toolbar-btn:hover { background: #e2e6ea; }
+  .toolbar-btn.icon-only { padding: 6px; }
+  
+  .zoom-controls {
+    display: flex;
+    gap: 2px;
+    background: #f1f3f5;
+    padding: 2px;
+    border-radius: 6px;
+  }
+  .zoom-controls .toolbar-btn { background: transparent; }
+  .zoom-controls .toolbar-btn:hover { background: #ffffff; box-shadow: 0 1px 2px rgba(0,0,0,0.1); }
+  
+  .toolbar-select {
+    padding: 6px 28px 6px 10px;
+    border-radius: 6px;
+    border: 1px solid #e0e4e8;
+    background: #fff;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-dark);
+    appearance: none;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="%234f566b" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>');
+    background-repeat: no-repeat;
+    background-position: right 6px center;
+    cursor: pointer;
+  }
+
+  /* Dropdown Menu */
+  .custom-dropdown { position: relative; }
+  .dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    margin-top: 4px;
+    background: #fff;
+    border: 1px solid var(--pro-border);
+    border-radius: 6px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    min-width: 160px;
+    display: none;
+    flex-direction: column;
+    padding: 4px;
+  }
+  .dropdown-menu.show { display: flex; }
+  .dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-size: 13px;
+    color: var(--text-dark);
+    cursor: pointer;
+  }
+  .dropdown-item:hover { background: #f1f3f5; }
+  .dropdown-item.active { background: var(--accent-blue); color: #fff; }
+  
+  /* Chart Canvas Area */
+  .chart-scroll-area {
+    flex: 1;
+    overflow: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+  }
+  #chart-wrapper {
+    transition: transform 0.2s ease;
+    transform-origin: center center;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  #chart-container {
+    width: 600px;
+    height: 500px;
+    max-width: 100%;
+    background: #fff;
+    border: 1px solid var(--pro-border);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+    border-radius: 4px;
+  }
+
+  /* Right Panel */
+  .panel-right {
+    border-left: 1px solid var(--pro-border);
+    background: #fafbfb;
+    width: 340px;
+    flex-shrink: 0;
+    overflow-y: auto;
+    transition: width 0.3s ease;
+  }
+  
+  .right-panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.6rem 1rem;
+    background: #fff;
+    border-bottom: 1px solid var(--pro-border);
+  }
+  .chart-type-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .action-btn {
+    padding: 6px 12px;
+    background: #f1f3f5;
+    border: none;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-dark);
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .action-btn:hover { background: #e2e6ea; }
+
+  /* Layout Modes */
+  .layout-styles .panel-left { width: 0; border: none; }
+  .layout-data .panel-right { width: 0; border: none; }
+  .layout-preview .panel-left, .layout-preview .panel-right { width: 0; border: none; }
+  
+  .config-tabs {
+    display: flex;
+    background: #fff;
+    border-bottom: 1px solid var(--pro-border);
+    padding: 0 0.5rem;
+  }
+  .tab-btn {
+    flex: 1;
+    padding: 0.8rem 0.5rem;
+    background: transparent;
+    border: none;
+    color: var(--text-light);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+  }
+  .tab-btn:hover { color: var(--text-dark); background: #f8f9fa; }
+  .tab-btn.active {
+    color: var(--accent-blue);
+    border-bottom-color: var(--accent-blue);
+  }
+  
+  .config-content-area {
+    padding: 1.25rem;
+  }
+  .tab-pane {
+    display: none;
+  }
+  .tab-pane.active {
+    display: block;
+  }
+
+  /* Forms & Checkboxes */
+  .config-section {
+    background: #fff;
+    border: 1px solid var(--pro-border);
+    border-radius: 6px;
+    padding: 1.25rem;
+    margin-bottom: 1.25rem;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+  }
+  .config-heading {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text-light);
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    letter-spacing: 0.05em;
+  }
+
+  /* Custom Checkbox */
+  .custom-checkbox {
+    display: flex; align-items: center; justify-content: space-between;
+    cursor: pointer; padding: 6px 0; margin-bottom: 0.5rem;
+  }
+  .custom-checkbox span { font-size: 13px; font-weight: 500; color: var(--text-dark); }
+  .custom-checkbox input { display: none; }
+  .chk-box {
+    width: 18px; height: 18px; border: 2px solid #b0b6c2; border-radius: 4px;
+    display: flex; align-items: center; justify-content: center; transition: all 0.2s;
+    background: #fff;
+  }
+  .chk-box svg { width: 12px; height: 12px; stroke: white; stroke-width: 3; fill: none; stroke-linecap: round; stroke-linejoin: round; opacity: 0; }
+  .custom-checkbox:hover .chk-box { border-color: var(--text-gray); }
+  .custom-checkbox input:checked + .chk-box { background: var(--accent-blue); border-color: var(--accent-blue); }
+  .custom-checkbox input:checked + .chk-box svg { opacity: 1; }
+  
+  /* Segmented Toggles */
+  .toggle-group {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .toggle-buttons {
+    display: flex;
+    background: #eaedf1;
+    border-radius: 6px;
+    padding: 3px;
+    gap: 2px;
+  }
+  .toggle-btn {
+    padding: 6px 16px;
+    font-size: 12px;
+    font-weight: 500;
+    border: none;
+    background: transparent;
+    border-radius: 4px;
+    color: var(--text-gray);
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .toggle-btn:hover:not(.disabled):not(.active) { color: var(--text-dark); }
+  .toggle-btn.active {
+    background: #ffffff;
+    color: var(--text-dark);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  }
+  .toggle-btn.disabled { opacity: 0.5; pointer-events: none; }
+
+  .accordion {
+    border-top: 1px solid var(--pro-border);
+    margin: 0 -1.25rem;
+    padding: 0 1.25rem;
+  }
+  .accordion.alt {
+    border: 1px solid var(--pro-border);
+    background: #fff;
+    margin: 0 0 0.5rem 0;
+    border-radius: 6px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+  }
+  .accordion-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.85rem 0.5rem;
+    margin: 0 -0.5rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-dark);
+    transition: background 0.2s;
+  }
+  .accordion-header:hover { background: #f8f9fa; }
+  .accordion-content {
+    display: none;
+    padding-bottom: 1rem;
+  }
+  .accordion-content.open { display: block; }
+  .chevron { transition: transform 0.2s ease; }
+  .placeholder-text { font-size: 12px; color: var(--text-light); padding: 0.5rem 0; margin: 0; }
+  
+  .right-icons {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .icon-btn {
+    background: none;
+    border: none;
+    color: var(--text-light);
+    cursor: pointer;
+    padding: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .icon-btn.active { color: var(--text-dark); }
+  
+  /* Inputs & Selects */
+  .mapping-group { margin-bottom: 1.2rem; }
+  .mapping-group label {
+    display: block;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-gray);
+    margin-bottom: 0.4rem;
+  }
+  .form-input, .form-select {
+    width: 100%;
+    padding: 0.6rem 0.75rem;
+    border-radius: 6px;
+    border: 1px solid #cdd2d8;
+    font-size: 13px;
+    color: var(--text-dark);
+    outline: none;
+    background: #fff;
+    transition: all 0.2s ease;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+  }
+  .form-select {
+    cursor: pointer;
+    appearance: none;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="%234f566b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>');
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    padding-right: 32px;
+  }
+  .form-select:hover, .form-input:hover { border-color: #aeb4be; }
+  .form-select:focus, .form-input:focus {
+    border-color: var(--accent-blue);
+    box-shadow: 0 0 0 3px rgba(0,82,255,0.15);
+  }
+  .empty-state {
+    padding: 3rem 1rem;
+    text-align: center;
+    color: var(--text-light);
+    font-size: 13px;
+    background: #fff;
+    border: 1px solid var(--pro-border);
+  }
+</style>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    
+    // Understandable Real-world Demo Data: Internet Usage over time
+    const demoData = [
+      ["Country", "Year", "Internet Usage %", "GDP Rank", "Population", "Region", "Notes", "Status", "ID"],
+      ["United States", "2010", 71, 1, "331M", "Americas", "-", "Active", "101"],
+      ["United States", "2015", 74, 1, "331M", "Americas", "-", "Active", "102"],
+      ["United States", "2023", 92, 1, "331M", "Americas", "Top", "Active", "103"],
+      ["United Kingdom", "2010", 85, 6, "67M", "Europe", "-", "Active", "104"],
+      ["United Kingdom", "2015", 92, 6, "67M", "Europe", "-", "Active", "105"],
+      ["United Kingdom", "2023", 96, 6, "67M", "Europe", "High", "Active", "106"],
+      ["Germany", "2010", 82, 4, "83M", "Europe", "-", "Active", "107"],
+      ["Germany", "2015", 87, 4, "83M", "Europe", "-", "Active", "108"],
+      ["Germany", "2023", 91, 4, "83M", "Europe", "-", "Active", "109"],
+      ["Japan", "2010", 78, 3, "125M", "Asia", "-", "Active", "110"],
+      ["Japan", "2015", 83, 3, "125M", "Asia", "-", "Active", "111"],
+      ["Japan", "2023", 85, 3, "125M", "Asia", "-", "Active", "112"],
+      ["Brazil", "2010", 40, 8, "214M", "Americas", "-", "Pending", "113"],
+      ["Brazil", "2015", 58, 8, "214M", "Americas", "-", "Pending", "114"],
+      ["Brazil", "2023", 81, 8, "214M", "Americas", "-", "Active", "115"],
+      ["India", "2010", 8, 5, "1.4B", "Asia", "Low", "Pending", "116"],
+      ["India", "2015", 27, 5, "1.4B", "Asia", "-", "Pending", "117"],
+      ["India", "2023", 53, 5, "1.4B", "Asia", "Growing", "Active", "118"],
+      ["China", "2010", 34, 2, "1.4B", "Asia", "-", "Pending", "119"],
+      ["China", "2015", 50, 2, "1.4B", "Asia", "-", "Pending", "120"],
+      ["China", "2023", 75, 2, "1.4B", "Asia", "Fast", "Active", "121"],
+      ["South Africa", "2010", 24, 38, "60M", "Africa", "-", "Pending", "122"],
+      ["South Africa", "2015", 51, 38, "60M", "Africa", "-", "Pending", "123"],
+      ["South Africa", "2023", 72, 38, "60M", "Africa", "-", "Active", "124"],
+      ["Mexico", "2010", 31, 14, "128M", "Americas", "-", "Pending", "125"],
+      ["Mexico", "2015", 57, 14, "128M", "Americas", "-", "Pending", "126"],
+      ["Mexico", "2023", 76, 14, "128M", "Americas", "-", "Active", "127"],
+      ["Nigeria", "2010", 24, 31, "213M", "Africa", "Low", "Pending", "128"],
+      ["Nigeria", "2015", 42, 31, "213M", "Africa", "-", "Pending", "129"],
+      ["Nigeria", "2023", 55, 31, "213M", "Africa", "-", "Active", "130"]
+    ];
+
+    // Chart Options State
+    let state = {
+      showLegend: true,
+      showGrid: true,
+      showLabels: false
+    };
+
+    // Initialize ECharts with SVG renderer for scalable exports
+    const chartDom = document.getElementById('chart-container');
+    const myChart = window.echarts.init(chartDom, null, { renderer: 'svg' });
+
+    // Initialize Spreadsheet
+    const spreadsheet = jspreadsheet(document.getElementById('spreadsheet-container'), {
+       data: demoData,
+       columns: [
+           { type: 'text', title: 'A', width: 90 },
+           { type: 'text', title: 'B', width: 90 },
+           { type: 'text', title: 'C', width: 90 },
+           { type: 'text', title: 'D', width: 90 },
+           { type: 'text', title: 'E', width: 90 },
+           { type: 'text', title: 'F', width: 90 },
+           { type: 'text', title: 'G', width: 90 },
+           { type: 'text', title: 'H', width: 90 },
+           { type: 'text', title: 'I', width: 90 }
+       ],
+       minDimensions: [9, 40],
+       onchange: updateChart
+    });
+
+    const selCategory = document.getElementById('map-category');
+    const selValue = document.getElementById('map-value');
+    const selSeries = document.getElementById('map-series');
+    const fmtColumn = document.getElementById('fmt-column');
+    
+    // Global States
+    let currentChartType = 'scatter';
+    let dataMode = 'rows';
+    
+    // Dataset Mode Toggles
+    const chkHeadings = document.getElementById('chk-headings');
+    const chkSeriesNames = document.getElementById('chk-series-names');
+    const labelHeadings = document.getElementById('label-headings');
+
+    // UI Wireups
+    selCategory.addEventListener('change', updateChart);
+    selValue.addEventListener('change', updateChart);
+    selSeries.addEventListener('change', updateChart);
+    chkHeadings.addEventListener('change', updateDropdowns);
+    chkSeriesNames.addEventListener('change', updateChart);
+
+    // Data Mode (Rows vs Columns)
+    document.querySelectorAll('#toggle-data-mode .toggle-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        document.querySelectorAll('#toggle-data-mode .toggle-btn').forEach(b => b.classList.remove('active'));
+        const targetBtn = e.currentTarget || e.target;
+        targetBtn.classList.add('active');
+        dataMode = targetBtn.getAttribute('data-mode');
+        
+        // Update labels text like Datylon
+        if(dataMode === 'columns') {
+          labelHeadings.innerText = 'First column are headings';
+          document.getElementById('map-value').parentElement.style.opacity = '0.4';
+          document.getElementById('map-series').parentElement.style.opacity = '0.4';
+        } else {
+          labelHeadings.innerText = 'First row are headings';
+          document.getElementById('map-value').parentElement.style.opacity = '1';
+          document.getElementById('map-series').parentElement.style.opacity = '1';
+        }
+        updateDropdowns();
+      });
+    });
+
+    // --- Layout Actions (All Panels, View Data, View Styles, Only Preview) ---
+    const layoutBtn = document.getElementById('btn-layout-mode');
+    const layoutDropdown = document.getElementById('layout-dropdown');
+    const layoutLabel = document.getElementById('layout-label');
+    const gridContainer = document.querySelector('.pro-tool-grid');
+    
+    const selectChartBtn = document.getElementById('btn-select-chart');
+    const selectChartDropdown = document.getElementById('dropdown-select-chart');
+
+    // Toggle Layout Dropdown
+    layoutBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      layoutDropdown.classList.toggle('show');
+      selectChartDropdown.classList.remove('show');
+    });
+    
+    // Toggle Select Chart Dropdown
+    selectChartBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      selectChartDropdown.classList.toggle('show');
+      layoutDropdown.classList.remove('show');
+    });
+
+    // Close dropdowns on outside click
+    document.addEventListener('click', () => {
+      layoutDropdown.classList.remove('show');
+      selectChartDropdown.classList.remove('show');
+    });
+
+    // Chart Type Selector
+    document.querySelectorAll('#dropdown-select-chart .dropdown-item').forEach(item => {
+      item.addEventListener('click', (e) => {
+        document.querySelectorAll('#dropdown-select-chart .dropdown-item').forEach(i => i.classList.remove('active'));
+        e.currentTarget.classList.add('active');
+        currentChartType = e.currentTarget.getAttribute('data-chart');
+        
+        // Update Chart Title Header Label with Branding
+        document.querySelector('.chart-title-lbl').innerHTML = `${e.currentTarget.innerText} <span style="color: #00c896;">Maker&reg;</span>`;
+        updateChart();
+      });
+    });
+
+    document.querySelectorAll('#layout-dropdown .dropdown-item').forEach(item => {
+      item.addEventListener('click', (e) => {
+        document.querySelectorAll('.dropdown-item').forEach(i => i.classList.remove('active'));
+        const targetBtn = e.currentTarget || e.target;
+        targetBtn.classList.add('active');
+        
+        const mode = targetBtn.getAttribute('data-layout');
+        layoutLabel.innerText = targetBtn.querySelector('span').innerText;
+        
+        // Remove all layout classes
+        gridContainer.classList.remove('layout-all', 'layout-styles', 'layout-data', 'layout-preview');
+        
+        if (mode !== 'all') {
+          gridContainer.classList.add(`layout-${mode}`);
+        }
+        
+        // Force chart to resize after panel animations complete
+        setTimeout(() => { myChart.resize(); }, 300);
+      });
+    });
+    
+    // --- Zoom Controls ---
+    let currentZoom = 1.0;
+    const chartWrapper = document.getElementById('chart-wrapper');
+    const zoomSelect = document.getElementById('zoom-select');
+    
+    const applyZoom = () => {
+      // Boundaries
+      if (currentZoom < 0.25) currentZoom = 0.25;
+      if (currentZoom > 3.0) currentZoom = 3.0;
+      
+      chartWrapper.style.transform = `scale(${currentZoom})`;
+      
+      // Attempt to map to standard option if exact match, otherwise leave custom
+      const standardVals = ["50", "75", "100", "125", "150", "200"];
+      const percentage = Math.round(currentZoom * 100).toString();
+      if(standardVals.includes(percentage)){
+         zoomSelect.value = percentage;
+      }
+    };
+    
+    document.getElementById('btn-zoom-in').addEventListener('click', () => {
+      currentZoom += 0.25; applyZoom();
+    });
+    document.getElementById('btn-zoom-out').addEventListener('click', () => {
+      currentZoom -= 0.25; applyZoom();
+    });
+    document.getElementById('btn-zoom-fit').addEventListener('click', () => {
+      currentZoom = 1.0; applyZoom();
+    });
+    zoomSelect.addEventListener('change', (e) => {
+      currentZoom = parseInt(e.target.value) / 100;
+      applyZoom();
+    });
+
+    // Tab Logic
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+        e.target.classList.add('active');
+        const target = e.target.getAttribute('data-target');
+        document.getElementById(target).classList.add('active');
+      });
+    });
+
+    // Accordion Logic
+    document.querySelectorAll('.accordion-header').forEach(header => {
+      header.addEventListener('click', (e) => {
+        // Prevent toggle if clicking an inner icon
+        if((e.target as Element).closest('.icon-btn')) return;
+        
+        const content = header.nextElementSibling;
+        if(content && content.classList.contains('accordion-content')) {
+          content.classList.toggle('open');
+          const chevron = header.querySelector('.chevron');
+          if(chevron) {
+              (chevron as HTMLElement).style.transform = content.classList.contains('open') ? 'rotate(90deg)' : 'rotate(0deg)';
+          }
+        }
+      });
+    });
+
+    // Button Toggle Logic
+    document.querySelectorAll('.toggle-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        if(btn.classList.contains('disabled')) return;
+        const parent = btn.parentElement;
+        if(parent) {
+            parent.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+        }
+      });
+    });
+
+    // Styling Toggles
+    const toggleLegend = document.getElementById('toggle-legend');
+    const toggleGrid = document.getElementById('toggle-grid');
+    const toggleLabels = document.getElementById('toggle-labels');
+
+    const updateToggle = (btn, key) => {
+       state[key] = !state[key];
+       if(state[key]) {
+         btn.classList.add('active');
+         btn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>`;
+       } else {
+         btn.classList.remove('active');
+         btn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>`;
+       }
+       updateChart();
+    };
+
+    toggleLegend.addEventListener('click', (e) => { e.stopPropagation(); updateToggle(toggleLegend, 'showLegend'); });
+    toggleGrid.addEventListener('click', (e) => { e.stopPropagation(); updateToggle(toggleGrid, 'showGrid'); });
+    toggleLabels.addEventListener('click', (e) => { e.stopPropagation(); updateToggle(toggleLabels, 'showLabels'); });
+
+
+    function getGridData() {
+        return spreadsheet.getData();
+    }
+
+    function updateDropdowns() {
+        const data = getGridData();
+        if(!data || data.length === 0) return;
+
+        let headers = [];
+        const hasHeaders = chkHeadings.checked;
+        
+        if (hasHeaders) {
+            headers = data[0].slice(0, 3);
+        } else {
+            headers = ["Col A", "Col B", "Col C"];
+        }
+
+        const makeOptions = (selectedIdx) => {
+            return headers.map((h, i) => `<option value="${i}" ${i == selectedIdx ? 'selected' : ''}>${h}</option>`).join('');
+        };
+        
+        // Extended placeholder formatting options strictly matching image requests
+        const extraFormattingCols = ["column D", "column E", "column F", "column G", "column H", "column I"];
+        const formattingOptions = headers.map((h, i) => `<option value="${i}">${h}</option>`)
+          .concat(extraFormattingCols.map((col, i) => `<option value="ext-${i}">${col}</option>`))
+          .join('');
+
+        const curCat = selCategory.value !== "" ? selCategory.value : 0;
+        const curSer = selSeries.value !== "" ? selSeries.value : 1;
+        const curVal = selValue.value !== "" ? selValue.value : 2;
+
+        selCategory.innerHTML = makeOptions(curCat);
+        selSeries.innerHTML = makeOptions(curSer);
+        selValue.innerHTML = makeOptions(curVal);
+        fmtColumn.innerHTML = `<option>Select column...</option>` + formattingOptions;
+
+        updateChart();
+    }
+
+    function updateChart() {
+        const data = getGridData();
+        if(!data || data.length < 2) return;
+
+        const seriesMap = new Map();
+        const categoriesSet = new Set();
+        const colorPalette = { "2010": "#f53838", "2015": "#ffd60a", "2023": "#1761f2" };
+        const fallbackColors = [ '#ff4d4f', '#ffc53d', '#1890ff', '#52c41a', '#722ed1', '#13c2c2', '#eb2f96'];
+        
+        const hasHeadings = chkHeadings.checked;
+        const useHeadingsAsSeries = chkSeriesNames.checked;
+        const catIdx = parseInt(selCategory.value || 0);
+
+        // --- LONG FORMAT (Rows) ---
+        if (dataMode === 'rows') {
+            const startIndex = hasHeadings ? 1 : 0;
+            const valIdx = parseInt(selValue.value || 2);
+            const serIdx = parseInt(selSeries.value || 1);
+
+            for(let i = startIndex; i < data.length; i++) {
+                const row = data[i];
+                if (!row) continue;
+                const cat = row[catIdx];
+                const val = parseFloat(row[valIdx]);
+                const ser = row[serIdx] || "Series 1";
+
+                if (cat === "" || cat == null || isNaN(val)) continue;
+
+                categoriesSet.add(cat);
+                if(!seriesMap.has(ser)) seriesMap.set(ser, []);
+                seriesMap.get(ser).push([val, String(cat)]);
+            }
+        } 
+        // --- WIDE FORMAT (Columns) ---
+        else {
+            // First column are headings = check column 0 logic? Wait, the label changes to 
+            // 'First column are headings', meaning the first column contains the categories!
+            // 'Headings are series names' means Row 0 contains series names.
+            
+            const startRowIdx = useHeadingsAsSeries ? 1 : 0;
+            const startColIdx = hasHeadings ? 1 : 0; // If first column is headings, values start at col 1
+
+            // The list of series is mapped to the columns (Col 1, Col 2, etc, ignoring catIdx)
+            let seriesNames = [];
+            const headerRow = data[0];
+            
+            const maxCols = data.reduce((max, row) => Math.max(max, row.length), 0);
+            
+            for(let c = startColIdx; c < maxCols; c++) {
+              if (c === catIdx) continue; // Skip the category column
+              const sName = useHeadingsAsSeries && headerRow[c] ? headerRow[c] : `Series ${c}`;
+              seriesNames.push({ colIndex: c, name: sName });
+              seriesMap.set(sName, []);
+            }
+
+            for(let r = startRowIdx; r < data.length; r++) {
+                const row = data[r];
+                if (!row) continue;
+                const cat = row[catIdx];
+                if (cat === "" || cat == null) continue;
+                
+                let hasValidVal = false;
+                seriesNames.forEach(s => {
+                    const val = parseFloat(row[s.colIndex]);
+                    if (!isNaN(val)) {
+                      seriesMap.get(s.name).push([val, String(cat)]);
+                      hasValidVal = true;
+                    }
+                });
+                
+                if (hasValidVal) {
+                  categoriesSet.add(cat);
+                }
+            }
+        }
+
+        // Exact Y-axis order
+        const categories = Array.from(categoriesSet).sort((a,b) => String(a).localeCompare(String(b))).reverse();
+
+        const series = [];
+        let colorIdx = 0;
+
+        for(let [serName, points] of seriesMap.entries()){
+            if (points.length === 0) continue;
+            
+            const c = colorPalette[serName] || fallbackColors[colorIdx % fallbackColors.length];
+            series.push({
+                name: serName,
+                type: currentChartType,
+                symbolSize: 12,
+                barMaxWidth: 24,
+                smooth: true,
+                data: points,
+                itemStyle: { color: c },
+                label: { 
+                  show: state.showLabels, 
+                  position: 'top', 
+                  formatter: '{@[0]}',
+                  fontSize: 10,
+                  color: '#666'
+                },
+                z: 3
+            });
+            colorIdx++;
+        }
+
+        // Range Lines Background processing (only for dot plots)
+        if (currentChartType === 'scatter') {
+          const lineData = [];
+          if (dataMode === 'rows') {
+            const valIdx = parseInt(selValue.value || 2);
+            categories.forEach((cat, index) => {
+                let vals = [];
+                const startIndex = hasHeadings ? 1 : 0;
+                for(let i=startIndex; i<data.length; i++){
+                    if(data[i][catIdx] === cat && !isNaN(parseFloat(data[i][valIdx]))) {
+                        vals.push(parseFloat(data[i][valIdx]));
+                    }
+                }
+                if(vals.length > 1) {
+                   vals.sort((a,b) => a - b);
+                   lineData.push([{ coord: [vals[0], index] }, { coord: [vals[vals.length-1], index] }]);
+                }
+            });
+        } else {
+            // Range logic for wide format
+            const startRowIdx = useHeadingsAsSeries ? 1 : 0;
+            const startColIdx = hasHeadings ? 1 : 0;
+            const maxCols = data.reduce((max, row) => Math.max(max, row.length), 0);
+            
+            categories.forEach((cat, index) => {
+                let vals = [];
+                for(let r=startRowIdx; r<data.length; r++){
+                   if(data[r][catIdx] === cat) {
+                       for(let c = startColIdx; c < maxCols; c++) {
+                           if (c === catIdx) continue;
+                           const val = parseFloat(data[r][c]);
+                           if (!isNaN(val)) vals.push(val);
+                       }
+                   }
+                }
+                if(vals.length > 1) {
+                   vals.sort((a,b) => a - b);
+                   lineData.push([{ coord: [vals[0], index] }, { coord: [vals[vals.length-1], index] }]);
+                }
+            });
+          }
+
+          series.push({
+              type: 'lines',
+              polyline: false,
+              z: 1,
+              lineStyle: {
+                  color: '#b0b6c2',
+                  width: 1,
+                  type: 'solid'
+              },
+              data: lineData
+          });
+        }
+
+        const option = {
+            backgroundColor: '#ffffff',
+            animation: false,
+            tooltip: {
+                trigger: 'item',
+                formatter: function (p) {
+                    if(p.seriesType === 'lines') return '';
+                    return `<b>${p.seriesName}</b><br/>${p.value[1]}: ${p.value[0]}`;
+                }
+            },
+            legend: {
+                show: state.showLegend,
+                top: 10,
+                right: 30,
+                icon: 'circle'
+            },
+            grid: {
+                left: '8%',
+                right: '5%',
+                bottom: '10%',
+                top: '15%',
+                containLabel: true
+            },
+            xAxis: {
+                type: 'value',
+                min: 0,
+                max: 100,
+                interval: 20,
+                splitLine: {
+                    show: state.showGrid,
+                    lineStyle: { color: '#e8eaed' }
+                },
+                axisLine: { show: false },
+                axisTick: { show: false },
+                axisLabel: { color: '#5f6368', fontSize: 11 }
+            },
+            yAxis: {
+                type: 'category',
+                data: categories,
+                axisLine: { show: false },
+                axisTick: { show: false },
+                splitLine: { show: false },
+                axisLabel: { color: '#5f6368', fontSize: 11 }
+            },
+            series: series
+        };
+
+        myChart.setOption(option, true);
+    }
+
+    setTimeout(() => {
+        updateDropdowns();
+        window.addEventListener('resize', () => { myChart.resize(); });
+    }, 100);
+
+    // Export Handlers
+    document.getElementById('btn-export-png')?.addEventListener('click', () => {
+        const url = myChart.getDataURL({ type: 'png', pixelRatio: 2, backgroundColor: '#fff' });
+        const a = document.createElement('a');
+        a.download = 'cleveland-dot-plot.png';
+        a.href = url;
+        a.click();
+    });
+
+    document.getElementById('btn-export-svg')?.addEventListener('click', () => {
+        const url = myChart.getDataURL({ type: 'svg', backgroundColor: '#fff' });
+        const a = document.createElement('a');
+        a.download = 'cleveland-dot-plot.svg';
+        a.href = url;
+        a.click();
+    });
+
+    // File Upload Handler (CSV / XLSX)
+    document.getElementById('file-upload')?.addEventListener('change', function(e) {
+        const file = (e.target as HTMLInputElement).files?.[0];
+        if(!file) return;
+
+        const reader = new FileReader();
+        reader.onload = function(evt) {
+            try {
+                const data = evt.target?.result;
+                if(!data) return;
+                
+                // Parse using SheetJS
+                const workbook = window.XLSX.read(data, {type: 'binary'});
+                const firstSheetName = workbook.SheetNames[0];
+                const worksheet = workbook.Sheets[firstSheetName];
+                
+                // Convert to array of arrays
+                const excelData = window.XLSX.utils.sheet_to_json(worksheet, {header: 1, defval: ""});
+                
+                if(excelData && excelData.length > 0) {
+                    spreadsheet.setData(excelData);
+                    setTimeout(updateDropdowns, 100);
+                }
+            } catch (err) {
+                console.error("Error parsing file:", err);
+                alert("Could not parse file. Please ensure it is a valid CSV or Excel file.");
+            }
+            // Reset input
+            (e.target as HTMLInputElement).value = "";
+        };
+        reader.readAsBinaryString(file);
+    });
+  });
+</script>
