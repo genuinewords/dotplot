@@ -92,13 +92,21 @@ const { locale = defaultLocale } = Astro.props;
       <div class="right-panel-header">
         <div class="chart-type-info">
           <svg class="header-logo" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" width="24" height="24" aria-hidden="true" style="border-radius: 6px;">
-            <rect width="32" height="32" rx="8" fill="#0a0a1a"/>
-            <circle cx="10" cy="22" r="3" fill="#00d4aa"/>
-            <circle cx="10" cy="14" r="3" fill="#00d4aa" opacity="0.7"/>
-            <circle cx="18" cy="22" r="3" fill="#8b5cf6"/>
-            <circle cx="18" cy="14" r="3" fill="#8b5cf6" opacity="0.7"/>
-            <circle cx="18" cy="6" r="3" fill="#8b5cf6" opacity="0.4"/>
-            <circle cx="26" cy="22" r="3" fill="#00d4aa" opacity="0.5"/>
+            <defs>
+              <linearGradient id="pro-bg-grad" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="#0d1117"/>
+                <stop offset="100%" stop-color="#0a0f14"/>
+              </linearGradient>
+            </defs>
+            <rect width="32" height="32" rx="7" fill="url(#pro-bg-grad)"/>
+            <circle cx="9" cy="8" r="2.4" fill="#00d4aa"/>
+            <circle cx="9" cy="16" r="2.4" fill="#00d4aa" opacity="0.7"/>
+            <circle cx="9" cy="24" r="2.4" fill="#00d4aa" opacity="0.45"/>
+            <circle cx="16.5" cy="12" r="2.4" fill="#6d5cf6" opacity="0.85"/>
+            <circle cx="16.5" cy="20" r="2.4" fill="#8b5cf6"/>
+            <circle cx="24" cy="8" r="2.4" fill="#8b5cf6" opacity="0.5"/>
+            <circle cx="24" cy="16" r="2.4" fill="#00d4aa" opacity="0.6"/>
+            <circle cx="24" cy="24" r="2.4" fill="#00d4aa"/>
           </svg>
           <span class="chart-title-lbl" style="font-weight: 700; font-size: 14px; color: var(--text-dark);">Dot Plot <span style="color: #00c896;">Maker&reg;</span></span>
         </div>
@@ -369,7 +377,7 @@ const { locale = defaultLocale } = Astro.props;
   
   /* Left Panel & Spreadsheet wrapper */
   .panel-left {
-    border-right: 1px solid #e0e4e8;
+    border-right: 1px solid var(--pro-border);
     display: flex;
     flex-direction: column;
     overflow: hidden;
@@ -383,7 +391,7 @@ const { locale = defaultLocale } = Astro.props;
     justify-content: space-between;
     padding: 0.5rem 1rem;
     border-bottom: 1px solid var(--pro-border);
-    background: #fdfdfd;
+    background: var(--pro-panel);
   }
   .btn-upload {
     background: var(--accent-blue);
@@ -413,7 +421,7 @@ const { locale = defaultLocale } = Astro.props;
   
   /* Center Panel */
   .panel-center {
-    background: #f1f3f5;
+    background: #0c1219;
     display: flex;
     flex-direction: column;
     flex: 1;
@@ -446,29 +454,29 @@ const { locale = defaultLocale } = Astro.props;
     cursor: pointer;
     transition: all 0.2s;
   }
-  .toolbar-btn:hover { background: #e2e6ea; }
+  .toolbar-btn:hover { background: #1e2a38; }
   .toolbar-btn.icon-only { padding: 6px; }
   
   .zoom-controls {
     display: flex;
     gap: 2px;
-    background: #f1f3f5;
+    background: var(--pro-bg);
     padding: 2px;
     border-radius: 6px;
   }
   .zoom-controls .toolbar-btn { background: transparent; }
-  .zoom-controls .toolbar-btn:hover { background: #ffffff; box-shadow: 0 1px 2px rgba(0,0,0,0.1); }
+  .zoom-controls .toolbar-btn:hover { background: #1e2a38; box-shadow: 0 1px 2px rgba(0,0,0,0.3); }
   
   .toolbar-select {
     padding: 6px 28px 6px 10px;
     border-radius: 6px;
-    border: 1px solid #e0e4e8;
+    border: 1px solid var(--pro-border);
     background: var(--pro-panel);
     font-size: 13px;
     font-weight: 500;
     color: var(--text-dark);
     appearance: none;
-    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="%234f566b" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>');
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="%23a1b0bd" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>');
     background-repeat: no-repeat;
     background-position: right 6px center;
     cursor: pointer;
@@ -512,6 +520,7 @@ const { locale = defaultLocale } = Astro.props;
     align-items: center;
     justify-content: center;
     padding: 2rem;
+    background: #0c1219;
   }
   #chart-wrapper {
     transition: transform 0.2s ease;
@@ -528,8 +537,8 @@ const { locale = defaultLocale } = Astro.props;
     max-width: 100%;
     background: var(--pro-panel);
     border: 1px solid var(--pro-border);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.03);
-    border-radius: 4px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    border-radius: 6px;
   }
 
   /* Right Panel */
@@ -571,7 +580,7 @@ const { locale = defaultLocale } = Astro.props;
     cursor: pointer;
     transition: background 0.2s;
   }
-  .action-btn:hover { background: #e2e6ea; }
+  .action-btn:hover { background: #1e2a38; }
 
   /* Layout Modes */
   .layout-styles .panel-left { width: 0; border: none; }
@@ -580,7 +589,7 @@ const { locale = defaultLocale } = Astro.props;
   
   .config-tabs {
     display: flex;
-    background: #fff;
+    background: var(--pro-panel);
     border-bottom: 1px solid var(--pro-border);
     padding: 0 0.5rem;
   }
@@ -596,7 +605,7 @@ const { locale = defaultLocale } = Astro.props;
     border-bottom: 2px solid transparent;
     transition: all 0.2s;
   }
-  .tab-btn:hover { color: var(--text-dark); background: #f8f9fa; }
+  .tab-btn:hover { color: var(--text-dark); background: rgba(255,255,255,0.04); }
   .tab-btn.active {
     color: var(--accent-blue);
     border-bottom-color: var(--accent-blue);
@@ -614,12 +623,12 @@ const { locale = defaultLocale } = Astro.props;
 
   /* Forms & Checkboxes */
   .config-section {
-    background: #fff;
+    background: var(--pro-bg);
     border: 1px solid var(--pro-border);
     border-radius: 6px;
     padding: 1.25rem;
     margin-bottom: 1.25rem;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.15);
   }
   .config-heading {
     font-size: 11px;
@@ -673,9 +682,9 @@ const { locale = defaultLocale } = Astro.props;
   }
   .toggle-btn:hover:not(.disabled):not(.active) { color: var(--text-dark); }
   .toggle-btn.active {
-    background: #ffffff;
-    color: var(--text-dark);
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    background: var(--accent-blue);
+    color: #fff;
+    box-shadow: 0 1px 6px rgba(0,212,170,0.25);
   }
   .toggle-btn.disabled { opacity: 0.5; pointer-events: none; }
 
@@ -686,10 +695,10 @@ const { locale = defaultLocale } = Astro.props;
   }
   .accordion.alt {
     border: 1px solid var(--pro-border);
-    background: var(--pro-panel);
+    background: var(--pro-bg);
     margin: 0 0 0.5rem 0;
     border-radius: 6px;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.15);
   }
   .accordion-header {
     display: flex;
@@ -704,7 +713,7 @@ const { locale = defaultLocale } = Astro.props;
     color: var(--text-dark);
     transition: background 0.2s;
   }
-  .accordion-header:hover { background: #f8f9fa; }
+  .accordion-header:hover { background: rgba(255,255,255,0.04); }
   .accordion-content {
     display: none;
     padding-bottom: 1rem;
@@ -743,34 +752,35 @@ const { locale = defaultLocale } = Astro.props;
     width: 100%;
     padding: 0.6rem 0.75rem;
     border-radius: 6px;
-    border: 1px solid #cdd2d8;
+    border: 1px solid var(--pro-border);
     font-size: 13px;
     color: var(--text-dark);
     outline: none;
-    background: #fff;
+    background: var(--pro-bg);
     transition: all 0.2s ease;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.15);
   }
   .form-select {
     cursor: pointer;
     appearance: none;
-    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="%234f566b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>');
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="%23a1b0bd" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>');
     background-repeat: no-repeat;
     background-position: right 10px center;
     padding-right: 32px;
   }
-  .form-select:hover, .form-input:hover { border-color: #aeb4be; }
+  .form-select:hover, .form-input:hover { border-color: #3a4a5c; }
   .form-select:focus, .form-input:focus {
     border-color: var(--accent-blue);
-    box-shadow: 0 0 0 3px rgba(0,82,255,0.15);
+    box-shadow: 0 0 0 3px rgba(0,212,170,0.15);
   }
   .empty-state {
     padding: 3rem 1rem;
     text-align: center;
     color: var(--text-light);
     font-size: 13px;
-    background: #fff;
+    background: var(--pro-bg);
     border: 1px solid var(--pro-border);
+    border-radius: 6px;
   }
 </style>
 
@@ -1181,7 +1191,7 @@ const { locale = defaultLocale } = Astro.props;
                   position: 'top', 
                   formatter: '{@[0]}',
                   fontSize: 10,
-                  color: '#666'
+                  color: '#a1b0bd'
                 },
                 z: 3
             });
@@ -1235,7 +1245,7 @@ const { locale = defaultLocale } = Astro.props;
               polyline: false,
               z: 1,
               lineStyle: {
-                  color: '#b0b6c2',
+                  color: '#3a4a5c',
                   width: 1,
                   type: 'solid'
               },
@@ -1257,7 +1267,8 @@ const { locale = defaultLocale } = Astro.props;
                 show: state.showLegend,
                 top: 10,
                 right: 30,
-                icon: 'circle'
+                icon: 'circle',
+                textStyle: { color: '#a1b0bd' }
             },
             grid: {
                 left: '8%',
@@ -1273,11 +1284,11 @@ const { locale = defaultLocale } = Astro.props;
                 interval: 20,
                 splitLine: {
                     show: state.showGrid,
-                    lineStyle: { color: '#e8eaed' }
+                    lineStyle: { color: '#243040' }
                 },
                 axisLine: { show: false },
                 axisTick: { show: false },
-                axisLabel: { color: '#5f6368', fontSize: 11 }
+                axisLabel: { color: '#a1b0bd', fontSize: 11 }
             },
             yAxis: {
                 type: 'category',
@@ -1285,7 +1296,7 @@ const { locale = defaultLocale } = Astro.props;
                 axisLine: { show: false },
                 axisTick: { show: false },
                 splitLine: { show: false },
-                axisLabel: { color: '#5f6368', fontSize: 11 }
+                axisLabel: { color: '#a1b0bd', fontSize: 11 }
             },
             series: series
         };
@@ -1300,7 +1311,7 @@ const { locale = defaultLocale } = Astro.props;
 
     // Export Handlers
     document.getElementById('btn-export-png')?.addEventListener('click', () => {
-        const url = myChart.getDataURL({ type: 'png', pixelRatio: 2, backgroundColor: '#fff' });
+        const url = myChart.getDataURL({ type: 'png', pixelRatio: 2, backgroundColor: '#151d26' });
         const a = document.createElement('a');
         a.download = 'cleveland-dot-plot.png';
         a.href = url;
