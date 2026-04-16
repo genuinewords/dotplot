@@ -10,3 +10,4 @@
   "privacy": { "title": "Prywatność", "intro": "Twoja prywatność jest ważna.", "content": [{"heading": "Dane", "text": "Nie zbieramy Twoich danych."}] },
   "common": { "readMore": "Czytaj więcej", "backHome": "Powrót", "pageNotFound": "Nie Znaleziono", "pageNotFoundDesc": "Strona nie istnieje.", "blogTitle": "Blog", "blogSubtitle": "Porady o wizualizacji.", "showing": "Wyświetlanie", "of": "z", "results": "wyników", "previous": "Poprzedni", "next": "Następny", "page": "Strona", "switchLanguage": "Język", "allPosts": "Wszystkie posty" }
 }
+

@@ -10,3 +10,4 @@
   "privacy": { "title": "Integritet", "intro": "Din integritet är viktig.", "content": [{"heading": "Data", "text": "Vi samlar inte in dina data."}] },
   "common": { "readMore": "Läs mer", "backHome": "Tillbaka", "pageNotFound": "Hittades Inte", "pageNotFoundDesc": "Sidan finns inte.", "blogTitle": "Blogg", "blogSubtitle": "Visualiseringstips.", "showing": "Visar", "of": "av", "results": "resultat", "previous": "Föregående", "next": "Nästa", "page": "Sida", "switchLanguage": "Språk", "allPosts": "Alla inlägg" }
 }
+

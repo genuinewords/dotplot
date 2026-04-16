@@ -10,3 +10,4 @@
   "privacy": { "title": "الخصوصية", "intro": "خصوصيتك مهمة.", "content": [{"heading": "البيانات", "text": "لا نجمع بياناتك."}] },
   "common": { "readMore": "اقرأ المزيد", "backHome": "العودة", "pageNotFound": "غير موجود", "pageNotFoundDesc": "الصفحة غير موجودة.", "blogTitle": "المدونة", "blogSubtitle": "نصائح التصور.", "showing": "عرض", "of": "من", "results": "نتائج", "previous": "السابق", "next": "التالي", "page": "صفحة", "switchLanguage": "اللغة", "allPosts": "جميع المقالات" }
 }
+

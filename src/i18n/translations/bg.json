@@ -10,3 +10,4 @@
   "privacy": { "title": "Поверителност", "intro": "Вашата поверителност е важна.", "content": [{"heading": "Данни", "text": "Не събираме вашите данни."}] },
   "common": { "readMore": "Прочети", "backHome": "Назад", "pageNotFound": "Не е намерено", "pageNotFoundDesc": "Страницата не съществува.", "blogTitle": "Блог", "blogSubtitle": "Съвети за визуализация.", "showing": "Показване", "of": "от", "results": "резултати", "previous": "Предишен", "next": "Следващ", "page": "Страница", "switchLanguage": "Език", "allPosts": "Всички статии" }
 }
+

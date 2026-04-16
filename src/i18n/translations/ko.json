@@ -10,3 +10,4 @@
   "privacy": { "title": "개인정보", "intro": "개인정보는 중요합니다.", "content": [{"heading": "데이터", "text": "데이터를 수집하지 않습니다."}] },
   "common": { "readMore": "더 읽기", "backHome": "홈으로", "pageNotFound": "페이지 없음", "pageNotFoundDesc": "페이지가 존재하지 않습니다.", "blogTitle": "블로그", "blogSubtitle": "시각화 팁.", "showing": "표시", "of": "/", "results": "결과", "previous": "이전", "next": "다음", "page": "페이지", "switchLanguage": "언어", "allPosts": "모든 글" }
 }
+

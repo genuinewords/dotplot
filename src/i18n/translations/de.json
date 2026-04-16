@@ -10,3 +10,4 @@
   "privacy": { "title": "Datenschutz", "intro": "Ihre Privatsphäre ist wichtig.", "content": [{"heading": "Daten", "text": "Wir sammeln keine Daten."}, {"heading": "Cookies", "text": "Nur notwendige Cookies."}] },
   "common": { "readMore": "Weiterlesen", "backHome": "Zurück", "pageNotFound": "Nicht Gefunden", "pageNotFoundDesc": "Seite existiert nicht.", "blogTitle": "Blog", "blogSubtitle": "Tipps zur Visualisierung.", "showing": "Zeige", "of": "von", "results": "Ergebnisse", "previous": "Zurück", "next": "Weiter", "page": "Seite", "switchLanguage": "Sprache", "allPosts": "Alle Beiträge" }
 }
+

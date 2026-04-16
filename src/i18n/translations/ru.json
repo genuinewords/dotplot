@@ -10,3 +10,4 @@
   "privacy": { "title": "Конфиденциальность", "intro": "Ваша конфиденциальность важна.", "content": [{"heading": "Данные", "text": "Мы не собираем ваши данные."}, {"heading": "Cookies", "text": "Только необходимые cookie."}] },
   "common": { "readMore": "Читать", "backHome": "На главную", "pageNotFound": "Не найдено", "pageNotFoundDesc": "Страница не существует.", "blogTitle": "Блог", "blogSubtitle": "Советы по визуализации.", "showing": "Показано", "of": "из", "results": "результатов", "previous": "Назад", "next": "Далее", "page": "Стр.", "switchLanguage": "Язык", "allPosts": "Все статьи" }
 }
+

@@ -36,3 +36,4 @@
   "privacy": { "title": "Política de Privacidad", "intro": "Su privacidad es importante para nosotros.", "content": [{ "heading": "Datos", "text": "No recopilamos sus datos de la herramienta." }, { "heading": "Cookies", "text": "Usamos solo cookies esenciales." }] },
   "common": { "readMore": "Leer Más", "backHome": "Volver al Inicio", "pageNotFound": "Página No Encontrada", "pageNotFoundDesc": "La página que busca no existe.", "blogTitle": "Blog", "blogSubtitle": "Consejos sobre visualización de datos.", "showing": "Mostrando", "of": "de", "results": "resultados", "previous": "Anterior", "next": "Siguiente", "page": "Página", "switchLanguage": "Idioma", "allPosts": "Todas las Publicaciones" }
 }
+

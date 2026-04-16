@@ -10,3 +10,4 @@
   "privacy": { "title": "プライバシー", "intro": "プライバシーは重要です。", "content": [{"heading": "データ", "text": "データを収集しません。"}] },
   "common": { "readMore": "続きを読む", "backHome": "ホームへ", "pageNotFound": "ページが見つかりません", "pageNotFoundDesc": "ページは存在しません。", "blogTitle": "ブログ", "blogSubtitle": "可視化のヒント。", "showing": "表示", "of": "/", "results": "件", "previous": "前へ", "next": "次へ", "page": "ページ", "switchLanguage": "言語", "allPosts": "全記事" }
 }
+

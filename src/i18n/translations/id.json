@@ -10,3 +10,4 @@
   "privacy": { "title": "Privasi", "intro": "Privasi Anda penting.", "content": [{"heading": "Data", "text": "Kami tidak mengumpulkan data Anda."}] },
   "common": { "readMore": "Baca selengkapnya", "backHome": "Kembali", "pageNotFound": "Tidak Ditemukan", "pageNotFoundDesc": "Halaman tidak ada.", "blogTitle": "Blog", "blogSubtitle": "Tips visualisasi.", "showing": "Menampilkan", "of": "dari", "results": "hasil", "previous": "Sebelumnya", "next": "Selanjutnya", "page": "Halaman", "switchLanguage": "Bahasa", "allPosts": "Semua pos" }
 }
+

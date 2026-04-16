@@ -10,3 +10,4 @@
   "privacy": { "title": "Gizlilik", "intro": "Gizliliğiniz önemli.", "content": [{"heading": "Veri", "text": "Verilerinizi toplamıyoruz."}] },
   "common": { "readMore": "Devamını oku", "backHome": "Geri", "pageNotFound": "Bulunamadı", "pageNotFoundDesc": "Sayfa mevcut değil.", "blogTitle": "Blog", "blogSubtitle": "Görselleştirme ipuçları.", "showing": "Gösterilen", "of": "/", "results": "sonuç", "previous": "Önceki", "next": "Sonraki", "page": "Sayfa", "switchLanguage": "Dil", "allPosts": "Tüm yazılar" }
 }
+

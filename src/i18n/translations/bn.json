@@ -10,3 +10,4 @@
   "privacy": { "title": "গোপনীয়তা", "intro": "আপনার গোপনীয়তা গুরুত্বপূর্ণ।", "content": [{"heading": "ডেটা", "text": "আমরা আপনার ডেটা সংগ্রহ করি না।"}] },
   "common": { "readMore": "আরো পড়ুন", "backHome": "ফিরে যান", "pageNotFound": "পাওয়া যায়নি", "pageNotFoundDesc": "পৃষ্ঠাটি নেই।", "blogTitle": "ব্লগ", "blogSubtitle": "ভিজ্যুয়ালাইজেশন টিপস।", "showing": "দেখানো হচ্ছে", "of": "এর", "results": "ফলাফল", "previous": "আগের", "next": "পরের", "page": "পৃষ্ঠা", "switchLanguage": "ভাষা", "allPosts": "সব পোস্ট" }
 }
+
