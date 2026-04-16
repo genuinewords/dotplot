@@ -12,10 +12,8 @@ export function getStaticPaths() {
 
 const { locale } = Astro.params;
 ---
-<BaseLayout locale={locale as Locale}>
+<BaseLayout locale={locale as Locale} title="Dot Plot Maker Pro – CSV & Excel Data Import" description="Professional BI-grade dot plot maker with CSV & Excel data import, SVG vector export, and dynamic configuration. Build IEEE-standard high-resolution dot plots online free.">
   <Fragment slot="head">
-    <title>Dot Plot Maker Pro – CSV & Excel Data Import</title>
-    <meta name="description" content="Professional BI-grade dot plot maker with CSV & Excel data import, SVG vector export, and dynamic configuration. Build IEEE-standard high-resolution dot plots online free." />
     <meta name="keywords" content="professional dot plot maker, BI-grade dot plot maker, dot plot maker high-resolution export, dot plot maker for IEEE standards, dot plot maker with Excel upload, csv excel import dot plot, svg vector export dot plot" />
   </Fragment>
 
