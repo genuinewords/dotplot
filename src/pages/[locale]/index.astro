@@ -23,13 +23,22 @@ const locale = getLocaleFromParams(Astro.params) as Locale;
     <div class="hero animate-fade-in-up" style="opacity: 0;">
       <span class="badge">{t(locale, "home.badge")}</span>
       <h1 class="hero-title">{t(locale, "home.h1")}</h1>
-      <p class="hero-intro">{t(locale, "home.intro")}</p>
     </div>
 
     <AdvancedDotPlotTool locale={locale} />
+    
     <HowItWorks locale={locale} />
     <ChartSection locale={locale} />
     <FAQ locale={locale} />
+
+    <!-- Final CTA -->
+    <div class="final-cta">
+      <h2>Dot Plot Maker® - No email required.</h2>
+      <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-top: 2rem;">
+        <a href="#pro-dot-plot-tool" class="btn-primary cta-btn"><span>Build Your Dot Plot</span></a>
+        <a href="/pro" class="btn-secondary cta-btn" style="background: transparent; border: 1px solid var(--color-border); color: var(--color-text-primary);"><span>Try Dot Plot Pro</span></a>
+      </div>
+    </div>
   </div>
 </BaseLayout>
 

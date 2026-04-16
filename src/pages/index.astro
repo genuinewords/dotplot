@@ -1,4 +1,4 @@
-﻿---
+---
 import BaseLayout from "@theme/layouts/BaseLayout.astro";
 import AdvancedDotPlotTool from "@theme/components/AdvancedDotPlotTool.astro";
 import HowItWorks from "@theme/components/HowItWorks.astro";
@@ -20,10 +20,9 @@ const locale = defaultLocale;
     <div class="hero animate-fade-in-up" style="opacity: 0;">
       <span class="badge">{t(locale, "home.badge")}</span>
       <h1 class="hero-title">{t(locale, "home.h1")}</h1>
-      <p class="hero-intro">{t(locale, "home.intro")}</p>
     </div>
 
-    <!-- Advanced Dot Plot Tool -->
+    <!-- Advanced Dot Plot Tool Component -->
     <AdvancedDotPlotTool locale={locale} />
 
     <InteractiveIllustrations />
@@ -33,62 +32,39 @@ const locale = defaultLocale;
       <div class="educational-container">
         <h2 class="section-title edu-title">What is a Dot Plot Maker®?</h2>
         <p class="educational-intro" style="text-align: center; max-width: 600px; margin: 0 auto 2.5rem; color: var(--color-text-secondary); font-size: 1.1rem; line-height: 1.6;">
-          Dot Plot Maker helps you communicate data with clarity and precision. Here is why dot plots are often a stronger choice than other common chart types:
+          Dot Plot Maker® provides a professional, highly customizable interactive environment for instantly visualizing your datasets in just a few clicks.
         </p>
         <ul class="educational-list">
           <li>
             <span class="edu-icon" aria-hidden="true">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <line x1="4" y1="20" x2="20" y2="20"></line>
-                <rect x="6" y="12" width="2.8" height="8" rx="1"></rect>
-                <rect x="10.6" y="9" width="2.8" height="11" rx="1"></rect>
-                <rect x="15.2" y="6" width="2.8" height="14" rx="1"></rect>
-              </svg>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
             </span>
             <div>
-              <strong>Bar Chart:</strong> Bar charts emphasize totals, while dot plots keep exact values visible so small differences are easier to compare.
+              <strong>Instant Data Input:</strong> Manually enter data points seamlessly or instantly paste structured spreadsheet data directly into the tool for immediate rendering.
             </div>
           </li>
           <li>
             <span class="edu-icon" aria-hidden="true">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <line x1="4" y1="20" x2="20" y2="20"></line>
-                <rect x="5" y="14" width="3.2" height="6" rx="0.8"></rect>
-                <rect x="9.3" y="10" width="3.2" height="10" rx="0.8"></rect>
-                <rect x="13.6" y="7" width="3.2" height="13" rx="0.8"></rect>
-              </svg>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
             </span>
             <div>
-              <strong>Histogram:</strong> Histograms group values into bins, but dot plots preserve each original data point for more transparent analysis.
+              <strong>Complete Style Control:</strong> Dynamically adjust dot sizes, customize tool opacities, toggle structural grid lines, and precisely map your base primary color hexes.
             </div>
           </li>
           <li>
             <span class="edu-icon" aria-hidden="true">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <line x1="4" y1="20" x2="20" y2="20"></line>
-                <line x1="12" y1="6" x2="12" y2="20"></line>
-                <rect x="9.2" y="9" width="5.6" height="8.5" rx="1.2"></rect>
-                <line x1="8.2" y1="13.2" x2="9.2" y2="13.2"></line>
-                <line x1="14.8" y1="13.2" x2="15.8" y2="13.2"></line>
-              </svg>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16c0 1.1.9 2 2 2h12a2 2 0 0 0 2-2V8l-6-6z"></path><path d="M14 3v5h5M16 13H8M16 17H8M10 9H8"></path></svg>
             </span>
             <div>
-              <strong>Box Plot:</strong> Box plots summarize distributions, while dot plots let readers inspect individual observations directly.
+              <strong>Live Data Table & Statistics:</strong> Automatically calculated descriptive statistics (Mean, Median, Standard Deviation) alongside a built-in frequency parsing matrix.
             </div>
           </li>
           <li>
             <span class="edu-icon" aria-hidden="true">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <line x1="4" y1="20" x2="20" y2="20"></line>
-                <polyline points="5,16 9,13 13,14.5 19,8"></polyline>
-                <circle cx="5" cy="16" r="0.9" fill="currentColor" stroke="none"></circle>
-                <circle cx="9" cy="13" r="0.9" fill="currentColor" stroke="none"></circle>
-                <circle cx="13" cy="14.5" r="0.9" fill="currentColor" stroke="none"></circle>
-                <circle cx="19" cy="8" r="0.9" fill="currentColor" stroke="none"></circle>
-              </svg>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
             </span>
             <div>
-              <strong>Line Chart:</strong> Line charts focus on trends over time, while dot plots focus on value distribution and frequency across categories.
+              <strong>High-Quality Exports:</strong> Seamlessly download your generated visual as a crystal-clear scalable vector (SVG) or crisp high-resolution image format (PNG) for immediate publication.
             </div>
           </li>
         </ul>
@@ -135,9 +111,13 @@ const locale = defaultLocale;
     <FAQ locale={locale} />
     
     <!-- Final CTA -->
+    <!-- Final CTA -->
     <div class="final-cta">
       <h2>Dot Plot Maker® - No email required.</h2>
-      <a href="#pro-dot-plot-tool" class="btn-primary cta-btn"><span>Build Your Dot Plot</span></a>
+      <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-top: 2rem;">
+        <a href="#pro-dot-plot-tool" class="btn-primary cta-btn"><span>Build Your Dot Plot</span></a>
+        <a href="/pro" class="btn-secondary cta-btn" style="background: transparent; border: 1px solid var(--color-border); color: var(--color-text-primary);"><span>Try Dot Plot Pro</span></a>
+      </div>
     </div>
   </div>
 </BaseLayout>

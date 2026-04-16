@@ -21,6 +21,7 @@
   },
   "headerNav": [
     { "label": "nav.home", "href": "/" },
+    { "label": "nav.pro", "href": "/pro/" },
     { "label": "nav.blog", "href": "/blog/" },
     { "label": "nav.about", "href": "/about-us/" },
     { "label": "nav.contact", "href": "/contact-us/" }

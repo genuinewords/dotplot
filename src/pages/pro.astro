@@ -1,0 +1,77 @@
+---
+import BaseLayout from "@theme/layouts/BaseLayout.astro";
+import ProDotPlotTool from "@theme/components/ProDotPlotTool.astro";
+import FAQ from "@theme/components/FAQ.astro";
+import InteractiveIllustrations from "@theme/components/InteractiveIllustrations.astro";
+import { type Locale } from "@src/i18n/config";
+
+const locale = "en" as Locale;
+---
+<BaseLayout locale={locale}>
+  <Fragment slot="head">
+    <title>Dot Plot Maker Pro | Advanced Tools & Features</title>
+    <meta name="description" content="Dot Plot Maker Pro provides the old advanced, high-performance editor engineered perfectly for precision plotting." />
+  </Fragment>
+
+  <div class="page-content" style="padding: 2rem 1rem; max-width: 1200px; margin: 0 auto; min-height: 80vh;">
+    
+    <header style="text-align: center; margin-bottom: 2.5rem; margin-top: 2rem;">
+      <h1 class="section-title" style="font-size: 3.5rem; margin-bottom: 1rem; font-weight: 800; background: linear-gradient(135deg, var(--color-text-primary), var(--color-primary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+        Dot Plot Maker Pro
+      </h1>
+      <p style="color: var(--color-text-secondary); max-width: 800px; margin: 0 auto; font-size: 1.25rem; line-height: 1.6;">
+        Welcome to the Pro version of Dot Plot Maker. Experience the old advanced, high-performance editor engineered perfectly for precision plotting. Enjoy extended feature-sets and data controls directly suited for academic and BI-grade data publication formats.
+      </p>
+    </header>
+
+    <!-- Embedded Pro Tool (Old Tool) -->
+    <div style="background: var(--color-bg-card); border: 1px solid var(--color-border); border-radius: 16px; overflow: hidden; margin-bottom: 4rem; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);">
+      <ProDotPlotTool locale={locale} />
+    </div>
+    
+    <!-- Details / Features Rich Content -->
+    <section class="pro-features" style="margin-bottom: 5rem;">
+      <h2 class="section-title edu-title" style="text-align: center; font-size: 2.5rem; margin-bottom: 2.5rem;">Why Choose Pro?</h2>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2.5rem;">
+        
+        <div style="background: var(--color-bg-card); padding: 2.5rem; border-radius: 12px; border: 1px solid var(--color-border); transition: transform 0.2s ease;">
+          <h3 style="color: var(--color-text-primary); margin-bottom: 1rem; font-size: 1.4rem;">📊 Excel & CSV Power Loader</h3>
+          <p style="color: var(--color-text-secondary); line-height: 1.6;">
+            Drag and drop or copy-paste directly from Microsoft Excel or Google Sheets. The Pro tool accurately parses massive multivariate datasets instantly to generate heavy duty charts without a sweat.
+          </p>
+        </div>
+        
+        <div style="background: var(--color-bg-card); padding: 2.5rem; border-radius: 12px; border: 1px solid var(--color-border); transition: transform 0.2s ease;">
+          <h3 style="color: var(--color-text-primary); margin-bottom: 1rem; font-size: 1.4rem;">🖼️ Professional Vector Export</h3>
+          <p style="color: var(--color-text-secondary); line-height: 1.6;">
+            Don't let blurry PNGs ruin your academic papers. The Pro feature allows direct-to-SVG vector exports providing crisp, infinite scaling for IEEE publish standards, PDFs, and Figma workflow imports.
+          </p>
+        </div>
+        
+        <div style="background: var(--color-bg-card); padding: 2.5rem; border-radius: 12px; border: 1px solid var(--color-border); transition: transform 0.2s ease;">
+          <h3 style="color: var(--color-text-primary); margin-bottom: 1rem; font-size: 1.4rem;">🎨 Dynamic Styling Adjustments</h3>
+          <p style="color: var(--color-text-secondary); line-height: 1.6;">
+            Total granular control. Effortlessly select specific base colors, precisely toggle axes increments, resize plotting dots dynamically, and style the inner board layouts matching your specific corporate brand guidelines.
+          </p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Additional Interactive Visualizations -->
+    <InteractiveIllustrations />
+
+    <!-- FAQ -->
+    <FAQ locale={locale} />
+
+    <!-- Reciprocal Link SEO Block -->
+    <div class="final-cta" style="text-align: center; margin-top: 4rem; margin-bottom: 2rem; padding: 3rem; background: var(--color-bg-card); border-radius: 12px; border: 1px solid var(--color-border);">
+      <h2 style="margin-bottom: 1.5rem; font-size: 2rem;">Prefer a simpler, faster tool?</h2>
+      <p style="color: var(--color-text-secondary); max-width: 600px; margin: 0 auto 2rem; font-size: 1.1rem;">
+        Sometimes you don't need a heavy duty spreadsheet loader. If you want to instantly paste simple arrays and download quick graphics, use our free basic version!
+      </p>
+      <a href="/" class="btn-primary cta-btn" style="padding: 1rem 2rem; font-size: 1.1rem;"><span>Try Basic Dot Plot Maker®</span></a>
+    </div>
+
+  </div>
+</BaseLayout>
