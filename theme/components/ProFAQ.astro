@@ -1,0 +1,60 @@
+---
+import { type Locale, defaultLocale } from "@src/i18n/config";
+
+interface Props {
+  locale?: Locale;
+}
+
+const { locale = defaultLocale } = Astro.props;
+
+const proFaqs = [
+  {
+    question: "Is Dot Plot Maker Pro fully featured without paying?",
+    answer: "Yes, Dot Plot Maker Pro gives you advanced publishing data visualization capabilities completely free of charge. You can deploy it for your academic analysis without setting up any paywall barriers.",
+    display: true
+  },
+  {
+    question: "What is the primary difference between the basic tool and Pro?",
+    answer: "The Basic Tool provides a quick streamlined path for pasting basic arrays. Dot Plot Maker Pro brings a complete BI-grade environment—supporting robust .CSV /.XLSX spreadsheet parsing, direct vector format exports, dynamic styling layers, and interactive panel layouts.",
+    display: true
+  },
+  {
+    question: "How does the native vector (SVG) export work?",
+    answer: "The Pro editor allows direct-to-SVG vector output. This export creates infinitely scalable graphics, resulting in completely crisp data bounds when importing your final charts into corporate PDFs, presentations, or professional vector software.",
+    display: true
+  },
+  {
+    question: "Does the Pro tool upload my raw datasets to your servers?",
+    answer: "No data is ever stored remotely. Like our basic version, Dot Plot Maker Pro utilizes an entirely client-side processing architecture, ensuring your proprietary multivariate spreadsheets remain secure in your local browser sandbox.",
+    display: true
+  }
+];
+---
+
+<section class="section" id="pro-faq" style="margin-top: 5rem;">
+  <div style="text-align: center;">
+    <h2 class="section-title">Dot Plot Maker Pro FAQs</h2>
+    <p class="section-subtitle" style="margin: 0 auto 3rem;">Clear answers for advanced charting</p>
+  </div>
+
+  <div class="faq-list">
+    {proFaqs.map((faq) => (
+      <details class="faq-item">
+        <summary>{faq.question}</summary>
+        <div class="faq-answer">
+          <p>{faq.answer}</p>
+        </div>
+      </details>
+    ))}
+  </div>
+</section>
+
+<style>
+  .faq-list {
+    max-width: 800px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+</style>

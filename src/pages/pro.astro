@@ -1,7 +1,7 @@
 ---
 import BaseLayout from "@theme/layouts/BaseLayout.astro";
 import ProDotPlotTool from "@theme/components/ProDotPlotTool.astro";
-import FAQ from "@theme/components/FAQ.astro";
+import ProFAQ from "@theme/components/ProFAQ.astro";
 import InteractiveIllustrations from "@theme/components/InteractiveIllustrations.astro";
 import { type Locale } from "@src/i18n/config";
 
@@ -30,27 +30,28 @@ const locale = "en" as Locale;
     </div>
     
     <!-- Details / Features Rich Content -->
-    <section class="pro-features" style="margin-bottom: 5rem;">
-      <h2 class="section-title edu-title" style="text-align: center; font-size: 2.5rem; margin-bottom: 2.5rem;">Why Choose Pro?</h2>
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2.5rem;">
+    <section class="pro-features" style="margin-bottom: 5rem; max-width: 800px; margin: 0 auto;">
+      <h2 class="section-title edu-title" style="text-align: center; font-size: 2.5rem; margin-bottom: 3.5rem;">Why Choose Pro?</h2>
+      
+      <div style="display: flex; flex-direction: column; gap: 3.5rem;">
         
-        <div style="background: var(--color-bg-card); padding: 2.5rem; border-radius: 12px; border: 1px solid var(--color-border); transition: transform 0.2s ease;">
-          <h3 style="color: var(--color-text-primary); margin-bottom: 1rem; font-size: 1.4rem;">📊 Excel & CSV Power Loader</h3>
-          <p style="color: var(--color-text-secondary); line-height: 1.6;">
+        <div style="display: flex; flex-direction: column; md:flex-row; gap: 1.5rem; text-align: left; padding-bottom: 2rem; border-bottom: 1px solid var(--color-border);">
+          <h3 style="color: var(--color-text-primary); font-size: 1.6rem; min-width: 250px; margin-bottom: 0;">📊 Excel & CSV Loading</h3>
+          <p style="color: var(--color-text-secondary); line-height: 1.8; font-size: 1.1rem; flex: 1; margin: 0;">
             Drag and drop or copy-paste directly from Microsoft Excel or Google Sheets. The Pro tool accurately parses massive multivariate datasets instantly to generate heavy duty charts without a sweat.
           </p>
         </div>
         
-        <div style="background: var(--color-bg-card); padding: 2.5rem; border-radius: 12px; border: 1px solid var(--color-border); transition: transform 0.2s ease;">
-          <h3 style="color: var(--color-text-primary); margin-bottom: 1rem; font-size: 1.4rem;">🖼️ Professional Vector Export</h3>
-          <p style="color: var(--color-text-secondary); line-height: 1.6;">
+        <div style="display: flex; flex-direction: column; md:flex-row; gap: 1.5rem; text-align: left; padding-bottom: 2rem; border-bottom: 1px solid var(--color-border);">
+          <h3 style="color: var(--color-text-primary); font-size: 1.6rem; min-width: 250px; margin-bottom: 0;">🖼️ Professional SVG</h3>
+          <p style="color: var(--color-text-secondary); line-height: 1.8; font-size: 1.1rem; flex: 1; margin: 0;">
             Don't let blurry PNGs ruin your academic papers. The Pro feature allows direct-to-SVG vector exports providing crisp, infinite scaling for IEEE publish standards, PDFs, and Figma workflow imports.
           </p>
         </div>
         
-        <div style="background: var(--color-bg-card); padding: 2.5rem; border-radius: 12px; border: 1px solid var(--color-border); transition: transform 0.2s ease;">
-          <h3 style="color: var(--color-text-primary); margin-bottom: 1rem; font-size: 1.4rem;">🎨 Dynamic Styling Adjustments</h3>
-          <p style="color: var(--color-text-secondary); line-height: 1.6;">
+        <div style="display: flex; flex-direction: column; md:flex-row; gap: 1.5rem; text-align: left;">
+          <h3 style="color: var(--color-text-primary); font-size: 1.6rem; min-width: 250px; margin-bottom: 0;">🎨 Dynamic Config</h3>
+          <p style="color: var(--color-text-secondary); line-height: 1.8; font-size: 1.1rem; flex: 1; margin: 0;">
             Total granular control. Effortlessly select specific base colors, precisely toggle axes increments, resize plotting dots dynamically, and style the inner board layouts matching your specific corporate brand guidelines.
           </p>
         </div>
@@ -62,10 +63,10 @@ const locale = "en" as Locale;
     <InteractiveIllustrations />
 
     <!-- FAQ -->
-    <FAQ locale={locale} />
+    <ProFAQ locale={locale} />
 
     <!-- Reciprocal Link SEO Block -->
-    <div class="final-cta" style="text-align: center; margin-top: 4rem; margin-bottom: 2rem; padding: 3rem; background: var(--color-bg-card); border-radius: 12px; border: 1px solid var(--color-border);">
+    <div class="final-cta" style="text-align: center; margin-top: 4rem; margin-bottom: 2rem; padding: 3rem;">
       <h2 style="margin-bottom: 1.5rem; font-size: 2rem;">Prefer a simpler, faster tool?</h2>
       <p style="color: var(--color-text-secondary); max-width: 600px; margin: 0 auto 2rem; font-size: 1.1rem;">
         Sometimes you don't need a heavy duty spreadsheet loader. If you want to instantly paste simple arrays and download quick graphics, use our free basic version!

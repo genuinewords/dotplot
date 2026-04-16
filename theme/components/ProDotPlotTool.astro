@@ -1,4 +1,4 @@
-﻿---
+---
 import { type Locale, defaultLocale } from "@src/i18n/config";
 
 interface Props {
@@ -292,13 +292,13 @@ const { locale = defaultLocale } = Astro.props;
 
 <style>
   :root {
-    --pro-bg: #f8f9fa;
-    --pro-border: #e0e4e8;
-    --pro-panel: #ffffff;
-    --text-dark: #1a1f36;
-    --text-gray: #4f566b;
-    --text-light: #8792a2;
-    --accent-blue: #0052ff;
+    --pro-bg: #0a0f14;
+    --pro-border: #243040;
+    --pro-panel: #151d26;
+    --text-dark: #e8eef4;
+    --text-gray: #a1b0bd;
+    --text-light: #6b7d8f;
+    --accent-blue: #00d4aa;
   }
   
   .pro-tool-section {
@@ -406,10 +406,10 @@ const { locale = defaultLocale } = Astro.props;
   }
 
   /* Break out of Astro scoping using :global() for dynamically injected elements */
-  :global(.jexcel_container) { width: 100% !important; }
-  :global(.jexcel > thead > tr > td) { background-color: #f1f3f5 !important; color: #4f566b !important; font-weight: 600 !important; font-size: 13px !important; }
-  :global(.jexcel > tbody > tr > td) { color: #000000 !important; font-size: 13px !important; font-weight: 500 !important; background-color: #ffffff !important; }
-  :global(.jexcel > tbody > tr > td.readonly) { color: #000000 !important; }
+  :global(.jexcel_container) { width: 100% !important; border: none !important; }
+  :global(.jexcel > thead > tr > td) { background-color: #243040 !important; color: #a1b0bd !important; font-weight: 600 !important; font-size: 13px !important; border: 1px solid #1a222c !important; }
+  :global(.jexcel > tbody > tr > td) { color: #e8eef4 !important; font-size: 13px !important; font-weight: 500 !important; background-color: #1a222c !important; border: 1px solid #243040 !important; }
+  :global(.jexcel > tbody > tr > td.readonly) { color: #8792a2 !important; }
   
   /* Center Panel */
   .panel-center {
@@ -423,7 +423,7 @@ const { locale = defaultLocale } = Astro.props;
   /* Preview Toolbar */
   .preview-toolbar {
     height: 48px;
-    background: #fff;
+    background: var(--pro-panel);
     border-bottom: 1px solid var(--pro-border);
     display: flex;
     align-items: center;
@@ -437,8 +437,8 @@ const { locale = defaultLocale } = Astro.props;
     align-items: center;
     gap: 6px;
     padding: 6px 12px;
-    background: #f1f3f5;
-    border: 1px solid transparent;
+    background: var(--pro-bg);
+    border: 1px solid var(--pro-border);
     border-radius: 6px;
     color: var(--text-dark);
     font-size: 13px;
@@ -463,7 +463,7 @@ const { locale = defaultLocale } = Astro.props;
     padding: 6px 28px 6px 10px;
     border-radius: 6px;
     border: 1px solid #e0e4e8;
-    background: #fff;
+    background: var(--pro-panel);
     font-size: 13px;
     font-weight: 500;
     color: var(--text-dark);
@@ -481,7 +481,7 @@ const { locale = defaultLocale } = Astro.props;
     top: 100%;
     left: 0;
     margin-top: 4px;
-    background: #fff;
+    background: var(--pro-panel);
     border: 1px solid var(--pro-border);
     border-radius: 6px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.1);
@@ -501,8 +501,8 @@ const { locale = defaultLocale } = Astro.props;
     color: var(--text-dark);
     cursor: pointer;
   }
-  .dropdown-item:hover { background: #f1f3f5; }
-  .dropdown-item.active { background: var(--accent-blue); color: #fff; }
+  .dropdown-item:hover { background: var(--pro-border); }
+  .dropdown-item.active { background: var(--accent-blue); color: var(--text-dark); }
   
   /* Chart Canvas Area */
   .chart-scroll-area {
@@ -526,7 +526,7 @@ const { locale = defaultLocale } = Astro.props;
     width: 600px;
     height: 500px;
     max-width: 100%;
-    background: #fff;
+    background: var(--pro-panel);
     border: 1px solid var(--pro-border);
     box-shadow: 0 4px 12px rgba(0,0,0,0.03);
     border-radius: 4px;
@@ -535,7 +535,7 @@ const { locale = defaultLocale } = Astro.props;
   /* Right Panel */
   .panel-right {
     border-left: 1px solid var(--pro-border);
-    background: #fafbfb;
+    background: var(--pro-panel);
     width: 340px;
     flex-shrink: 0;
     overflow-y: auto;
@@ -547,7 +547,7 @@ const { locale = defaultLocale } = Astro.props;
     align-items: center;
     justify-content: space-between;
     padding: 0.6rem 1rem;
-    background: #fff;
+    background: var(--pro-panel);
     border-bottom: 1px solid var(--pro-border);
   }
   .chart-type-info {
@@ -562,7 +562,7 @@ const { locale = defaultLocale } = Astro.props;
   }
   .action-btn {
     padding: 6px 12px;
-    background: #f1f3f5;
+    background: var(--pro-bg);
     border: none;
     border-radius: 4px;
     font-size: 12px;
@@ -640,7 +640,7 @@ const { locale = defaultLocale } = Astro.props;
   .chk-box {
     width: 18px; height: 18px; border: 2px solid #b0b6c2; border-radius: 4px;
     display: flex; align-items: center; justify-content: center; transition: all 0.2s;
-    background: #fff;
+    background: var(--pro-panel);
   }
   .chk-box svg { width: 12px; height: 12px; stroke: white; stroke-width: 3; fill: none; stroke-linecap: round; stroke-linejoin: round; opacity: 0; }
   .custom-checkbox:hover .chk-box { border-color: var(--text-gray); }
@@ -655,7 +655,7 @@ const { locale = defaultLocale } = Astro.props;
   }
   .toggle-buttons {
     display: flex;
-    background: #eaedf1;
+    background: var(--pro-bg);
     border-radius: 6px;
     padding: 3px;
     gap: 2px;
@@ -686,7 +686,7 @@ const { locale = defaultLocale } = Astro.props;
   }
   .accordion.alt {
     border: 1px solid var(--pro-border);
-    background: #fff;
+    background: var(--pro-panel);
     margin: 0 0 0.5rem 0;
     border-radius: 6px;
     box-shadow: 0 1px 2px rgba(0,0,0,0.02);
@@ -1244,7 +1244,7 @@ const { locale = defaultLocale } = Astro.props;
         }
 
         const option = {
-            backgroundColor: '#ffffff',
+            backgroundColor: 'transparent',
             animation: false,
             tooltip: {
                 trigger: 'item',
