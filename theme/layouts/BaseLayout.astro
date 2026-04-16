@@ -28,6 +28,15 @@ const description = Astro.props.description || t(locale, "site.description");
 const dir = isRtl(locale) ? "rtl" : "ltr";
 const ogLocale = ogLocaleMap[locale] || "en_US";
 const fullTitle = title.includes(siteConfig.siteName) ? title : `${title} | ${siteConfig.siteName}`;
+const siteOrigin = new URL(siteConfig.siteUrl).origin;
+
+function normalizeCanonicalUrl(urlValue: string): string {
+  const parsed = new URL(urlValue, siteConfig.siteUrl);
+  const pathname = parsed.pathname.endsWith("/") ? parsed.pathname : `${parsed.pathname}/`;
+  return `${siteOrigin}${pathname}`;
+}
+
+const resolvedCanonicalUrl = normalizeCanonicalUrl(canonicalUrl);
 ---
 
 <!doctype html>
@@ -46,7 +55,7 @@ const fullTitle = title.includes(siteConfig.siteName) ? title : `${title} | ${si
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
 
     <!-- Canonical -->
-    <link rel="canonical" href={canonicalUrl} />
+    <link rel="canonical" href={resolvedCanonicalUrl} />
 
     <!-- Robots -->
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
@@ -69,7 +78,7 @@ const fullTitle = title.includes(siteConfig.siteName) ? title : `${title} | ${si
     <!-- Open Graph -->
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
-    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:url" content={resolvedCanonicalUrl} />
     <meta property="og:site_name" content={siteConfig.siteName} />
     <meta property="og:locale" content={ogLocale} />
     <meta property="og:image" content={`${siteConfig.siteUrl}${siteConfig.metaImage}`} />
@@ -115,7 +124,7 @@ const fullTitle = title.includes(siteConfig.siteName) ? title : `${title} | ${si
         "@context": "https://schema.org",
         "@type": "AboutPage",
         name: t(locale, "about.title"),
-        url: canonicalUrl,
+        url: resolvedCanonicalUrl,
         description: t(locale, "about.intro"),
       })} />
     )}
@@ -124,7 +133,7 @@ const fullTitle = title.includes(siteConfig.siteName) ? title : `${title} | ${si
         "@context": "https://schema.org",
         "@type": "ContactPage",
         name: t(locale, "contact.title"),
-        url: canonicalUrl,
+        url: resolvedCanonicalUrl,
         description: t(locale, "contact.intro"),
       })} />
     )}
