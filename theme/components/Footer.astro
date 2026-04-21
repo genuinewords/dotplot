@@ -35,7 +35,7 @@ const hasSocials = Object.values(siteConfig.social).some(Boolean);
 
       <!-- Nav Column -->
       <div class="footer-nav-col">
-        <h4 class="footer-heading">{t(locale, "nav.home")}</h4>
+        <p class="footer-heading">{t(locale, "nav.home")}</p>
         <nav class="footer-nav" aria-label="Footer navigation">
           {siteConfig.footerNav.map((item: any) => (
             <a href={item.href} class="footer-link">{t(locale, item.label)}</a>
@@ -45,7 +45,7 @@ const hasSocials = Object.values(siteConfig.social).some(Boolean);
 
       <!-- Language Column -->
       <div class="footer-lang-col">
-        <h4 class="footer-heading">{t(locale, "common.switchLanguage")}</h4>
+        <p class="footer-heading">{t(locale, "common.switchLanguage")}</p>
         <LanguageSwitcher locale={locale} />
       </div>
     </div>

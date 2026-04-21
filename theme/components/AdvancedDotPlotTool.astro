@@ -349,7 +349,7 @@ const { locale = defaultLocale } = Astro.props;
           
           <div class="space-y-4">
             <div>
-              <label class="block text-sm mb-2 flex justify-between" style="color: var(--muted);">
+              <label for="dot-size" class="block text-sm mb-2 flex justify-between" style="color: var(--muted);">
                 <span>Dot Size</span>
                 <span id="dot-size-value" class="font-mono" style="color: var(--accent);">10</span>
               </label>
@@ -357,7 +357,7 @@ const { locale = defaultLocale } = Astro.props;
             </div>
             
             <div>
-              <label class="block text-sm mb-2 flex justify-between" style="color: var(--muted);">
+              <label for="dot-opacity" class="block text-sm mb-2 flex justify-between" style="color: var(--muted);">
                 <span>Dot Opacity</span>
                 <span id="dot-opacity-value" class="font-mono" style="color: var(--accent);">0.8</span>
               </label>
@@ -365,7 +365,7 @@ const { locale = defaultLocale } = Astro.props;
             </div>
             
             <div>
-              <label class="block text-sm mb-2" style="color: var(--muted);">Primary Color</label>
+              <label for="color-picker" class="block text-sm mb-2" style="color: var(--muted);">Primary Color</label>
               <div class="flex items-center gap-3">
                 <div class="color-picker-wrapper">
                   <input type="color" id="color-picker" value="#00d4aa" onchange="updatePlot()">
