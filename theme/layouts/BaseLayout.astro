@@ -4,6 +4,7 @@ import Footer from "@theme/components/Footer.astro";
 import "@fontsource-variable/inter";
 import "@fontsource-variable/jetbrains-mono";
 import "@src/styles/global.css";
+import interLatinWoff2 from "@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url";
 import { defaultLocale, isRtl, ogLocaleMap, type Locale } from "@src/i18n/config";
 import { t } from "@src/i18n/utils";
 import siteConfig from "@src/config/site.json";
@@ -52,6 +53,7 @@ const resolvedCanonicalUrl = normalizeCanonicalUrl(canonicalUrl);
     <meta name="description" content={description} />
 
     <!-- Self-hosted fonts via @fontsource -->
+    <link rel="preload" href={interLatinWoff2} as="font" type="font/woff2" crossorigin />
 
     <!-- Canonical -->
     <link rel="canonical" href={resolvedCanonicalUrl} />
