@@ -214,11 +214,7 @@ const locale = (Astro.params.locale ?? "en") as Locale;
     <ProFAQ locale={locale as Locale} />
 
     <!-- Reciprocal Link SEO Block -->
-    <div class="final-cta" style="text-align: center; margin-top: 4rem; margin-bottom: 2rem; padding: 3rem;">
-      <h2 style="margin-bottom: 1.5rem; font-size: 2rem;">Prefer a simpler, faster tool?</h2>
-      <p style="color: var(--color-text-secondary); max-width: 600px; margin: 0 auto 2rem; font-size: 1.1rem;">
-        Sometimes you don't need a heavy duty spreadsheet loader. If you want to instantly paste simple arrays and download quick graphics, use our free basic version!
-      </p>
+    <div class="final-cta" style="text-align: center; margin-top: 2rem; padding: 2rem 1rem;">
       <a href="/" class="btn-primary cta-btn" style="padding: 1rem 2rem; font-size: 1.1rem;"><span>Try Basic Dot Plot Maker®</span></a>
     </div>
 
@@ -413,11 +409,6 @@ const locale = (Astro.params.locale ?? "en") as Locale;
   }
 
   /* ── CTA ── */
-  .final-cta {
-    border-top: 1px solid var(--color-border);
-    background: linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(0, 212, 170, 0.04) 100%);
-    border-radius: 16px;
-  }
   .cta-btn {
     display: inline-block;
     padding: 1rem 2.5rem;
@@ -453,9 +444,6 @@ const locale = (Astro.params.locale ?? "en") as Locale;
     }
     .pro-keywords-grid {
       grid-template-columns: 1fr;
-    }
-    .final-cta {
-      padding: 2rem 1rem !important;
     }
   }
   @media (min-width: 769px) and (max-width: 1024px) {
