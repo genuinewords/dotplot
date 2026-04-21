@@ -1,3 +1,11 @@
 {
-  "cleanUrls": false
+  "cleanUrls": false,
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "dotplotmaker.com" }],
+      "destination": "https://www.dotplotmaker.com/:path",
+      "permanent": true
+    }
+  ]
 }
