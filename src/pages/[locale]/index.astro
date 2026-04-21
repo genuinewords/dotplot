@@ -16,7 +16,7 @@ export function getStaticPaths() {
 const locale = getLocaleFromParams(Astro.params) as Locale;
 ---
 
-<BaseLayout locale={locale}>
+<BaseLayout locale={locale} title={t(locale, "home.title")} description={t(locale, "home.description")}>
   <HomepageSchema locale={locale} slot="head" />
 
   <div class="page-content">

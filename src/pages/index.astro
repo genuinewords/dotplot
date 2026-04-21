@@ -12,7 +12,7 @@ import { t } from "@src/i18n/utils";
 const locale = defaultLocale;
 ---
 
-<BaseLayout locale={locale} title="Dot Plot Maker® - Free Online Dot Plot Chart Creator & Generator" description="Create beautiful dot plots instantly with our free online dot plot maker. No signup required. Export as SVG or PNG. Perfect for statistics, education, and research.">
+<BaseLayout locale={locale} title={t(locale, "home.title")} description={t(locale, "home.description")}>
   <HomepageSchema locale={locale} slot="head" />
 
   <div class="page-content">
