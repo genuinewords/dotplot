@@ -4,7 +4,7 @@
   "footer": { "description": "Herramienta gratuita en línea para crear diagramas de puntos. Cree, personalice y descargue hermosos diagramas de puntos.", "copyright": "Todos los derechos reservados." },
   "home": {
     "title": "Dot Plot Maker® – Crea diagramas de puntos gratis online",
-    "description": "Cree hermosos diagramas de puntos al instante con nuestro generador gratuito en línea. Sin registro. Exporte como SVG o PNG. Ideal para estadística, educación e investigación.",
+    "description": "Cree hermosos diagramas de puntos al instante con nuestro generador gratuito. Sin registro. Exporte como SVG o PNG. Ideal para estadística e investigación.",
     "badge": "Herramienta Gratuita",
     "h1": "Cree Hermosos Diagramas de Puntos al Instante",
     "intro": "Ingrese sus datos a continuación y observe cómo nuestra herramienta transforma números en visualizaciones claras.",
@@ -29,7 +29,7 @@
   },
   "pro": {
     "title": "Dot Plot Maker® Pro – Herramienta avanzada CSV y SVG",
-    "description": "Creador profesional de diagramas de puntos con importación CSV y Excel, exportación SVG y configuración dinámica. Cree diagramas de alta resolución gratis online."
+    "description": "Creador profesional de diagramas de puntos con importación CSV y Excel, exportación SVG y configuración dinámica. Alta resolución gratis online."
   },
   "faq": [
     { "question": "¿Qué es un diagrama de puntos?", "answer": "Un diagrama de puntos es un gráfico estadístico que muestra datos en una línea numérica. Cada valor se representa con un punto.", "display": true },

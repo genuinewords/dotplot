@@ -19,7 +19,7 @@
   },
   "home": {
     "title": "Dot Plot Maker® – Free Online Dot Plot Chart Creator",
-    "description": "Create beautiful dot plots instantly with our free online dot plot maker. No signup required. Export as SVG or PNG. Perfect for statistics, education, and research.",
+    "description": "Create beautiful dot plots instantly with our free online tool. No signup. Export as SVG or PNG. Perfect for statistics, education, and research.",
     "badge": "Free Online Tool",
     "h1": "Dot Plot Maker – Instant Beautiful Dot Plots",
     "intro": "Transform your raw data into professional, publication-ready Cleveland dot plots. Simply paste your data, upload a spreadsheet, and customize your chart using our interactive BI-grade editor.",
@@ -133,7 +133,7 @@
   ],
   "about": {
     "title": "About Dot Plot Maker®",
-    "intro": "Dot Plot Maker® is a free online tool designed to make data visualization accessible to everyone. Whether you are a student learning statistics, a researcher analyzing data, or a professional preparing a presentation, our tool helps you create beautiful dot plots in seconds.",
+    "intro": "Dot Plot Maker® is a free online tool that makes data visualization accessible to everyone. Create beautiful dot plots in seconds.",
     "missionTitle": "Our Mission",
     "missionText": "We believe data visualization should be simple, free, and accessible. Our mission is to provide high-quality statistical visualization tools that anyone can use without specialized software, coding knowledge, or expensive subscriptions.",
     "whyTitle": "Why Dot Plot Maker®?",
@@ -230,7 +230,7 @@
   },
   "pro": {
     "title": "Dot Plot Maker® Pro – Advanced CSV & SVG Export Tool",
-    "description": "Professional BI-grade dot plot maker with CSV & Excel data import, SVG vector export, and dynamic configuration. Build IEEE-standard high-resolution dot plots online free."
+    "description": "Professional dot plot maker with CSV & Excel import, SVG export, and dynamic config. Build high-resolution dot plots online free."
   },
   "common": {
     "readMore": "Read More",
