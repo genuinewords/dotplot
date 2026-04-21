@@ -1,8 +1,8 @@
 ---
 import { type Locale, defaultLocale } from "@src/i18n/config";
 import "@fontsource-variable/space-grotesk";
-import "@fontsource/ibm-plex-mono/latin-400.css";
-import "@fontsource/ibm-plex-mono/latin-500.css";
+import ibmPlexMono400Url from "@fontsource/ibm-plex-mono/files/ibm-plex-mono-latin-400-normal.woff2?url";
+import ibmPlexMono500Url from "@fontsource/ibm-plex-mono/files/ibm-plex-mono-latin-500-normal.woff2?url";
 
 interface Props {
   locale?: Locale;
@@ -12,6 +12,7 @@ const { locale = defaultLocale } = Astro.props;
 ---
 
 <section id="pro-dot-plot-tool" class="dotplot-wrapper">
+  <span id="ibm-plex-mono-urls" data-w400={ibmPlexMono400Url} data-w500={ibmPlexMono500Url} style="display:none" aria-hidden="true"></span>
   
   <style is:inline>
     .dotplot-wrapper {
@@ -474,6 +475,16 @@ const { locale = defaultLocale } = Astro.props;
   </div>
 
   <script is:inline>
+    (function() {
+      var fontUrls = document.getElementById('ibm-plex-mono-urls');
+      if (fontUrls) {
+        var w400 = fontUrls.dataset.w400;
+        var w500 = fontUrls.dataset.w500;
+        if (w400) new FontFace('IBM Plex Mono', 'url(' + w400 + ')', { weight: '400', display: 'swap' }).load().then(function(f) { document.fonts.add(f); });
+        if (w500) new FontFace('IBM Plex Mono', 'url(' + w500 + ')', { weight: '500', display: 'swap' }).load().then(function(f) { document.fonts.add(f); });
+      }
+    })();
+
     const state = {
       datasets: [],
       currentColor: '#00d4aa',
