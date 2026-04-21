@@ -1,6 +1,8 @@
 ---
 import Header from "@theme/components/Header.astro";
 import Footer from "@theme/components/Footer.astro";
+import "@fontsource-variable/inter";
+import "@fontsource-variable/jetbrains-mono";
 import "@src/styles/global.css";
 import { defaultLocale, isRtl, ogLocaleMap, type Locale } from "@src/i18n/config";
 import { t } from "@src/i18n/utils";
@@ -49,10 +51,7 @@ const resolvedCanonicalUrl = normalizeCanonicalUrl(canonicalUrl);
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
 
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+    <!-- Self-hosted fonts via @fontsource -->
 
     <!-- Canonical -->
     <link rel="canonical" href={resolvedCanonicalUrl} />

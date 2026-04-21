@@ -1,5 +1,8 @@
 ---
 import { type Locale, defaultLocale } from "@src/i18n/config";
+import "@fontsource-variable/space-grotesk";
+import "@fontsource/ibm-plex-mono/400.css";
+import "@fontsource/ibm-plex-mono/500.css";
 
 interface Props {
   locale?: Locale;
@@ -9,7 +12,6 @@ const { locale = defaultLocale } = Astro.props;
 ---
 
 <section id="pro-dot-plot-tool" class="dotplot-wrapper">
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
   
   <style is:inline>
     .dotplot-wrapper {
