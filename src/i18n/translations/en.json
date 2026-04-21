@@ -228,6 +228,10 @@
       }
     ]
   },
+  "pro": {
+    "title": "Dot Plot Maker® Pro – Advanced CSV & SVG Export Tool",
+    "description": "Professional BI-grade dot plot maker with CSV & Excel data import, SVG vector export, and dynamic configuration. Build IEEE-standard high-resolution dot plots online free."
+  },
   "common": {
     "readMore": "Read More",
     "backHome": "Back to Home",

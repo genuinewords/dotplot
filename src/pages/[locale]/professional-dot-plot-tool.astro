@@ -4,15 +4,16 @@ import ProDotPlotTool from "@theme/components/ProDotPlotTool.astro";
 import ProFAQ from "@theme/components/ProFAQ.astro";
 import InteractiveIllustrations from "@theme/components/InteractiveIllustrations.astro";
 import { getStaticLocalePaths } from "@src/i18n/utils";
+import { t } from "@src/i18n/utils";
 import { type Locale } from "@src/i18n/config";
 
 export function getStaticPaths() {
   return getStaticLocalePaths();
 }
 
-const { locale } = Astro.params;
+const locale = (Astro.params.locale ?? "en") as Locale;
 ---
-<BaseLayout locale={locale as Locale} title="Professional Dot Plot Tool – CSV, SVG, Large Data" description="Professional BI-grade dot plot maker with CSV & Excel data import, SVG vector export, and dynamic configuration. Build IEEE-standard high-resolution dot plots online free.">
+<BaseLayout locale={locale} title={t(locale, "pro.title")} description={t(locale, "pro.description")}>
   <Fragment slot="head">
     <meta name="keywords" content="professional dot plot maker, BI-grade dot plot maker, dot plot maker high-resolution export, dot plot maker for IEEE standards, dot plot maker with Excel upload, csv excel import dot plot, svg vector export dot plot" />
   </Fragment>

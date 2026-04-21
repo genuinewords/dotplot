@@ -27,6 +27,10 @@
     ],
     "faqTitle": "Preguntas Frecuentes", "faqSubtitle": "Todo sobre diagramas de puntos y nuestra herramienta"
   },
+  "pro": {
+    "title": "Dot Plot Maker® Pro – Herramienta avanzada CSV y SVG",
+    "description": "Creador profesional de diagramas de puntos con importación CSV y Excel, exportación SVG y configuración dinámica. Cree diagramas de alta resolución gratis online."
+  },
   "faq": [
     { "question": "¿Qué es un diagrama de puntos?", "answer": "Un diagrama de puntos es un gráfico estadístico que muestra datos en una línea numérica. Cada valor se representa con un punto.", "display": true },
     { "question": "¿Es gratuito?", "answer": "Sí, es completamente gratuito. Sin cargos ocultos ni cuenta requerida.", "display": true },
