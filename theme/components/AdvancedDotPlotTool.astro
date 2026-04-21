@@ -495,9 +495,7 @@ const { locale = defaultLocale } = Astro.props;
       const tooltip = document.getElementById('tooltip');
 
       function init() {
-        resizeCanvas();
-        window.addEventListener('resize', resizeCanvas);
-        addDataset();
+        window.addEventListener('resize', debounce(resizeCanvas, 100));
         canvas.addEventListener('mousemove', handleMouseMove);
         canvas.addEventListener('mouseleave', () => { tooltip.classList.remove('visible'); });
 
@@ -515,20 +513,27 @@ const { locale = defaultLocale } = Astro.props;
           document.getElementById('color-hex').textContent = this.value;
           updatePlot();
         });
+
+        requestAnimationFrame(() => {
+          resizeCanvas();
+          addDataset();
+        });
       }
 
       function resizeCanvas() {
         const container = canvas.parentElement;
         const dpr = window.devicePixelRatio || 1;
         const rect = container.getBoundingClientRect();
-        
-        canvas.width = rect.width * dpr;
-        canvas.height = Math.max(480, rect.height) * dpr;
-        canvas.style.width = rect.width + 'px';
-        canvas.style.height = Math.max(480, rect.height) + 'px';
-        
+        const w = rect.width;
+        const h = Math.max(480, rect.height);
+
+        canvas.width = w * dpr;
+        canvas.height = h * dpr;
+        canvas.style.width = w + 'px';
+        canvas.style.height = h + 'px';
+
         ctx.scale(dpr, dpr);
-        updatePlot();
+        requestAnimationFrame(updatePlot);
       }
 
       window.switchDotplotTab = function(tab) {
@@ -800,8 +805,7 @@ const { locale = defaultLocale } = Astro.props;
         return function(...args) { clearTimeout(timeout); timeout = setTimeout(() => func(...args), wait); };
       }
 
-      // Initialize delay to ensure styles loaded
-      setTimeout(init, 100);
+      requestAnimationFrame(init);
     }
   </script>
 </section>
