@@ -10,10 +10,12 @@ const locale = defaultLocale;
 // Static pages (excluding dynamic routes and 404)
 const staticPages = [
   { label: t(locale, "nav.home"), href: "/" },
+  { label: t(locale, "nav.pro"), href: "/professional-dot-plot-tool/" },
   { label: t(locale, "nav.about"), href: "/about-us/" },
   { label: t(locale, "nav.contact"), href: "/contact-us/" },
   { label: t(locale, "nav.terms"), href: "/terms/" },
   { label: t(locale, "nav.privacy"), href: "/privacy/" },
+  { label: t(locale, "nav.sitemap"), href: "/sitemap/" },
   { label: t(locale, "nav.blog"), href: "/blog/" },
 ];
 
@@ -22,6 +24,14 @@ const localeLinks = locales.map((loc) => ({
   label: localeNames[loc],
   href: getLocaleHomeUrl(loc),
 }));
+
+// Localized professional tool pages
+const localeProLinks = locales
+  .filter((l) => l !== defaultLocale)
+  .map((loc) => ({
+    label: localeNames[loc],
+    href: `/${loc}/professional-dot-plot-tool/`,
+  }));
 
 // Blog posts
 let blogLinks: { label: string; href: string }[] = [];
@@ -62,6 +72,18 @@ try {
           ))}
         </ul>
       </section>
+
+      <!-- Localized Professional Tool Pages -->
+      {localeProLinks.length > 0 && (
+        <section class="sitemap-section">
+          <h2>{t(locale, "nav.pro")} — {t(locale, "common.switchLanguage")}</h2>
+          <ul class="sitemap-list sitemap-grid">
+            {localeProLinks.map((link) => (
+              <li><a href={link.href}>{link.label}</a></li>
+            ))}
+          </ul>
+        </section>
+      )}
 
       <!-- Blog Posts -->
       {blogLinks.length > 0 && (
