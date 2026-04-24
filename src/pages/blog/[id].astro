@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "@theme/layouts/BaseLayout.astro";
 import WhiskerPlotTool from "@theme/components/WhiskerPlotTool.astro";
+import RealDotPlotExamples from "@theme/components/RealDotPlotExamples.astro";
 import { getCollection, render } from "astro:content";
 import { defaultLocale } from "@src/i18n/config";
 import siteConfig from "@src/config/site.json";
@@ -17,7 +18,7 @@ const { post } = Astro.props;
 const { Content } = await render(post);
 const locale = defaultLocale;
 const canonicalUrl = `${siteConfig.siteUrl}/blog/${post.id}/`;
-const isHybrid = post.data.category === "Statistics" || post.id.includes("whisker");
+const isHybrid = post.data.category === "Statistics" || post.id.includes("whisker") || post.id.includes("real-world");
 
 // Article Schema
 const articleSchema = {
@@ -105,7 +106,8 @@ const breadcrumbSchema = {
       <Content />
     </div>
 
-    {isHybrid && <WhiskerPlotTool />}
+    {isHybrid && post.id.includes("whisker") && <WhiskerPlotTool />}
+    {isHybrid && post.id.includes("real-world") && <RealDotPlotExamples />}
 
     <!-- Back link -->
     <div class="post-back">

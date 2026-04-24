@@ -6,6 +6,11 @@
       "has": [{ "type": "host", "value": "dotplotmaker.com" }],
       "destination": "https://www.dotplotmaker.com/:path",
       "permanent": true
+    },
+    {
+      "source": "/real-world-dot-plot-examples",
+      "destination": "/blog/real-world-dot-plot-examples/",
+      "permanent": true
     }
   ]
 }
