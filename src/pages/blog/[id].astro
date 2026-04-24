@@ -2,6 +2,9 @@
 import BaseLayout from "@theme/layouts/BaseLayout.astro";
 import WhiskerPlotTool from "@theme/components/WhiskerPlotTool.astro";
 import RealDotPlotExamples from "@theme/components/RealDotPlotExamples.astro";
+import CompareDotPlotTool from "@theme/components/CompareDotPlotTool.astro";
+import StatisticsDotPlotVisualizer from "@theme/components/StatisticsDotPlotVisualizer.astro";
+import OutlierDotPlotTool from "@theme/components/OutlierDotPlotTool.astro";
 import { getCollection, render } from "astro:content";
 import { defaultLocale } from "@src/i18n/config";
 import siteConfig from "@src/config/site.json";
@@ -18,7 +21,7 @@ const { post } = Astro.props;
 const { Content } = await render(post);
 const locale = defaultLocale;
 const canonicalUrl = `${siteConfig.siteUrl}/blog/${post.id}/`;
-const isHybrid = post.data.category === "Statistics" || post.id.includes("whisker") || post.id.includes("real-world");
+const isHybrid = post.data.category === "Statistics" || post.id.includes("whisker") || post.id.includes("real-world") || post.id.includes("compare-dot") || post.id.includes("statistics-dot") || post.id.includes("outlier-dot");
 
 // Article Schema
 const articleSchema = {
@@ -108,6 +111,9 @@ const breadcrumbSchema = {
 
     {isHybrid && post.id.includes("whisker") && <WhiskerPlotTool />}
     {isHybrid && post.id.includes("real-world") && <RealDotPlotExamples />}
+    {isHybrid && post.id.includes("compare-dot") && <CompareDotPlotTool />}
+    {isHybrid && post.id.includes("statistics-dot") && <StatisticsDotPlotVisualizer />}
+    {isHybrid && post.id.includes("outlier-dot") && <OutlierDotPlotTool />}
 
     <!-- Back link -->
     <div class="post-back">

@@ -1,0 +1,231 @@
+---
+---
+
+<div id="outlier-tool" class="out-wrapper">
+  <style is:inline>
+    .out-wrapper {
+      --bg: #0a0f14; --bg-elevated: #111920; --fg: #e8eef4; --muted: #6b7d8f;
+      --accent: #00d4aa; --card: #151d26; --border: #243040;
+      --purple: #8b5cf6; --red: #ff6b6b; --orange: #f59e0b;
+      font-family: 'Inter', system-ui, sans-serif;
+      background: var(--bg); color: var(--fg); position: relative; overflow: hidden;
+      border-radius: 16px; margin: 2rem auto; max-width: 900px; padding: 2rem;
+      box-shadow: 0 20px 40px -12px rgba(0,212,170,0.1), 0 0 0 1px rgba(255,255,255,0.07);
+    }
+    .out-wrapper * { box-sizing: border-box; }
+    .out-wrapper .out-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem; flex-wrap: wrap; gap: 0.5rem; }
+    .out-wrapper .out-header h3 { font-size: 1.1rem; font-weight: 700; color: var(--accent); margin: 0; }
+    .out-wrapper .out-header span { font-size: 0.8rem; color: var(--muted); }
+    .out-wrapper .out-tabs { display: flex; gap: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap; }
+    .out-wrapper .out-tab {
+      padding: 0.55rem 1.1rem; border: 1px solid var(--border); border-radius: 10px;
+      background: var(--card); color: var(--muted); font-size: 0.82rem; font-weight: 500;
+      cursor: pointer; transition: all 0.2s;
+    }
+    .out-wrapper .out-tab:hover { border-color: var(--accent); color: var(--fg); }
+    .out-wrapper .out-tab.active { background: rgba(0,212,170,0.15); border-color: var(--accent); color: var(--accent); }
+    .out-wrapper .out-input-row { display: flex; gap: 0.75rem; margin-bottom: 1.25rem; flex-wrap: wrap; }
+    .out-wrapper .out-input {
+      flex: 1; min-width: 200px; background: var(--card); border: 1px solid var(--border);
+      border-radius: 10px; padding: 0.75rem 1rem; color: var(--fg); font-size: 0.88rem;
+      outline: none; transition: border-color 0.2s; font-family: 'IBM Plex Mono', monospace;
+    }
+    .out-wrapper .out-input:focus { border-color: var(--accent); }
+    .out-wrapper .out-input::placeholder { color: var(--muted); }
+    .out-wrapper .out-btn { padding: 0.7rem 1.4rem; border: none; border-radius: 10px; font-weight: 600; font-size: 0.88rem; cursor: pointer; transition: all 0.2s; }
+    .out-wrapper .out-btn-primary { background: linear-gradient(135deg, var(--accent), #00b894); color: #0a0f14; }
+    .out-wrapper .out-btn-primary:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(0,212,170,0.3); }
+    .out-wrapper .out-btn-secondary { background: var(--card); color: var(--fg); border: 1px solid var(--border); }
+    .out-wrapper .out-btn-secondary:hover { border-color: var(--accent); }
+    .out-wrapper .out-chart-area {
+      background: var(--bg-elevated); border: 1px solid var(--border); border-radius: 12px;
+      padding: 1.5rem; margin-bottom: 1.25rem; min-height: 280px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .out-wrapper .out-chart-area svg { width: 100%; max-height: 320px; }
+    .out-wrapper .out-fence-info {
+      background: var(--card); border: 1px solid var(--border); border-radius: 10px;
+      padding: 1rem 1.25rem; margin-bottom: 1rem; display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 0.5rem;
+    }
+    .out-wrapper .out-fence-item { font-size: 0.8rem; }
+    .out-wrapper .out-fence-label { color: var(--muted); font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.04em; }
+    .out-wrapper .out-fence-value { font-weight: 700; font-size: 0.95rem; }
+    .out-wrapper .out-fence-value.accent { color: var(--accent); }
+    .out-wrapper .out-fence-value.purple { color: var(--purple); }
+    .out-wrapper .out-fence-value.red { color: var(--red); }
+    .out-wrapper .out-outliers-list {
+      background: var(--card); border: 1px solid rgba(255,107,107,0.3); border-radius: 10px;
+      padding: 1rem 1.25rem; margin-bottom: 1rem;
+    }
+    .out-wrapper .out-outliers-title { font-size: 0.85rem; font-weight: 700; color: var(--red); margin-bottom: 0.4rem; }
+    .out-wrapper .out-outliers-desc { font-size: 0.82rem; color: var(--muted); line-height: 1.5; }
+    @media (max-width: 600px) {
+      .out-wrapper { padding: 1.25rem; }
+      .out-wrapper .out-fence-info { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+
+  <div class="out-header">
+    <h3>Outlier Detection Dot Plot</h3>
+    <span>Auto-detect outliers using the IQR method</span>
+  </div>
+
+  <div class="out-tabs">
+    <button class="out-tab active" data-set="housing">Housing Prices</button>
+    <button class="out-tab" data-set="test">Test Scores</button>
+    <button class="out-tab" data-set="custom">Custom Data</button>
+  </div>
+
+  <div class="out-input-row" id="out-custom-row" style="display:none;">
+    <input type="text" class="out-input" id="out-custom-data" placeholder="Enter comma-separated numbers" />
+    <button class="out-btn out-btn-primary" id="out-custom-go">Detect</button>
+  </div>
+
+  <div class="out-chart-area" id="out-chart"></div>
+
+  <div class="out-fence-info" id="out-fences" style="display:none;"></div>
+
+  <div class="out-outliers-list" id="out-outliers" style="display:none;"></div>
+</div>
+
+<script>
+  const presets: Record<string, { data: number[]; unit: string; context: string }> = {
+    housing: {
+      data: [180,195,210,220,225,230,240,250,260,270,275,280,290,300,310,320,330,350,375,420,850],
+      unit: "$K",
+      context: "Home prices in a suburban neighborhood. Most homes cluster around $250-350K, but a luxury mansion at $850K is flagged as an outlier."
+    },
+    test: {
+      data: [42,55,60,62,65,67,68,70,71,72,73,74,75,76,78,80,82,85,88,12],
+      unit: "pts",
+      context: "Student test scores. One student scored 12 (likely absent or misunderstood), flagged as an outlier below the lower fence."
+    }
+  };
+
+  function quartile(sorted: number[], q: number) {
+    const pos = (sorted.length - 1) * q;
+    const base = Math.floor(pos);
+    const rest = pos - base;
+    return sorted[base + 1] !== undefined ? sorted[base] + rest * (sorted[base + 1] - sorted[base]) : sorted[base];
+  }
+
+  function detect(data: number[], unit: string, context: string) {
+    if (data.length < 5) return;
+    const sorted = [...data].sort((a, b) => a - b);
+    const q1 = quartile(sorted, 0.25);
+    const q3 = quartile(sorted, 0.75);
+    const iqr = q3 - q1;
+    const lowerFence = q1 - 1.5 * iqr;
+    const upperFence = q3 + 1.5 * iqr;
+    const outliers = sorted.filter(v => v < lowerFence || v > upperFence);
+    const whiskerLow = sorted.find(v => v >= lowerFence) ?? sorted[0];
+    const whiskerHigh = [...sorted].reverse().find(v => v <= upperFence) ?? sorted[sorted.length - 1];
+
+    const min = sorted[0], max = sorted[sorted.length - 1];
+    const range = max - min || 1;
+
+    const W = 860, H = 300, pad = { t: 35, r: 30, b: 45, l: 55 };
+    const cw = W - pad.l - pad.r, ch = H - pad.t - pad.b;
+    const sx = (v: number) => pad.l + ((v - min) / range) * cw;
+    const baseY = H - pad.b;
+
+    let svg = `<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">`;
+
+    for (let i = 0; i <= 8; i++) {
+      const v = min + (range * i) / 8;
+      const x = sx(v);
+      svg += `<line x1="${x}" y1="${pad.t}" x2="${x}" y2="${baseY}" stroke="#243040" stroke-width="1"/>`;
+      svg += `<text x="${x}" y="${baseY+20}" text-anchor="middle" fill="#6b7d8f" font-size="10">${Math.round(v)}</text>`;
+    }
+
+    // Fence zones
+    if (lowerFence > min) {
+      const x1 = sx(min), x2 = sx(Math.min(lowerFence, max));
+      svg += `<rect x="${x1}" y="${pad.t}" width="${x2-x1}" height="${baseY-pad.t}" fill="rgba(255,107,107,0.06)"/>`;
+      svg += `<line x1="${sx(lowerFence)}" y1="${pad.t}" x2="${sx(lowerFence)}" y2="${baseY}" stroke="#ff6b6b" stroke-width="1" stroke-dasharray="4,4" opacity="0.5"/>`;
+      svg += `<text x="${sx(lowerFence)}" y="${pad.t-4}" text-anchor="middle" fill="#ff6b6b" font-size="8">Lower fence</text>`;
+    }
+    if (upperFence < max) {
+      const x1 = sx(Math.max(upperFence, min)), x2 = sx(max);
+      svg += `<rect x="${x1}" y="${pad.t}" width="${x2-x1}" height="${baseY-pad.t}" fill="rgba(255,107,107,0.06)"/>`;
+      svg += `<line x1="${sx(upperFence)}" y1="${pad.t}" x2="${sx(upperFence)}" y2="${baseY}" stroke="#ff6b6b" stroke-width="1" stroke-dasharray="4,4" opacity="0.5"/>`;
+      svg += `<text x="${sx(upperFence)}" y="${pad.t-4}" text-anchor="middle" fill="#ff6b6b" font-size="8">Upper fence</text>`;
+    }
+
+    const freq: Record<string,number> = {};
+    sorted.forEach(v => { const k=String(v); freq[k]=(freq[k]||0)+1; });
+    const maxF = Math.max(...Object.values(freq));
+    const ds = Math.min(14, ch/(maxF+2));
+    const fT: Record<string,number> = {};
+
+    sorted.forEach(v => {
+      const k = String(v); fT[k] = (fT[k]||0)+1;
+      const si = fT[k]!-1;
+      const isOut = outliers.includes(v);
+      const cx = sx(v), cy = baseY - si*ds - 10;
+      if (isOut) {
+        svg += `<circle cx="${cx}" cy="${cy}" r="7" fill="none" stroke="#ff6b6b" stroke-width="2" opacity="0.4"/>`;
+        svg += `<circle cx="${cx}" cy="${cy}" r="5.5" fill="#ff6b6b" opacity="0.85"/>`;
+      } else {
+        svg += `<circle cx="${cx}" cy="${cy}" r="5" fill="#00d4aa" opacity="0.6"/>`;
+      }
+    });
+
+    svg += `<text x="${pad.l+cw/2}" y="${baseY+38}" text-anchor="middle" fill="#6b7d8f" font-size="10">${unit}</text>`;
+    svg += `</svg>`;
+    (document.getElementById("out-chart") as HTMLElement).innerHTML = svg;
+
+    const f = (v: number) => v < 10 ? v.toFixed(2) : v < 100 ? v.toFixed(1) : Math.round(v).toString();
+    const fences = document.getElementById("out-fences") as HTMLElement;
+    fences.innerHTML = `
+      <div class="out-fence-item"><div class="out-fence-label">Q1</div><div class="out-fence-value purple">${f(q1)}</div></div>
+      <div class="out-fence-item"><div class="out-fence-label">Q3</div><div class="out-fence-value purple">${f(q3)}</div></div>
+      <div class="out-fence-item"><div class="out-fence-label">IQR</div><div class="out-fence-value">${f(iqr)}</div></div>
+      <div class="out-fence-item"><div class="out-fence-label">1.5× IQR</div><div class="out-fence-value">${f(1.5*iqr)}</div></div>
+      <div class="out-fence-item"><div class="out-fence-label">Lower Fence</div><div class="out-fence-value red">${f(lowerFence)}</div></div>
+      <div class="out-fence-item"><div class="out-fence-label">Upper Fence</div><div class="out-fence-value red">${f(upperFence)}</div></div>
+      <div class="out-fence-item"><div class="out-fence-label">Whisker Low</div><div class="out-fence-value accent">${f(whiskerLow)}</div></div>
+      <div class="out-fence-item"><div class="out-fence-label">Whisker High</div><div class="out-fence-value accent">${f(whiskerHigh)}</div></div>
+    `;
+    fences.style.display = "grid";
+
+    const outEl = document.getElementById("out-outliers") as HTMLElement;
+    if (outliers.length > 0) {
+      outEl.innerHTML = `
+        <div class="out-outliers-title">${outliers.length} Outlier${outliers.length > 1 ? "s" : ""} Detected</div>
+        <div class="out-outliers-desc">
+          Values <strong>${outliers.map(f).join(", ")} ${unit}</strong> fall beyond the 1.5× IQR fences and are highlighted in red on the plot.<br/><br/>
+          ${context}
+        </div>`;
+    } else {
+      outEl.innerHTML = `
+        <div class="out-outliers-title" style="color:var(--accent);">No Outliers Detected</div>
+        <div class="out-outliers-desc">All values fall within the 1.5× IQR fences. The data appears to have no extreme values.<br/><br/>${context}</div>`;
+    }
+    outEl.style.display = "block";
+  }
+
+  document.querySelectorAll(".out-tab").forEach(tab => {
+    tab.addEventListener("click", () => {
+      const key = tab.getAttribute("data-set") || "housing";
+      document.querySelectorAll(".out-tab").forEach(t => t.classList.toggle("active", t === tab));
+      const customRow = document.getElementById("out-custom-row") as HTMLElement;
+      if (key === "custom") {
+        customRow.style.display = "flex";
+      } else {
+        customRow.style.display = "none";
+        const p = presets[key];
+        detect(p.data, p.unit, p.context);
+      }
+    });
+  });
+
+  document.getElementById("out-custom-go")?.addEventListener("click", () => {
+    const raw = (document.getElementById("out-custom-data") as HTMLInputElement).value;
+    const data = raw.split(/[,\s]+/).map(Number).filter(n => !isNaN(n));
+    detect(data, "units", "Custom dataset — outlier detection uses the 1.5× IQR rule.");
+  });
+
+  detect(presets.housing.data, presets.housing.unit, presets.housing.context);
+</script>

@@ -1,0 +1,202 @@
+---
+---
+
+<div id="compare-tool" class="cmp-wrapper">
+  <style is:inline>
+    .cmp-wrapper {
+      --bg: #0a0f14; --bg-elevated: #111920; --fg: #e8eef4; --muted: #6b7d8f;
+      --accent: #00d4aa; --card: #151d26; --border: #243040;
+      --teal: #00d4aa; --purple: #8b5cf6;
+      font-family: 'Inter', system-ui, sans-serif;
+      background: var(--bg); color: var(--fg); position: relative; overflow: hidden;
+      border-radius: 16px; margin: 2rem auto; max-width: 900px; padding: 2rem;
+      box-shadow: 0 20px 40px -12px rgba(0,212,170,0.1), 0 0 0 1px rgba(255,255,255,0.07);
+    }
+    .cmp-wrapper * { box-sizing: border-box; }
+    .cmp-wrapper .cmp-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem; flex-wrap: wrap; gap: 0.5rem; }
+    .cmp-wrapper .cmp-header h3 { font-size: 1.1rem; font-weight: 700; color: var(--accent); margin: 0; }
+    .cmp-wrapper .cmp-header span { font-size: 0.8rem; color: var(--muted); }
+    .cmp-wrapper .cmp-inputs { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.25rem; }
+    .cmp-wrapper .cmp-input-group { display: flex; flex-direction: column; gap: 0.4rem; }
+    .cmp-wrapper .cmp-input-label { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
+    .cmp-wrapper .cmp-input-label.teal { color: var(--teal); }
+    .cmp-wrapper .cmp-input-label.purple { color: var(--purple); }
+    .cmp-wrapper .cmp-textarea {
+      background: var(--card); border: 1px solid var(--border); border-radius: 10px;
+      padding: 0.75rem 1rem; color: var(--fg); font-size: 0.85rem; outline: none;
+      resize: vertical; min-height: 60px; transition: border-color 0.2s;
+      font-family: 'IBM Plex Mono', monospace;
+    }
+    .cmp-wrapper .cmp-textarea:focus { border-color: var(--accent); }
+    .cmp-wrapper .cmp-textarea::placeholder { color: var(--muted); }
+    .cmp-wrapper .cmp-actions { display: flex; gap: 0.75rem; margin-bottom: 1.25rem; flex-wrap: wrap; }
+    .cmp-wrapper .cmp-btn {
+      padding: 0.7rem 1.4rem; border: none; border-radius: 10px; font-weight: 600;
+      font-size: 0.88rem; cursor: pointer; transition: all 0.2s;
+    }
+    .cmp-wrapper .cmp-btn-primary { background: linear-gradient(135deg, var(--accent), #00b894); color: #0a0f14; }
+    .cmp-wrapper .cmp-btn-primary:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(0,212,170,0.3); }
+    .cmp-wrapper .cmp-btn-secondary { background: var(--card); color: var(--fg); border: 1px solid var(--border); }
+    .cmp-wrapper .cmp-btn-secondary:hover { border-color: var(--accent); }
+    .cmp-wrapper .cmp-chart-area {
+      background: var(--bg-elevated); border: 1px solid var(--border); border-radius: 12px;
+      padding: 1.5rem; margin-bottom: 1.25rem; min-height: 280px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .cmp-wrapper .cmp-chart-area svg { width: 100%; max-height: 320px; }
+    .cmp-wrapper .cmp-insights { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .cmp-wrapper .cmp-insight-panel {
+      background: var(--card); border: 1px solid var(--border); border-radius: 10px;
+      padding: 1rem 1.25rem;
+    }
+    .cmp-wrapper .cmp-insight-title { font-size: 0.8rem; font-weight: 700; margin-bottom: 0.5rem; }
+    .cmp-wrapper .cmp-insight-title.teal { color: var(--teal); }
+    .cmp-wrapper .cmp-insight-title.purple { color: var(--purple); }
+    .cmp-wrapper .cmp-insight-row { display: flex; justify-content: space-between; padding: 0.2rem 0; font-size: 0.82rem; }
+    .cmp-wrapper .cmp-insight-key { color: var(--muted); }
+    .cmp-wrapper .cmp-insight-val { color: var(--fg); font-weight: 600; }
+    .cmp-wrapper .cmp-legend { display: flex; gap: 1.5rem; margin-top: 1rem; justify-content: center; }
+    .cmp-wrapper .cmp-legend-item { display: flex; align-items: center; gap: 0.4rem; font-size: 0.78rem; color: var(--muted); }
+    .cmp-wrapper .cmp-legend-dot { width: 10px; height: 10px; border-radius: 50%; }
+    @media (max-width: 600px) {
+      .cmp-wrapper { padding: 1.25rem; }
+      .cmp-wrapper .cmp-inputs { grid-template-columns: 1fr; }
+      .cmp-wrapper .cmp-insights { grid-template-columns: 1fr; }
+    }
+  </style>
+
+  <div class="cmp-header">
+    <h3>Compare Two Datasets</h3>
+    <span>Side-by-side dot plot comparison</span>
+  </div>
+
+  <div class="cmp-inputs">
+    <div class="cmp-input-group">
+      <div class="cmp-input-label teal">Dataset A</div>
+      <textarea class="cmp-textarea" id="cmp-data-a" placeholder="e.g. 42, 55, 55, 68, 72, 75, 80, 85, 90">42, 45, 48, 52, 55, 55, 58, 62, 65, 68, 70, 72, 75, 78, 80, 85, 90, 95, 100</textarea>
+    </div>
+    <div class="cmp-input-group">
+      <div class="cmp-input-label purple">Dataset B</div>
+      <textarea class="cmp-textarea" id="cmp-data-b" placeholder="e.g. 35, 40, 50, 60, 65, 70, 75, 80, 95">35, 38, 40, 42, 50, 52, 55, 58, 60, 65, 68, 70, 72, 75, 78, 82, 88, 95, 110, 125</textarea>
+    </div>
+  </div>
+
+  <div class="cmp-actions">
+    <button class="cmp-btn cmp-btn-primary" id="cmp-generate">Compare</button>
+    <button class="cmp-btn cmp-btn-secondary" id="cmp-reset">Reset</button>
+  </div>
+
+  <div class="cmp-chart-area" id="cmp-chart">
+    <div style="color:var(--muted);font-size:0.9rem;text-align:center;">Enter two datasets and click Compare</div>
+  </div>
+
+  <div class="cmp-insights" id="cmp-insights" style="display:none;"></div>
+
+  <div class="cmp-legend" id="cmp-legend" style="display:none;">
+    <div class="cmp-legend-item"><div class="cmp-legend-dot" style="background:#00d4aa;"></div>Dataset A</div>
+    <div class="cmp-legend-item"><div class="cmp-legend-dot" style="background:#8b5cf6;"></div>Dataset B</div>
+  </div>
+</div>
+
+<script>
+  function stats(data: number[]) {
+    const sorted = [...data].sort((a, b) => a - b);
+    const n = sorted.length;
+    const mean = data.reduce((a, b) => a + b, 0) / n;
+    const median = n % 2 === 0 ? (sorted[n/2-1]+sorted[n/2])/2 : sorted[Math.floor(n/2)];
+    return { min: sorted[0], max: sorted[n-1], mean, median, n };
+  }
+
+  function generate() {
+    const a = (document.getElementById("cmp-data-a") as HTMLTextAreaElement).value.split(/[,\s]+/).map(Number).filter(n => !isNaN(n));
+    const b = (document.getElementById("cmp-data-b") as HTMLTextAreaElement).value.split(/[,\s]+/).map(Number).filter(n => !isNaN(n));
+    if (a.length < 2 || b.length < 2) return;
+
+    const all = [...a, ...b];
+    const gMin = Math.min(...all), gMax = Math.max(...all);
+    const range = gMax - gMin || 1;
+    const sa = stats(a), sb = stats(b);
+
+    const W = 860, H = 300, pad = { t: 30, r: 30, b: 45, l: 50 };
+    const cw = W - pad.l - pad.r, ch = H - pad.t - pad.b;
+    const sx = (v: number) => pad.l + ((v - gMin) / range) * cw;
+
+    const rowAY = pad.t + ch * 0.3;
+    const rowBY = pad.t + ch * 0.7;
+
+    let svg = `<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">`;
+
+    for (let i = 0; i <= 8; i++) {
+      const v = gMin + (range * i) / 8;
+      const x = sx(v);
+      svg += `<line x1="${x}" y1="${pad.t}" x2="${x}" y2="${H-pad.b}" stroke="#243040" stroke-width="1"/>`;
+      svg += `<text x="${x}" y="${H-pad.b+20}" text-anchor="middle" fill="#6b7d8f" font-size="10">${Math.round(v)}</text>`;
+    }
+
+    svg += `<text x="${pad.l-8}" y="${rowAY+4}" text-anchor="end" fill="#00d4aa" font-size="10" font-weight="600">A</text>`;
+    svg += `<text x="${pad.l-8}" y="${rowBY+4}" text-anchor="end" fill="#8b5cf6" font-size="10" font-weight="600">B</text>`;
+
+    const sortedA = [...a].sort((x,y)=>x-y);
+    const freqA: Record<string,number> = {};
+    sortedA.forEach(v => { const k=String(v); freqA[k]=(freqA[k]||0)+1; });
+    const maxFreqA = Math.max(...Object.values(freqA));
+    const dotSp = Math.min(13, (ch*0.3)/(maxFreqA+1));
+    const fTA: Record<string,number> = {};
+    sortedA.forEach(v => {
+      const k=String(v); fTA[k]=(fTA[k]||0)+1;
+      const si = fTA[k]!-1;
+      svg += `<circle cx="${sx(v)}" cy="${rowAY - si*dotSp}" r="5" fill="#00d4aa" opacity="0.7"/>`;
+    });
+
+    const sortedB = [...b].sort((x,y)=>x-y);
+    const freqB: Record<string,number> = {};
+    sortedB.forEach(v => { const k=String(v); freqB[k]=(freqB[k]||0)+1; });
+    const maxFreqB = Math.max(...Object.values(freqB));
+    const dotSpB = Math.min(13, (ch*0.3)/(maxFreqB+1));
+    const fTB: Record<string,number> = {};
+    sortedB.forEach(v => {
+      const k=String(v); fTB[k]=(fTB[k]||0)+1;
+      const si = fTB[k]!-1;
+      svg += `<circle cx="${sx(v)}" cy="${rowBY - si*dotSpB}" r="5" fill="#8b5cf6" opacity="0.7"/>`;
+    });
+
+    svg += `<line x1="${sx(sa.median)}" y1="${rowAY-maxFreqA*dotSp-8}" x2="${sx(sa.median)}" y2="${rowAY+8}" stroke="#00d4aa" stroke-width="2" stroke-dasharray="3,2" opacity="0.5"/>`;
+    svg += `<line x1="${sx(sb.median)}" y1="${rowBY-maxFreqB*dotSpB-8}" x2="${sx(sb.median)}" y2="${rowBY+8}" stroke="#8b5cf6" stroke-width="2" stroke-dasharray="3,2" opacity="0.5"/>`;
+
+    svg += `</svg>`;
+    (document.getElementById("cmp-chart") as HTMLElement).innerHTML = svg;
+
+    const f = (v: number) => v < 10 ? v.toFixed(2) : v < 100 ? v.toFixed(1) : Math.round(v).toString();
+    const insights = document.getElementById("cmp-insights") as HTMLElement;
+    insights.innerHTML = `
+      <div class="cmp-insight-panel">
+        <div class="cmp-insight-title teal">Dataset A Insights</div>
+        <div class="cmp-insight-row"><span class="cmp-insight-key">Count</span><span class="cmp-insight-val">${sa.n}</span></div>
+        <div class="cmp-insight-row"><span class="cmp-insight-key">Min</span><span class="cmp-insight-val">${f(sa.min)}</span></div>
+        <div class="cmp-insight-row"><span class="cmp-insight-key">Median</span><span class="cmp-insight-val">${f(sa.median)}</span></div>
+        <div class="cmp-insight-row"><span class="cmp-insight-key">Mean</span><span class="cmp-insight-val">${f(sa.mean)}</span></div>
+        <div class="cmp-insight-row"><span class="cmp-insight-key">Max</span><span class="cmp-insight-val">${f(sa.max)}</span></div>
+      </div>
+      <div class="cmp-insight-panel">
+        <div class="cmp-insight-title purple">Dataset B Insights</div>
+        <div class="cmp-insight-row"><span class="cmp-insight-key">Count</span><span class="cmp-insight-val">${sb.n}</span></div>
+        <div class="cmp-insight-row"><span class="cmp-insight-key">Min</span><span class="cmp-insight-val">${f(sb.min)}</span></div>
+        <div class="cmp-insight-row"><span class="cmp-insight-key">Median</span><span class="cmp-insight-val">${f(sb.median)}</span></div>
+        <div class="cmp-insight-row"><span class="cmp-insight-key">Mean</span><span class="cmp-insight-val">${f(sb.mean)}</span></div>
+        <div class="cmp-insight-row"><span class="cmp-insight-key">Max</span><span class="cmp-insight-val">${f(sb.max)}</span></div>
+      </div>`;
+    insights.style.display = "grid";
+    (document.getElementById("cmp-legend") as HTMLElement).style.display = "flex";
+  }
+
+  function reset() {
+    (document.getElementById("cmp-data-a") as HTMLTextAreaElement).value = "";
+    (document.getElementById("cmp-data-b") as HTMLTextAreaElement).value = "";
+    (document.getElementById("cmp-chart") as HTMLElement).innerHTML = '<div style="color:var(--muted);font-size:0.9rem;text-align:center;">Enter two datasets and click Compare</div>';
+    (document.getElementById("cmp-insights") as HTMLElement).style.display = "none";
+    (document.getElementById("cmp-legend") as HTMLElement).style.display = "none";
+  }
+
+  document.getElementById("cmp-generate")?.addEventListener("click", generate);
+  document.getElementById("cmp-reset")?.addEventListener("click", reset);
+</script>

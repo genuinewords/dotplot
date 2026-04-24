@@ -1,0 +1,65 @@
+---
+title: "Outlier Detection Dot Plot Maker"
+description: "Detect outliers in your data visually with interactive dot plots. Auto-identifies extreme values using the IQR method with highlighted visualization."
+image: "/og-image.png"
+date: 2025-04-24
+author: "Dot Plot Maker® Team"
+category: "Statistics"
+---
+
+## What Are Outliers?
+
+An **outlier** is a data point that differs significantly from other observations. It may be:
+
+- A **genuine extreme value** — the tallest person in a height survey, a record-breaking temperature
+- A **data error** — a typo, a sensor malfunction, a unit conversion mistake
+- A **meaningful anomaly** — a fraud transaction, a medical emergency, a system failure
+
+Either way, outliers deserve attention. Ignoring them can distort means, inflate standard deviations, and lead to wrong conclusions.
+
+## The IQR Method for Detecting Outliers
+
+The most widely used method for flagging outliers is the **1.5× IQR rule**:
+
+1. Calculate **Q1** (25th percentile) and **Q3** (75th percentile)
+2. Compute the **IQR** = Q3 − Q1 (the interquartile range)
+3. Set **lower fence** = Q1 − 1.5 × IQR
+4. Set **upper fence** = Q3 + 1.5 × IQR
+5. Any value **below the lower fence** or **above the upper fence** is flagged as an outlier
+
+This method is robust because it uses quartiles (which resist outlier influence) rather than the mean and standard deviation (which don't).
+
+## Why Dot Plots Are Perfect for Outlier Detection
+
+- **Every point is visible** — outliers can't hide in a bin like they would in a histogram
+- **Distance from the cluster is obvious** — an isolated dot stands out immediately
+- **Context is preserved** — you see the outlier alongside the rest of the data
+- **Visual + statistical** — the IQR fences give you a formal rule, the plot gives you intuition
+
+## Try the Outlier Detection Tool
+
+Switch between preset datasets or enter your own data. Outliers are automatically detected and highlighted in red with ring markers on the dot plot.
+
+## What to Do When You Find an Outlier
+
+1. **Investigate** — is it a data entry error? A sensor glitch? A genuine extreme?
+2. **Document** — record the outlier and the reason for any action taken
+3. **Decide** — remove (if error), keep (if genuine), or report separately
+4. **Never silently remove** — dropping outliers without justification is bad science
+
+## Common Outlier Scenarios
+
+| Domain | Typical Outlier | Likely Cause |
+|--------|----------------|--------------|
+| Housing prices | $2M home in a $300K neighborhood | Luxury property |
+| Test scores | Score of 12 out of 100 | Student absent or confused |
+| Web analytics | 50,000 hits in one hour | Bot traffic or viral event |
+| Manufacturing | Part dimension 5× specification | Machine malfunction |
+| Health data | Blood pressure 250/150 | Measurement error or emergency |
+
+## Create Your Own Outlier-Ready Dot Plots
+
+- **[Dot Plot Maker®](/)** — paste any dataset for an instant dot plot
+- **[Professional Tool](/professional-dot-plot-tool/)** — import CSV/Excel, export SVG, advanced styling
+
+Free, no signup, all processing in your browser.

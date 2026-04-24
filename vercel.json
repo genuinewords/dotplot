@@ -11,6 +11,21 @@
       "source": "/real-world-dot-plot-examples",
       "destination": "/blog/real-world-dot-plot-examples/",
       "permanent": true
+    },
+    {
+      "source": "/compare-dot-plot-maker",
+      "destination": "/blog/compare-dot-plot-maker/",
+      "permanent": true
+    },
+    {
+      "source": "/statistics-dot-plot-visualizer",
+      "destination": "/blog/statistics-dot-plot-visualizer/",
+      "permanent": true
+    },
+    {
+      "source": "/outlier-dot-plot-maker",
+      "destination": "/blog/outlier-dot-plot-maker/",
+      "permanent": true
     }
   ]
 }
