@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "@theme/layouts/BaseLayout.astro";
+import WhiskerPlotTool from "@theme/components/WhiskerPlotTool.astro";
 import { getCollection, render } from "astro:content";
 import { defaultLocale } from "@src/i18n/config";
 import siteConfig from "@src/config/site.json";
@@ -16,6 +17,7 @@ const { post } = Astro.props;
 const { Content } = await render(post);
 const locale = defaultLocale;
 const canonicalUrl = `${siteConfig.siteUrl}/blog/${post.id}/`;
+const isHybrid = post.data.category === "Statistics" || post.id.includes("whisker");
 
 // Article Schema
 const articleSchema = {
@@ -99,9 +101,11 @@ const breadcrumbSchema = {
     )}
 
     <!-- Content -->
-    <div class="prose">
+    <div class="prose" id="blog-prose" data:has-tool={isHybrid ? "true" : "false"}>
       <Content />
     </div>
+
+    {isHybrid && <WhiskerPlotTool />}
 
     <!-- Back link -->
     <div class="post-back">
