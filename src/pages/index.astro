@@ -117,15 +117,15 @@ const locale = defaultLocale;
         <h2 class="section-title">Understanding Dot Plot Distribution</h2>
         <p class="topical-intro">Distribution describes how data points spread across a range of values. Dot plots make distribution visible — every point gets its own mark, so the shape of your data is impossible to miss.</p>
         <div class="topical-grid">
-          <div class="topical-card">
+          <div class="topical-card topical-card-accent">
             <h3>What Distribution Means</h3>
             <p>In statistics, <strong>distribution</strong> is the way values are arranged along a number line. It answers questions like: Where do most values fall? Are they concentrated in the center, or spread out evenly? Is there a long tail on one side?</p>
           </div>
-          <div class="topical-card">
+          <div class="topical-card topical-card-purple">
             <h3>How Dot Plots Visualize It</h3>
             <p>Unlike histograms that group data into bins, a dot plot places each value as an individual dot. Stacked dots reveal frequency at a glance — tall columns mean common values, flat stretches mean rare ones. The overall silhouette of the plot <em>is</em> the distribution.</p>
           </div>
-          <div class="topical-card">
+          <div class="topical-card topical-card-orange">
             <h3>Patterns to Look For</h3>
             <ul class="topical-list">
               <li><strong>Bell shape</strong> — symmetric cluster in the center (normal distribution)</li>
@@ -215,33 +215,100 @@ const locale = defaultLocale;
       <div class="topical-container">
         <h2 class="section-title">Types of Dot Plots</h2>
         <p class="topical-intro">Not all dot plots look the same. Different variations serve different analytical needs. Here are the four main types you'll encounter.</p>
-        <div class="topical-grid">
-          <div class="topical-card">
-            <h3>Simple Dot Plot</h3>
-            <p>The classic form — each data point is a single dot above its value on a number line. Repeated values stack vertically. This is the default output of <a href="/">Dot Plot Maker®</a> and the best starting point for any dataset.</p>
-            <div class="topical-mini-chart">
-              <svg viewBox="0 0 200 60" width="200" height="60"><circle cx="30" cy="45" r="4" fill="#00d4aa" opacity="0.7"/><circle cx="60" cy="45" r="4" fill="#00d4aa" opacity="0.7"/><circle cx="60" cy="35" r="4" fill="#00d4aa" opacity="0.7"/><circle cx="90" cy="45" r="4" fill="#00d4aa" opacity="0.7"/><circle cx="120" cy="45" r="4" fill="#00d4aa" opacity="0.7"/><circle cx="120" cy="35" r="4" fill="#00d4aa" opacity="0.7"/><circle cx="120" cy="25" r="4" fill="#00d4aa" opacity="0.7"/><circle cx="150" cy="45" r="4" fill="#00d4aa" opacity="0.7"/><circle cx="180" cy="45" r="4" fill="#00d4aa" opacity="0.7"/><line x1="20" y1="50" x2="190" y2="50" stroke="#243040" stroke-width="1"/></svg>
+        <div class="types-grid">
+          <div class="type-card type-card-teal">
+            <div class="type-card-visual">
+              <svg viewBox="0 0 240 80" width="100%">
+                <line x1="20" y1="70" x2="220" y2="70" stroke="currentColor" stroke-width="1.5" opacity="0.3"/>
+                <line x1="20" y1="70" x2="20" y2="75" stroke="currentColor" stroke-width="1" opacity="0.3"/>
+                <line x1="60" y1="70" x2="60" y2="75" stroke="currentColor" stroke-width="1" opacity="0.3"/>
+                <line x1="100" y1="70" x2="100" y2="75" stroke="currentColor" stroke-width="1" opacity="0.3"/>
+                <line x1="140" y1="70" x2="140" y2="75" stroke="currentColor" stroke-width="1" opacity="0.3"/>
+                <line x1="180" y1="70" x2="180" y2="75" stroke="currentColor" stroke-width="1" opacity="0.3"/>
+                <line x1="220" y1="70" x2="220" y2="75" stroke="currentColor" stroke-width="1" opacity="0.3"/>
+                <text x="20" y="79" text-anchor="middle" fill="currentColor" font-size="7" opacity="0.4">2</text>
+                <text x="60" y="79" text-anchor="middle" fill="currentColor" font-size="7" opacity="0.4">4</text>
+                <text x="100" y="79" text-anchor="middle" fill="currentColor" font-size="7" opacity="0.4">6</text>
+                <text x="140" y="79" text-anchor="middle" fill="currentColor" font-size="7" opacity="0.4">8</text>
+                <text x="180" y="79" text-anchor="middle" fill="currentColor" font-size="7" opacity="0.4">10</text>
+                <text x="220" y="79" text-anchor="middle" fill="currentColor" font-size="7" opacity="0.4">12</text>
+                <circle cx="40" cy="55" r="5.5" fill="#00d4aa" opacity="0.85"/>
+                <circle cx="80" cy="55" r="5.5" fill="#00d4aa" opacity="0.85"/>
+                <circle cx="80" cy="40" r="5.5" fill="#00d4aa" opacity="0.85"/>
+                <circle cx="120" cy="55" r="5.5" fill="#00d4aa" opacity="0.85"/>
+                <circle cx="160" cy="55" r="5.5" fill="#00d4aa" opacity="0.85"/>
+                <circle cx="160" cy="40" r="5.5" fill="#00d4aa" opacity="0.85"/>
+                <circle cx="160" cy="25" r="5.5" fill="#00d4aa" opacity="0.85"/>
+                <circle cx="200" cy="55" r="5.5" fill="#00d4aa" opacity="0.85"/>
+              </svg>
+            </div>
+            <div class="type-card-body">
+              <h3>Simple Dot Plot</h3>
+              <p>Each data point is a single dot above its value on a number line. Repeated values stack vertically. This is the default output of <a href="/">Dot Plot Maker®</a> and the best starting point for any dataset.</p>
             </div>
           </div>
-          <div class="topical-card">
-            <h3>Grouped Dot Plot</h3>
-            <p>Multiple categories plotted on the same axis, each with its own color or row. Ideal for comparing distributions across groups — for example, test scores by gender or sales by region. Try our <a href="/blog/compare-dot-plot-maker/">Compare Dot Plot Tool</a>.</p>
-            <div class="topical-mini-chart">
-              <svg viewBox="0 0 200 70" width="200" height="70"><circle cx="30" cy="35" r="4" fill="#00d4aa" opacity="0.7"/><circle cx="60" cy="35" r="4" fill="#00d4aa" opacity="0.7"/><circle cx="90" cy="35" r="4" fill="#00d4aa" opacity="0.7"/><circle cx="120" cy="35" r="4" fill="#00d4aa" opacity="0.7"/><circle cx="150" cy="35" r="4" fill="#00d4aa" opacity="0.7"/><circle cx="40" cy="55" r="4" fill="#8b5cf6" opacity="0.7"/><circle cx="70" cy="55" r="4" fill="#8b5cf6" opacity="0.7"/><circle cx="100" cy="55" r="4" fill="#8b5cf6" opacity="0.7"/><circle cx="130" cy="55" r="4" fill="#8b5cf6" opacity="0.7"/><circle cx="160" cy="55" r="4" fill="#8b5cf6" opacity="0.7"/><line x1="20" y1="65" x2="190" y2="65" stroke="#243040" stroke-width="1"/></svg>
+          <div class="type-card type-card-purple">
+            <div class="type-card-visual">
+              <svg viewBox="0 0 240 90" width="100%">
+                <line x1="20" y1="80" x2="220" y2="80" stroke="currentColor" stroke-width="1.5" opacity="0.3"/>
+                <text x="15" y="40" text-anchor="end" fill="#00d4aa" font-size="8" font-weight="600" opacity="0.7">A</text>
+                <text x="15" y="65" text-anchor="end" fill="#8b5cf6" font-size="8" font-weight="600" opacity="0.7">B</text>
+                <circle cx="50" cy="40" r="5.5" fill="#00d4aa" opacity="0.85"/>
+                <circle cx="80" cy="40" r="5.5" fill="#00d4aa" opacity="0.85"/>
+                <circle cx="110" cy="40" r="5.5" fill="#00d4aa" opacity="0.85"/>
+                <circle cx="140" cy="40" r="5.5" fill="#00d4aa" opacity="0.85"/>
+                <circle cx="170" cy="40" r="5.5" fill="#00d4aa" opacity="0.85"/>
+                <circle cx="60" cy="65" r="5.5" fill="#8b5cf6" opacity="0.85"/>
+                <circle cx="90" cy="65" r="5.5" fill="#8b5cf6" opacity="0.85"/>
+                <circle cx="120" cy="65" r="5.5" fill="#8b5cf6" opacity="0.85"/>
+                <circle cx="150" cy="65" r="5.5" fill="#8b5cf6" opacity="0.85"/>
+                <circle cx="180" cy="65" r="5.5" fill="#8b5cf6" opacity="0.85"/>
+              </svg>
+            </div>
+            <div class="type-card-body">
+              <h3>Grouped Dot Plot</h3>
+              <p>Multiple categories plotted on the same axis, each with its own color or row. Ideal for comparing distributions across groups — test scores by gender, sales by region. Try our <a href="/blog/compare-dot-plot-maker/">Compare Dot Plot Tool</a>.</p>
             </div>
           </div>
-          <div class="topical-card">
-            <h3>Frequency Dot Plot</h3>
-            <p>Instead of stacking dots, the height of a dot column represents the count. Dots may be placed at scaled heights or replaced by a count label. Useful when exact frequency matters more than seeing every point. This is how <a href="/blog/statistics-dot-plot-visualizer/">our Statistics Visualizer</a> displays data.</p>
-            <div class="topical-mini-chart">
-              <svg viewBox="0 0 200 60" width="200" height="60"><circle cx="30" cy="45" r="4" fill="#00d4aa" opacity="0.7"/><circle cx="60" cy="35" r="4" fill="#00d4aa" opacity="0.7"/><circle cx="90" cy="15" r="4" fill="#00d4aa" opacity="0.7"/><text x="90" y="10" text-anchor="middle" fill="#6b7d8f" font-size="8">5×</text><circle cx="120" cy="25" r="4" fill="#00d4aa" opacity="0.7"/><circle cx="150" cy="45" r="4" fill="#00d4aa" opacity="0.7"/><line x1="20" y1="50" x2="190" y2="50" stroke="#243040" stroke-width="1"/></svg>
+          <div class="type-card type-card-amber">
+            <div class="type-card-visual">
+              <svg viewBox="0 0 240 80" width="100%">
+                <line x1="20" y1="70" x2="220" y2="70" stroke="currentColor" stroke-width="1.5" opacity="0.3"/>
+                <circle cx="50" cy="55" r="5.5" fill="#f59e0b" opacity="0.85"/>
+                <circle cx="90" cy="40" r="5.5" fill="#f59e0b" opacity="0.85"/>
+                <circle cx="130" cy="15" r="5.5" fill="#f59e0b" opacity="0.85"/>
+                <text x="130" y="10" text-anchor="middle" fill="#f59e0b" font-size="9" font-weight="700" opacity="0.8">5×</text>
+                <circle cx="170" cy="30" r="5.5" fill="#f59e0b" opacity="0.85"/>
+                <circle cx="200" cy="55" r="5.5" fill="#f59e0b" opacity="0.85"/>
+              </svg>
+            </div>
+            <div class="type-card-body">
+              <h3>Frequency Dot Plot</h3>
+              <p>Instead of stacking dots, the height of a dot column represents the count. Frequency labels replace tall stacks. Useful when exact frequency matters more than seeing every point. See <a href="/blog/statistics-dot-plot-visualizer/">our Statistics Visualizer</a>.</p>
             </div>
           </div>
-          <div class="topical-card">
-            <h3>Comparative Dot Plot</h3>
-            <p>Two or more datasets plotted in aligned rows sharing the same horizontal scale. The eye naturally compares centers, spreads, and outliers between groups. Perfect for A/B tests, pre/post studies, and <a href="/blog/outlier-dot-plot-maker/">outlier comparison</a>.</p>
-            <div class="topical-mini-chart">
-              <svg viewBox="0 0 200 70" width="200" height="70"><circle cx="50" cy="20" r="4" fill="#00d4aa" opacity="0.7"/><circle cx="70" cy="20" r="4" fill="#00d4aa" opacity="0.7"/><circle cx="90" cy="20" r="4" fill="#00d4aa" opacity="0.7"/><circle cx="110" cy="20" r="4" fill="#00d4aa" opacity="0.7"/><circle cx="130" cy="20" r="4" fill="#00d4aa" opacity="0.7"/><circle cx="40" cy="50" r="4" fill="#8b5cf6" opacity="0.7"/><circle cx="60" cy="50" r="4" fill="#8b5cf6" opacity="0.7"/><circle cx="80" cy="50" r="4" fill="#8b5cf6" opacity="0.7"/><circle cx="100" cy="50" r="4" fill="#8b5cf6" opacity="0.7"/><circle cx="120" cy="50" r="4" fill="#8b5cf6" opacity="0.7"/><circle cx="140" cy="50" r="4" fill="#8b5cf6" opacity="0.7"/><line x1="20" y1="65" x2="190" y2="65" stroke="#243040" stroke-width="1"/></svg>
+          <div class="type-card type-card-red">
+            <div class="type-card-visual">
+              <svg viewBox="0 0 240 90" width="100%">
+                <line x1="20" y1="80" x2="220" y2="80" stroke="currentColor" stroke-width="1.5" opacity="0.3"/>
+                <text x="15" y="30" text-anchor="end" fill="#00d4aa" font-size="8" font-weight="600" opacity="0.7">Pre</text>
+                <text x="15" y="60" text-anchor="end" fill="#ff6b6b" font-size="8" font-weight="600" opacity="0.7">Post</text>
+                <circle cx="60" cy="30" r="5.5" fill="#00d4aa" opacity="0.85"/>
+                <circle cx="85" cy="30" r="5.5" fill="#00d4aa" opacity="0.85"/>
+                <circle cx="110" cy="30" r="5.5" fill="#00d4aa" opacity="0.85"/>
+                <circle cx="135" cy="30" r="5.5" fill="#00d4aa" opacity="0.85"/>
+                <circle cx="160" cy="30" r="5.5" fill="#00d4aa" opacity="0.85"/>
+                <circle cx="50" cy="60" r="5.5" fill="#ff6b6b" opacity="0.85"/>
+                <circle cx="75" cy="60" r="5.5" fill="#ff6b6b" opacity="0.85"/>
+                <circle cx="100" cy="60" r="5.5" fill="#ff6b6b" opacity="0.85"/>
+                <circle cx="125" cy="60" r="5.5" fill="#ff6b6b" opacity="0.85"/>
+                <circle cx="150" cy="60" r="5.5" fill="#ff6b6b" opacity="0.85"/>
+                <circle cx="175" cy="60" r="5.5" fill="#ff6b6b" opacity="0.85"/>
+              </svg>
+            </div>
+            <div class="type-card-body">
+              <h3>Comparative Dot Plot</h3>
+              <p>Two or more datasets plotted in aligned rows sharing the same horizontal scale. The eye naturally compares centers, spreads, and outliers between groups. Perfect for A/B tests and <a href="/blog/outlier-dot-plot-maker/">outlier comparison</a>.</p>
             </div>
           </div>
         </div>
@@ -523,6 +590,10 @@ const locale = defaultLocale;
   .topical-card-purple .topical-card-icon { background: rgba(139, 92, 246, 0.1); color: #8b5cf6; }
   .topical-card-orange .topical-card-icon { background: rgba(245, 158, 11, 0.1); color: #f59e0b; }
   .topical-card-red .topical-card-icon { background: rgba(255, 107, 107, 0.1); color: #ff6b6b; }
+  .topical-card-accent h3 { color: #00b894; }
+  .topical-card-purple h3 { color: #7c3aed; }
+  .topical-card-orange h3 { color: #d97706; }
+  .topical-card-red h3 { color: #ef4444; }
   .topical-list {
     list-style: none;
     padding: 0;
@@ -605,11 +676,65 @@ const locale = defaultLocale;
     display: flex;
     justify-content: center;
   }
+
+  /* ── Types of Dot Plots Section ── */
+  .types-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+  .type-card {
+    background: var(--color-bg-card, #ffffff);
+    border: 1px solid var(--color-border);
+    border-radius: 14px;
+    overflow: hidden;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .type-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+  }
+  .type-card-visual {
+    padding: 1.25rem 1.5rem 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .type-card-teal .type-card-visual { background: rgba(0, 212, 170, 0.05); }
+  .type-card-purple .type-card-visual { background: rgba(139, 92, 246, 0.05); }
+  .type-card-amber .type-card-visual { background: rgba(245, 158, 11, 0.05); }
+  .type-card-red .type-card-visual { background: rgba(255, 107, 107, 0.05); }
+  .type-card-body {
+    padding: 1.25rem 1.5rem 1.5rem;
+  }
+  .type-card h3 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+  .type-card-teal h3 { color: #00b894; }
+  .type-card-purple h3 { color: #7c3aed; }
+  .type-card-amber h3 { color: #d97706; }
+  .type-card-red h3 { color: #ef4444; }
+  .type-card p {
+    font-size: 0.92rem;
+    color: var(--color-text-secondary);
+    line-height: 1.65;
+    margin: 0;
+  }
+  .type-card p a {
+    color: var(--color-primary);
+    text-decoration: none;
+  }
+  .type-card p a:hover {
+    text-decoration: underline;
+  }
   @media (max-width: 768px) {
     .topical-grid,
     .topical-grid-4,
     .topical-grid-3,
-    .topical-two-col {
+    .topical-two-col,
+    .types-grid {
       grid-template-columns: 1fr;
     }
     .topical-section {
