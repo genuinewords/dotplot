@@ -23,7 +23,9 @@ const locale = defaultLocale;
     </div>
 
     <!-- Advanced Dot Plot Tool Component -->
-    <AdvancedDotPlotTool locale={locale} />
+    <section class="tool-section">
+      <AdvancedDotPlotTool locale={locale} />
+    </section>
 
     <InteractiveIllustrations />
 
@@ -354,9 +356,94 @@ const locale = defaultLocale;
 </BaseLayout>
 
 <style>
+  /* ── Tool Section Wrapper ── */
+  .tool-section {
+    max-width: 1280px;
+    margin: 0.5rem auto 4rem;
+    padding: 0 1rem;
+  }
+  .tool-section-header {
+    text-align: center;
+    margin-bottom: 1.5rem;
+  }
+  .tool-section-title-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    margin-bottom: 0.5rem;
+  }
+  .tool-section-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, rgba(0, 212, 170, 0.15), rgba(139, 92, 246, 0.15));
+    color: var(--color-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .tool-section-title {
+    font-size: 2rem;
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    background: linear-gradient(135deg, var(--color-text-primary) 20%, var(--color-primary) 60%, var(--color-accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin: 0;
+  }
+  .tool-section-subtitle {
+    color: var(--color-text-secondary);
+    font-size: 1.05rem;
+    line-height: 1.6;
+    max-width: 500px;
+    margin: 0 auto 1.25rem;
+  }
+  .tool-section-badges {
+    display: flex;
+    justify-content: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+  .tool-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    padding: 0.35rem 0.85rem;
+    border-radius: 8px;
+    background: rgba(0, 212, 170, 0.08);
+    border: 1px solid rgba(0, 212, 170, 0.2);
+    color: var(--color-primary);
+  }
+  .tool-badge svg {
+    opacity: 0.8;
+  }
+  .tool-section :global(.dotplot-wrapper) {
+    border-radius: 20px;
+    margin: 0;
+    box-shadow:
+      0 0 0 1px rgba(0, 212, 170, 0.1),
+      0 4px 24px rgba(0, 0, 0, 0.12),
+      0 24px 80px -12px rgba(0, 212, 170, 0.12),
+      inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  }
+  @media (max-width: 768px) {
+    .tool-section-title {
+      font-size: 1.5rem;
+    }
+    .tool-section-header {
+      margin-bottom: 1.25rem;
+    }
+  }
+
   .hero {
     text-align: center;
-    padding: 3rem 0 2rem;
+    padding: 2.5rem 0 0.5rem;
   }
   .hero-title {
     font-size: 3rem;
