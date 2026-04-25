@@ -109,7 +109,173 @@ const locale = defaultLocale;
 
     <!-- FAQ -->
     <FAQ locale={locale} />
-    
+
+    <!-- ══════════════════════════════════════════════════════════════
+         TOPICAL AUTHORITY SECTIONS FOR SEO
+         ══════════════════════════════════════════════════════════════ -->
+
+    <!-- 1. Understanding Dot Plot Distribution -->
+    <section class="topical-section">
+      <div class="topical-container">
+        <h2 class="section-title">Understanding Dot Plot Distribution</h2>
+        <p class="topical-intro">Distribution describes how data points spread across a range of values. Dot plots make distribution visible — every point gets its own mark, so the shape of your data is impossible to miss.</p>
+        <div class="topical-grid">
+          <div class="topical-card">
+            <h3>What Distribution Means</h3>
+            <p>In statistics, <strong>distribution</strong> is the way values are arranged along a number line. It answers questions like: Where do most values fall? Are they concentrated in the center, or spread out evenly? Is there a long tail on one side?</p>
+          </div>
+          <div class="topical-card">
+            <h3>How Dot Plots Visualize It</h3>
+            <p>Unlike histograms that group data into bins, a dot plot places each value as an individual dot. Stacked dots reveal frequency at a glance — tall columns mean common values, flat stretches mean rare ones. The overall silhouette of the plot <em>is</em> the distribution.</p>
+          </div>
+          <div class="topical-card">
+            <h3>Patterns to Look For</h3>
+            <ul class="topical-list">
+              <li><strong>Bell shape</strong> — symmetric cluster in the center (normal distribution)</li>
+              <li><strong>Right skew</strong> — most values on the left, tail stretching right (incomes, home prices)</li>
+              <li><strong>Left skew</strong> — most values on the right, tail stretching left (exam scores near 100)</li>
+              <li><strong>Bimodal</strong> — two separate peaks (two subgroups in the data)</li>
+              <li><strong>Uniform</strong> — dots spread evenly across the range (random integers)</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. How to Interpret a Dot Plot -->
+    <section class="topical-section">
+      <div class="topical-container">
+        <h2 class="section-title">How to Interpret a Dot Plot</h2>
+        <p class="topical-intro">Reading a dot plot is like reading a landscape — the features tell a story about your data. Here are the four key features to look for.</p>
+        <div class="topical-grid topical-grid-4">
+          <div class="topical-card topical-card-accent">
+            <div class="topical-card-icon">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="7" cy="12" r="3"/><circle cx="7" cy="6" r="3"/><circle cx="17" cy="12" r="3"/></svg>
+            </div>
+            <h3>Clusters</h3>
+            <p>Tightly packed groups of dots indicate values that occur frequently. A cluster shows where the "typical" value lives in your dataset. Multiple clusters suggest distinct subgroups — for example, two age groups in a survey.</p>
+          </div>
+          <div class="topical-card topical-card-purple">
+            <div class="topical-card-icon">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="6" cy="12" r="3"/><circle cx="18" cy="12" r="3"/><line x1="9" y1="12" x2="15" y2="12" stroke-dasharray="2,2"/></svg>
+            </div>
+            <h3>Gaps</h3>
+            <p>Empty spaces between dots are just as informative as clusters. A gap means no data falls in that range — which can reveal natural breaks, missing categories, or a true absence of values in that region.</p>
+          </div>
+          <div class="topical-card topical-card-orange">
+            <div class="topical-card-icon">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="6" cy="18" r="3"/><circle cx="9" cy="14" r="3"/><circle cx="12" cy="10" r="3"/><circle cx="16" cy="8" r="3"/><circle cx="21" cy="6" r="3"/></svg>
+            </div>
+            <h3>Skewness</h3>
+            <p>When dots trail off to one side, the distribution is skewed. Right skew (common in salary data) means a few high values pull the mean above the median. Left skew means a few low values pull it below. The longer tail tells you which direction.</p>
+          </div>
+          <div class="topical-card topical-card-red">
+            <div class="topical-card-icon">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="8" cy="12" r="3"/><circle cx="12" cy="12" r="3"/><circle cx="16" cy="12" r="3"/><circle cx="22" cy="4" r="3" stroke="#ff6b6b"/><circle cx="2" cy="4" r="3" stroke="#ff6b6b"/></svg>
+            </div>
+            <h3>Outliers</h3>
+            <p>Dots far from the main cluster are outliers — values that stand apart from the rest. They may represent errors (a typo entering 1000 instead of 10) or genuine extremes (a record-breaking score). Dot plots make outliers impossible to miss because every point is visible.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. When to Use a Dot Plot (and When Not To) -->
+    <section class="topical-section">
+      <div class="topical-container">
+        <h2 class="section-title">When to Use a Dot Plot (and When Not To)</h2>
+        <p class="topical-intro">Dot plots are powerful but not universal. Knowing their strengths and limits helps you choose the right chart for every dataset.</p>
+        <div class="topical-two-col">
+          <div class="topical-col topical-col-good">
+            <h3>Best Use Cases</h3>
+            <ul class="topical-list">
+              <li><strong>Small to medium datasets</strong> (under ~100 points) where individual values matter</li>
+              <li><strong>Exploratory data analysis</strong> — first look at a new dataset before formal testing</li>
+              <li><strong>Teaching statistics</strong> — students see each data point and its frequency</li>
+              <li><strong>Discrete data</strong> — whole numbers, categories, or countable values</li>
+              <li><strong>Identifying outliers</strong> — no chart type makes outliers more obvious</li>
+              <li><strong>Comparing frequency</strong> — stacked dots let you count occurrences at each value</li>
+            </ul>
+          </div>
+          <div class="topical-col topical-col-limit">
+            <h3>Limitations</h3>
+            <ul class="topical-list">
+              <li><strong>Large datasets</strong> — over 200 points creates visual clutter; consider a histogram or box plot instead</li>
+              <li><strong>Continuous data with many unique values</strong> — dots overlap and become unreadable</li>
+              <li><strong>Comparing many groups</strong> — more than 3–4 groups on one plot gets confusing; use side-by-side box plots</li>
+              <li><strong>Precision requirements</strong> — exact values are shown, but subtle distribution differences are easier to see with density plots</li>
+            </ul>
+            <div class="topical-rule">
+              <strong>Rule of thumb:</strong> If you can count the dots without losing track, a dot plot is the right choice. If the dots blur into a cloud, switch to a histogram or box plot.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. Types of Dot Plots -->
+    <section class="topical-section">
+      <div class="topical-container">
+        <h2 class="section-title">Types of Dot Plots</h2>
+        <p class="topical-intro">Not all dot plots look the same. Different variations serve different analytical needs. Here are the four main types you'll encounter.</p>
+        <div class="topical-grid">
+          <div class="topical-card">
+            <h3>Simple Dot Plot</h3>
+            <p>The classic form — each data point is a single dot above its value on a number line. Repeated values stack vertically. This is the default output of <a href="/">Dot Plot Maker®</a> and the best starting point for any dataset.</p>
+            <div class="topical-mini-chart">
+              <svg viewBox="0 0 200 60" width="200" height="60"><circle cx="30" cy="45" r="4" fill="#00d4aa" opacity="0.7"/><circle cx="60" cy="45" r="4" fill="#00d4aa" opacity="0.7"/><circle cx="60" cy="35" r="4" fill="#00d4aa" opacity="0.7"/><circle cx="90" cy="45" r="4" fill="#00d4aa" opacity="0.7"/><circle cx="120" cy="45" r="4" fill="#00d4aa" opacity="0.7"/><circle cx="120" cy="35" r="4" fill="#00d4aa" opacity="0.7"/><circle cx="120" cy="25" r="4" fill="#00d4aa" opacity="0.7"/><circle cx="150" cy="45" r="4" fill="#00d4aa" opacity="0.7"/><circle cx="180" cy="45" r="4" fill="#00d4aa" opacity="0.7"/><line x1="20" y1="50" x2="190" y2="50" stroke="#243040" stroke-width="1"/></svg>
+            </div>
+          </div>
+          <div class="topical-card">
+            <h3>Grouped Dot Plot</h3>
+            <p>Multiple categories plotted on the same axis, each with its own color or row. Ideal for comparing distributions across groups — for example, test scores by gender or sales by region. Try our <a href="/blog/compare-dot-plot-maker/">Compare Dot Plot Tool</a>.</p>
+            <div class="topical-mini-chart">
+              <svg viewBox="0 0 200 70" width="200" height="70"><circle cx="30" cy="35" r="4" fill="#00d4aa" opacity="0.7"/><circle cx="60" cy="35" r="4" fill="#00d4aa" opacity="0.7"/><circle cx="90" cy="35" r="4" fill="#00d4aa" opacity="0.7"/><circle cx="120" cy="35" r="4" fill="#00d4aa" opacity="0.7"/><circle cx="150" cy="35" r="4" fill="#00d4aa" opacity="0.7"/><circle cx="40" cy="55" r="4" fill="#8b5cf6" opacity="0.7"/><circle cx="70" cy="55" r="4" fill="#8b5cf6" opacity="0.7"/><circle cx="100" cy="55" r="4" fill="#8b5cf6" opacity="0.7"/><circle cx="130" cy="55" r="4" fill="#8b5cf6" opacity="0.7"/><circle cx="160" cy="55" r="4" fill="#8b5cf6" opacity="0.7"/><line x1="20" y1="65" x2="190" y2="65" stroke="#243040" stroke-width="1"/></svg>
+            </div>
+          </div>
+          <div class="topical-card">
+            <h3>Frequency Dot Plot</h3>
+            <p>Instead of stacking dots, the height of a dot column represents the count. Dots may be placed at scaled heights or replaced by a count label. Useful when exact frequency matters more than seeing every point. This is how <a href="/blog/statistics-dot-plot-visualizer/">our Statistics Visualizer</a> displays data.</p>
+            <div class="topical-mini-chart">
+              <svg viewBox="0 0 200 60" width="200" height="60"><circle cx="30" cy="45" r="4" fill="#00d4aa" opacity="0.7"/><circle cx="60" cy="35" r="4" fill="#00d4aa" opacity="0.7"/><circle cx="90" cy="15" r="4" fill="#00d4aa" opacity="0.7"/><text x="90" y="10" text-anchor="middle" fill="#6b7d8f" font-size="8">5×</text><circle cx="120" cy="25" r="4" fill="#00d4aa" opacity="0.7"/><circle cx="150" cy="45" r="4" fill="#00d4aa" opacity="0.7"/><line x1="20" y1="50" x2="190" y2="50" stroke="#243040" stroke-width="1"/></svg>
+            </div>
+          </div>
+          <div class="topical-card">
+            <h3>Comparative Dot Plot</h3>
+            <p>Two or more datasets plotted in aligned rows sharing the same horizontal scale. The eye naturally compares centers, spreads, and outliers between groups. Perfect for A/B tests, pre/post studies, and <a href="/blog/outlier-dot-plot-maker/">outlier comparison</a>.</p>
+            <div class="topical-mini-chart">
+              <svg viewBox="0 0 200 70" width="200" height="70"><circle cx="50" cy="20" r="4" fill="#00d4aa" opacity="0.7"/><circle cx="70" cy="20" r="4" fill="#00d4aa" opacity="0.7"/><circle cx="90" cy="20" r="4" fill="#00d4aa" opacity="0.7"/><circle cx="110" cy="20" r="4" fill="#00d4aa" opacity="0.7"/><circle cx="130" cy="20" r="4" fill="#00d4aa" opacity="0.7"/><circle cx="40" cy="50" r="4" fill="#8b5cf6" opacity="0.7"/><circle cx="60" cy="50" r="4" fill="#8b5cf6" opacity="0.7"/><circle cx="80" cy="50" r="4" fill="#8b5cf6" opacity="0.7"/><circle cx="100" cy="50" r="4" fill="#8b5cf6" opacity="0.7"/><circle cx="120" cy="50" r="4" fill="#8b5cf6" opacity="0.7"/><circle cx="140" cy="50" r="4" fill="#8b5cf6" opacity="0.7"/><line x1="20" y1="65" x2="190" y2="65" stroke="#243040" stroke-width="1"/></svg>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. Dot Plots in Statistics Education -->
+    <section class="topical-section">
+      <div class="topical-container">
+        <h2 class="section-title">Dot Plots in Statistics Education</h2>
+        <p class="topical-intro">Dot plots are one of the first chart types taught in statistics because they build intuition before introducing abstraction. Here's how they're used across education levels.</p>
+        <div class="topical-grid topical-grid-3">
+          <div class="topical-card">
+            <div class="topical-card-badge">Schools</div>
+            <h3>K-12 Classroom Use</h3>
+            <p>In middle and high school math, dot plots introduce students to data analysis without the complexity of histograms or box plots. Students can physically place dots on a number line, making the connection between raw data and visual representation tangible. Common Core standards (6.SP.B.4) explicitly include dot plots as a display method.</p>
+          </div>
+          <div class="topical-card">
+            <div class="topical-card-badge">Exams</div>
+            <h3>Standardized Tests & AP Statistics</h3>
+            <p>Dot plots appear on AP Statistics exams, SAT math sections, and state assessments. Students must interpret clusters, identify outliers, and compare distributions presented as dot plots. Being able to <strong>create</strong> dot plots quickly — as our tool allows — reinforces the interpretation skills tests require.</p>
+          </div>
+          <div class="topical-card">
+            <div class="topical-card-badge">Research</div>
+            <h3>Academic & Research Applications</h3>
+            <p>In research, dot plots serve as the first step of exploratory data analysis (EDA). Before fitting models or running hypothesis tests, statisticians plot their data. Dot plots are favored in small-sample studies (common in psychology, medicine, and ecology) where each observation matters and histograms would obscure individual values.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- Final CTA -->
     <div class="final-cta">
       <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
@@ -281,6 +447,174 @@ const locale = defaultLocale;
     display: block;
     margin-bottom: 0.2rem;
     font-size: 1.1rem;
+  }
+
+  /* ── Topical Authority Sections ── */
+  .topical-section {
+    padding: 3rem 1rem;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .topical-container {
+    max-width: 960px;
+    margin: 0 auto;
+  }
+  .topical-intro {
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto 2.5rem;
+    color: var(--color-text-secondary);
+    font-size: 1.05rem;
+    line-height: 1.7;
+  }
+  .topical-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+  .topical-grid-4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .topical-grid-3 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .topical-card {
+    background: var(--color-bg-card, #ffffff);
+    border: 1px solid var(--color-border);
+    border-radius: 14px;
+    padding: 1.75rem;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .topical-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(0, 212, 170, 0.08);
+  }
+  .topical-card h3 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--color-text-primary);
+    margin-bottom: 0.6rem;
+  }
+  .topical-card p {
+    font-size: 0.92rem;
+    color: var(--color-text-secondary);
+    line-height: 1.65;
+    margin: 0;
+  }
+  .topical-card p a {
+    color: var(--color-primary);
+    text-decoration: none;
+  }
+  .topical-card p a:hover {
+    text-decoration: underline;
+  }
+  .topical-card-icon {
+    width: 44px;
+    height: 44px;
+    margin-bottom: 1rem;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 212, 170, 0.1);
+    color: var(--color-primary);
+  }
+  .topical-card-accent .topical-card-icon { background: rgba(0, 212, 170, 0.1); color: var(--color-primary); }
+  .topical-card-purple .topical-card-icon { background: rgba(139, 92, 246, 0.1); color: #8b5cf6; }
+  .topical-card-orange .topical-card-icon { background: rgba(245, 158, 11, 0.1); color: #f59e0b; }
+  .topical-card-red .topical-card-icon { background: rgba(255, 107, 107, 0.1); color: #ff6b6b; }
+  .topical-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .topical-list li {
+    font-size: 0.92rem;
+    color: var(--color-text-secondary);
+    line-height: 1.65;
+    padding: 0.35rem 0;
+    padding-left: 1.1rem;
+    position: relative;
+  }
+  .topical-list li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.7rem;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--color-primary);
+    opacity: 0.6;
+  }
+  .topical-list li strong {
+    color: var(--color-text-primary);
+  }
+  .topical-two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+  .topical-col {
+    background: var(--color-bg-card, #ffffff);
+    border: 1px solid var(--color-border);
+    border-radius: 14px;
+    padding: 1.75rem;
+  }
+  .topical-col h3 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--color-text-primary);
+    margin-bottom: 1rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 2px solid var(--color-border);
+  }
+  .topical-col-good h3 {
+    border-color: var(--color-primary);
+  }
+  .topical-col-limit h3 {
+    border-color: #f59e0b;
+  }
+  .topical-rule {
+    margin-top: 1.25rem;
+    padding: 0.9rem 1.1rem;
+    background: rgba(245, 158, 11, 0.08);
+    border: 1px solid rgba(245, 158, 11, 0.2);
+    border-radius: 10px;
+    font-size: 0.88rem;
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+  }
+  .topical-rule strong {
+    color: var(--color-text-primary);
+  }
+  .topical-card-badge {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 0.3rem 0.75rem;
+    border-radius: 6px;
+    background: rgba(0, 212, 170, 0.12);
+    color: var(--color-primary);
+    margin-bottom: 0.75rem;
+  }
+  .topical-mini-chart {
+    margin-top: 1rem;
+    display: flex;
+    justify-content: center;
+  }
+  @media (max-width: 768px) {
+    .topical-grid,
+    .topical-grid-4,
+    .topical-grid-3,
+    .topical-two-col {
+      grid-template-columns: 1fr;
+    }
+    .topical-section {
+      padding: 2rem 0.5rem;
+    }
   }
 </style>
 

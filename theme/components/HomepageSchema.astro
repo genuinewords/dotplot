@@ -36,9 +36,72 @@ const faqSchema = faqs.length > 0 ? {
     },
   })),
 } : null;
+
+const softwareAppSchema = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  name: siteConfig.siteName,
+  url: siteConfig.siteUrl,
+  description: t(locale, "site.description"),
+  applicationCategory: "BusinessApplication",
+  operatingSystem: "Web",
+  offers: {
+    "@type": "Offer",
+    price: "0",
+    priceCurrency: "USD",
+    description: "Free to use — no signup required",
+  },
+  featureList: [
+    "Create dot plots from raw data instantly",
+    "Stack repeated values automatically",
+    "Export charts as SVG or PNG",
+    "Compare two datasets side-by-side",
+    "Detect outliers with IQR method",
+    "Compute mean, median, mode, range, and standard deviation",
+    "Interactive hover tooltips on every dot",
+    "No registration or login required",
+  ].join("\n"),
+  screenshot: `${siteConfig.siteUrl}${siteConfig.metaImage}`,
+  author: {
+    "@type": "Organization",
+    name: siteConfig.legalName,
+    url: siteConfig.siteUrl,
+  },
+};
+
+const howToSchema = {
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  name: "How to Interpret a Dot Plot",
+  description: "Learn the four key patterns to look for when reading a dot plot: clusters, gaps, skewness, and outliers.",
+  step: [
+    {
+      "@type": "HowToStep",
+      name: "Identify Clusters",
+      text: "Look for groups of dots stacked closely together. Clusters indicate where data values concentrate — the more dots in a stack, the more frequent that value appears in your dataset.",
+    },
+    {
+      "@type": "HowToStep",
+      name: "Spot Gaps",
+      text: "Notice empty spaces between clusters where no dots appear. Gaps suggest a separation in the data that may indicate distinct sub-groups or a natural break in the distribution.",
+    },
+    {
+      "@type": "HowToStep",
+      name: "Assess Skewness",
+      text: "Check whether the dot stacks trail off to one side. A longer tail on the right means right-skewed (positive skew); a longer tail on the left means left-skewed (negative skew). Symmetric stacks suggest a balanced distribution.",
+    },
+    {
+      "@type": "HowToStep",
+      name: "Detect Outliers",
+      text: "Find dots that sit far away from the main cluster. Outliers are values noticeably distant from the rest and may represent errors, rare events, or a separate population.",
+    },
+  ],
+};
 ---
 
 <script type="application/ld+json" set:html={JSON.stringify(websiteSchema)} />
 {faqSchema && (
   <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
 )}
+<script type="application/ld+json" set:html={JSON.stringify(softwareAppSchema)} />
+<script type="application/ld+json" set:html={JSON.stringify(howToSchema)} />
