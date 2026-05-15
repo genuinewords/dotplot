@@ -27,7 +27,11 @@ const locale = defaultLocale;
       <AdvancedDotPlotTool locale={locale} />
       
       <!-- CTA Button 1 -->
-      <div style="text-align: center; margin-top: 2.5rem;">
+      <div style="text-align: center; margin-top: 3.5rem; max-width: 600px; margin-left: auto; margin-right: auto;">
+        <p class="pro-cta-text">
+          Need to handle massive datasets, import Excel files, or export high-resolution SVG vectors? 
+          Our professional suite is built for advanced data visualization and publication.
+        </p>
         <a href="/professional-dot-plot-tool/" class="pro-cta-inline">
           <span>Advanced Tool – Larger Datasets & Exports →</span>
         </a>
@@ -843,6 +847,17 @@ const locale = defaultLocale;
     }
   }
   /* ── Pro CTA Styles ── */
+  .pro-cta-text {
+    font-size: 1.15rem;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+    background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    display: inline-block;
+  }
   .pro-cta-inline {
     display: inline-flex;
     align-items: center;
