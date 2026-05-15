@@ -25,6 +25,13 @@ const locale = defaultLocale;
     <!-- Advanced Dot Plot Tool Component -->
     <section class="tool-section">
       <AdvancedDotPlotTool locale={locale} />
+      
+      <!-- CTA Button 1 -->
+      <div style="text-align: center; margin-top: 2.5rem;">
+        <a href="/professional-dot-plot-tool/" class="pro-cta-inline">
+          <span>Advanced Tool – Larger Datasets & Exports →</span>
+        </a>
+      </div>
     </section>
 
     <InteractiveIllustrations />
@@ -207,11 +214,17 @@ const locale = defaultLocale;
             <div class="topical-rule">
               <strong>Rule of thumb:</strong> If you can count the dots without losing track, a dot plot is the right choice. If the dots blur into a cloud, switch to a histogram or box plot.
             </div>
+
+            <!-- CTA Button 2 -->
+            <div style="margin-top: 1.5rem;">
+              <a href="/professional-dot-plot-tool/" class="pro-text-link">
+                Not enough? Switch to Professional Dot Plot Tool
+              </a>
+            </div>
           </div>
         </div>
       </div>
     </section>
-
     <!-- 4. Types of Dot Plots -->
     <section class="topical-section">
       <div class="topical-container">
@@ -347,14 +360,15 @@ const locale = defaultLocale;
 
     <!-- Final CTA -->
     <div class="final-cta">
-      <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+      <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; flex-direction: column; align-items: center;">
         <a href="#pro-dot-plot-tool" class="btn-primary cta-btn"><span>Build Your Dot Plot</span></a>
-        <a href="/professional-dot-plot-tool/" class="btn-secondary cta-btn" style="background: transparent; border: 1px solid var(--color-border); color: var(--color-text-primary);"><span>Try Dot Plot Pro</span></a>
+        
+        <!-- CTA Button 3 -->
+        <a href="/professional-dot-plot-tool/" class="pro-final-link">
+          Working with big data? Try our professional version →
+        </a>
       </div>
     </div>
-  </div>
-</BaseLayout>
-
 <style>
   /* ── Tool Section Wrapper ── */
   .tool-section {
@@ -826,6 +840,61 @@ const locale = defaultLocale;
     }
     .topical-section {
       padding: 2rem 0.5rem;
+    }
+  }
+  /* ── Pro CTA Styles ── */
+  .pro-cta-inline {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.85rem 2rem;
+    background: linear-gradient(135deg, rgba(0, 212, 170, 0.1), rgba(139, 92, 246, 0.1));
+    border: 1px solid rgba(0, 212, 170, 0.3);
+    border-radius: 12px;
+    color: var(--color-text-primary);
+    font-weight: 700;
+    text-decoration: none;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    font-size: 1.05rem;
+  }
+  .pro-cta-inline:hover {
+    transform: translateY(-2px);
+    background: linear-gradient(135deg, rgba(0, 212, 170, 0.15), rgba(139, 92, 246, 0.15));
+    border-color: var(--color-primary);
+    box-shadow: 0 10px 25px -5px rgba(0, 212, 170, 0.2);
+  }
+  .pro-text-link {
+    display: inline-block;
+    color: var(--color-primary);
+    font-weight: 700;
+    text-decoration: none;
+    font-size: 0.95rem;
+    padding-bottom: 2px;
+    border-bottom: 2px solid rgba(0, 212, 170, 0.2);
+    transition: all 0.2s ease;
+  }
+  .pro-text-link:hover {
+    border-color: var(--color-primary);
+    color: var(--color-accent);
+  }
+  .pro-final-link {
+    margin-top: 1rem;
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: color 0.2s ease;
+    border-bottom: 1px solid transparent;
+  }
+  .pro-final-link:hover {
+    color: var(--color-primary);
+    border-bottom-color: var(--color-primary);
+  }
+
+  @media (max-width: 768px) {
+    .pro-cta-inline {
+      width: 100%;
+      justify-content: center;
+      font-size: 0.95rem;
     }
   }
 </style>
