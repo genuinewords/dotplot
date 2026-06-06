@@ -23,6 +23,11 @@ const locale = getLocaleFromParams(Astro.params) as Locale;
     <div class="hero animate-fade-in-up" style="opacity: 0;">
       <span class="badge">{t(locale, "home.badge")}</span>
       <h1 class="hero-title">{t(locale, "home.h1")}</h1>
+      <p class="hero-subtitle">{t(locale, "home.heroSubtitle")}</p>
+      <div class="hero-cta">
+        <a href="#pro-dot-plot-tool" class="btn-primary"><span>Generate Dot Plot</span></a>
+        <a href={`/${locale}/professional-dot-plot-tool/`} class="btn-secondary" target="_blank" rel="noopener noreferrer"><span>Open Advanced Tool</span></a>
+      </div>
     </div>
 
     <AdvancedDotPlotTool locale={locale} />
@@ -66,8 +71,23 @@ const locale = getLocaleFromParams(Astro.params) as Locale;
     margin: 0 auto;
     line-height: 1.7;
   }
+  .hero-subtitle {
+    font-size: 1.15rem;
+    color: var(--color-text-secondary);
+    max-width: 600px;
+    margin: 0.75rem auto 0;
+    line-height: 1.7;
+  }
+  .hero-cta {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 1.75rem;
+  }
   @media (max-width: 768px) {
     .hero-title { font-size: 2rem; }
-    .hero-intro { font-size: 1rem; }
+    .hero-intro, .hero-subtitle { font-size: 1rem; }
+    .hero-cta { flex-direction: column; align-items: center; }
   }
 </style>

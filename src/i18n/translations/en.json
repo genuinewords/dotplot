@@ -22,6 +22,7 @@
     "description": "Free dot plot maker with no signup required. Create interactive dot plot charts online. Export as SVG or PNG. Used by students, teachers & researchers.",
     "badge": "Free Online Tool",
     "h1": "Dot Plot Maker – Instant Beautiful Dot Plots",
+    "heroSubtitle": "Create dot plots in seconds. Paste simple data for an instant chart, or open the Advanced Tool for Excel uploads, large datasets, and publication-ready SVG exports — also free.",
     "intro": "Transform your raw data into professional, publication-ready Cleveland dot plots. Simply paste your data, upload a spreadsheet, and customize your chart using our interactive BI-grade editor.",
     "toolTitle": "Pro Dot Plot Editor",
     "toolPlaceholder": "Load CSV, Excel, or enter data directly",

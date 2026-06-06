@@ -20,22 +20,16 @@ const locale = defaultLocale;
     <div class="hero animate-fade-in-up" style="opacity: 0;">
       <span class="badge">{t(locale, "home.badge")}</span>
       <h1 class="hero-title">{t(locale, "home.h1")}</h1>
+      <p class="hero-subtitle">{t(locale, "home.heroSubtitle")}</p>
+      <div class="hero-cta">
+        <a href="#pro-dot-plot-tool" class="btn-primary"><span>Generate Dot Plot</span></a>
+        <a href="/professional-dot-plot-tool/" class="btn-secondary" target="_blank" rel="noopener noreferrer"><span>Open Advanced Tool</span></a>
+      </div>
     </div>
 
     <!-- Advanced Dot Plot Tool Component -->
     <section class="tool-section">
       <AdvancedDotPlotTool locale={locale} />
-      
-      <!-- CTA Button 1 -->
-      <div style="text-align: center; margin-top: 3.5rem; max-width: 600px; margin-left: auto; margin-right: auto;">
-        <p class="pro-cta-text">
-          Need to handle massive datasets, import Excel files, or export high-resolution SVG vectors? 
-          Our professional suite is built for advanced data visualization and publication.
-        </p>
-        <a href="/professional-dot-plot-tool/" class="pro-cta-inline">
-          <span>Advanced Tool – Larger Datasets & Exports →</span>
-        </a>
-      </div>
     </section>
 
     <InteractiveIllustrations />
@@ -483,12 +477,30 @@ const locale = defaultLocale;
     margin: 0 auto;
     line-height: 1.7;
   }
+  .hero-subtitle {
+    font-size: 1.15rem;
+    color: var(--color-text-secondary);
+    max-width: 600px;
+    margin: 0.75rem auto 0;
+    line-height: 1.7;
+  }
+  .hero-cta {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 1.75rem;
+  }
   @media (max-width: 768px) {
     .hero-title {
       font-size: 2rem;
     }
-    .hero-intro {
+    .hero-intro, .hero-subtitle {
       font-size: 1rem;
+    }
+    .hero-cta {
+      flex-direction: column;
+      align-items: center;
     }
     .feature-grid-container {
       grid-template-columns: 1fr;
