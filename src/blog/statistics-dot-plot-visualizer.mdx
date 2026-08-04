@@ -9,48 +9,457 @@ category: "Statistics"
 
 ## The Role of Dot Plots in Statistics
 
-Dot plots are one of the most powerful tools for **exploratory data analysis** (EDA). Unlike summary statistics alone, they preserve every individual data point while revealing the underlying distribution shape.
+Dot plots are one of the most underrated yet most powerful tools in **exploratory data analysis** (EDA). The discipline of EDA, formalized by the statistician John Tukey in his landmark 1977 book *Exploratory Data Analysis*, rests on a single, stubborn principle: before you model data, you must *look* at it. And among all the ways to look — histograms, box plots, density curves, summary tables — the humble dot plot offers a unique combination of honesty, simplicity, and precision that no other chart delivers.
 
-### What Summary Statistics Miss
+Unlike summary statistics, which compress hundreds or thousands of observations into a handful of numbers, a dot plot preserves every individual data point. Every dot on the chart is one real observation. That single fact changes how you read the data: you are not trusting a formula to summarize your data for you; you are looking directly at the data itself.
 
-Two datasets can share the same mean, median, and standard deviation — yet look completely different. This is known as the [Anscombe's quartet](https://en.wikipedia.org/wiki/Anscombe%27s_quartet) problem. Dot plots prevent this trap by showing you the actual data.
+This makes dot plots ideal for several distinct jobs:
 
-### Five Things Dot Plots Reveal
+- **Teaching statistics** — students can physically see how individual points become a distribution, and how summary statistics arise from raw data.
+- **Presenting to non-technical audiences** — a dot plot needs no legend, no axes gymnastics, and no statistical vocabulary to be understood.
+- **Auditing datasets** — before running regressions, t-tests, or machine learning pipelines, a quick dot plot exposes errors, anomalies, and surprises that no automated test will ever flag.
+- **Communicating distributions** — in clinical, financial, and scientific reporting, the shape of the data is often the entire message.
 
-1. **Distribution shape** — symmetric, skewed, bimodal, uniform
+The purpose of this guide is to show you exactly how to read a dot plot, why the shape of a distribution matters more than its summary statistics, and how the interactive visualizer below lets you put those ideas into practice with real-world data.
+
+## What Summary Statistics Miss
+
+Summary statistics are convenient, but they are also reductive. The most famous demonstration of this limitation is **Anscombe's quartet** — four datasets published by the statistician Francis Anscombe in 1973. Each of the four datasets has *nearly identical* descriptive statistics:
+
+- The same mean of **x** and the same mean of **y**
+- The same variance of **x** and the same variance of **y**
+- The same correlation coefficient (approximately **0.816**)
+- The same regression line (approximately **y = 3 + 0.5x**)
+
+Yet when you actually plot the four datasets, they look nothing alike. One is a tight linear relationship. One is a clear curve. One is a straight line with a single dramatic outlier dragging the entire fit. And one is a vertical column of points with a lone dot far to the right determining every summary statistic on its own.
+
+<figure class="viz-figure">
+  <svg viewBox="0 0 720 220" xmlns="http://www.w3.org/2000/svg" font-family="Inter, sans-serif">
+    {/* Linear */}
+    <g transform="translate(10,4)">
+      <rect width="170" height="160" rx="10" fill="#111920" stroke="#243040"/>
+      <g fill="#00d4aa">
+        <circle cx="55" cy="135" r="6"/><circle cx="65" cy="125" r="6"/><circle cx="75" cy="118" r="6"/>
+        <circle cx="85" cy="110" r="6"/><circle cx="95" cy="100" r="6"/><circle cx="105" cy="90" r="6"/>
+        <circle cx="115" cy="82" r="6"/><circle cx="125" cy="72" r="6"/><circle cx="135" cy="62" r="6"/>
+        <circle cx="145" cy="52" r="6"/>
+      </g>
+      <text x="85" y="182" text-anchor="middle" fill="#e8eef4" font-size="11" font-weight="700">Dataset I · Linear</text>
+    </g>
+    {/* Curve */}
+    <g transform="translate(190,4)">
+      <rect width="170" height="160" rx="10" fill="#111920" stroke="#243040"/>
+      <g fill="#4d96ff">
+        <circle cx="55" cy="140" r="6"/><circle cx="65" cy="122" r="6"/><circle cx="75" cy="105" r="6"/>
+        <circle cx="85" cy="92" r="6"/><circle cx="95" cy="84" r="6"/><circle cx="105" cy="86" r="6"/>
+        <circle cx="115" cy="92" r="6"/><circle cx="125" cy="102" r="6"/><circle cx="135" cy="118" r="6"/>
+        <circle cx="145" cy="138" r="6"/>
+      </g>
+      <text x="85" y="182" text-anchor="middle" fill="#e8eef4" font-size="11" font-weight="700">Dataset II · Curve</text>
+    </g>
+    {/* Outlier */}
+    <g transform="translate(370,4)">
+      <rect width="170" height="160" rx="10" fill="#111920" stroke="#243040"/>
+      <g fill="#ffd93d">
+        <circle cx="70" cy="95" r="6"/><circle cx="80" cy="85" r="6"/><circle cx="90" cy="80" r="6"/>
+        <circle cx="100" cy="75" r="6"/><circle cx="110" cy="70" r="6"/><circle cx="120" cy="62" r="6"/>
+        <circle cx="130" cy="55" r="6"/><circle cx="140" cy="48" r="6"/>
+      </g>
+      <circle cx="150" cy="125" r="8" fill="none" stroke="#ff6b6b" stroke-width="2.5"/>
+      <text x="150" y="145" text-anchor="middle" fill="#ff6b6b" font-size="10" font-weight="700">outlier</text>
+      <text x="85" y="182" text-anchor="middle" fill="#e8eef4" font-size="11" font-weight="700">Dataset III · Outlier</text>
+    </g>
+    {/* Vertical */}
+    <g transform="translate(550,4)">
+      <rect width="170" height="160" rx="10" fill="#111920" stroke="#243040"/>
+      <g fill="#9b59b6">
+        <circle cx="60" cy="80" r="6"/><circle cx="64" cy="70" r="6"/><circle cx="62" cy="88" r="6"/>
+        <circle cx="58" cy="75" r="6"/><circle cx="66" cy="82" r="6"/><circle cx="60" cy="62" r="6"/>
+        <circle cx="63" cy="95" r="6"/><circle cx="57" cy="68" r="6"/><circle cx="65" cy="58" r="6"/>
+      </g>
+      <circle cx="150" cy="120" r="8" fill="none" stroke="#ff6b6b" stroke-width="2.5"/>
+      <text x="85" y="182" text-anchor="middle" fill="#e8eef4" font-size="11" font-weight="700">Dataset IV · Column</text>
+    </g>
+  </svg>
+  <figcaption class="viz-figcaption"><span class="fig-dot" style="background:#00d4aa"></span><span class="fig-num">Fig. A</span> Anscombe's quartet: four wildly different datasets with almost identical summary statistics.</figcaption>
+</figure>
+
+This is the crucial lesson: **numbers summarize, but only plots reveal.** If you rely on means, medians, and correlation coefficients alone, Anscombe's quartet guarantees you can be fooled. A dot plot — or any full-data visualization — is the antidote. When you see the actual arrangement of points, none of the four datasets could ever be mistaken for another.
+
+The statistician Justin Matejka and colleagues later extended this idea with the **Datasaurus dozen**: twelve datasets with essentially identical summary statistics that include shapes as diverse as a dinosaur, a star, a circle, and a diagonal line. The takeaway is the same, delivered even more dramatically. Never accept a summary statistic without first looking at the shape that produced it.
+
+## Anatomy of a Dot Plot
+
+Before diving deeper, it helps to understand exactly how a dot plot is constructed. A dot plot (often called a **dot chart** or **line plot** in the Cleveland tradition) maps each observation to a dot along a quantitative axis:
+
+<figure class="viz-figure">
+  <svg viewBox="0 0 720 240" xmlns="http://www.w3.org/2000/svg" font-family="Inter, sans-serif">
+    {/* Background card */}
+    <rect x="10" y="4" width="700" height="195" rx="14" fill="#111920" stroke="#243040"/>
+    {/* Axis */}
+    <line x1="80" y1="150" x2="660" y2="150" stroke="#4d96ff" stroke-width="2"/>
+    <line x1="80" y1="150" x2="80" y2="40" stroke="#4d96ff" stroke-width="2"/>
+    {/* Ticks */}
+    <g stroke="#243040" stroke-width="1.5">
+      <line x1="80" y1="150" x2="80" y2="155"/><line x1="180" y1="150" x2="180" y2="155"/>
+      <line x1="280" y1="150" x2="280" y2="155"/><line x1="380" y1="150" x2="380" y2="155"/>
+      <line x1="480" y1="150" x2="480" y2="155"/><line x1="580" y1="150" x2="580" y2="155"/>
+    </g>
+    <g fill="#6b7d8f" font-size="11" text-anchor="middle">
+      <text x="80" y="170">0</text><text x="180" y="170">10</text><text x="280" y="170">20</text>
+      <text x="380" y="170">30</text><text x="480" y="170">40</text><text x="580" y="170">50</text>
+    </g>
+    {/* Stacked dots - one column of repeated value */}
+    <g fill="#00d4aa">
+      <circle cx="280" cy="140" r="6"/><circle cx="280" cy="124" r="6"/><circle cx="280" cy="108" r="6"/><circle cx="280" cy="92" r="6"/><circle cx="280" cy="76" r="6"/>
+      <circle cx="295" cy="140" r="6"/><circle cx="295" cy="124" r="6"/>
+      <circle cx="310" cy="140" r="6"/><circle cx="310" cy="124" r="6"/><circle cx="310" cy="108" r="6"/>
+      <circle cx="180" cy="140" r="6"/><circle cx="180" cy="124" r="6"/>
+      <circle cx="380" cy="140" r="6"/><circle cx="380" cy="124" r="6"/><circle cx="380" cy="108" r="6"/><circle cx="380" cy="92" r="6"/>
+      <circle cx="480" cy="140" r="6"/><circle cx="480" cy="124" r="6"/>
+      <circle cx="580" cy="140" r="6"/>
+    </g>
+    {/* Callouts */}
+    <g fill="#6b7d8f" font-size="11">
+      <text x="280" y="30" text-anchor="middle" fill="#00d4aa" font-weight="700">stacked dots = frequency</text>
+      <text x="470" y="188" text-anchor="middle" fill="#e8eef4" font-size="12" font-weight="700">Value</text>
+    </g>
+    <text x="66" y="95" text-anchor="middle" fill="#e8eef4" font-size="12" font-weight="700" transform="rotate(-90 66 95)">Frequency</text>
+  </svg>
+  <figcaption class="viz-figcaption"><span class="fig-dot" style="background:#00d4aa"></span><span class="fig-num">Fig. B</span> The anatomy of a dot plot: each dot is one observation, stacked dots reveal frequency, and the axis keeps every point exact.</figcaption>
+</figure>
+
+Three features make the dot plot special:
+
+1. **Every dot is a data point.** There is no binning, no averaging, no aggregation. What you see is exactly what exists in the data.
+2. **Stacked dots encode frequency.** When multiple observations share the same value, they stack vertically. The height of a column is a direct, exact count of how often that value occurs.
+3. **The axis is continuous and precise.** Unlike a histogram's bars, which imply a range, each dot sits at an exact position on the axis. You can read individual values directly from the chart.
+
+The mathematician William Cleveland, in his influential 1984 paper "Graphical Methods for Data Presentation," argued that the human visual system is remarkably good at judging position along a common scale — and remarkably poor at judging area or angle. Because dot plots rely entirely on *position* along a single axis, they exploit the perceptual strength our eyes are best at. That is a large part of why they are so effective.
+
+## Distribution Shape: The Five Profiles
+
+Once you can read a dot plot, the next skill is identifying **distribution shape**. The shape of a distribution determines which summary statistics are trustworthy and which statistical tests are appropriate. Here are the profiles you will encounter most often:
+
+<figure class="viz-figure">
+  <svg viewBox="0 0 720 230" xmlns="http://www.w3.org/2000/svg" font-family="Inter, sans-serif">
+    {/* Symmetric */}
+    <g transform="translate(10,4)">
+      <rect width="170" height="175" rx="10" fill="#111920" stroke="#243040"/>
+      <g fill="#00d4aa">
+        <circle cx="85" cy="150" r="5.5"/><circle cx="85" cy="138" r="5.5"/>
+        <circle cx="75" cy="150" r="5.5"/><circle cx="95" cy="150" r="5.5"/>
+        <circle cx="75" cy="138" r="5.5"/><circle cx="95" cy="138" r="5.5"/>
+        <circle cx="65" cy="150" r="5.5"/><circle cx="105" cy="150" r="5.5"/>
+        <circle cx="65" cy="126" r="5.5"/><circle cx="105" cy="126" r="5.5"/>
+        <circle cx="85" cy="126" r="5.5"/><circle cx="75" cy="126" r="5.5"/><circle cx="95" cy="126" r="5.5"/>
+        <circle cx="55" cy="150" r="5.5"/><circle cx="115" cy="150" r="5.5"/>
+        <circle cx="85" cy="114" r="5.5"/><circle cx="75" cy="114" r="5.5"/><circle cx="95" cy="114" r="5.5"/>
+        <circle cx="65" cy="114" r="5.5"/><circle cx="105" cy="114" r="5.5"/>
+        <circle cx="85" cy="102" r="5.5"/><circle cx="75" cy="102" r="5.5"/><circle cx="95" cy="102" r="5.5"/>
+      </g>
+      <text x="85" y="192" text-anchor="middle" fill="#e8eef4" font-size="11" font-weight="700">Symmetric</text>
+      <text x="85" y="205" text-anchor="middle" fill="#6b7d8f" font-size="9.5">mean ≈ median</text>
+    </g>
+    {/* Right skew */}
+    <g transform="translate(190,4)">
+      <rect width="170" height="175" rx="10" fill="#111920" stroke="#243040"/>
+      <g fill="#ffd93d">
+        <circle cx="60" cy="150" r="5.5"/><circle cx="60" cy="138" r="5.5"/><circle cx="60" cy="126" r="5.5"/><circle cx="60" cy="114" r="5.5"/>
+        <circle cx="75" cy="150" r="5.5"/><circle cx="75" cy="138" r="5.5"/><circle cx="75" cy="126" r="5.5"/>
+        <circle cx="90" cy="150" r="5.5"/><circle cx="90" cy="138" r="5.5"/><circle cx="90" cy="126" r="5.5"/><circle cx="90" cy="114" r="5.5"/>
+        <circle cx="105" cy="150" r="5.5"/><circle cx="105" cy="138" r="5.5"/><circle cx="105" cy="126" r="5.5"/>
+        <circle cx="120" cy="150" r="5.5"/><circle cx="120" cy="138" r="5.5"/><circle cx="120" cy="126" r="5.5"/><circle cx="120" cy="114" r="5.5"/>
+        <circle cx="135" cy="150" r="5.5"/><circle cx="135" cy="138" r="5.5"/><circle cx="135" cy="126" r="5.5"/><circle cx="135" cy="114" r="5.5"/><circle cx="135" cy="102" r="5.5"/>
+        <circle cx="150" cy="150" r="5.5"/><circle cx="150" cy="138" r="5.5"/><circle cx="150" cy="114" r="5.5"/><circle cx="150" cy="102" r="5.5"/>
+      </g>
+      <text x="85" y="192" text-anchor="middle" fill="#e8eef4" font-size="11" font-weight="700">Right Skew</text>
+      <text x="85" y="205" text-anchor="middle" fill="#6b7d8f" font-size="9.5">mean > median</text>
+    </g>
+    {/* Left skew */}
+    <g transform="translate(370,4)">
+      <rect width="170" height="175" rx="10" fill="#111920" stroke="#243040"/>
+      <g fill="#4d96ff">
+        <circle cx="150" cy="150" r="5.5"/><circle cx="150" cy="138" r="5.5"/><circle cx="150" cy="126" r="5.5"/><circle cx="150" cy="114" r="5.5"/>
+        <circle cx="135" cy="150" r="5.5"/><circle cx="135" cy="138" r="5.5"/><circle cx="135" cy="126" r="5.5"/>
+        <circle cx="120" cy="150" r="5.5"/><circle cx="120" cy="138" r="5.5"/><circle cx="120" cy="126" r="5.5"/><circle cx="120" cy="114" r="5.5"/>
+        <circle cx="105" cy="150" r="5.5"/><circle cx="105" cy="138" r="5.5"/><circle cx="105" cy="126" r="5.5"/>
+        <circle cx="90" cy="150" r="5.5"/><circle cx="90" cy="138" r="5.5"/><circle cx="90" cy="126" r="5.5"/><circle cx="90" cy="114" r="5.5"/>
+        <circle cx="75" cy="150" r="5.5"/><circle cx="75" cy="138" r="5.5"/><circle cx="75" cy="126" r="5.5"/><circle cx="75" cy="114" r="5.5"/><circle cx="75" cy="102" r="5.5"/>
+        <circle cx="60" cy="150" r="5.5"/><circle cx="60" cy="138" r="5.5"/><circle cx="60" cy="114" r="5.5"/><circle cx="60" cy="102" r="5.5"/>
+      </g>
+      <text x="85" y="192" text-anchor="middle" fill="#e8eef4" font-size="11" font-weight="700">Left Skew</text>
+      <text x="85" y="205" text-anchor="middle" fill="#6b7d8f" font-size="9.5">mean < median</text>
+    </g>
+    {/* Bimodal */}
+    <g transform="translate(550,4)">
+      <rect width="170" height="175" rx="10" fill="#111920" stroke="#243040"/>
+      <g fill="#9b59b6">
+        <circle cx="55" cy="150" r="5.5"/><circle cx="55" cy="138" r="5.5"/><circle cx="55" cy="126" r="5.5"/>
+        <circle cx="70" cy="150" r="5.5"/><circle cx="70" cy="138" r="5.5"/><circle cx="70" cy="126" r="5.5"/><circle cx="70" cy="114" r="5.5"/>
+        <circle cx="85" cy="150" r="5.5"/><circle cx="85" cy="138" r="5.5"/><circle cx="85" cy="126" r="5.5"/>
+        <circle cx="100" cy="150" r="5.5"/><circle cx="100" cy="138" r="5.5"/><circle cx="100" cy="126" r="5.5"/><circle cx="100" cy="114" r="5.5"/>
+        <circle cx="115" cy="150" r="5.5"/><circle cx="115" cy="138" r="5.5"/>
+        <circle cx="130" cy="150" r="5.5"/><circle cx="130" cy="138" r="5.5"/><circle cx="130" cy="126" r="5.5"/>
+        <circle cx="145" cy="150" r="5.5"/><circle cx="145" cy="138" r="5.5"/><circle cx="145" cy="126" r="5.5"/><circle cx="145" cy="114" r="5.5"/>
+      </g>
+      <text x="85" y="192" text-anchor="middle" fill="#e8eef4" font-size="11" font-weight="700">Bimodal</text>
+      <text x="85" y="205" text-anchor="middle" fill="#6b7d8f" font-size="9.5">two peaks</text>
+    </g>
+  </svg>
+  <figcaption class="viz-figcaption"><span class="fig-dot" style="background:#ffd93d"></span><span class="fig-num">Fig. C</span> Four distribution profiles a dot plot reveals instantly: symmetric, right-skewed, left-skewed, and bimodal.</figcaption>
+</figure>
+
+Here is what each profile tells you:
+
+- **Symmetric (roughly normal).** The bulk of observations sit in the center and trail off evenly toward both tails. The mean and median nearly coincide. Classic examples include adult heights, measurement errors, and test scores.
+- **Right-skewed (positively skewed).** Most values cluster at the low end, with a long tail of high values stretching right. The mean is pulled toward the tail and becomes *larger* than the median. Income, house prices, and rainfall are almost always right-skewed.
+- **Left-skewed (negatively skewed).** The tail extends to the left, toward low values. The mean drops below the median. Exam scores after a generous curve and age-at-death data often show left skew.
+- **Bimodal.** Two distinct peaks indicate two subpopulations mixed together. A bimodal dot plot is a red flag that you may be analyzing two groups as if they were one — a common and costly analytical mistake.
+
+The key insight: **shape is not decoration; it is information.** Skewness, modality, and tail behavior all directly influence which statistical tools you should use.
+
+## The Mean–Median Gap: How Skewness Moves Statistics
+
+One of the most valuable readings a dot plot gives you is the relationship between the **mean** and the **median**. In a perfectly symmetric distribution they are equal. As the distribution becomes skewed, they separate — and the *direction* of the gap tells you which way the data lean.
+
+<figure class="viz-figure">
+  <svg viewBox="0 0 720 210" xmlns="http://www.w3.org/2000/svg" font-family="Inter, sans-serif">
+    {/* Symmetric */}
+    <g transform="translate(10,4)">
+      <rect width="225" height="160" rx="10" fill="#111920" stroke="#243040"/>
+      <g fill="#00d4aa" opacity="0.9">
+        <circle cx="85" cy="140" r="5.5"/><circle cx="85" cy="128" r="5.5"/><circle cx="75" cy="140" r="5.5"/><circle cx="95" cy="140" r="5.5"/>
+        <circle cx="75" cy="128" r="5.5"/><circle cx="95" cy="128" r="5.5"/><circle cx="65" cy="140" r="5.5"/><circle cx="105" cy="140" r="5.5"/>
+        <circle cx="85" cy="116" r="5.5"/><circle cx="75" cy="116" r="5.5"/><circle cx="95" cy="116" r="5.5"/><circle cx="55" cy="140" r="5.5"/><circle cx="115" cy="140" r="5.5"/>
+        <circle cx="85" cy="104" r="5.5"/><circle cx="75" cy="104" r="5.5"/><circle cx="95" cy="104" r="5.5"/><circle cx="65" cy="104" r="5.5"/><circle cx="105" cy="104" r="5.5"/>
+      </g>
+      <line x1="85" y1="148" x2="85" y2="30" stroke="#00d4aa" stroke-width="2" stroke-dasharray="4 3"/>
+      <line x1="85" y1="148" x2="85" y2="36" stroke="#ffd93d" stroke-width="2" stroke-dasharray="4 3"/>
+      <text x="112" y="185" text-anchor="middle" fill="#e8eef4" font-size="11" font-weight="700">Symmetric: no gap</text>
+    </g>
+    {/* Right skew */}
+    <g transform="translate(248,4)">
+      <rect width="225" height="160" rx="10" fill="#111920" stroke="#243040"/>
+      <g fill="#ffd93d">
+        <circle cx="60" cy="140" r="5.5"/><circle cx="60" cy="128" r="5.5"/><circle cx="60" cy="116" r="5.5"/>
+        <circle cx="75" cy="140" r="5.5"/><circle cx="75" cy="128" r="5.5"/><circle cx="75" cy="116" r="5.5"/><circle cx="75" cy="104" r="5.5"/>
+        <circle cx="90" cy="140" r="5.5"/><circle cx="90" cy="128" r="5.5"/><circle cx="90" cy="116" r="5.5"/>
+        <circle cx="105" cy="140" r="5.5"/><circle cx="105" cy="128" r="5.5"/><circle cx="105" cy="116" r="5.5"/><circle cx="105" cy="104" r="5.5"/>
+        <circle cx="120" cy="140" r="5.5"/><circle cx="120" cy="128" r="5.5"/><circle cx="120" cy="116" r="5.5"/>
+        <circle cx="135" cy="140" r="5.5"/><circle cx="135" cy="128" r="5.5"/><circle cx="135" cy="104" r="5.5"/><circle cx="135" cy="92" r="5.5"/>
+        <circle cx="150" cy="140" r="5.5"/><circle cx="150" cy="128" r="5.5"/><circle cx="150" cy="104" r="5.5"/><circle cx="150" cy="92" r="5.5"/>
+      </g>
+      <line x1="100" y1="148" x2="100" y2="30" stroke="#00d4aa" stroke-width="2" stroke-dasharray="4 3"/>
+      <line x1="120" y1="148" x2="120" y2="34" stroke="#ffd93d" stroke-width="2" stroke-dasharray="4 3"/>
+      <text x="112" y="185" text-anchor="middle" fill="#e8eef4" font-size="11" font-weight="700">Right skew: mean → tail</text>
+    </g>
+    {/* Left skew */}
+    <g transform="translate(486,4)">
+      <rect width="225" height="160" rx="10" fill="#111920" stroke="#243040"/>
+      <g fill="#4d96ff">
+        <circle cx="150" cy="140" r="5.5"/><circle cx="150" cy="128" r="5.5"/><circle cx="150" cy="116" r="5.5"/>
+        <circle cx="135" cy="140" r="5.5"/><circle cx="135" cy="128" r="5.5"/><circle cx="135" cy="116" r="5.5"/><circle cx="135" cy="104" r="5.5"/>
+        <circle cx="120" cy="140" r="5.5"/><circle cx="120" cy="128" r="5.5"/><circle cx="120" cy="116" r="5.5"/>
+        <circle cx="105" cy="140" r="5.5"/><circle cx="105" cy="128" r="5.5"/><circle cx="105" cy="116" r="5.5"/><circle cx="105" cy="104" r="5.5"/>
+        <circle cx="90" cy="140" r="5.5"/><circle cx="90" cy="128" r="5.5"/><circle cx="90" cy="116" r="5.5"/>
+        <circle cx="75" cy="140" r="5.5"/><circle cx="75" cy="128" r="5.5"/><circle cx="75" cy="104" r="5.5"/><circle cx="75" cy="92" r="5.5"/>
+        <circle cx="60" cy="140" r="5.5"/><circle cx="60" cy="128" r="5.5"/><circle cx="60" cy="104" r="5.5"/><circle cx="60" cy="92" r="5.5"/>
+      </g>
+      <line x1="110" y1="148" x2="110" y2="30" stroke="#00d4aa" stroke-width="2" stroke-dasharray="4 3"/>
+      <line x1="90" y1="148" x2="90" y2="34" stroke="#ffd93d" stroke-width="2" stroke-dasharray="4 3"/>
+      <text x="112" y="185" text-anchor="middle" fill="#e8eef4" font-size="11" font-weight="700">Left skew: mean → tail</text>
+    </g>
+  </svg>
+  <figcaption class="viz-figcaption"><span class="fig-dot" style="background:#00d4aa"></span><span class="fig-num">Fig. D</span> The gap between the median (green) and the mean (orange) reveals the direction and severity of skewness.</figcaption>
+</figure>
+
+Why does this matter in practice?
+
+The **median** is resistant to extreme values. It depends only on the middle of the distribution, so a handful of outliers barely move it. The **mean** is not resistant: it is computed from every value, so a few extreme observations can drag it dramatically.
+
+Consider income data for a neighborhood. Most households earn between $40,000 and $80,000 a year. One billionaire moves in. The median barely changes — it is still anchored around the middle household. The mean, however, can jump by tens of thousands of dollars because it must absorb the billionaire's income. Reporting the mean in that situation would mislead your audience about what a "typical" household earns. This is why news reports of income and housing data so often lead with the median.
+
+The interactive visualizer makes this concrete: switch to **Monthly Rainfall**, which is strongly right-skewed, and watch the orange mean line slide far to the right of the green median line. The visual gap is the statistical gap.
+
+## Outliers, Clusters, and Gaps
+
+Beyond shape and skewness, dot plots excel at exposing *structure* — the oddities that summary statistics smooth away. Three structures deserve special attention.
+
+**Outliers.** A single dot stranded far from the main cloud is a signal that something unusual happened. It could be a genuine extreme event (a record-breaking heat wave), a data entry error (a height of 912 cm instead of 192 cm), or a unit-conversion mistake. Either way, you need to know it exists before it silently corrupts your analysis. A regression line computed on data containing one severe outlier can be completely wrong.
+
+**Clusters.** When dots separate into two or more distinct groups, the data contain subpopulations. A dot plot of test scores that shows two clear mounds may indicate two different classes, two teaching methods, or two answer patterns. Treating a clustered dataset as a single population will produce a misleading "average" that describes nobody.
+
+**Gaps.** A blank region in the middle of the dot plot is information, too. Gaps mark natural breaks — thresholds beyond which behavior changes. In quality control, a gap in process measurements often reveals that the process shifted between two operating regimes.
+
+<figure class="viz-figure">
+  <svg viewBox="0 0 720 205" xmlns="http://www.w3.org/2000/svg" font-family="Inter, sans-serif">
+    {/* Outliers */}
+    <g transform="translate(10,4)">
+      <rect width="225" height="160" rx="10" fill="#111920" stroke="#243040"/>
+      <g fill="#00d4aa" opacity="0.9">
+        <circle cx="80" cy="120" r="6"/><circle cx="95" cy="110" r="6"/><circle cx="110" cy="115" r="6"/>
+        <circle cx="125" cy="105" r="6"/><circle cx="90" cy="95" r="6"/><circle cx="105" cy="90" r="6"/>
+        <circle cx="120" cy="98" r="6"/><circle cx="135" cy="108" r="6"/><circle cx="75" cy="108" r="6"/>
+        <circle cx="100" cy="125" r="6"/><circle cx="115" cy="120" r="6"/>
+      </g>
+      <circle cx="185" cy="35" r="8" fill="none" stroke="#ff6b6b" stroke-width="2.5"/>
+      <circle cx="40" cy="40" r="8" fill="none" stroke="#ff6b6b" stroke-width="2.5"/>
+      <text x="185" y="24" text-anchor="middle" fill="#ff6b6b" font-size="10" font-weight="700">outlier</text>
+      <text x="40" y="24" text-anchor="middle" fill="#ff6b6b" font-size="10" font-weight="700">outlier</text>
+      <text x="112" y="185" text-anchor="middle" fill="#e8eef4" font-size="11" font-weight="700">Outliers</text>
+    </g>
+    {/* Clusters */}
+    <g transform="translate(248,4)">
+      <rect width="225" height="160" rx="10" fill="#111920" stroke="#243040"/>
+      <circle cx="80" cy="75" r="42" fill="#9b59b6" opacity="0.12"/>
+      <circle cx="160" cy="125" r="42" fill="#4d96ff" opacity="0.12"/>
+      <g fill="#9b59b6">
+        <circle cx="60" cy="60" r="6"/><circle cx="75" cy="55" r="6"/><circle cx="90" cy="70" r="6"/>
+        <circle cx="70" cy="80" r="6"/><circle cx="85" cy="88" r="6"/><circle cx="100" cy="80" r="6"/>
+      </g>
+      <g fill="#4d96ff">
+        <circle cx="140" cy="135" r="6"/><circle cx="155" cy="120" r="6"/><circle cx="170" cy="135" r="6"/>
+        <circle cx="150" cy="145" r="6"/><circle cx="165" cy="145" r="6"/><circle cx="180" cy="125" r="6"/>
+      </g>
+      <text x="112" y="185" text-anchor="middle" fill="#e8eef4" font-size="11" font-weight="700">Clusters (subgroups)</text>
+    </g>
+    {/* Gaps */}
+    <g transform="translate(486,4)">
+      <rect width="225" height="160" rx="10" fill="#111920" stroke="#243040"/>
+      <rect x="100" y="30" width="28" height="135" fill="#ff6b6b" opacity="0.07"/>
+      <g fill="#6bcb77">
+        <circle cx="55" cy="60" r="6"/><circle cx="65" cy="80" r="6"/><circle cx="48" cy="95" r="6"/>
+        <circle cx="62" cy="110" r="6"/><circle cx="52" cy="125" r="6"/><circle cx="70" cy="60" r="6"/>
+        <circle cx="58" cy="72" r="6"/><circle cx="68" cy="132" r="6"/>
+      </g>
+      <g fill="#4d96ff">
+        <circle cx="145" cy="55" r="6"/><circle cx="160" cy="80" r="6"/><circle cx="175" cy="62" r="6"/>
+        <circle cx="150" cy="105" r="6"/><circle cx="168" cy="128" r="6"/><circle cx="160" cy="115" r="6"/>
+      </g>
+      <text x="112" y="185" text-anchor="middle" fill="#e8eef4" font-size="11" font-weight="700">Gaps (natural breaks)</text>
+    </g>
+  </svg>
+  <figcaption class="viz-figcaption"><span class="fig-dot" style="background:#6bcb77"></span><span class="fig-num">Fig. E</span> Three structural signals: outliers, clusters, and gaps. All three are invisible in a summary table.</figcaption>
+</figure>
+
+The discipline of checking for these structures before running models is sometimes called **"eyeballing the data"** — and despite its casual name, it is a rigorous, essential practice. Automated outlier detection algorithms are useful, but they operate on assumptions. Your eyes, guided by a full-data plot, operate on none.
+
+## Dot Plots vs. Histograms vs. Box Plots
+
+If dot plots are so great, why do histograms and box plots dominate software defaults? The answer is partly history, partly scaling — and it is worth understanding the trade-offs so you can choose the right tool for each job.
+
+- **Histograms** bin continuous data into bars and are excellent for large datasets. Their weakness: the choice of bin width can change the story. Too few bins hide detail; too many bins create noise. And a histogram *destroys* the individual observations — you cannot recover exact values from it.
+- **Box plots** summarize with the five-number summary (minimum, first quartile, median, third quartile, maximum). They are compact and ideal for comparing many groups side by side. Their weakness: they hide the distribution's interior entirely. Two wildly different distributions can produce identical box plots, a failure mode sometimes called the "box plot's blind spot."
+- **Dot plots** keep every point, so nothing is hidden and nothing is binned. Their weakness: for very large datasets (thousands of points), dots overlap and become unreadable. For datasets in the dozens to low hundreds — the size of most experiments, surveys, and classroom data — dot plots are often the best choice.
+
+<figure class="viz-figure">
+  <svg viewBox="0 0 720 215" xmlns="http://www.w3.org/2000/svg" font-family="Inter, sans-serif">
+    {/* Dot plot */}
+    <g transform="translate(10,4)">
+      <rect width="225" height="170" rx="10" fill="#111920" stroke="#243040"/>
+      <g fill="#00d4aa">
+        <circle cx="85" cy="140" r="5.5"/><circle cx="85" cy="128" r="5.5"/><circle cx="75" cy="140" r="5.5"/><circle cx="95" cy="140" r="5.5"/>
+        <circle cx="75" cy="128" r="5.5"/><circle cx="95" cy="128" r="5.5"/><circle cx="65" cy="140" r="5.5"/><circle cx="105" cy="140" r="5.5"/>
+        <circle cx="85" cy="116" r="5.5"/><circle cx="75" cy="116" r="5.5"/><circle cx="95" cy="116" r="5.5"/><circle cx="55" cy="140" r="5.5"/><circle cx="115" cy="140" r="5.5"/>
+        <circle cx="85" cy="104" r="5.5"/><circle cx="75" cy="104" r="5.5"/><circle cx="95" cy="104" r="5.5"/><circle cx="65" cy="104" r="5.5"/><circle cx="105" cy="104" r="5.5"/>
+        <circle cx="85" cy="92" r="5.5"/><circle cx="115" cy="104" r="5.5"/><circle cx="55" cy="104" r="5.5"/>
+      </g>
+      <text x="112" y="190" text-anchor="middle" fill="#e8eef4" font-size="11" font-weight="700">Dot plot</text>
+      <text x="112" y="202" text-anchor="middle" fill="#6b7d8f" font-size="9.5">every point visible</text>
+    </g>
+    {/* Histogram */}
+    <g transform="translate(248,4)">
+      <rect width="225" height="170" rx="10" fill="#111920" stroke="#243040"/>
+      <g fill="#4d96ff">
+        <rect x="50" y="130" width="30" height="35" rx="3"/><rect x="85" y="112" width="30" height="53" rx="3"/>
+        <rect x="120" y="92" width="30" height="73" rx="3"/><rect x="155" y="112" width="30" height="53" rx="3"/>
+        <rect x="190" y="130" width="30" height="35" rx="3"/>
+      </g>
+      <text x="112" y="190" text-anchor="middle" fill="#e8eef4" font-size="11" font-weight="700">Histogram</text>
+      <text x="112" y="202" text-anchor="middle" fill="#6b7d8f" font-size="9.5">bin width decides story</text>
+    </g>
+    {/* Box plot */}
+    <g transform="translate(486,4)">
+      <rect width="225" height="170" rx="10" fill="#111920" stroke="#243040"/>
+      <line x1="85" y1="45" x2="85" y2="150" stroke="#ffd93d" stroke-width="2"/>
+      <rect x="72" y="70" width="80" height="55" rx="6" fill="#ffd93d" opacity="0.35" stroke="#ffd93d" stroke-width="2"/>
+      <line x1="112" y1="70" x2="112" y2="125" stroke="#ffd93d" stroke-width="2"/>
+      <line x1="72" y1="150" x2="85" y2="150" stroke="#ffd93d" stroke-width="2"/>
+      <line x1="112" y1="45" x2="112" y2="150" stroke="#ffd93d" stroke-width="2"/>
+      <circle cx="60" cy="42" r="4" fill="none" stroke="#ff6b6b" stroke-width="2"/>
+      <circle cx="185" cy="155" r="4" fill="none" stroke="#ff6b6b" stroke-width="2"/>
+      <text x="112" y="190" text-anchor="middle" fill="#e8eef4" font-size="11" font-weight="700">Box plot</text>
+      <text x="112" y="202" text-anchor="middle" fill="#6b7d8f" font-size="9.5">interior shape hidden</text>
+    </g>
+  </svg>
+  <figcaption class="viz-figcaption"><span class="fig-dot" style="background:#4d96ff"></span><span class="fig-num">Fig. F</span> Dot plot vs. histogram vs. box plot: each trades off detail, compactness, and information loss differently.</figcaption>
+</figure>
+
+For small-to-medium datasets, the dot plot's preservation of individual points is a decisive advantage. For huge datasets, switch to a histogram, a density plot, or a binned scatter. Knowing when to switch is part of statistical maturity.
+
+## Five Things Dot Plots Reveal
+
+If you take nothing else from this guide, remember these five things a dot plot reveals at a glance:
+
+1. **Distribution shape** — symmetric, skewed, bimodal, or uniform
 2. **Central tendency** — where the bulk of data concentrates
-3. **Spread** — how wide the values range
-4. **Clusters and gaps** — subgroups within the data
+3. **Spread** — how wide the values range, from minimum to maximum
+4. **Clusters and gaps** — subgroups and natural breaks within the data
 5. **Outliers** — extreme values that deserve investigation
+
+Each of these is directly visible on the chart, no computation required. That immediacy is why experienced analysts insist on plotting data before modeling it.
 
 ## Real-World Datasets
 
-The interactive visualizer below includes three real-world datasets chosen to illustrate different distribution shapes:
+The interactive visualizer below includes three real-world datasets, each chosen to illustrate a different distribution shape:
 
-- **Adult Heights** — approximately normal distribution, mean ≈ median
-- **Annual Temperatures** — slight right skew, a few extreme hot days
-- **Monthly Rainfall** — strong right skew, most months dry, a few flood months
+- **Adult Heights** — an approximately normal distribution where the mean and median nearly coincide. Height data in a homogeneous population is one of the classic examples of symmetry in nature.
+- **Annual Temperatures** — a slight right skew created by a handful of extreme hot days. The bulk of days cluster near the seasonal average, but the tail records the record highs.
+- **Monthly Rainfall** — a strong right skew: most months are dry, while a few flood months dominate the total. This is the distribution that makes the mean an unreliable summary of "typical" rainfall.
 
-Switch between them to see how the dot plot shape changes and how the mean-median gap grows with skewness.
+Switch between them to see how the dot plot shape changes and how the **mean-median gap** grows with skewness. The datasets are deliberately small enough that you can count the dots and verify the statistics yourself.
 
 ## How to Use the Visualizer
 
-1. **Select a dataset** using the tabs, or enter your own custom data
+The embedded **Statistics Dot Plot Visualizer** is designed to take you from raw data to statistical understanding in seconds:
+
+1. **Select a dataset** using the tabs, or enter your own custom data to explore
 2. **Read the dot plot** — each dot is one data point; stacked dots mean repeated values
-3. **Compare the dashed lines** — green = median, orange = mean; the gap between them reveals skewness
-4. **Check the stats grid** — all key descriptive statistics at a glance
-5. **Read the interpretation note** — it explains the distribution shape in plain language
+3. **Compare the dashed lines** — green marks the median, orange marks the mean; the gap between them reveals skewness
+4. **Check the stats grid** — all key descriptive statistics at a glance, including quartiles and range
+5. **Read the interpretation note** — the tool explains the distribution shape in plain language
+
+Try these three experiments to build your intuition:
+
+- **Experiment 1:** Load *Adult Heights* and confirm that the mean and median lines overlap almost perfectly. You are looking at symmetry.
+- **Experiment 2:** Switch to *Monthly Rainfall* and watch the orange mean line slide far right of the green median line. You are looking at right skew.
+- **Experiment 3:** Paste your own dataset and observe how a single extreme value moves the mean but barely moves the median. You are experiencing the resistance of the median firsthand.
 
 ## When to Use This in Your Work
 
-- **Quick EDA** — before running any formal tests, plot your data
-- **Presentations** — dot plots communicate distribution shape to non-technical audiences
-- **Teaching** — students see the connection between individual points and summary statistics
-- **Data quality checks** — outliers and data entry errors show up immediately
+Dot plots earn their keep across many professional contexts:
+
+- **Quick EDA** — before running any formal tests, plot your data. Ten seconds of viewing beats ten pages of assumptions.
+- **Presentations** — dot plots communicate distribution shape to non-technical audiences without a statistics lecture.
+- **Teaching** — students see the connection between individual points and summary statistics, making abstract concepts concrete.
+- **Data quality checks** — outliers and data entry errors show up immediately, before they corrupt downstream analysis.
+- **Reporting** — in clinical, financial, and quality-control reports, showing the distribution builds trust that a single number never can.
+
+## Best Practices for Reading Dot Plots
+
+To get the most from any dot plot, professional analysts follow a few simple habits:
+
+- **Always check the axis range first.** A chart whose axis starts far from zero can exaggerate or hide differences.
+- **Look for the tail, not just the peak.** The most important information is often in the extremes.
+- **Compare the mean and median explicitly.** If they diverge meaningfully, skewness is present and you should report both.
+- **Count before you trust.** For small datasets, verify that the number of dots matches your number of observations. Missing data is a common silent error.
+- **Pair the plot with the summary.** The dot plot shows *what*; the summary statistics show *how much*. Use them together.
 
 ## Start Creating
 
 - **[Dot Plot Maker®](/)** — paste any dataset for an instant dot plot
 - **[Professional Tool](/professional-dot-plot-tool/)** — import CSV/Excel, export SVG, advanced styling
+- **[Interactive Statistics Visualizer](/statistics-dot-plot-visualizer/)** — explore distribution shapes with real-world data
 
 Free, no signup, all processing in your browser.

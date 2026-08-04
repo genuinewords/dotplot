@@ -126,8 +126,9 @@ const breadcrumbSchema = {
 
 <style>
   .blog-post {
-    max-width: 800px;
+    max-width: 1120px;
     margin: 0 auto;
+    text-align: left;
   }
   .post-hero {
     margin-bottom: 2rem;
@@ -135,6 +136,7 @@ const breadcrumbSchema = {
   .post-meta {
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 1rem;
     margin-bottom: 1.25rem;
   }
@@ -163,7 +165,8 @@ const breadcrumbSchema = {
     font-size: 0.9rem;
   }
   .post-image {
-    margin-bottom: 2rem;
+    margin: 0 auto 2rem;
+    max-width: 1040px;
     border-radius: 16px;
     overflow: hidden;
     border: 1px solid var(--color-border);
@@ -177,6 +180,7 @@ const breadcrumbSchema = {
     margin-top: 3rem;
     padding-top: 2rem;
     border-top: 1px solid var(--color-border);
+    text-align: left;
   }
   @media (max-width: 768px) {
     .post-title { font-size: 1.8rem; }
