@@ -1,0 +1,40 @@
+---
+import BaseLayout from "@theme/layouts/BaseLayout.astro";
+import CategoricalScatterPlot from "@theme/components/CategoricalScatterPlot.astro";
+import { getStaticLocalePaths, t } from "@src/i18n/utils";
+import { type Locale } from "@src/i18n/config";
+
+export function getStaticPaths() {
+  return getStaticLocalePaths();
+}
+
+const locale = (Astro.params.locale ?? "en") as Locale;
+---
+<BaseLayout locale={locale} title={t(locale, "site.title") + " — Categorical Scatter Plot"} description="Free online categorical scatter plot maker. Visualize data across categories with jitter, color-coded groups, and export to SVG/PNG.">
+  <Fragment slot="head">
+    <meta name="keywords" content="categorical scatter plot, scatter plot maker, categorical data visualization" />
+  </Fragment>
+
+  <div class="page-content" style="padding: 2rem 1rem; max-width: 1200px; margin: 0 auto; min-height: 80vh;">
+    
+    <header style="text-align: center; margin-bottom: 2.5rem; margin-top: 2rem;">
+      <span class="badge" style="margin-bottom: 1.25rem;">Free Online Tool</span>
+      <h1 class="section-title" style="font-size: 3.5rem; margin-bottom: 1rem; font-weight: 800; background: linear-gradient(135deg, var(--color-text-primary), var(--color-primary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+        Categorical Scatter Plot Maker
+      </h1>
+      <p style="color: var(--color-text-secondary); max-width: 800px; margin: 0 auto; font-size: 1.25rem; line-height: 1.6;">
+        Visualize data distributions across categories. Add multiple groups, toggle mean lines, customize jitter, and export publication-ready SVG or PNG charts — all free, no signup required.
+      </p>
+    </header>
+
+    <div style="background: var(--color-bg-card); border: 1px solid var(--color-border); border-radius: 16px; overflow: hidden; margin-bottom: 4rem; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);">
+      <CategoricalScatterPlot locale={locale} />
+    </div>
+
+    <div style="text-align: center; padding: 2rem 1rem;">
+      <a href="/" class="btn-primary" style="display: inline-block; padding: 1rem 2.5rem; font-size: 1.1rem; font-weight: 600; text-decoration: none; border-radius: 8px; background: linear-gradient(135deg, var(--color-primary), var(--color-accent)); color: #ffffff; box-shadow: 0 8px 24px rgba(0,212,170,0.22);">
+        Try Dot Plot Maker
+      </a>
+    </div>
+  </div>
+</BaseLayout>

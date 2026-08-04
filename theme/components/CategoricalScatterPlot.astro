@@ -1,0 +1,830 @@
+---
+import { type Locale, defaultLocale } from "@src/i18n/config";
+import "@fontsource-variable/space-grotesk";
+import ibmPlexMono400Url from "@fontsource/ibm-plex-mono/files/ibm-plex-mono-latin-400-normal.woff2?url";
+import ibmPlexMono500Url from "@fontsource/ibm-plex-mono/files/ibm-plex-mono-latin-500-normal.woff2?url";
+
+interface Props {
+  locale?: Locale;
+}
+
+const { locale = defaultLocale } = Astro.props;
+---
+
+<section id="cat-scatter-tool" class="cat-scatter-wrapper">
+  <span id="ibm-plex-mono-urls-cs" data-w400={ibmPlexMono400Url} data-w500={ibmPlexMono500Url} style="display:none" aria-hidden="true"></span>
+
+  <style is:inline>
+    .cat-scatter-wrapper {
+      --bg: #0a0f14;
+      --bg-elevated: #111920;
+      --fg: #e8eef4;
+      --muted: #6b7d8f;
+      --accent: #00d4aa;
+      --accent-dim: rgba(0, 212, 170, 0.15);
+      --card: #151d26;
+      --border: #243040;
+      --danger: #ff6b6b;
+      font-family: 'Space Grotesk', sans-serif;
+      background: var(--bg);
+      color: var(--fg);
+      position: relative;
+      overflow: hidden;
+      border-radius: 16px;
+      margin: 0 auto;
+      max-width: 1200px;
+      padding: 2.5rem;
+      box-shadow: 0 30px 60px -12px rgba(0, 212, 170, 0.15), 0 0 0 1px rgba(255,255,255,0.1);
+    }
+    .cat-scatter-wrapper * { box-sizing: border-box; }
+    .cat-scatter-wrapper .font-mono { font-family: 'IBM Plex Mono', monospace; }
+
+    .cat-scatter-wrapper .bg-atmosphere {
+      position: absolute; inset: 0; pointer-events: none; z-index: 0;
+      background:
+        radial-gradient(ellipse 80% 50% at 20% 10%, rgba(0, 212, 170, 0.08) 0%, transparent 50%),
+        radial-gradient(ellipse 60% 40% at 80% 90%, rgba(139, 92, 246, 0.06) 0%, transparent 50%),
+        linear-gradient(180deg, var(--bg) 0%, #0d1318 100%);
+    }
+    .cat-scatter-wrapper .grid-pattern {
+      position: absolute; inset: 0; pointer-events: none; z-index: 1; opacity: 0.03;
+      background-image: linear-gradient(var(--muted) 1px, transparent 1px), linear-gradient(90deg, var(--muted) 1px, transparent 1px);
+      background-size: 40px 40px;
+    }
+
+    @keyframes csFadeSlideUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .cat-scatter-wrapper .animate-entrance {
+      animation: csFadeSlideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      opacity: 0;
+    }
+    .cat-scatter-wrapper .delay-1 { animation-delay: 0.1s; }
+    .cat-scatter-wrapper .delay-2 { animation-delay: 0.2s; }
+    .cat-scatter-wrapper .delay-3 { animation-delay: 0.3s; }
+    .cat-scatter-wrapper .delay-4 { animation-delay: 0.4s; }
+    .cat-scatter-wrapper .delay-5 { animation-delay: 0.5s; }
+    @media (prefers-reduced-motion: reduce) {
+      .cat-scatter-wrapper .animate-entrance { animation: none; opacity: 1; }
+    }
+
+    .cat-scatter-wrapper ::-webkit-scrollbar { width: 8px; height: 8px; }
+    .cat-scatter-wrapper ::-webkit-scrollbar-track { background: var(--bg-elevated); }
+    .cat-scatter-wrapper ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+    .cat-scatter-wrapper ::-webkit-scrollbar-thumb:hover { background: var(--muted); }
+    .cat-scatter-wrapper *:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+    .cat-scatter-wrapper .input-field {
+      background: var(--bg); border: 1px solid var(--border); color: var(--fg);
+      padding: 0.75rem 1rem; border-radius: 8px; transition: all 0.2s ease; width: 100%;
+    }
+    .cat-scatter-wrapper .input-field:hover { border-color: var(--muted); }
+    .cat-scatter-wrapper .input-field:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-dim); }
+
+    .cat-scatter-wrapper .btn-primary {
+      background: var(--accent); color: var(--bg); font-weight: 600;
+      padding: 0.75rem 1.5rem; border-radius: 8px; transition: all 0.2s ease;
+      border: none; cursor: pointer;
+    }
+    .cat-scatter-wrapper .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0, 212, 170, 0.3); }
+    .cat-scatter-wrapper .btn-primary:active { transform: translateY(0); }
+
+    .cat-scatter-wrapper .btn-secondary {
+      background: transparent; color: var(--fg); font-weight: 500;
+      padding: 0.75rem 1.5rem; border-radius: 8px; transition: all 0.2s ease;
+      border: 1px solid var(--border); cursor: pointer;
+    }
+    .cat-scatter-wrapper .btn-secondary:hover { border-color: var(--muted); background: var(--card); }
+
+    .cat-scatter-wrapper .card {
+      background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem;
+    }
+
+    .cat-scatter-wrapper .canvas-container {
+      background: var(--bg-elevated); border: 1px solid var(--border);
+      border-radius: 12px; overflow: hidden; position: relative;
+    }
+
+    .cat-scatter-wrapper input[type="range"] {
+      -webkit-appearance: none; appearance: none; background: var(--border);
+      height: 4px; border-radius: 2px; cursor: pointer;
+    }
+    .cat-scatter-wrapper input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none; width: 18px; height: 18px; background: var(--accent);
+      border-radius: 50%; cursor: pointer; transition: transform 0.2s ease;
+    }
+    .cat-scatter-wrapper input[type="range"]::-webkit-slider-thumb:hover { transform: scale(1.2); }
+
+    .cat-scatter-wrapper .color-picker-wrapper {
+      position: relative; width: 40px; height: 40px; border-radius: 8px;
+      overflow: hidden; border: 2px solid var(--border); cursor: pointer; transition: border-color 0.2s ease;
+    }
+    .cat-scatter-wrapper .color-picker-wrapper:hover { border-color: var(--muted); }
+    .cat-scatter-wrapper .color-picker-wrapper input {
+      position: absolute; inset: -4px; width: calc(100% + 8px); height: calc(100% + 8px);
+      cursor: pointer; border: none;
+    }
+
+    .cat-scatter-wrapper .tooltip {
+      position: absolute; background: var(--card); border: 1px solid var(--border);
+      padding: 0.5rem 0.75rem; border-radius: 6px; font-size: 0.75rem;
+      pointer-events: none; opacity: 0; transform: translateY(5px);
+      transition: all 0.2s ease; white-space: nowrap; z-index: 100;
+    }
+    .cat-scatter-wrapper .tooltip.visible { opacity: 1; transform: translateY(0); }
+
+    .cat-scatter-wrapper .tab-btn {
+      padding: 0.5rem 1rem; border-radius: 6px; font-weight: 500;
+      color: var(--muted); background: transparent; border: none; cursor: pointer; transition: all 0.2s ease;
+    }
+    .cat-scatter-wrapper .tab-btn:hover { color: var(--fg); }
+    .cat-scatter-wrapper .tab-btn.active { background: var(--accent-dim); color: var(--accent); }
+
+    .cat-scatter-wrapper .data-badge {
+      display: inline-flex; align-items: center; gap: 0.25rem;
+      background: var(--accent-dim); color: var(--accent); padding: 0.2rem 0.5rem;
+      border-radius: 4px; font-size: 0.7rem; font-weight: 500;
+    }
+
+    .cat-scatter-wrapper .group-row {
+      display: flex; align-items: center; gap: 0.5rem; padding: 0.4rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .cat-scatter-wrapper .group-row:last-child { border-bottom: none; }
+  </style>
+
+  <div class="bg-atmosphere"></div>
+  <div class="grid-pattern"></div>
+
+  <div class="relative z-10 w-full max-w-7xl mx-auto">
+    <div class="animate-entrance flex items-center justify-end mb-8">
+      <div class="text-sm" style="color: var(--muted);">Categorical Scatter Plot</div>
+    </div>
+
+    <div class="grid lg:grid-cols-3 gap-6">
+      <!-- Left Panel -->
+      <div class="lg:col-span-1 space-y-6">
+        <!-- Data Input -->
+        <div class="card animate-entrance delay-3 text-left">
+          <div class="flex items-center justify-between mb-4">
+            <h2 class="font-semibold" style="color: var(--fg);">Data Input</h2>
+            <div class="flex gap-1">
+              <button class="tab-btn active" data-tab="manual" onclick="csSwitchTab('manual')">Manual</button>
+              <button class="tab-btn" data-tab="paste" onclick="csSwitchTab('paste')">Paste</button>
+              <button class="tab-btn" data-tab="csv" onclick="csSwitchTab('csv')">CSV</button>
+            </div>
+          </div>
+
+          <div id="cs-manual-tab">
+            <div class="space-y-3">
+              <div>
+                <label class="block text-sm mb-2" style="color: var(--muted);">Category (X-axis)</label>
+                <input type="text" id="cs-category-input" class="input-field font-mono text-sm" placeholder="e.g. Control, Treatment A, Treatment B" value="Control, Treatment A, Treatment B">
+              </div>
+              <div>
+                <label class="block text-sm mb-2" style="color: var(--muted);">Values per category (comma separated)</label>
+                <textarea id="cs-values-input" class="input-field font-mono text-sm resize-none" rows="4" placeholder="12, 15, 18, 14&#10;22, 25, 28, 24&#10;30, 32, 29, 33">12, 15, 18, 14
+22, 25, 28, 24
+30, 32, 29, 33</textarea>
+              </div>
+              <div>
+                <label class="block text-sm mb-2" style="color: var(--muted);">Group name (optional)</label>
+                <input type="text" id="cs-group-input" class="input-field text-sm" placeholder="Group name" value="Experiment 1">
+              </div>
+              <button onclick="csAddGroup()" class="btn-primary w-full flex items-center justify-center gap-2">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                Add Group
+              </button>
+            </div>
+          </div>
+
+          <div id="cs-paste-tab" class="hidden">
+            <div>
+              <label class="block text-sm mb-2" style="color: var(--muted);">Paste data (category, value per line)</label>
+              <textarea id="cs-paste-input" class="input-field font-mono text-sm resize-none" rows="6" placeholder="Control, 12&#10;Control, 15&#10;Treatment A, 22&#10;Treatment A, 25"></textarea>
+              <button onclick="csParsePasteData()" class="btn-primary w-full mt-3">Import Data</button>
+            </div>
+          </div>
+
+          <div id="cs-csv-tab" class="hidden">
+            <div>
+              <label class="block text-sm mb-2" style="color: var(--muted);">Upload CSV file</label>
+              <div id="cs-drop-zone" style="border: 2px dashed var(--border); border-radius: 8px; padding: 2rem 1rem; text-align: center; cursor: pointer; transition: all 0.2s ease;">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="1.5" style="margin: 0 auto 0.5rem;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                <div class="text-sm" style="color: var(--muted);">Drop .csv here or click to browse</div>
+                <input type="file" id="cs-file-input" accept=".csv,.tsv" style="display: none;">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Groups List -->
+        <div class="card animate-entrance delay-4 text-left">
+          <h2 class="font-semibold mb-4" style="color: var(--fg);">Active Groups</h2>
+          <div id="cs-groups-list" class="space-y-1"></div>
+        </div>
+
+        <!-- Style Controls -->
+        <div class="card animate-entrance delay-5 text-left">
+          <h2 class="font-semibold mb-4" style="color: var(--fg);">Style Options</h2>
+          <div class="space-y-4">
+            <div>
+              <label class="block text-sm mb-2 flex justify-between" style="color: var(--muted);">
+                <span>Dot Size</span>
+                <span id="cs-dot-size-val" class="font-mono" style="color: var(--accent);">8</span>
+              </label>
+              <input type="range" id="cs-dot-size" min="3" max="20" value="8" class="w-full" oninput="document.getElementById('cs-dot-size-val').textContent=this.value; csUpdatePlot()">
+            </div>
+            <div>
+              <label class="block text-sm mb-2 flex justify-between" style="color: var(--muted);">
+                <span>Dot Opacity</span>
+                <span id="cs-dot-opacity-val" class="font-mono" style="color: var(--accent);">0.8</span>
+              </label>
+              <input type="range" id="cs-dot-opacity" min="0.2" max="1" step="0.1" value="0.8" class="w-full" oninput="document.getElementById('cs-dot-opacity-val').textContent=this.value; csUpdatePlot()">
+            </div>
+            <div>
+              <label class="block text-sm mb-2 flex justify-between" style="color: var(--muted);">
+                <span>Jitter Amount</span>
+                <span id="cs-jitter-val" class="font-mono" style="color: var(--accent);">0.3</span>
+              </label>
+              <input type="range" id="cs-jitter" min="0" max="1" step="0.05" value="0.3" class="w-full" oninput="document.getElementById('cs-jitter-val').textContent=this.value; csUpdatePlot()">
+            </div>
+            <div class="flex items-center justify-between pt-1">
+              <label class="text-sm" style="color: var(--muted);">Show Grid</label>
+              <button id="cs-grid-toggle" class="w-12 h-6 rounded-full transition-colors duration-200" style="background: var(--accent);" onclick="csToggleGrid()" aria-label="Toggle grid">
+                <div class="w-5 h-5 rounded-full bg-white transform translate-x-6 transition-transform duration-200"></div>
+              </button>
+            </div>
+            <div class="flex items-center justify-between">
+              <label class="text-sm" style="color: var(--muted);">Show Mean Line</label>
+              <button id="cs-mean-toggle" class="w-12 h-6 rounded-full transition-colors duration-200" style="background: var(--accent);" onclick="csToggleMean()" aria-label="Toggle mean line">
+                <div class="w-5 h-5 rounded-full bg-white transform translate-x-6 transition-transform duration-200"></div>
+              </button>
+            </div>
+            <div class="flex items-center justify-between">
+              <label class="text-sm" style="color: var(--muted);">Show Labels</label>
+              <button id="cs-labels-toggle" class="w-12 h-6 rounded-full transition-colors duration-200" style="background: var(--accent);" onclick="csToggleLabels()" aria-label="Toggle labels">
+                <div class="w-5 h-5 rounded-full bg-white transform translate-x-6 transition-transform duration-200"></div>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Panel: Visualization -->
+      <div class="lg:col-span-2 space-y-6">
+        <div class="canvas-container animate-entrance delay-4" style="min-height: 500px;">
+          <div class="absolute top-4 right-4 z-10 flex gap-2">
+            <button onclick="csExportSVG()" class="btn-secondary text-sm flex items-center gap-2" aria-label="Export as SVG">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+              SVG
+            </button>
+            <button onclick="csExportPNG()" class="btn-primary text-sm flex items-center gap-2" aria-label="Export as PNG">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+              PNG
+            </button>
+          </div>
+          <canvas id="cs-canvas" style="display: block; width: 100%;"></canvas>
+          <div id="cs-tooltip" class="tooltip text-left"></div>
+        </div>
+
+        <!-- Statistics -->
+        <div class="grid sm:grid-cols-4 gap-4 animate-entrance delay-5">
+          <div class="card text-center">
+            <div class="text-sm mb-1" style="color: var(--muted);">Total Points</div>
+            <div id="cs-stat-count" class="text-2xl font-bold font-mono" style="color: var(--accent);">0</div>
+          </div>
+          <div class="card text-center">
+            <div class="text-sm mb-1" style="color: var(--muted);">Categories</div>
+            <div id="cs-stat-cats" class="text-2xl font-bold font-mono" style="color: var(--fg);">0</div>
+          </div>
+          <div class="card text-center">
+            <div class="text-sm mb-1" style="color: var(--muted);">Overall Mean</div>
+            <div id="cs-stat-mean" class="text-2xl font-bold font-mono" style="color: var(--fg);">0</div>
+          </div>
+          <div class="card text-center">
+            <div class="text-sm mb-1" style="color: var(--muted);">Std Dev</div>
+            <div id="cs-stat-std" class="text-2xl font-bold font-mono" style="color: var(--fg);">0</div>
+          </div>
+        </div>
+
+        <!-- Summary Table -->
+        <div class="card animate-entrance delay-5 text-left">
+          <h2 class="font-semibold mb-4" style="color: var(--fg);">Category Summary</h2>
+          <div id="cs-summary-table" class="overflow-x-auto">
+            <table class="w-full text-sm">
+              <thead>
+                <tr style="color: var(--muted);">
+                  <th class="text-left py-2 px-3 border-b" style="border-color: var(--border);">Category</th>
+                  <th class="text-left py-2 px-3 border-b" style="border-color: var(--border);">N</th>
+                  <th class="text-left py-2 px-3 border-b" style="border-color: var(--border);">Mean</th>
+                  <th class="text-left py-2 px-3 border-b" style="border-color: var(--border);">Median</th>
+                  <th class="text-left py-2 px-3 border-b" style="border-color: var(--border);">Std Dev</th>
+                  <th class="text-left py-2 px-3 border-b" style="border-color: var(--border);">Range</th>
+                </tr>
+              </thead>
+              <tbody id="cs-summary-body" style="color: var(--fg);"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script is:inline>
+    (function() {
+      var fontUrls = document.getElementById('ibm-plex-mono-urls-cs');
+      if (fontUrls) {
+        var w400 = fontUrls.dataset.w400;
+        var w500 = fontUrls.dataset.w500;
+        if (w400) new FontFace('IBM Plex Mono', 'url(' + w400 + ')', { weight: '400', display: 'swap' }).load().then(function(f) { document.fonts.add(f); });
+        if (w500) new FontFace('IBM Plex Mono', 'url(' + w500 + ')', { weight: '500', display: 'swap' }).load().then(function(f) { document.fonts.add(f); });
+      }
+    })();
+
+    const csState = {
+      categories: [],
+      groups: [],
+      showGrid: true,
+      showMean: true,
+      showLabels: true,
+      dotPositions: []
+    };
+
+    const csColorPalette = ['#00d4aa', '#ff6b9d', '#ffd93d', '#6bcb77', '#4d96ff', '#9b59b6', '#e17055', '#00b894'];
+
+    const csCanvas = document.getElementById('cs-canvas');
+    if (csCanvas) {
+      const ctx = csCanvas.getContext('2d');
+      const tooltip = document.getElementById('cs-tooltip');
+
+      function csInit() {
+        window.addEventListener('resize', csDebounce(csResizeCanvas, 100));
+        csCanvas.addEventListener('mousemove', csHandleMouseMove);
+        csCanvas.addEventListener('mouseleave', function() { tooltip.classList.remove('visible'); });
+
+        var dropZone = document.getElementById('cs-drop-zone');
+        var fileInput = document.getElementById('cs-file-input');
+        if (dropZone && fileInput) {
+          dropZone.addEventListener('click', function() { fileInput.click(); });
+          dropZone.addEventListener('dragover', function(e) { e.preventDefault(); dropZone.style.borderColor = 'var(--accent)'; });
+          dropZone.addEventListener('dragleave', function() { dropZone.style.borderColor = 'var(--border)'; });
+          dropZone.addEventListener('drop', function(e) { e.preventDefault(); dropZone.style.borderColor = 'var(--border)'; csHandleFile(e.dataTransfer.files[0]); });
+          fileInput.addEventListener('change', function() { if (fileInput.files[0]) csHandleFile(fileInput.files[0]); });
+        }
+
+        requestAnimationFrame(function() {
+          csResizeCanvas();
+          csAddGroup();
+        });
+      }
+
+      function csResizeCanvas() {
+        var container = csCanvas.parentElement;
+        var dpr = window.devicePixelRatio || 1;
+        var rect = container.getBoundingClientRect();
+        var w = rect.width;
+        var h = Math.max(500, rect.height);
+        csCanvas.width = w * dpr;
+        csCanvas.height = h * dpr;
+        csCanvas.style.width = w + 'px';
+        csCanvas.style.height = h + 'px';
+        ctx.scale(dpr, dpr);
+        requestAnimationFrame(csUpdatePlot);
+      }
+
+      window.csSwitchTab = function(tab) {
+        document.querySelectorAll('#cat-scatter-tool .tab-btn').forEach(function(btn) {
+          btn.classList.toggle('active', btn.dataset.tab === tab);
+        });
+        document.getElementById('cs-manual-tab').classList.toggle('hidden', tab !== 'manual');
+        document.getElementById('cs-paste-tab').classList.toggle('hidden', tab !== 'paste');
+        document.getElementById('cs-csv-tab').classList.toggle('hidden', tab !== 'csv');
+      };
+
+      function csParseValues(text) {
+        return text.split(/[,\n]+/).map(function(v) { return parseFloat(v.trim()); }).filter(function(v) { return !isNaN(v); });
+      }
+
+      window.csAddGroup = function() {
+        var catInput = document.getElementById('cs-category-input');
+        var valuesInput = document.getElementById('cs-values-input');
+        var groupInput = document.getElementById('cs-group-input');
+
+        var cats = catInput.value.split(',').map(function(c) { return c.trim(); }).filter(function(c) { return c.length > 0; });
+        var lines = valuesInput.value.split('\n').filter(function(l) { return l.trim().length > 0; });
+
+        var data = {};
+        cats.forEach(function(cat, i) {
+          data[cat] = csParseValues(lines[i] || '');
+        });
+
+        csState.groups.push({
+          id: Date.now(),
+          name: groupInput.value || 'Group ' + csState.groups.length,
+          data: data,
+          color: csColorPalette[csState.groups.length % csColorPalette.length]
+        });
+
+        csUpdateCategories();
+        csRenderGroupsList();
+        csUpdatePlot();
+      };
+
+      window.csRemoveGroup = function(id) {
+        csState.groups = csState.groups.filter(function(g) { return g.id !== id; });
+        csUpdateCategories();
+        csRenderGroupsList();
+        csUpdatePlot();
+      };
+
+      function csUpdateCategories() {
+        var catSet = {};
+        csState.groups.forEach(function(g) {
+          Object.keys(g.data).forEach(function(cat) { catSet[cat] = true; });
+        });
+        csState.categories = Object.keys(catSet);
+      }
+
+      function csRenderGroupsList() {
+        var container = document.getElementById('cs-groups-list');
+        if (csState.groups.length === 0) {
+          container.innerHTML = '<p class="text-sm" style="color: var(--muted);">No groups added yet.</p>';
+          return;
+        }
+        container.innerHTML = csState.groups.map(function(g) {
+          var totalPoints = 0;
+          Object.values(g.data).forEach(function(arr) { totalPoints += arr.length; });
+          var allVals = [];
+          Object.values(g.data).forEach(function(arr) { allVals = allVals.concat(arr); });
+          var mean = allVals.length > 0 ? (allVals.reduce(function(a, b) { return a + b; }, 0) / allVals.length).toFixed(1) : '0';
+          return '<div class="flex items-center justify-between p-3 rounded-lg" style="background: var(--bg);">' +
+            '<div class="flex items-center gap-3">' +
+              '<div class="w-4 h-4 rounded-full" style="background: ' + g.color + ';"></div>' +
+              '<div>' +
+                '<div class="font-medium text-sm" style="color: var(--fg);">' + g.name + '</div>' +
+                '<div class="text-xs" style="color: var(--muted);">' + totalPoints + ' points</div>' +
+              '</div>' +
+            '</div>' +
+            '<div class="flex items-center gap-2">' +
+              '<span class="data-badge">' + mean + ' mean</span>' +
+              '<button onclick="csRemoveGroup(' + g.id + ')" class="p-1 rounded hover:bg-red-500/20 transition-colors" style="color: var(--danger);" aria-label="Remove group">' +
+                '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>' +
+              '</button>' +
+            '</div>' +
+          '</div>';
+        }).join('');
+      }
+
+      window.csParsePasteData = function() {
+        var input = document.getElementById('cs-paste-input').value;
+        var data = {};
+        input.split('\n').filter(function(l) { return l.trim(); }).forEach(function(line) {
+          var parts = line.split(',').map(function(p) { return p.trim(); });
+          if (parts.length >= 2) {
+            var cat = parts[0];
+            var val = parseFloat(parts[1]);
+            if (!isNaN(val)) {
+              if (!data[cat]) data[cat] = [];
+              data[cat].push(val);
+            }
+          }
+        });
+        if (Object.keys(data).length > 0) {
+          csState.groups.push({
+            id: Date.now(),
+            name: 'Pasted Data',
+            data: data,
+            color: csColorPalette[csState.groups.length % csColorPalette.length]
+          });
+          csUpdateCategories();
+          csRenderGroupsList();
+          csUpdatePlot();
+        }
+        csSwitchTab('manual');
+      };
+
+      function csHandleFile(file) {
+        if (!file) return;
+        var reader = new FileReader();
+        reader.onload = function(e) {
+          var lines = e.target.result.split('\n').filter(function(l) { return l.trim(); });
+          var data = {};
+          var headerSkipped = false;
+          lines.forEach(function(line) {
+            var parts = line.split(/[,\t]/).map(function(p) { return p.trim().replace(/^["']|["']$/g, ''); });
+            if (parts.length >= 2) {
+              if (isNaN(parseFloat(parts[1])) && !headerSkipped) { headerSkipped = true; return; }
+              var cat = parts[0];
+              var val = parseFloat(parts[1]);
+              if (!isNaN(val)) {
+                if (!data[cat]) data[cat] = [];
+                data[cat].push(val);
+              }
+            }
+          });
+          if (Object.keys(data).length > 0) {
+            csState.groups.push({
+              id: Date.now(),
+              name: file.name.replace(/\.[^.]+$/, ''),
+              data: data,
+              color: csColorPalette[csState.groups.length % csColorPalette.length]
+            });
+            csUpdateCategories();
+            csRenderGroupsList();
+            csUpdatePlot();
+          }
+        };
+        reader.readAsText(file);
+      }
+
+      window.csToggleGrid = function() {
+        csState.showGrid = !csState.showGrid;
+        var toggle = document.getElementById('cs-grid-toggle');
+        var knob = toggle.querySelector('div');
+        toggle.style.background = csState.showGrid ? 'var(--accent)' : 'var(--border)';
+        knob.style.transform = csState.showGrid ? 'translateX(1.5rem)' : 'translateX(0)';
+        csUpdatePlot();
+      };
+      window.csToggleMean = function() {
+        csState.showMean = !csState.showMean;
+        var toggle = document.getElementById('cs-mean-toggle');
+        var knob = toggle.querySelector('div');
+        toggle.style.background = csState.showMean ? 'var(--accent)' : 'var(--border)';
+        knob.style.transform = csState.showMean ? 'translateX(1.5rem)' : 'translateX(0)';
+        csUpdatePlot();
+      };
+      window.csToggleLabels = function() {
+        csState.showLabels = !csState.showLabels;
+        var toggle = document.getElementById('cs-labels-toggle');
+        var knob = toggle.querySelector('div');
+        toggle.style.background = csState.showLabels ? 'var(--accent)' : 'var(--border)';
+        knob.style.transform = csState.showLabels ? 'translateX(1.5rem)' : 'translateX(0)';
+        csUpdatePlot();
+      };
+
+      function csAdjustColor(hex, opacity) {
+        var r = parseInt(hex.slice(1, 3), 16), g = parseInt(hex.slice(3, 5), 16), b = parseInt(hex.slice(5, 7), 16);
+        return 'rgba(' + r + ',' + g + ',' + b + ',' + opacity + ')';
+      }
+
+      function csCalcMean(arr) { return arr.length ? arr.reduce(function(a, b) { return a + b; }, 0) / arr.length : 0; }
+      function csCalcMedian(arr) {
+        var sorted = arr.slice().sort(function(a, b) { return a - b; });
+        var mid = Math.floor(sorted.length / 2);
+        return sorted.length % 2 ? sorted[mid] : (sorted[mid - 1] + sorted[mid]) / 2;
+      }
+      function csCalcStd(arr) {
+        var mean = csCalcMean(arr);
+        return Math.sqrt(arr.map(function(v) { return Math.pow(v - mean, 2); }).reduce(function(a, b) { return a + b; }, 0) / arr.length);
+      }
+
+      window.csUpdatePlot = function() {
+        var dpr = window.devicePixelRatio || 1;
+        var width = csCanvas.width / dpr, height = csCanvas.height / dpr;
+        ctx.fillStyle = '#111920';
+        ctx.fillRect(0, 0, width, height);
+
+        var padding = { top: 50, right: 40, bottom: 70, left: 70 };
+        var cats = csState.categories;
+        if (cats.length === 0 || csState.groups.length === 0) {
+          ctx.font = '16px "Space Grotesk", sans-serif';
+          ctx.fillStyle = '#6b7d8f';
+          ctx.textAlign = 'center';
+          ctx.fillText('Add a group to start visualizing', width / 2, height / 2);
+          csUpdateStats([]);
+          csUpdateSummary([]);
+          return;
+        }
+
+        var allVals = [];
+        csState.groups.forEach(function(g) {
+          cats.forEach(function(cat) {
+            if (g.data[cat]) allVals = allVals.concat(g.data[cat]);
+          });
+        });
+        if (allVals.length === 0) return;
+
+        var minVal = Math.floor(Math.min.apply(null, allVals)) - 1;
+        var maxVal = Math.ceil(Math.max.apply(null, allVals)) + 1;
+        var plotW = width - padding.left - padding.right;
+        var plotH = height - padding.top - padding.bottom;
+        var catWidth = plotW / cats.length;
+        var dotSize = parseInt(document.getElementById('cs-dot-size').value);
+        var opacity = parseFloat(document.getElementById('cs-dot-opacity').value);
+        var jitterAmt = parseFloat(document.getElementById('cs-jitter').value);
+
+        // Grid
+        if (csState.showGrid) {
+          ctx.strokeStyle = 'rgba(107, 125, 143, 0.12)';
+          ctx.lineWidth = 1;
+          for (var i = 0; i <= 8; i++) {
+            var y = padding.top + plotH * (i / 8);
+            ctx.beginPath(); ctx.moveTo(padding.left, y); ctx.lineTo(width - padding.right, y); ctx.stroke();
+          }
+        }
+
+        // Axes
+        ctx.strokeStyle = 'rgba(107, 125, 143, 0.5)';
+        ctx.lineWidth = 2;
+        ctx.beginPath(); ctx.moveTo(padding.left, height - padding.bottom); ctx.lineTo(width - padding.right, height - padding.bottom); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(padding.left, padding.top); ctx.lineTo(padding.left, height - padding.bottom); ctx.stroke();
+
+        // Y-axis labels
+        ctx.font = '11px "IBM Plex Mono", monospace';
+        ctx.fillStyle = '#6b7d8f';
+        ctx.textAlign = 'right';
+        var yRange = maxVal - minVal;
+        for (var i = 0; i <= 6; i++) {
+          var val = minVal + (yRange / 6) * i;
+          var yPos = height - padding.bottom - (plotH * (i / 6));
+          ctx.fillText(val.toFixed(1), padding.left - 10, yPos + 4);
+        }
+
+        // Y-axis title
+        ctx.save();
+        ctx.translate(18, padding.top + plotH / 2);
+        ctx.rotate(-Math.PI / 2);
+        ctx.font = '12px "Space Grotesk", sans-serif';
+        ctx.fillStyle = '#6b7d8f';
+        ctx.textAlign = 'center';
+        ctx.fillText('Value', 0, 0);
+        ctx.restore();
+
+        csState.dotPositions = [];
+
+        // Dots per category
+        cats.forEach(function(cat, ci) {
+          var cx = padding.left + catWidth * ci + catWidth / 2;
+
+          // Category separator lines
+          if (ci > 0) {
+            ctx.strokeStyle = 'rgba(107, 125, 143, 0.15)';
+            ctx.lineWidth = 1;
+            ctx.setLineDash([4, 4]);
+            ctx.beginPath();
+            ctx.moveTo(padding.left + catWidth * ci, padding.top);
+            ctx.lineTo(padding.left + catWidth * ci, height - padding.bottom);
+            ctx.stroke();
+            ctx.setLineDash([]);
+          }
+
+          // X-axis label
+          if (csState.showLabels) {
+            ctx.font = '11px "Space Grotesk", sans-serif';
+            ctx.fillStyle = '#6b7d8f';
+            ctx.textAlign = 'center';
+            var label = cat.length > 12 ? cat.substring(0, 11) + '...' : cat;
+            ctx.fillText(label, cx, height - padding.bottom + 20);
+          }
+
+          // Draw dots per group
+          csState.groups.forEach(function(group, gi) {
+            var vals = group.data[cat] || [];
+            vals.forEach(function(val, vi) {
+              var yPos = height - padding.bottom - ((val - minVal) / yRange) * plotH;
+              var jitterX = (Math.random() - 0.5) * catWidth * jitterAmt * 0.8;
+              var xPos = cx + jitterX;
+
+              var grad = ctx.createRadialGradient(xPos, yPos, 0, xPos, yPos, dotSize);
+              grad.addColorStop(0, csAdjustColor(group.color, opacity));
+              grad.addColorStop(0.7, csAdjustColor(group.color, opacity * 0.7));
+              grad.addColorStop(1, csAdjustColor(group.color, opacity * 0.2));
+
+              ctx.beginPath();
+              ctx.arc(xPos, yPos, dotSize, 0, Math.PI * 2);
+              ctx.fillStyle = grad;
+              ctx.fill();
+              ctx.strokeStyle = csAdjustColor(group.color, opacity * 0.5);
+              ctx.lineWidth = 1;
+              ctx.stroke();
+
+              csState.dotPositions.push({ x: xPos, y: yPos, value: val, category: cat, group: group.name, color: group.color });
+            });
+
+            // Mean line per group per category
+            if (csState.showMean && vals.length > 1) {
+              var mean = csCalcMean(vals);
+              var meanY = height - padding.bottom - ((mean - minVal) / yRange) * plotH;
+              ctx.strokeStyle = csAdjustColor(group.color, 0.6);
+              ctx.lineWidth = 2;
+              ctx.setLineDash([6, 3]);
+              ctx.beginPath();
+              ctx.moveTo(cx - catWidth * 0.3, meanY);
+              ctx.lineTo(cx + catWidth * 0.3, meanY);
+              ctx.stroke();
+              ctx.setLineDash([]);
+            }
+          });
+        });
+
+        // Title
+        ctx.font = 'bold 15px "Space Grotesk", sans-serif';
+        ctx.fillStyle = '#e8eef4';
+        ctx.textAlign = 'center';
+        ctx.fillText('Categorical Scatter Plot', width / 2, 28);
+
+        // Legend
+        var legendX = width - padding.right - 10;
+        var legendY = padding.top + 10;
+        ctx.textAlign = 'right';
+        ctx.font = '11px "Space Grotesk", sans-serif';
+        csState.groups.forEach(function(g, i) {
+          var ly = legendY + i * 20;
+          ctx.fillStyle = g.color;
+          ctx.beginPath();
+          ctx.arc(legendX - ctx.measureText(g.name).width - 14, ly, 5, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.fillStyle = '#6b7d8f';
+          ctx.fillText(g.name, legendX, ly + 4);
+        });
+
+        csUpdateStats(allVals);
+        csUpdateSummary(cats);
+      };
+
+      function csUpdateStats(allVals) {
+        document.getElementById('cs-stat-count').textContent = allVals.length;
+        document.getElementById('cs-stat-cats').textContent = csState.categories.length;
+        document.getElementById('cs-stat-mean').textContent = allVals.length > 0 ? csCalcMean(allVals).toFixed(2) : '0';
+        document.getElementById('cs-stat-std').textContent = allVals.length > 0 ? csCalcStd(allVals).toFixed(2) : '0';
+      }
+
+      function csUpdateSummary(cats) {
+        var body = document.getElementById('cs-summary-body');
+        if (cats.length === 0) { body.innerHTML = '<tr><td colspan="6" class="py-4 text-center" style="color: var(--muted);">No data</td></tr>'; return; }
+        var allVals = [];
+        csState.groups.forEach(function(g) { cats.forEach(function(c) { if (g.data[c]) allVals = allVals.concat(g.data[c]); }); });
+        var globalMin = Math.min.apply(null, allVals);
+        var globalMax = Math.max.apply(null, allVals);
+        body.innerHTML = cats.map(function(cat) {
+          var vals = [];
+          csState.groups.forEach(function(g) { if (g.data[cat]) vals = vals.concat(g.data[cat]); });
+          if (vals.length === 0) return '';
+          var mn = csCalcMean(vals);
+          var md = csCalcMedian(vals);
+          var sd = csCalcStd(vals);
+          var lo = Math.min.apply(null, vals);
+          var hi = Math.max.apply(null, vals);
+          var barW = ((mn - globalMin) / (globalMax - globalMin)) * 80;
+          return '<tr>' +
+            '<td class="py-2 px-3 font-medium" style="color: var(--fg);">' + cat + '</td>' +
+            '<td class="py-2 px-3 font-mono">' + vals.length + '</td>' +
+            '<td class="py-2 px-3 font-mono" style="color: var(--accent);">' + mn.toFixed(2) + '</td>' +
+            '<td class="py-2 px-3 font-mono">' + md.toFixed(2) + '</td>' +
+            '<td class="py-2 px-3 font-mono">' + sd.toFixed(2) + '</td>' +
+            '<td class="py-2 px-3">' +
+              '<div class="flex items-center gap-2">' +
+                '<div class="h-2 rounded" style="width: ' + Math.max(4, barW) + 'px; background: var(--accent); opacity: 0.5;"></div>' +
+                '<span class="font-mono text-xs">' + lo.toFixed(1) + ' – ' + hi.toFixed(1) + '</span>' +
+              '</div>' +
+            '</td>' +
+          '</tr>';
+        }).join('');
+      }
+
+      function csHandleMouseMove(e) {
+        var rect = csCanvas.getBoundingClientRect();
+        var x = e.clientX - rect.left, y = e.clientY - rect.top;
+        var dotSize = parseInt(document.getElementById('cs-dot-size').value);
+        var found = csState.dotPositions.find(function(dot) {
+          return Math.sqrt(Math.pow(x - dot.x, 2) + Math.pow(y - dot.y, 2)) < dotSize + 4;
+        });
+        if (found) {
+          tooltip.innerHTML = '<span style="color: ' + found.color + ';">●</span> <strong>' + found.group + '</strong> | ' + found.category + ': <strong>' + found.value + '</strong>';
+          tooltip.style.left = (found.x + dotSize + 10) + 'px';
+          tooltip.style.top = (found.y - 10) + 'px';
+          tooltip.classList.add('visible');
+        } else {
+          tooltip.classList.remove('visible');
+        }
+      }
+
+      window.csExportSVG = function() {
+        var dpr = window.devicePixelRatio || 1, w = csCanvas.width / dpr, h = csCanvas.height / dpr;
+        var dotSize = parseInt(document.getElementById('cs-dot-size').value), opacity = parseFloat(document.getElementById('cs-dot-opacity').value);
+        var dots = csState.dotPositions.map(function(dot) {
+          return '<circle cx="' + dot.x + '" cy="' + dot.y + '" r="' + dotSize + '" fill="' + csAdjustColor(dot.color, opacity) + '" stroke="' + csAdjustColor(dot.color, opacity * 0.5) + '"/>';
+        }).join('');
+        csDownloadFile('<?xml version="1.0" encoding="UTF-8"?>\n<svg xmlns="http://www.w3.org/2000/svg" width="' + w + '" height="' + h + '" viewBox="0 0 ' + w + ' ' + h + '">\n<rect width="' + w + '" height="' + h + '" fill="#111920"/>\n' + dots + '\n</svg>', 'categorical-scatter-plot.svg', 'image/svg+xml');
+      };
+
+      window.csExportPNG = function() {
+        var link = document.createElement('a'); link.download = 'categorical-scatter-plot.png'; link.href = csCanvas.toDataURL('image/png'); link.click();
+      };
+
+      function csDownloadFile(content, filename, type) {
+        var blob = new Blob([content], { type: type }), url = URL.createObjectURL(blob), link = document.createElement('a');
+        link.href = url; link.download = filename; link.click(); URL.revokeObjectURL(url);
+      }
+
+      function csDebounce(func, wait) {
+        var timeout;
+        return function() { var args = arguments; clearTimeout(timeout); timeout = setTimeout(function() { func.apply(null, args); }, wait); };
+      }
+
+      requestAnimationFrame(csInit);
+    }
+  </script>
+</section>

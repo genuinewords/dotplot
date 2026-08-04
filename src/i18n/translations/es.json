@@ -1,6 +1,6 @@
 {
   "site": { "title": "Generador de Diagrama de Puntos", "description": "Cree hermosos diagramas de puntos en línea de forma gratuita. Ingrese sus datos y genere instantáneamente gráficos de puntos listos para publicación." },
-  "nav": { "home": "Inicio", "blog": "Blog", "about": "Sobre Nosotros", "contact": "Contáctenos", "terms": "Términos de Servicio", "privacy": "Política de Privacidad", "sitemap": "Mapa del Sitio" },
+  "nav": { "home": "Inicio", "blog": "Blog", "about": "Sobre Nosotros", "contact": "Contáctenos", "terms": "Términos de Servicio", "privacy": "Política de Privacidad", "sitemap": "Mapa del Sitio", "catScatter": "Dispersión Categórica" },
   "footer": { "description": "Herramienta gratuita en línea para crear diagramas de puntos. Cree, personalice y descargue hermosos diagramas de puntos.", "copyright": "Todos los derechos reservados." },
   "home": {
     "title": "Dot Plot Maker® – Crea diagramas de puntos gratis online",

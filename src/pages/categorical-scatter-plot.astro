@@ -1,0 +1,176 @@
+---
+import BaseLayout from "@theme/layouts/BaseLayout.astro";
+import CategoricalScatterPlot from "@theme/components/CategoricalScatterPlot.astro";
+import { t } from "@src/i18n/utils";
+import { type Locale } from "@src/i18n/config";
+
+const locale = "en" as Locale;
+---
+<BaseLayout locale={locale} title="Categorical Scatter Plot Maker — Free Online Tool" description="Free online categorical scatter plot maker. Visualize data across categories with jitter, color-coded groups, mean lines, and export to SVG/PNG.">
+  <Fragment slot="head">
+    <meta name="keywords" content="categorical scatter plot, scatter plot maker, categorical data visualization, online scatter plot tool, free scatter plot" />
+  </Fragment>
+
+  <div class="page-content" style="padding: 2rem 1rem; max-width: 1200px; margin: 0 auto; min-height: 80vh;">
+    
+    <header style="text-align: center; margin-bottom: 2.5rem; margin-top: 2rem;">
+      <span class="badge" style="margin-bottom: 1.25rem;">Free Online Tool</span>
+      <h1 class="section-title" style="font-size: 3.5rem; margin-bottom: 1rem; font-weight: 800; background: linear-gradient(135deg, var(--color-text-primary), var(--color-primary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+        Categorical Scatter Plot Maker
+      </h1>
+      <p style="color: var(--color-text-secondary); max-width: 800px; margin: 0 auto; font-size: 1.25rem; line-height: 1.6;">
+        Visualize data distributions across categories. Add multiple groups, toggle mean lines, customize jitter, and export publication-ready SVG or PNG charts — all free, no signup required.
+      </p>
+    </header>
+
+    <!-- Embedded Tool -->
+    <div style="background: var(--color-bg-card); border: 1px solid var(--color-border); border-radius: 16px; overflow: hidden; margin-bottom: 4rem; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);">
+      <CategoricalScatterPlot locale={locale} />
+    </div>
+
+    <!-- Feature Sections -->
+    <section class="cs-feature-section">
+      <div class="cs-feature-grid">
+        <div class="cs-feature-card">
+          <div class="cs-feature-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 20V10M18 20V4M6 20v-4"></path></svg>
+          </div>
+          <h3>Multiple Categories</h3>
+          <p>Add unlimited categories on the X-axis to compare data distributions side by side.</p>
+        </div>
+        <div class="cs-feature-card">
+          <div class="cs-feature-icon accent">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+          </div>
+          <h3>Color-Coded Groups</h3>
+          <p>Overlay multiple experimental groups with distinct colors for instant visual comparison.</p>
+        </div>
+        <div class="cs-feature-card">
+          <div class="cs-feature-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          </div>
+          <h3>SVG & PNG Export</h3>
+          <p>Download your chart as an infinitely scalable SVG vector or high-resolution PNG image.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SEO Content -->
+    <section class="cs-seo-section">
+      <h2 class="section-title" style="text-align: center; margin-bottom: 1.5rem;">What is a Categorical Scatter Plot?</h2>
+      <div style="max-width: 800px; margin: 0 auto; color: var(--color-text-secondary); font-size: 1.05rem; line-height: 1.8;">
+        <p style="margin-bottom: 1.25rem;">
+          A <strong style="color: var(--color-text-primary);">categorical scatter plot</strong> (also called a strip plot or dot plot for categorical data) displays individual data points across distinct categories on one axis. Unlike a standard scatter plot that plots two continuous variables against each other, a categorical scatter plot maps one axis to discrete categories (such as treatment groups, experimental conditions, or time periods) and the other to numerical values.
+        </p>
+        <p style="margin-bottom: 1.25rem;">
+          This makes it ideal for <strong style="color: var(--color-text-primary);">comparing distributions across groups</strong>. You can quickly see where each group's values cluster, identify outliers, and spot differences in spread and central tendency. When multiple groups are overlaid with different colors, the chart becomes a powerful tool for visual hypothesis testing.
+        </p>
+        <p>
+          Our tool adds <strong style="color: var(--color-text-primary);">jitter</strong> (random horizontal displacement) to prevent overlapping dots from hiding each other, and optionally displays <strong style="color: var(--color-text-primary);">mean lines</strong> for each group within each category. All processing happens in your browser — your data never leaves your device.
+        </p>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="cs-faq-section">
+      <h2 class="section-title" style="text-align: center; margin-bottom: 2rem;">Frequently Asked Questions</h2>
+      <div style="max-width: 760px; margin: 0 auto;">
+        <div class="cs-faq-item">
+          <h3>How do I add data to the categorical scatter plot?</h3>
+          <p>Enter your category names separated by commas in the "Category" field, then enter values for each category on separate lines in the "Values" field. Click "Add Group" to add the data to the chart. You can add multiple groups for comparison.</p>
+        </div>
+        <div class="cs-faq-item">
+          <h3>Can I import data from a CSV file?</h3>
+          <p>Yes! Switch to the "CSV" tab and either drag and drop a .csv file or click to browse. The file should have two columns: category name and value. The first row (header) is automatically detected and skipped.</p>
+        </div>
+        <div class="cs-faq-item">
+          <h3>What does the jitter control do?</h3>
+          <p>Jitter adds random horizontal displacement to dots within each category. This prevents overlapping dots from hiding each other, making it easier to see the density of data points. Set jitter to 0 for perfectly aligned dots.</p>
+        </div>
+        <div class="cs-faq-item">
+          <h3>What is the dashed line in each category?</h3>
+          <p>The dashed horizontal line within each category represents the mean value for that group. You can toggle the mean line display on or off using the "Show Mean Line" switch in the style controls.</p>
+        </div>
+        <div class="cs-faq-item">
+          <h3>Is my data secure?</h3>
+          <p>Yes. All data processing happens entirely in your web browser using client-side JavaScript. Your data is never uploaded to any server, stored in any database, or shared with any third party.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <div style="text-align: center; padding: 3rem 1rem;">
+      <a href="/" class="btn-primary cta-btn" style="padding: 1rem 2.5rem; font-size: 1.1rem;"><span>Try Dot Plot Maker</span></a>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .cs-feature-section { margin-bottom: 4rem; }
+  .cs-feature-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+  .cs-feature-card {
+    background: var(--color-bg-card);
+    border: 1px solid var(--color-border);
+    border-radius: 14px;
+    padding: 2rem;
+    text-align: center;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .cs-feature-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(0, 212, 170, 0.08);
+  }
+  .cs-feature-icon {
+    width: 56px; height: 56px; margin: 0 auto 1.25rem;
+    border-radius: 14px; display: flex; align-items: center; justify-content: center;
+    background: rgba(0, 212, 170, 0.1); color: var(--color-primary);
+    border: 1px solid rgba(0, 212, 170, 0.15);
+  }
+  .cs-feature-icon.accent {
+    background: rgba(139, 92, 246, 0.1); color: var(--color-accent);
+    border-color: rgba(139, 92, 246, 0.15);
+  }
+  .cs-feature-card h3 { font-size: 1.15rem; font-weight: 700; margin-bottom: 0.6rem; color: var(--color-text-primary); }
+  .cs-feature-card p { font-size: 0.95rem; line-height: 1.65; color: var(--color-text-secondary); margin: 0; }
+
+  .cs-seo-section {
+    max-width: 1100px; margin: 0 auto 4rem; padding: 0 1rem;
+    background: var(--color-bg-card); border: 1px solid var(--color-border);
+    border-radius: 16px; padding: 3rem 2.5rem;
+  }
+
+  .cs-faq-section { margin-bottom: 3rem; padding: 0 1rem; }
+  .cs-faq-item {
+    background: var(--color-bg-card); border: 1px solid var(--color-border);
+    border-radius: 12px; padding: 1.5rem 2rem; margin-bottom: 1rem;
+    transition: border-color 0.2s;
+  }
+  .cs-faq-item:hover { border-color: rgba(0, 212, 170, 0.3); }
+  .cs-faq-item h3 { font-size: 1.05rem; font-weight: 700; color: var(--color-text-primary); margin-bottom: 0.5rem; }
+  .cs-faq-item p { font-size: 0.95rem; color: var(--color-text-secondary); line-height: 1.65; margin: 0; }
+
+  .cta-btn {
+    display: inline-block; padding: 1rem 2.5rem; font-size: 1.1rem; font-weight: 600;
+    text-decoration: none; border-radius: 8px;
+    background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+    color: #ffffff; transition: all 0.2s ease;
+    box-shadow: 0 8px 24px rgba(0, 212, 170, 0.22);
+  }
+  .cta-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 28px rgba(139, 92, 246, 0.22);
+    background: linear-gradient(135deg, var(--color-accent), var(--color-primary));
+    color: #ffffff !important;
+  }
+
+  @media (max-width: 768px) {
+    .cs-feature-grid { grid-template-columns: 1fr; }
+    .cs-seo-section { padding: 2rem 1.5rem; }
+  }
+</style>
