@@ -442,6 +442,41 @@ textarea.form-input {
   color: var(--color-text-muted);
   font-style: italic;
 }
+.prose table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin: 2rem auto;
+  max-width: 800px;
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--color-bg-card);
+}
+.prose th {
+  background: linear-gradient(135deg, rgba(0, 212, 170, 0.08), rgba(77, 150, 255, 0.08));
+  padding: 0.85rem 1.25rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  border-bottom: 1px solid var(--color-border);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  text-align: left;
+}
+.prose td {
+  padding: 0.75rem 1.25rem;
+  font-size: 0.9rem;
+  color: var(--color-text-secondary);
+  border-bottom: 1px solid var(--color-border);
+  text-align: left;
+}
+.prose tr:last-child td {
+  border-bottom: none;
+}
+.prose tbody tr:hover {
+  background: rgba(0, 212, 170, 0.03);
+}
 
 /* ─── Blog Illustration Figures ─── */
 .viz-figure {
@@ -577,6 +612,8 @@ textarea.form-input {
 
 @media (max-width: 768px) {
   .viz-grid { grid-template-columns: 1fr; }
+  .prose table { font-size: 0.82rem; }
+  .prose th, .prose td { padding: 0.6rem 0.8rem; }
 }
 
 /* ─── Page Content Wrappers ─── */
