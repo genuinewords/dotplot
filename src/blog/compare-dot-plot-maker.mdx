@@ -9,44 +9,327 @@ category: "Statistics"
 
 ## Why Compare Datasets with Dot Plots?
 
-When you need to understand how two groups differ, summary statistics alone can mislead. Two datasets with the same mean can have completely different distributions. Dot plots solve this by showing **every individual data point**, so you can compare shapes, clusters, and outliers at a glance.
+When you need to understand how two groups differ, summary statistics alone can mislead. Two datasets can share the same mean, the same median, and even the same standard deviation — yet have completely different distributions. This is not a theoretical curiosity. It is a practical danger that shows up in A/B testing, clinical trials, financial analysis, and quality control every day.
+
+Dot plots solve this by showing **every individual data point**, so you can compare shapes, clusters, and outliers at a glance. The human visual system is extraordinarily good at detecting spatial differences. When two distributions sit side by side, your eyes can instantly judge which group has a higher center, which one spreads wider, and which one contains outliers. No summary statistic can deliver that level of insight in a single moment.
+
+The key advantage of a dot plot comparison is **honesty**. When you compute a p-value from a t-test, you are trusting that the data are approximately normal, that variances are comparable, and that no single outlier is driving the result. A dot plot comparison lets you verify all of those assumptions in seconds — before you run any test, not after.
 
 ## Common Comparison Scenarios
 
-- **A/B testing** — compare conversion rates across variants
-- **Pre vs. Post** — measure the effect of an intervention
-- **Group comparisons** — male vs. female, control vs. treatment, region A vs. region B
-- **Time periods** — this quarter vs. last quarter
-- **Competitors** — your product vs. a rival's
+Dot plot comparisons appear across virtually every domain that works with data:
+
+- **A/B testing** — compare conversion rates, click-through rates, or revenue per user across two variants. A dot plot of the raw data reveals whether the difference is consistent across the population or driven by a few extreme users.
+- **Pre vs. Post** — measure the effect of an intervention. Did a training program improve test scores? Did a policy change reduce wait times? A before-and-after dot plot shows individual improvement, not just group averages.
+- **Group comparisons** — male vs. female, control vs. treatment, region A vs. region B, urban vs. rural. Whenever you need to know whether two populations behave differently, a side-by-side dot plot is the fastest way to find out.
+- **Time periods** — this quarter vs. last quarter, this year vs. last year. Revenue distributions, customer satisfaction scores, and defect counts all reveal patterns that a quarterly average hides.
+- **Competitors** — your product vs. a rival's. Response times, error rates, customer ratings — when the numbers look close, the distribution tells the real story.
+
+Each of these scenarios has a common structure: you have two datasets, you want to know how they differ, and you want to know quickly. Dot plot comparisons deliver that answer.
 
 ## What Dot Plot Comparisons Reveal
 
+A side-by-side dot plot comparison communicates four critical pieces of information simultaneously.
+
 ### Distribution Shape
-Are both datasets symmetric? Is one right-skewed while the other is normal? Dot plots make shape differences obvious.
+
+Are both datasets symmetric? Is one right-skewed while the other is normal? Dot plots make shape differences obvious. When one group clusters tightly around its center while the other scatters widely, you can see it immediately — no computation required.
 
 ### Central Tendency
-Dashed median lines let you quickly see which group has the higher (or lower) center.
+
+The dashed median lines on a dot plot comparison let you quickly see which group has the higher (or lower) center. If one dataset sits clearly higher on the scale, the median difference is real and meaningful, not just a statistical artifact.
 
 ### Spread and Variability
-A wider spread of dots means more variability. You can see whether one group is more consistent than another.
+
+A wider spread of dots means more variability. You can see whether one group is more consistent than another. In manufacturing, a narrower spread means more predictable quality. In clinical trials, a narrower spread means a more reliable treatment effect.
 
 ### Overlap and Separation
-When the two dot plots overlap heavily, the groups are similar. When they separate cleanly, the difference is clear.
 
-## Try the Comparison Tool
+When the two dot plots overlap heavily, the groups are similar. When they separate cleanly, the difference is clear and practically significant. The amount of overlap is one of the most important things a comparison reveals — and it is one of the hardest things to capture in a single number.
 
-Enter two datasets below and click Compare to see them plotted side by side with key statistics for each.
+<figure class="viz-figure">
+  <svg viewBox="0 0 720 235" xmlns="http://www.w3.org/2000/svg" font-family="Inter, sans-serif">
+    {/* Heavy overlap */}
+    <g transform="translate(10,4)">
+      <rect width="225" height="180" rx="10" fill="#111920" stroke="#243040"/>
+      <g fill="#00d4aa" opacity="0.85">
+        <circle cx="85" cy="140" r="5.5"/><circle cx="95" cy="128" r="5.5"/><circle cx="105" cy="120" r="5.5"/>
+        <circle cx="75" cy="145" r="5.5"/><circle cx="115" cy="115" r="5.5"/><circle cx="125" cy="105" r="5.5"/>
+        <circle cx="135" cy="100" r="5.5"/><circle cx="65" cy="135" r="5.5"/><circle cx="145" cy="95" r="5.5"/>
+        <circle cx="55" cy="140" r="5.5"/><circle cx="155" cy="90" r="5.5"/><circle cx="100" cy="110" r="5.5"/>
+      </g>
+      <g fill="#4d96ff" opacity="0.85">
+        <circle cx="85" cy="140" r="5.5"/><circle cx="95" cy="128" r="5.5"/><circle cx="105" cy="120" r="5.5"/>
+        <circle cx="75" cy="145" r="5.5"/><circle cx="115" cy="115" r="5.5"/><circle cx="125" cy="105" r="5.5"/>
+        <circle cx="135" cy="100" r="5.5"/><circle cx="65" cy="135" r="5.5"/><circle cx="145" cy="95" r="5.5"/>
+        <circle cx="55" cy="140" r="5.5"/><circle cx="155" cy="90" r="5.5"/><circle cx="100" cy="110" r="5.5"/>
+      </g>
+      <text x="112" y="195" text-anchor="middle" fill="#e8eef4" font-size="11" font-weight="700">Heavy overlap</text>
+    </g>
+    {/* Partial overlap */}
+    <g transform="translate(248,4)">
+      <rect width="225" height="180" rx="10" fill="#111920" stroke="#243040"/>
+      <g fill="#00d4aa" opacity="0.85">
+        <circle cx="55" cy="140" r="5.5"/><circle cx="65" cy="128" r="5.5"/><circle cx="75" cy="120" r="5.5"/>
+        <circle cx="85" cy="115" r="5.5"/><circle cx="95" cy="110" r="5.5"/><circle cx="105" cy="100" r="5.5"/>
+        <circle cx="45" cy="145" r="5.5"/><circle cx="115" cy="95" r="5.5"/><circle cx="125" cy="90" r="5.5"/>
+        <circle cx="35" cy="140" r="5.5"/><circle cx="70" cy="135" r="5.5"/><circle cx="50" cy="138" r="5.5"/>
+      </g>
+      <g fill="#4d96ff" opacity="0.85">
+        <circle cx="110" cy="140" r="5.5"/><circle cx="120" cy="128" r="5.5"/><circle cx="130" cy="120" r="5.5"/>
+        <circle cx="140" cy="115" r="5.5"/><circle cx="150" cy="110" r="5.5"/><circle cx="160" cy="100" r="5.5"/>
+        <circle cx="100" cy="145" r="5.5"/><circle cx="170" cy="95" r="5.5"/><circle cx="180" cy="90" r="5.5"/>
+        <circle cx="105" cy="138" r="5.5"/><circle cx="115" cy="130" r="5.5"/><circle cx="125" cy="118" r="5.5"/>
+      </g>
+      <text x="112" y="195" text-anchor="middle" fill="#e8eef4" font-size="11" font-weight="700">Partial overlap</text>
+    </g>
+    {/* Clear separation */}
+    <g transform="translate(486,4)">
+      <rect width="225" height="180" rx="10" fill="#111920" stroke="#243040"/>
+      <g fill="#00d4aa" opacity="0.85">
+        <circle cx="55" cy="140" r="5.5"/><circle cx="65" cy="128" r="5.5"/><circle cx="75" cy="120" r="5.5"/>
+        <circle cx="85" cy="115" r="5.5"/><circle cx="45" cy="145" r="5.5"/><circle cx="95" cy="110" r="5.5"/>
+        <circle cx="35" cy="140" r="5.5"/><circle cx="70" cy="135" r="5.5"/><circle cx="50" cy="138" r="5.5"/>
+        <circle cx="60" cy="130" r="5.5"/><circle cx="80" cy="118" r="5.5"/><circle cx="40" cy="142" r="5.5"/>
+      </g>
+      <g fill="#4d96ff" opacity="0.85">
+        <circle cx="145" cy="140" r="5.5"/><circle cx="155" cy="128" r="5.5"/><circle cx="165" cy="120" r="5.5"/>
+        <circle cx="175" cy="115" r="5.5"/><circle cx="135" cy="145" r="5.5"/><circle cx="185" cy="110" r="5.5"/>
+        <circle cx="195" cy="105" r="5.5"/><circle cx="140" cy="142" r="5.5"/><circle cx="150" cy="135" r="5.5"/>
+        <circle cx="160" cy="125" r="5.5"/><circle cx="170" cy="118" r="5.5"/><circle cx="130" cy="140" r="5.5"/>
+      </g>
+      <line x1="112" y1="85" x2="112" y2="155" stroke="#ff6b6b" stroke-width="2.5" stroke-dasharray="5 4"/>
+      <text x="112" y="195" text-anchor="middle" fill="#e8eef4" font-size="11" font-weight="700">Clear separation</text>
+    </g>
+  </svg>
+  <figcaption class="viz-figcaption"><span class="fig-dot" style="background:#00d4aa"></span><span class="fig-num">Fig. A</span> Three overlap states: heavy overlap (groups similar), partial overlap (moderate difference), and clear separation (strong difference).</figcaption>
+</figure>
 
-## Interpreting the Results
+The three overlap states shown above guide your interpretation: heavy overlap means the groups are functionally similar; partial overlap means there is a meaningful difference that may or may not be statistically significant; clear separation means the groups behave differently in a way that is practically important.
 
-1. **Look at the medians** — which dataset sits higher on the scale?
-2. **Check the spread** — which dataset has dots covering a wider range?
-3. **Spot outliers** — isolated dots far from the cluster in either group
-4. **Check overlap** — do the two distributions share a similar range, or are they separate?
+## The Side-by-Side Layout
+
+A well-constructed dot plot comparison uses a shared axis so both distributions are plotted on the same scale. This is critical: if the two plots used different scales, you could not visually compare their positions. The interactive tool below places both datasets on a common horizontal axis, with the first dataset plotted in teal (green) and the second in blue.
+
+Each plot shows:
+
+- **Individual dots** — every observation from each dataset
+- **Stacked dots** — when values repeat, the stack height shows frequency
+- **Dashed median lines** — the green dashed line marks the median of the first dataset; the blue dashed line marks the median of the second
+
+The visual comparison of the two dashed lines is one of the most efficient ways to judge whether the groups differ in their central tendency. When the lines are close, the medians are similar. When they are far apart, the difference is real.
+
+<figure class="viz-figure">
+  <svg viewBox="0 0 720 235" xmlns="http://www.w3.org/2000/svg" font-family="Inter, sans-serif">
+    {/* Group A - tight symmetric */}
+    <g transform="translate(10,4)">
+      <rect width="345" height="180" rx="10" fill="#111920" stroke="#243040"/>
+      <text x="172" y="25" text-anchor="middle" fill="#00d4aa" font-size="12" font-weight="700">Group A (tight, symmetric)</text>
+      {/* Axis */}
+      <line x1="50" y1="145" x2="310" y2="145" stroke="#243040" stroke-width="1.5"/>
+      {/* Dots */}
+      <g fill="#00d4aa">
+        <circle cx="155" cy="135" r="6"/><circle cx="155" cy="120" r="6"/><circle cx="155" cy="105" r="6"/>
+        <circle cx="170" cy="135" r="6"/><circle cx="170" cy="120" r="6"/><circle cx="170" cy="105" r="6"/>
+        <circle cx="185" cy="135" r="6"/><circle cx="185" cy="120" r="6"/>
+        <circle cx="140" cy="135" r="6"/><circle cx="140" cy="120" r="6"/><circle cx="140" cy="105" r="6"/>
+        <circle cx="125" cy="135" r="6"/><circle cx="125" cy="120" r="6"/>
+        <circle cx="200" cy="135" r="6"/><circle cx="200" cy="120" r="6"/>
+        <circle cx="110" cy="135" r="6"/>
+        <circle cx="215" cy="135" r="6"/>
+      </g>
+      {/* Median line */}
+      <line x1="170" y1="148" x2="170" y2="32" stroke="#00d4aa" stroke-width="2" stroke-dasharray="4 3"/>
+      <text x="175" y="38" fill="#00d4aa" font-size="10" font-weight="600">median</text>
+    </g>
+    {/* Group B - wider spread, skewed right */}
+    <g transform="translate(370,4)">
+      <rect width="345" height="180" rx="10" fill="#111920" stroke="#243040"/>
+      <text x="172" y="25" text-anchor="middle" fill="#4d96ff" font-size="12" font-weight="700">Group B (wide, right-skewed)</text>
+      {/* Axis */}
+      <line x1="50" y1="145" x2="310" y2="145" stroke="#243040" stroke-width="1.5"/>
+      {/* Dots */}
+      <g fill="#4d96ff">
+        <circle cx="90" cy="135" r="6"/><circle cx="90" cy="120" r="6"/>
+        <circle cx="105" cy="135" r="6"/><circle cx="105" cy="120" r="6"/><circle cx="105" cy="105" r="6"/>
+        <circle cx="120" cy="135" r="6"/><circle cx="120" cy="120" r="6"/>
+        <circle cx="135" cy="135" r="6"/><circle cx="135" cy="120" r="6"/><circle cx="135" cy="105" r="6"/>
+        <circle cx="150" cy="135" r="6"/><circle cx="150" cy="120" r="6"/>
+        <circle cx="165" cy="135" r="6"/>
+        <circle cx="180" cy="135" r="6"/><circle cx="180" cy="120" r="6"/>
+        <circle cx="195" cy="135" r="6"/>
+        <circle cx="210" cy="135" r="6"/><circle cx="210" cy="120" r="6"/>
+        <circle cx="225" cy="135" r="6"/>
+        <circle cx="240" cy="135" r="6"/>
+        <circle cx="255" cy="135" r="6"/>
+      </g>
+      {/* Median line */}
+      <line x1="135" y1="148" x2="135" y2="32" stroke="#4d96ff" stroke-width="2" stroke-dasharray="4 3"/>
+      <text x="140" y="38" fill="#4d96ff" font-size="10" font-weight="600">median</text>
+    </g>
+    {/* Arrow showing gap */}
+    <g transform="translate(370,195)">
+      <line x1="120" y1="12" x2="170" y2="12" stroke="#ff6b9d" stroke-width="2" marker-end="url(#arrowhead)"/>
+      <defs><marker id="arrowhead" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#ff6b9d"/></marker></defs>
+      <text x="145" y="8" text-anchor="middle" fill="#ff6b9d" font-size="10" font-weight="700">gap</text>
+    </g>
+  </svg>
+  <figcaption class="viz-figcaption"><span class="fig-dot" style="background:#4d96ff"></span><span class="fig-num">Fig. B</span> Side-by-side layout: Group A is tight and symmetric; Group B is wider with a right skew. The median lines and the gap between them reveal the difference.</figcaption>
+</figure>
+
+This layout exploits two of the strongest visual perception channels: position along a common scale (for comparing medians) and spatial spread (for comparing variability). The human eye processes both of these in milliseconds, making the side-by-side dot plot one of the fastest comparison tools available.
+
+## The Four Dimensions of Comparison
+
+A dot plot comparison communicates information along four distinct dimensions simultaneously. Understanding what each dimension tells you is the key to reading comparisons quickly and accurately.
+
+### 1. Central Tendency — Which Group Sits Higher?
+
+The median lines are the most immediate signal. If both dashed lines align, the groups have the same center. If one line sits clearly above the other, the difference in medians is visually obvious and practically meaningful. The direction of the gap tells you which group performs better, scores higher, or shifts right.
+
+### 2. Spread — Which Group Is More Variable?
+
+A tight cluster of dots means the values are consistent. A wide spread means the values vary. In manufacturing, a tight spread means predictable quality. In clinical trials, a tight spread means the treatment effect is consistent across patients. A dot plot comparison shows spread differences that an F-test reduces to a single ratio.
+
+### 3. Shape — Are Both Groups Symmetric?
+
+If both groups are roughly symmetric and bell-shaped, standard parametric tests (t-tests, ANOVA) are likely appropriate. If one group is skewed and the other is not, you may need nonparametric alternatives. The shape difference is a signal about the underlying process — and it is visible instantly on a dot plot.
+
+### 4. Overlap — How Much Do They Share?
+
+The degree of overlap between two distributions is one of the most important things a comparison reveals. Two groups with heavy overlap are functionally similar, even if their medians differ. Two groups with no overlap are clearly different, and the practical significance is obvious. The overlap region is where the "uncertainty" of classification lives — and a dot plot shows it directly.
+
+<figure class="viz-figure">
+  <svg viewBox="0 0 720 215" xmlns="http://www.w3.org/2000/svg" font-family="Inter, sans-serif">
+    {/* Central tendency */}
+    <g transform="translate(10,4)">
+      <rect width="165" height="160" rx="10" fill="#111920" stroke="#243040"/>
+      <line x1="60" y1="130" x2="145" y2="130" stroke="#243040" stroke-width="1.5"/>
+      <g fill="#00d4aa">
+        <circle cx="90" cy="120" r="6"/><circle cx="90" cy="105" r="6"/><circle cx="75" cy="120" r="6"/>
+        <circle cx="75" cy="105" r="6"/><circle cx="105" cy="120" r="6"/><circle cx="105" cy="105" r="6"/>
+      </g>
+      <g fill="#4d96ff">
+        <circle cx="120" cy="120" r="6"/><circle cx="120" cy="105" r="6"/><circle cx="135" cy="120" r="6"/>
+        <circle cx="135" cy="105" r="6"/><circle cx="120" cy="90" r="6"/><circle cx="135" cy="90" r="6"/>
+      </g>
+      <line x1="90" y1="130" x2="90" y2="30" stroke="#00d4aa" stroke-width="2" stroke-dasharray="4 3"/>
+      <line x1="125" y1="130" x2="125" y2="34" stroke="#4d96ff" stroke-width="2" stroke-dasharray="4 3"/>
+      <text x="82" y="185" text-anchor="middle" fill="#e8eef4" font-size="11" font-weight="700">Center</text>
+    </g>
+    {/* Spread */}
+    <g transform="translate(188,4)">
+      <rect width="165" height="160" rx="10" fill="#111920" stroke="#243040"/>
+      <line x1="30" y1="130" x2="160" y2="130" stroke="#243040" stroke-width="1.5"/>
+      <g fill="#00d4aa">
+        <circle cx="85" cy="120" r="6"/><circle cx="85" cy="105" r="6"/><circle cx="70" cy="120" r="6"/>
+        <circle cx="70" cy="105" r="6"/><circle cx="100" cy="120" r="6"/><circle cx="100" cy="105" r="6"/>
+        <circle cx="115" cy="120" r="6"/><circle cx="115" cy="105" r="6"/>
+      </g>
+      <g fill="#4d96ff">
+        <circle cx="55" cy="120" r="6"/><circle cx="55" cy="105" r="6"/>
+        <circle cx="75" cy="120" r="6"/><circle cx="75" cy="105" r="6"/>
+        <circle cx="95" cy="120" r="6"/><circle cx="95" cy="105" r="6"/>
+        <circle cx="115" cy="120" r="6"/><circle cx="115" cy="105" r="6"/>
+        <circle cx="135" cy="120" r="6"/><circle cx="135" cy="105" r="6"/>
+        <circle cx="150" cy="120" r="6"/><circle cx="150" cy="105" r="6"/>
+      </g>
+      <line x1="130" y1="130" x2="130" y2="80" stroke="#ff6b9d" stroke-width="2" stroke-dasharray="4 3"/>
+      <line x1="55" y1="130" x2="55" y2="80" stroke="#ff6b9d" stroke-width="2" stroke-dasharray="4 3"/>
+      <text x="92" y="185" text-anchor="middle" fill="#e8eef4" font-size="11" font-weight="700">Spread</text>
+    </g>
+    {/* Shape */}
+    <g transform="translate(366,4)">
+      <rect width="165" height="160" rx="10" fill="#111920" stroke="#243040"/>
+      <line x1="30" y1="130" x2="155" y2="130" stroke="#243040" stroke-width="1.5"/>
+      <g fill="#00d4aa">
+        <circle cx="70" cy="120" r="6"/><circle cx="70" cy="105" r="6"/><circle cx="80" cy="120" r="6"/>
+        <circle cx="80" cy="105" r="6"/><circle cx="90" cy="120" r="6"/><circle cx="90" cy="105" r="6"/>
+      </g>
+      <g fill="#ffd93d">
+        <circle cx="110" cy="120" r="6"/><circle cx="110" cy="105" r="6"/>
+        <circle cx="120" cy="120" r="6"/><circle cx="120" cy="105" r="6"/>
+        <circle cx="130" cy="120" r="6"/><circle cx="130" cy="105" r="6"/><circle cx="130" cy="90" r="6"/>
+        <circle cx="140" cy="120" r="6"/><circle cx="140" cy="105" r="6"/>
+        <circle cx="150" cy="120" r="6"/>
+      </g>
+      <text x="92" y="185" text-anchor="middle" fill="#e8eef4" font-size="11" font-weight="700">Shape</text>
+    </g>
+    {/* Overlap */}
+    <g transform="translate(544,4)">
+      <rect width="165" height="160" rx="10" fill="#111920" stroke="#243040"/>
+      <line x1="30" y1="130" x2="140" y2="130" stroke="#243040" stroke-width="1.5"/>
+      <g fill="#00d4aa" opacity="0.7">
+        <circle cx="60" cy="120" r="6"/><circle cx="60" cy="105" r="6"/><circle cx="70" cy="120" r="6"/>
+        <circle cx="70" cy="105" r="6"/><circle cx="80" cy="120" r="6"/><circle cx="80" cy="105" r="6"/>
+        <circle cx="90" cy="120" r="6"/><circle cx="90" cy="105" r="6"/>
+      </g>
+      <g fill="#4d96ff" opacity="0.7">
+        <circle cx="85" cy="120" r="6"/><circle cx="85" cy="105" r="6"/><circle cx="95" cy="120" r="6"/>
+        <circle cx="95" cy="105" r="6"/><circle cx="105" cy="120" r="6"/><circle cx="105" cy="105" r="6"/>
+        <circle cx="115" cy="120" r="6"/><circle cx="115" cy="105" r="6"/><circle cx="125" cy="120" r="6"/>
+      </g>
+      <rect x="62" y="90" width="45" height="45" rx="6" fill="none" stroke="#9b59b6" stroke-width="2" stroke-dasharray="4 3"/>
+      <text x="85" y="85" text-anchor="middle" fill="#9b59b6" font-size="9" font-weight="600">overlap</text>
+      <text x="82" y="185" text-anchor="middle" fill="#e8eef4" font-size="11" font-weight="700">Overlap</text>
+    </g>
+  </svg>
+  <figcaption class="viz-figcaption"><span class="fig-dot" style="background:#9b59b6"></span><span class="fig-num">Fig. C</span> The four dimensions of comparison: center, spread, shape, and overlap. A well-designed dot plot comparison reveals all four simultaneously.</figcaption>
+</figure>
+
+When you look at a dot plot comparison, ask yourself these four questions in order. The answers will tell you almost everything you need to know about how the groups differ.
+
+## Practical Example: A/B Testing with Dot Plots
+
+Suppose you are running an A/B test on an e-commerce checkout page. Variant A is the current design. Variant B has a simplified checkout form. You track revenue per user for 50 users in each group.
+
+A summary table shows the mean revenue per user is $42.30 for Variant A and $44.10 for Variant B. The difference is $1.80. Is that meaningful? A t-test returns a p-value of 0.08 — not statistically significant at the 0.05 threshold.
+
+But the dot plot tells a different story. Variant A's distribution has a tight cluster around $40 with a long right tail of high spenders. Variant B's distribution is tighter overall but shifted slightly right. The medians are nearly identical ($41 vs. $42), but the means differ because Variant A has a few extreme high-value customers that pull the average up.
+
+The t-test result (p = 0.08) was driven by the variance in Variant A's tail, not by a real difference in the typical customer experience. The dot plot reveals that the typical customer behaves similarly in both groups, but the outlier-rich tail of Variant A makes the comparison look noisy. Without the dot plot, you might have concluded that Variant B is "better" when in fact the difference is an artifact of a few extreme observations.
+
+This is why experienced analysts never trust a summary statistic without first looking at the data.
+
+## How to Interpret the Tool
+
+The interactive **Compare Dot Plot Tool** below lets you enter two datasets and see them plotted side by side. Here is how to read the output:
+
+1. **Look at the medians first.** The dashed lines show where each group's center sits. If the lines are close, the medians are similar. If they are far apart, the groups differ in their typical value.
+2. **Check the spread.** Which group's dots cover a wider range? A wider spread means more variability — and potentially more uncertainty about individual predictions.
+3. **Spot outliers.** Isolated dots far from the cluster in either group deserve investigation. They may represent genuine extreme events or data quality issues.
+4. **Assess the overlap.** The region where both groups have dots is the overlap zone. Heavy overlap means the groups are similar. Light or no overlap means the groups are clearly different.
+
+Try these experiments to build your intuition:
+
+- **Experiment 1:** Enter two identical datasets. Confirm that the medians overlap and the distributions match. The tool should report a median difference near zero.
+- **Experiment 2:** Enter two datasets with the same mean but different spreads. Confirm that the dot plots look different even though the summary statistics are similar.
+- **Experiment 3:** Enter two datasets with one extreme outlier. Confirm that the outlier shifts the mean but barely moves the median. This demonstrates the median's resistance to extreme values.
+
+## When to Use This in Your Work
+
+Dot plot comparisons earn their keep across many professional contexts:
+
+- **A/B testing** — before reporting a statistically significant difference, plot the data. A dot plot comparison may reveal that the difference is driven by a handful of extreme observations, not a genuine population shift.
+- **Clinical trials** — when comparing treatment groups, dot plots expose the full distribution of outcomes. This is especially important when the median difference is small but the variance difference is large.
+- **Quality control** — comparing two production runs side by side with a dot plot reveals whether the process shifted, the variability changed, or outliers appeared.
+- **Financial analysis** — comparing revenue distributions across time periods or customer segments reveals patterns that quarterly averages hide.
+- **Teaching** — students learn faster when they can see the data. A dot plot comparison makes abstract concepts like "variance" and "skewness" concrete and visible.
+
+## Best Practices for Dot Plot Comparisons
+
+To get the most from any dot plot comparison, follow these professional guidelines:
+
+- **Use a shared axis.** Both datasets must be plotted on the same scale. A comparison that uses different scales is meaningless.
+- **Label clearly.** Identify which color corresponds to which group. The interactive tool does this automatically.
+- **Check for outliers first.** A single extreme observation can distort both the mean and the visual comparison. Identify it before drawing conclusions.
+- **Report both the median and the IQR.** The median tells you the center; the interquartile range tells you the spread. Together, they give a complete picture.
+- **Don't confuse statistical significance with practical significance.** A dot plot comparison may show a clear visual difference that a small-sample t-test fails to detect. Conversely, a large sample may produce a statistically significant p-value for a difference that is too small to matter in practice.
 
 ## Make Your Own Comparisons
 
 - **[Dot Plot Maker®](/)** — create single dot plots from any dataset
 - **[Professional Tool](/professional-dot-plot-tool/)** — import CSV/Excel for larger comparisons, export SVG
+- **[Statistics Visualizer](/statistics-dot-plot-visualizer/)** — explore descriptive statistics with interactive dot plots
 
 Free, no signup, all data stays in your browser.
