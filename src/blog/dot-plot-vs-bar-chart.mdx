@@ -7,38 +7,387 @@ author: "Dot Plot Maker® Team"
 category: "Data Visualization"
 ---
 
-## Dot Plot vs Bar Chart
+## Dot Plot vs Bar Chart: Which Should You Choose?
 
-Both dot plots and bar charts are popular ways to visualize data, but they serve different purposes and are best suited for different scenarios.
+Dot plots and bar charts are two of the most common charts in data visualization. They look similar at first glance — both use position along an axis to encode values — but they serve fundamentally different purposes. Choosing the wrong one can obscure your data, mislead your audience, or hide the patterns that matter most.
 
-### What Makes Them Different?
+This guide explains exactly when to use a dot plot, when to use a bar chart, and how to avoid the most common mistakes. By the end, you will be able to select the right chart for any scenario with confidence.
+
+## What Is a Dot Plot?
+
+A <a href="https://en.wikipedia.org/wiki/Dot_plot_(statistics)" rel="nofollow">dot plot</a> is a chart that displays the distribution of individual data points along a numerical axis. Each dot represents one observation. When values repeat, dots stack vertically, making frequency visible at a glance.
+
+Dot plots preserve every data point. You can count the dots, read the exact values, and see the shape of the distribution — clusters, gaps, outliers, and skewness — without any computation.
+
+<figure class="viz-figure">
+  <svg viewBox="0 0 720 220" xmlns="http://www.w3.org/2000/svg" font-family="Inter, sans-serif">
+    <g transform="translate(10,4)">
+      <rect width="700" height="175" rx="10" fill="#111920" stroke="#243040"/>
+      <text x="350" y="20" text-anchor="middle" fill="#e8eef4" font-size="12" font-weight="700">Dot Plot — Test Scores (n=25)</text>
+      <line x1="60" y1="140" x2="640" y2="140" stroke="#4d96ff" stroke-width="2"/>
+      <g fill="#6b7d8f" font-size="9" text-anchor="middle">
+        <text x="60" y="158">50</text><text x="120" y="158">55</text><text x="180" y="158">60</text>
+        <text x="240" y="158">65</text><text x="300" y="158">70</text><text x="360" y="158">75</text>
+        <text x="420" y="158">80</text><text x="480" y="158">85</text><text x="540" y="158">90</text>
+        <text x="600" y="158">95</text>
+      </g>
+      <g fill="#00d4aa">
+        <circle cx="180" cy="130" r="6"/>
+        <circle cx="240" cy="130" r="6"/><circle cx="240" cy="116" r="6"/>
+        <circle cx="300" cy="130" r="6"/><circle cx="300" cy="116" r="6"/><circle cx="300" cy="102" r="6"/>
+        <circle cx="360" cy="130" r="6"/><circle cx="360" cy="116" r="6"/><circle cx="360" cy="102" r="6"/><circle cx="360" cy="88" r="6"/>
+        <circle cx="420" cy="130" r="6"/><circle cx="420" cy="116" r="6"/><circle cx="420" cy="102" r="6"/><circle cx="420" cy="88" r="6"/><circle cx="420" cy="74" r="6"/>
+        <circle cx="480" cy="130" r="6"/><circle cx="480" cy="116" r="6"/><circle cx="480" cy="102" r="6"/><circle cx="480" cy="88" r="6"/>
+        <circle cx="540" cy="130" r="6"/><circle cx="540" cy="116" r="6"/><circle cx="540" cy="102" r="6"/>
+        <circle cx="600" cy="130" r="6"/>
+      </g>
+      <text x="350" y="172" text-anchor="middle" fill="#6b7d8f" font-size="9">Each dot = one student. Stacks show how many students earned each score.</text>
+    </g>
+  </svg>
+  <figcaption class="viz-figcaption"><span class="fig-dot" style="background:#00d4aa"></span><span class="fig-num">Fig. A</span> A dot plot shows every individual observation. Each dot is one data point, and vertical stacking reveals frequency.</figcaption>
+</figure>
+
+Dot plots are ideal for small to moderate datasets (under ~100 points) where you need to see every observation. They are commonly used in education, quality control, clinical research, and exploratory data analysis.
+
+## What Is a Bar Chart?
+
+A <a href="https://en.wikipedia.org/wiki/Bar_chart" rel="nofollow">bar chart</a> (or bar graph) uses rectangular bars to represent aggregated quantities — totals, averages, counts, or other summary statistics — across categories. The height or length of each bar corresponds to the value it represents.
+
+Unlike dot plots, bar charts do not show individual data points. They show the result of a calculation applied to the data. This makes them powerful for comparing categories but less useful for understanding distributions.
+
+<figure class="viz-figure">
+  <svg viewBox="0 0 720 220" xmlns="http://www.w3.org/2000/svg" font-family="Inter, sans-serif">
+    <g transform="translate(10,4)">
+      <rect width="700" height="175" rx="10" fill="#111920" stroke="#243040"/>
+      <text x="350" y="20" text-anchor="middle" fill="#e8eef4" font-size="12" font-weight="700">Bar Chart — Average Score by Subject</text>
+      <line x1="100" y1="155" x2="660" y2="155" stroke="#243040" stroke-width="1.5"/>
+      <g fill="#6b7d8f" font-size="9" text-anchor="middle">
+        <text x="160" y="170">Math</text>
+        <text x="280" y="170">Science</text>
+        <text x="400" y="170">English</text>
+        <text x="520" y="170">History</text>
+        <text x="640" y="170">Art</text>
+      </g>
+      <g fill="#ffd93d" opacity="0.8">
+        <rect x="130" y="55" width="60" height="100" rx="4"/>
+        <rect x="250" y="35" width="60" height="120" rx="4"/>
+        <rect x="370" y="75" width="60" height="80" rx="4"/>
+        <rect x="490" y="55" width="60" height="100" rx="4"/>
+        <rect x="610" y="95" width="60" height="60" rx="4"/>
+      </g>
+      <g fill="#e8eef4" font-size="10" font-weight="700" text-anchor="middle">
+        <text x="160" y="48">75%</text>
+        <text x="280" y="28">82%</text>
+        <text x="400" y="68">68%</text>
+        <text x="520" y="48">75%</text>
+        <text x="640" y="88">62%</text>
+      </g>
+    </g>
+  </svg>
+  <figcaption class="viz-figcaption"><span class="fig-dot" style="background:#ffd93d"></span><span class="fig-num">Fig. B</span> A bar chart shows one aggregated value per category. The individual data points behind each bar are hidden.</figcaption>
+</figure>
+
+Bar charts are the default choice for business dashboards, sales reports, survey results, and any scenario where you need to compare quantities across groups. They work well with datasets of any size because the aggregation step handles the complexity.
+
+## Key Differences
+
+The fundamental difference between dot plots and bar charts is what they encode:
+
+<figure class="viz-figure">
+  <svg viewBox="0 0 720 260" xmlns="http://www.w3.org/2000/svg" font-family="Inter, sans-serif">
+    <g transform="translate(10,4)">
+      <rect width="700" height="215" rx="10" fill="#111920" stroke="#243040"/>
+      {/* Dot plot side */}
+      <g transform="translate(15,20)">
+        <text x="155" y="0" text-anchor="middle" fill="#00d4aa" font-size="11" font-weight="700">Dot Plot: Raw Data</text>
+        <line x1="30" y1="130" x2="280" y2="130" stroke="#243040" stroke-width="1"/>
+        <g fill="#00d4aa">
+          <circle cx="80" cy="120" r="5"/><circle cx="80" cy="108" r="5"/>
+          <circle cx="110" cy="120" r="5"/><circle cx="110" cy="108" r="5"/><circle cx="110" cy="96" r="5"/>
+          <circle cx="140" cy="120" r="5"/><circle cx="140" cy="108" r="5"/><circle cx="140" cy="96" r="5"/><circle cx="140" cy="84" r="5"/>
+          <circle cx="170" cy="120" r="5"/><circle cx="170" cy="108" r="5"/><circle cx="170" cy="96" r="5"/><circle cx="170" cy="84" r="5"/><circle cx="170" cy="72" r="5"/>
+          <circle cx="200" cy="120" r="5"/><circle cx="200" cy="108" r="5"/><circle cx="200" cy="96" r="5"/><circle cx="200" cy="84" r="5"/>
+          <circle cx="230" cy="120" r="5"/><circle cx="230" cy="108" r="5"/><circle cx="230" cy="96" r="5"/>
+          <circle cx="260" cy="120" r="5"/><circle cx="260" cy="108" r="5"/>
+        </g>
+        <g fill="#6b7d8f" font-size="9" text-anchor="middle">
+          <text x="80" y="148">70</text><text x="110" y="148">75</text><text x="140" y="148">80</text>
+          <text x="170" y="148">85</text><text x="200" y="148">90</text><text x="230" y="148">95</text>
+          <text x="260" y="148">100</text>
+        </g>
+        <text x="155" y="172" text-anchor="middle" fill="#00d4aa" font-size="9" font-weight="600">Every dot is visible</text>
+      </g>
+      {/* Bar chart side */}
+      <g transform="translate(355,20)">
+        <text x="155" y="0" text-anchor="middle" fill="#ffd93d" font-size="11" font-weight="700">Bar Chart: Aggregated</text>
+        <line x1="30" y1="130" x2="280" y2="130" stroke="#243040" stroke-width="1"/>
+        <g fill="#ffd93d" opacity="0.7">
+          <rect x="50" y="110" width="30" height="20" rx="2"/>
+          <rect x="90" y="90" width="30" height="40" rx="2"/>
+          <rect x="130" y="60" width="30" height="70" rx="2"/>
+          <rect x="170" y="40" width="30" height="90" rx="2"/>
+          <rect x="210" y="60" width="30" height="70" rx="2"/>
+          <rect x="250" y="90" width="30" height="40" rx="2"/>
+        </g>
+        <g fill="#6b7d8f" font-size="9" text-anchor="middle">
+          <text x="65" y="148">70</text><text x="105" y="148">75</text><text x="145" y="148">80</text>
+          <text x="185" y="148">85</text><text x="225" y="148">90</text><text x="265" y="148">95</text>
+        </g>
+        <text x="155" y="172" text-anchor="middle" fill="#ffd93d" font-size="9" font-weight="600">Only the summary is visible</text>
+      </g>
+      {/* Divider */}
+      <line x1="350" y1="20" x2="350" y2="195" stroke="#243040" stroke-width="1" stroke-dasharray="4 3"/>
+      {/* Bottom labels */}
+      <g fill="#e8eef4" font-size="10" text-anchor="middle">
+        <text x="185" y="210">Shows distribution shape</text>
+        <text x="525" y="210">Shows category comparison</text>
+      </g>
+    </g>
+  </svg>
+  <figcaption class="viz-figcaption"><span class="fig-dot" style="background:#9b59b6"></span><span class="fig-num">Fig. C</span> The fundamental difference: a dot plot shows raw data, a bar chart shows aggregated data. The same dataset produces very different charts.</figcaption>
+</figure>
 
 | Feature | Dot Plot | Bar Chart |
 |---------|----------|-----------|
-| **Data representation** | Individual data points | Aggregated quantities |
-| **Best for** | Distribution & frequency | Comparing categories |
-| **Dataset size** | Small to moderate | Any size |
-| **Shows individual values** | Yes | No |
-| **Shows exact frequency** | Yes (count dots) | Yes (bar height) |
+| **What it shows** | Individual data points | Aggregated quantities (totals, means, counts) |
+| **Best for** | Distribution and frequency | Comparing categories |
+| **Dataset size** | Small to moderate (n {"<"} 100) | Any size |
+| **Shows individual values** | Yes — every dot is visible | No — only the summary |
+| **Shows distribution shape** | Yes — clusters, gaps, outliers | No — shape is hidden |
+| **Requires aggregation** | No | Yes |
+| **Data-ink ratio** | High — every dot carries information | Lower — bars add visual weight |
 
-### When to Choose a Dot Plot
+The table above captures the core distinction, but let's explore what this means in practice.
 
-Choose a dot plot when you want to:
-- See **every individual data point** in your dataset
-- Understand the **distribution** and frequency of values
-- Work with **small datasets** where individual values matter
-- **Teach statistics** concepts to students
+## When to Choose a Dot Plot
 
-### When to Choose a Bar Chart
+### You Need to See Every Observation
 
-Choose a bar chart when you want to:
-- Compare **quantities across categories** (e.g., sales by region)
-- Work with **large datasets** that need aggregation
-- Show **totals or averages** rather than individual values
-- Create **easily scannable comparisons**
+Dot plots preserve individual data points. This matters when the exact values are important — not just the average. In clinical trials, for example, knowing that 18 out of 20 patients recovered in 5 days is more informative than knowing the average was 5.2 days. A dot plot shows the full picture; a bar chart hides the variation.
 
-### The Bottom Line
+### You Want to Understand Distribution Shape
 
-Neither chart type is inherently better — the right choice depends on your data and what story you want to tell. For distribution analysis with smaller datasets, dot plots win. For categorical comparisons with larger datasets, bar charts are the way to go.
+A dot plot reveals the shape of your data: is it symmetric or skewed? Are there two clusters? Is there an outlier? These patterns are invisible in a bar chart because the bar summarizes the data into a single number.
 
-Create your own dot plot at [DotPlotMaker.com](https://www.dotplotmaker.com/) to see how effective they can be for your data.
+<figure class="viz-figure">
+  <svg viewBox="0 0 720 200" xmlns="http://www.w3.org/2000/svg" font-family="Inter, sans-serif">
+    <g transform="translate(10,4)">
+      <rect width="700" height="155" rx="10" fill="#111920" stroke="#243040"/>
+      <text x="350" y="20" text-anchor="middle" fill="#e8eef4" font-size="11" font-weight="700">Three Distributions, Same Mean (80)</text>
+      {/* Symmetric */}
+      <g transform="translate(15,30)">
+        <rect width="200" height="100" rx="6" fill="#00d4aa" opacity="0.06"/>
+        <text x="100" y="14" text-anchor="middle" fill="#00d4aa" font-size="10" font-weight="700">Symmetric</text>
+        <line x1="20" y1="80" x2="180" y2="80" stroke="#243040" stroke-width="1"/>
+        <g fill="#00d4aa">
+          <circle cx="60" cy="72" r="4.5"/><circle cx="60" cy="62" r="4.5"/>
+          <circle cx="80" cy="72" r="4.5"/><circle cx="80" cy="62" r="4.5"/><circle cx="80" cy="52" r="4.5"/>
+          <circle cx="100" cy="72" r="4.5"/><circle cx="100" cy="62" r="4.5"/><circle cx="100" cy="52" r="4.5"/><circle cx="100" cy="42" r="4.5"/>
+          <circle cx="120" cy="72" r="4.5"/><circle cx="120" cy="62" r="4.5"/><circle cx="120" cy="52" r="4.5"/>
+          <circle cx="140" cy="72" r="4.5"/><circle cx="140" cy="62" r="4.5"/>
+          <circle cx="160" cy="72" r="4.5"/>
+        </g>
+        <text x="100" y="98" text-anchor="middle" fill="#6b7d8f" font-size="9">mean = median = 80</text>
+      </g>
+      {/* Right skewed */}
+      <g transform="translate(250,30)">
+        <rect width="200" height="100" rx="6" fill="#ffd93d" opacity="0.06"/>
+        <text x="100" y="14" text-anchor="middle" fill="#ffd93d" font-size="10" font-weight="700">Right Skewed</text>
+        <line x1="20" y1="80" x2="180" y2="80" stroke="#243040" stroke-width="1"/>
+        <g fill="#ffd93d">
+          <circle cx="50" cy="72" r="4.5"/><circle cx="50" cy="62" r="4.5"/><circle cx="50" cy="52" r="4.5"/><circle cx="50" cy="42" r="4.5"/>
+          <circle cx="75" cy="72" r="4.5"/><circle cx="75" cy="62" r="4.5"/><circle cx="75" cy="52" r="4.5"/>
+          <circle cx="100" cy="72" r="4.5"/><circle cx="100" cy="62" r="4.5"/>
+          <circle cx="125" cy="72" r="4.5"/><circle cx="125" cy="62" r="4.5"/>
+          <circle cx="150" cy="72" r="4.5"/>
+          <circle cx="175" cy="72" r="4.5"/>
+        </g>
+        <text x="100" y="98" text-anchor="middle" fill="#6b7d8f" font-size="9">mean {"\u2260"} median — misleading average</text>
+      </g>
+      {/* Bimodal */}
+      <g transform="translate(485,30)">
+        <rect width="200" height="100" rx="6" fill="#9b59b6" opacity="0.06"/>
+        <text x="100" y="14" text-anchor="middle" fill="#9b59b6" font-size="10" font-weight="700">Bimodal</text>
+        <line x1="20" y1="80" x2="180" y2="80" stroke="#243040" stroke-width="1"/>
+        <g fill="#9b59b6">
+          <circle cx="50" cy="72" r="4.5"/><circle cx="50" cy="62" r="4.5"/><circle cx="50" cy="52" r="4.5"/>
+          <circle cx="75" cy="72" r="4.5"/><circle cx="75" cy="62" r="4.5"/><circle cx="75" cy="52" r="4.5"/><circle cx="75" cy="42" r="4.5"/>
+          <circle cx="100" cy="72" r="4.5"/>
+          <circle cx="125" cy="72" r="4.5"/>
+          <circle cx="150" cy="72" r="4.5"/><circle cx="150" cy="62" r="4.5"/><circle cx="150" cy="52" r="4.5"/>
+          <circle cx="175" cy="72" r="4.5"/><circle cx="175" cy="62" r="4.5"/><circle cx="175" cy="52" r="4.5"/><circle cx="175" cy="42" r="4.5"/>
+        </g>
+        <text x="100" y="98" text-anchor="middle" fill="#6b7d8f" font-size="9">two groups — average hides this</text>
+      </g>
+    </g>
+  </svg>
+  <figcaption class="viz-figcaption"><span class="fig-dot" style="background:#9b59b6"></span><span class="fig-num">Fig. D</span> Three very different distributions with the same mean of 80. Only the dot plot reveals the true shape of the data.</figcaption>
+</figure>
+
+This figure illustrates why distribution shape matters. All three datasets have the same mean (80), but they tell completely different stories:
+
+- **Symmetric**: The average is representative. Most values cluster near the center.
+- **Right skewed**: The average is pulled upward by a few high values. The median is more reliable.
+- **Bimodal**: There are two distinct groups. Reporting a single average for both groups is misleading.
+
+A bar chart showing "average = 80" for all three would look identical. The dot plot tells the truth.
+
+### You Are Teaching or Learning Statistics
+
+Dot plots are one of the first charts students learn because they are intuitive. A student can count dots and immediately understand frequency, center, and spread. No abstraction layer, no binning decisions, no formula required.
+
+For a step-by-step guide to reading distributions, see our [how to read dot plots](/blog/how-to-read-dot-plots/) post.
+
+### You Have a Small Dataset
+
+With fewer than 100 observations, a dot plot shows every data point without overcrowding. This is common in pilot studies, A/B tests, quality control samples, and classroom exercises. The [statistics dot plot visualizer](/blog/statistics-dot-plot-visualizer/) is built for exactly this use case.
+
+## When to Choose a Bar Chart
+
+### You Are Comparing Categories
+
+Bar charts excel at comparing quantities across groups. Revenue by quarter, satisfaction scores by department, count by region — these are categorical comparisons where a bar chart is the natural choice.
+
+<figure class="viz-figure">
+  <svg viewBox="0 0 720 220" xmlns="http://www.w3.org/2000/svg" font-family="Inter, sans-serif">
+    <g transform="translate(10,4)">
+      <rect width="700" height="175" rx="10" fill="#111920" stroke="#243040"/>
+      <text x="350" y="20" text-anchor="middle" fill="#e8eef4" font-size="11" font-weight="700">Bar Chart: Revenue by Quarter ($K)</text>
+      <line x1="80" y1="150" x2="660" y2="150" stroke="#243040" stroke-width="1.5"/>
+      <g fill="#6b7d8f" font-size="10" text-anchor="middle">
+        <text x="175" y="168">Q1</text>
+        <text x="315" y="168">Q2</text>
+        <text x="455" y="168">Q3</text>
+        <text x="595" y="168">Q4</text>
+      </g>
+      <g fill="#4d96ff" opacity="0.75">
+        <rect x="135" y="80" width="80" height="70" rx="4"/>
+        <rect x="275" y="50" width="80" height="100" rx="4"/>
+        <rect x="415" y="65" width="80" height="85" rx="4"/>
+        <rect x="555" y="30" width="80" height="120" rx="4"/>
+      </g>
+      <g fill="#e8eef4" font-size="10" font-weight="700" text-anchor="middle">
+        <text x="175" y="73">$120K</text>
+        <text x="315" y="43">$165K</text>
+        <text x="455" y="58">$140K</text>
+        <text x="595" y="23">$200K</text>
+      </g>
+      <text x="370" y="190" text-anchor="middle" fill="#6b7d8f" font-size="9">Each bar = one aggregated value. Easy to compare at a glance.</text>
+    </g>
+  </svg>
+  <figcaption class="viz-figcaption"><span class="fig-dot" style="background:#4d96ff"></span><span class="fig-num">Fig. E</span> Bar charts are the natural choice for categorical comparison. The eye compares bar heights instantly.</figcaption>
+</figure>
+
+### You Have Large Datasets
+
+When you have hundreds or thousands of data points, a dot plot becomes cluttered. Dots overlap, and the chart loses readability. A bar chart handles this gracefully because the aggregation step collapses the complexity into clean, comparable bars.
+
+### You Need to Show Totals or Averages
+
+Business stakeholders typically want to know totals, averages, or growth rates — not the distribution of individual transactions. A bar chart communicates these summaries directly. For example, "Q4 revenue was $200K" is a clear, actionable insight that a bar chart delivers instantly.
+
+### You Are Building Dashboards
+
+Bar charts are the workhorse of business intelligence. They are supported by every BI tool, they render cleanly at any scale, and they are immediately understandable by any audience. If you are building a dashboard for non-technical stakeholders, bar charts are almost always the safer choice.
+
+## Side-by-Side Comparison
+
+The same data can produce both charts, but they tell different stories:
+
+<figure class="viz-figure">
+  <svg viewBox="0 0 720 280" xmlns="http://www.w3.org/2000/svg" font-family="Inter, sans-serif">
+    <g transform="translate(10,4)">
+      <rect width="700" height="235" rx="10" fill="#111920" stroke="#243040"/>
+      <text x="350" y="22" text-anchor="middle" fill="#e8eef4" font-size="12" font-weight="700">Same Data, Different Charts</text>
+      {/* Dot plot */}
+      <g transform="translate(15,35)">
+        <text x="155" y="0" text-anchor="middle" fill="#00d4aa" font-size="10" font-weight="700">Dot Plot: Group A (n=20)</text>
+        <line x1="20" y1="100" x2="290" y2="100" stroke="#243040" stroke-width="1"/>
+        <g fill="#00d4aa">
+          <circle cx="60" cy="92" r="4.5"/><circle cx="60" cy="82" r="4.5"/>
+          <circle cx="85" cy="92" r="4.5"/><circle cx="85" cy="82" r="4.5"/><circle cx="85" cy="72" r="4.5"/>
+          <circle cx="110" cy="92" r="4.5"/><circle cx="110" cy="82" r="4.5"/><circle cx="110" cy="72" r="4.5"/><circle cx="110" cy="62" r="4.5"/>
+          <circle cx="135" cy="92" r="4.5"/><circle cx="135" cy="82" r="4.5"/><circle cx="135" cy="72" r="4.5"/><circle cx="135" cy="62" r="4.5"/><circle cx="135" cy="52" r="4.5"/>
+          <circle cx="160" cy="92" r="4.5"/><circle cx="160" cy="82" r="4.5"/><circle cx="160" cy="72" r="4.5"/><circle cx="160" cy="62" r="4.5"/>
+          <circle cx="185" cy="92" r="4.5"/><circle cx="185" cy="82" r="4.5"/><circle cx="185" cy="72" r="4.5"/>
+          <circle cx="210" cy="92" r="4.5"/><circle cx="210" cy="82" r="4.5"/>
+          <circle cx="235" cy="92" r="4.5"/>
+        </g>
+        <g fill="#6b7d8f" font-size="8" text-anchor="middle">
+          <text x="60" y="115">60</text><text x="85" y="115">65</text><text x="110" y="115">70</text>
+          <text x="135" y="115">75</text><text x="160" y="115">80</text><text x="185" y="115">85</text>
+          <text x="210" y="115">90</text><text x="235" y="115">95</text>
+        </g>
+      </g>
+      {/* Bar chart */}
+      <g transform="translate(355,35)">
+        <text x="155" y="0" text-anchor="middle" fill="#ffd93d" font-size="10" font-weight="700">Bar Chart: Mean Score</text>
+        <line x1="30" y1="100" x2="280" y2="100" stroke="#243040" stroke-width="1"/>
+        <g fill="#ffd93d" opacity="0.7">
+          <rect x="70" y="50" width="170" height="50" rx="4"/>
+        </g>
+        <text x="155" y="80" text-anchor="middle" fill="#111920" font-size="11" font-weight="700">Mean = 75.5</text>
+        <text x="155" y="120" text-anchor="middle" fill="#6b7d8f" font-size="9">One number. Distribution hidden.</text>
+      </g>
+      {/* Divider */}
+      <line x1="350" y1="35" x2="350" y2="225" stroke="#243040" stroke-width="1" stroke-dasharray="4 3"/>
+      {/* Bottom insight */}
+      <g transform="translate(15,185)">
+        <rect width="670" height="40" rx="6" fill="#00d4aa" opacity="0.06"/>
+        <text x="335" y="25" text-anchor="middle" fill="#e8eef4" font-size="10">
+          <tspan fill="#00d4aa" font-weight="700">Dot plot insight:</tspan> symmetric distribution, tight cluster, one low outlier at 60
+        </text>
+      </g>
+    </g>
+  </svg>
+  <figcaption class="viz-figcaption"><span class="fig-dot" style="background:#9b59b6"></span><span class="fig-num">Fig. F</span> Same dataset, two charts. The dot plot reveals the full distribution; the bar chart reduces it to a single number.</figcaption>
+</figure>
+
+The dot plot above shows a symmetric distribution clustered around 75 with a low outlier at 60. The bar chart shows only the mean (75.5). If you were deciding whether to adjust the curriculum, the dot plot tells you most students are performing similarly with one student struggling. The bar chart tells you the average is 75.5 — which is not very actionable.
+
+## Common Mistakes
+
+### Using a Bar Chart for Distribution Data
+
+The most common mistake is using a bar chart when you actually need to show distribution shape. If your data has multiple observations per category and you want to show the spread, use a dot plot — not a bar chart. A bar chart of raw data points (one bar per observation) is technically possible but visually confusing.
+
+### Using a Dot Plot for Categorical Comparison
+
+The reverse mistake is equally problematic. If you want to compare revenue across four regions, a dot plot of individual transactions is not helpful. You need the aggregated total — which is what a bar chart shows.
+
+### Ignoring Dataset Size
+
+A dot plot with 500 overlapping dots is unreadable. A bar chart with 3 categories and 2 data points per category is wasteful. Match the chart to your data size: dot plots for small datasets, bar charts for large or aggregated data.
+
+### Over-Decorating Bar Charts
+
+<a href="https://en.wikipedia.org/wiki/Data-ink_ratio" rel="nofollow">Edward Tufte</a> argues that chart junk — 3D effects, gradients, shadows — reduces clarity. Keep bar charts flat and clean. The data should do the talking.
+
+For more on reading distributions correctly, see our [how to read dot plots](/blog/how-to-read-dot-plots/) guide.
+
+## Quick Decision Guide
+
+Still not sure which to use? Follow this flowchart:
+
+1. **Do you need to show individual data points?** → Dot plot
+2. **Do you need to compare quantities across categories?** → Bar chart
+3. **Is your dataset under 100 points?** → Dot plot (probably)
+4. **Is your dataset over 100 points?** → Bar chart (probably)
+5. **Do you need to show distribution shape?** → Dot plot
+6. **Do you need to show totals or averages?** → Bar chart
+7. **Are you building a dashboard for non-technical users?** → Bar chart
+8. **Are you doing exploratory analysis?** → Dot plot
+
+When in doubt, ask: **what question am I trying to answer?** The question determines the chart.
+
+## Make Your Own
+
+Use our free tools to experiment with both chart types:
+
+- **[Dot Plot Maker®](/)** — paste any dataset for an instant dot plot
+- **[Professional Tool](/professional-dot-plot-tool/)** — import CSV/Excel, export SVG, advanced styling
+- **[Statistics Visualizer](/blog/statistics-dot-plot-visualizer/)** — explore descriptive statistics with interactive dot plots
+- **[Compare Datasets](/blog/compare-dot-plot-maker/)** — compare two groups side by side
+- **[Dot-and-Whisker Plots](/blog/dot-and-whisker-plot-maker/)** — visualize coefficients and confidence intervals
+
+Free, no signup, all processing in your browser. Your data never leaves your device.
