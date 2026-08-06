@@ -9,52 +9,310 @@ category: "Statistics"
 
 ## Why Real-World Data Matters
 
-Textbook examples use neat, perfectly distributed numbers. Real data is messy — it has outliers, skewness, clusters, and gaps. Dot plots shine with real data because they show **every individual point**, letting you see patterns that summary statistics hide.
+Textbook examples use neat, perfectly distributed numbers. Real data is messy — it has outliers, skewness, clusters, and gaps. The gap between textbook data and real-world data is one of the most common sources of analytical error. When students encounter their first real dataset, they are often shocked by how different it looks from the clean, symmetric distributions in their textbooks.
+
+Dot plots shine with real data because they show **every individual point**, letting you see patterns that summary statistics hide. A mean of $62,000 tells you almost nothing about a salary distribution. But a dot plot of salaries reveals whether most employees earn close to that number, or whether a few executives earning $500,000 are pulling the average up while the median sits at $45,000.
+
+This is the fundamental lesson of [exploratory data analysis](/blog/scatter-plot-deep-dive/): before you compute, look. Before you model, plot. The dot plot is one of the simplest and most honest tools for looking at data, and its power increases as the data become more real.
 
 ## Salary Data: Spotting Income Inequality
 
-A classic use for dot plots is visualizing salary distributions. When you plot individual salaries:
+A classic use for dot plots is visualizing salary distributions. When you plot individual salaries, four patterns emerge immediately.
 
-- **Right-skewed distributions** are immediately visible — a few high earners pull the mean above the median
-- **Clusters** reveal common pay bands (e.g., most employees at $55-75K)
-- **Outliers** stand out clearly — executives earning 3-5× the median
-- **The gap between mean and median** becomes intuitive when you see the actual dots
+<figure class="viz-figure">
+  <svg viewBox="0 0 720 220" xmlns="http://www.w3.org/2000/svg" font-family="Inter, sans-serif">
+    {/* Salary distribution - right skewed */}
+    <g transform="translate(10,4)">
+      <rect width="700" height="175" rx="10" fill="#111920" stroke="#243040"/>
+      {/* Axis */}
+      <line x1="60" y1="145" x2="660" y2="145" stroke="#243040" stroke-width="1.5"/>
+      <g fill="#6b7d8f" font-size="10" text-anchor="middle">
+        <text x="60" y="162">$20K</text><text x="160" y="162">$40K</text><text x="260" y="162">$60K</text>
+        <text x="360" y="162">$80K</text><text x="460" y="162">$100K</text><text x="560" y="162">$120K</text><text x="660" y="162">$140K</text>
+      </g>
+      {/* Dots - right skewed salary distribution */}
+      <g fill="#00d4aa">
+        <circle cx="80" cy="135" r="5.5"/><circle cx="80" cy="123" r="5.5"/>
+        <circle cx="100" cy="135" r="5.5"/><circle cx="100" cy="123" r="5.5"/><circle cx="100" cy="111" r="5.5"/>
+        <circle cx="120" cy="135" r="5.5"/><circle cx="120" cy="123" r="5.5"/><circle cx="120" cy="111" r="5.5"/><circle cx="120" cy="99" r="5.5"/>
+        <circle cx="140" cy="135" r="5.5"/><circle cx="140" cy="123" r="5.5"/><circle cx="140" cy="111" r="5.5"/><circle cx="140" cy="99" r="5.5"/>
+        <circle cx="160" cy="135" r="5.5"/><circle cx="160" cy="123" r="5.5"/><circle cx="160" cy="111" r="5.5"/><circle cx="160" cy="99" r="5.5"/><circle cx="160" cy="87" r="5.5"/>
+        <circle cx="180" cy="135" r="5.5"/><circle cx="180" cy="123" r="5.5"/><circle cx="180" cy="111" r="5.5"/><circle cx="180" cy="99" r="5.5"/>
+        <circle cx="200" cy="135" r="5.5"/><circle cx="200" cy="123" r="5.5"/><circle cx="200" cy="111" r="5.5"/>
+        <circle cx="220" cy="135" r="5.5"/><circle cx="220" cy="123" r="5.5"/>
+        <circle cx="240" cy="135" r="5.5"/><circle cx="240" cy="123" r="5.5"/>
+        <circle cx="260" cy="135" r="5.5"/>
+        <circle cx="280" cy="135" r="5.5"/>
+        <circle cx="300" cy="135" r="5.5"/>
+        <circle cx="320" cy="135" r="5.5"/>
+        <circle cx="340" cy="135" r="5.5"/>
+      </g>
+      {/* Executive outliers */}
+      <circle cx="480" cy="135" r="7" fill="none" stroke="#ff6b6b" stroke-width="2"/>
+      <circle cx="540" cy="135" r="7" fill="none" stroke="#ff6b6b" stroke-width="2"/>
+      <circle cx="620" cy="135" r="7" fill="none" stroke="#ff6b6b" stroke-width="2"/>
+      {/* Median line */}
+      <line x1="160" y1="148" x2="160" y2="30" stroke="#00d4aa" stroke-width="2" stroke-dasharray="4 3"/>
+      <text x="165" y="26" fill="#00d4aa" font-size="10" font-weight="600">median ($52K)</text>
+      {/* Mean line */}
+      <line x1="220" y1="148" x2="220" y2="36" stroke="#ffd93d" stroke-width="2" stroke-dasharray="4 3"/>
+      <text x="225" y="42" fill="#ffd93d" font-size="10" font-weight="600">mean ($68K)</text>
+      {/* Outlier label */}
+      <text x="580" y="120" text-anchor="middle" fill="#ff6b6b" font-size="10" font-weight="700">executives</text>
+      {/* Cluster label */}
+      <text x="160" y="180" text-anchor="middle" fill="#e8eef4" font-size="11" font-weight="700">main cluster ($35K–$75K)</text>
+    </g>
+  </svg>
+  <figcaption class="viz-figcaption"><span class="fig-dot" style="background:#00d4aa"></span><span class="fig-num">Fig. A</span> Salary distribution: most employees cluster at $35K–$75K, with executive outliers pulling the mean $16K above the median.</figcaption>
+</figure>
 
-This is why economists and HR analysts use dot plots to communicate pay equity findings to non-technical audiences.
+**Right-skewed distributions** are immediately visible — a few high earners pull the mean above the median. In the salary distribution above, the median sits at $52,000 but the mean is $68,000. That $16,000 gap is entirely caused by the three executive outliers on the right. Without the dot plot, you might report the mean and mislead your audience about what a "typical" employee earns.
+
+**Clusters** reveal common pay bands. The dense cluster between $35,000 and $75,000 represents the bulk of the workforce — entry-level, mid-level, and senior employees. The gap between $75,000 and $100,000 suggests a promotion threshold: employees either earn below $75K or jump to six figures.
+
+**Outliers** stand out clearly. Three dots far to the right represent executives earning 3–5× the median. In [dot plot comparisons](/blog/compare-dot-plot-maker/), these outliers would be flagged automatically. But in a single dot plot, they are visible to the naked eye.
+
+**The gap between mean and median** becomes intuitive when you see the actual dots. Economists and HR analysts use dot plots to communicate pay equity findings to non-technical audiences precisely because the visual makes the inequality obvious without requiring statistical literacy.
 
 ## Exam Score Data: Understanding Student Performance
 
-In education, dot plots of test scores reveal:
+In education, dot plots of test scores tell stories that grade averages cannot. Consider a class of 35 students taking a midterm exam. The class average is 74%. That number alone suggests a "C+" performance. But the dot plot reveals a far more nuanced picture.
 
-- **Bimodal distributions** — two groups of students performing at different levels
-- **Grade boundaries** — clusters just above/below passing thresholds
-- **Effectiveness of interventions** — compare pre- and post-test distributions
-- **Individual outliers** — students who need extra support or advanced challenges
+<figure class="viz-figure">
+  <svg viewBox="0 0 720 210" xmlns="http://www.w3.org/2000/svg" font-family="Inter, sans-serif">
+    {/* Bimodal exam score distribution */}
+    <g transform="translate(10,4)">
+      <rect width="700" height="165" rx="10" fill="#111920" stroke="#243040"/>
+      {/* Axis */}
+      <line x1="60" y1="140" x2="660" y2="140" stroke="#243040" stroke-width="1.5"/>
+      <g fill="#6b7d8f" font-size="10" text-anchor="middle">
+        <text x="60" y="157">0</text><text x="160" y="157">20</text><text x="260" y="157">40</text>
+        <text x="360" y="157">60</text><text x="460" y="157">80</text><text x="560" y="157">100</text>
+      </g>
+      {/* Lower group - struggling students */}
+      <g fill="#4d96ff">
+        <circle cx="180" cy="130" r="5.5"/><circle cx="180" cy="118" r="5.5"/>
+        <circle cx="200" cy="130" r="5.5"/><circle cx="200" cy="118" r="5.5"/><circle cx="200" cy="106" r="5.5"/>
+        <circle cx="220" cy="130" r="5.5"/><circle cx="220" cy="118" r="5.5"/><circle cx="220" cy="106" r="5.5"/>
+        <circle cx="240" cy="130" r="5.5"/><circle cx="240" cy="118" r="5.5"/><circle cx="240" cy="106" r="5.5"/>
+        <circle cx="260" cy="130" r="5.5"/><circle cx="260" cy="118" r="5.5"/>
+        <circle cx="280" cy="130" r="5.5"/>
+      </g>
+      {/* Upper group - excelling students */}
+      <g fill="#00d4aa">
+        <circle cx="420" cy="130" r="5.5"/><circle cx="420" cy="118" r="5.5"/>
+        <circle cx="440" cy="130" r="5.5"/><circle cx="440" cy="118" r="5.5"/><circle cx="440" cy="106" r="5.5"/>
+        <circle cx="460" cy="130" r="5.5"/><circle cx="460" cy="118" r="5.5"/><circle cx="460" cy="106" r="5.5"/>
+        <circle cx="480" cy="130" r="5.5"/><circle cx="480" cy="118" r="5.5"/><circle cx="480" cy="106" r="5.5"/><circle cx="480" cy="94" r="5.5"/>
+        <circle cx="500" cy="130" r="5.5"/><circle cx="500" cy="118" r="5.5"/><circle cx="500" cy="106" r="5.5"/>
+        <circle cx="520" cy="130" r="5.5"/><circle cx="520" cy="118" r="5.5"/>
+        <circle cx="540" cy="130" r="5.5"/>
+      </g>
+      {/* Gap zone */}
+      <rect x="310" y="70" width="80" height="75" rx="6" fill="#ff6b6b" opacity="0.06"/>
+      <text x="350" y="85" text-anchor="middle" fill="#ff6b6b" font-size="10" font-weight="600">gap</text>
+      {/* Labels */}
+      <text x="230" y="180" text-anchor="middle" fill="#4d96ff" font-size="11" font-weight="700">Group A (mean: 38%)</text>
+      <text x="470" y="180" text-anchor="middle" fill="#00d4aa" font-size="11" font-weight="700">Group B (mean: 82%)</text>
+      <text x="350" y="180" text-anchor="middle" fill="#ff6b6b" font-size="10" font-weight="600">bimodal</text>
+    </g>
+  </svg>
+  <figcaption class="viz-figcaption"><span class="fig-dot" style="background:#4d96ff"></span><span class="fig-num">Fig. B</span> Bimodal exam scores: two distinct groups with a gap in the middle. The class average (74%) describes neither group accurately.</figcaption>
+</figure>
 
-Teachers can glance at a dot plot and immediately know whether a class is performing consistently or whether subgroups need different approaches.
+The exam score dot plot reveals four critical patterns:
+
+**Bimodal distributions** — two groups of students performing at different levels. The lower cluster (mean: 38%) represents students who did not master the material. The upper cluster (mean: 82%) represents students who did. The class average of 74% is meaningless — it falls in the gap between the two groups and describes nobody.
+
+This is the <a href="https://en.wikipedia.org/wiki/Anscombe%27s_quartet" rel="nofollow">Anscombe's quartet</a> problem applied to education: a summary statistic that hides the truth. The dot plot exposes it instantly.
+
+**Grade boundaries** — clusters just above and below passing thresholds. If 60% is the passing grade, a cluster of dots at 58% and 60% reveals students who barely failed versus barely passed. This information is invisible in a histogram or box plot but obvious in a dot plot.
+
+**Effectiveness of interventions** — compare [pre- and post-test distributions](/blog/compare-dot-plot-maker/). If a teaching intervention works, the entire distribution should shift right. If only a few students improve while the rest stay put, the intervention helped some but not all. A dot plot shows this directly.
+
+**Individual outliers** — students who need extra support or advanced challenges. A student scoring 95% in a class averaging 38% may need gifted programming. A student scoring 15% may need tutoring. Both are visible as isolated dots far from the main cluster.
 
 ## Sports Statistics: Comparing Player Performance
 
-Sports analysts use dot plots to:
+Sports analysts use dot plots to visualize scoring distributions, compare positions, track trends, and identify breakouts.
 
-- **Visualize scoring distributions** — most players cluster around league average, with a few stars far above
-- **Compare positions** — overlay dot plots for guards vs. forwards vs. centers
-- **Track trends** — plot a player's game-by-game performance across a season
-- **Identify breakouts** — a dot far from the cluster signals an unusually good (or bad) game
+<figure class="viz-figure">
+  <svg viewBox="0 0 720 210" xmlns="http://www.w3.org/2000/svg" font-family="Inter, sans-serif">
+    {/* Two-position comparison */}
+    <g transform="translate(10,4)">
+      <rect width="345" height="165" rx="10" fill="#111920" stroke="#243040"/>
+      <text x="172" y="22" text-anchor="middle" fill="#00d4aa" font-size="11" font-weight="700">Guards (points per game)</text>
+      <line x1="40" y1="130" x2="320" y2="130" stroke="#243040" stroke-width="1.5"/>
+      <g fill="#00d4aa">
+        <circle cx="80" cy="120" r="5.5"/><circle cx="80" cy="108" r="5.5"/>
+        <circle cx="100" cy="120" r="5.5"/><circle cx="100" cy="108" r="5.5"/><circle cx="100" cy="96" r="5.5"/>
+        <circle cx="120" cy="120" r="5.5"/><circle cx="120" cy="108" r="5.5"/><circle cx="120" cy="96" r="5.5"/>
+        <circle cx="140" cy="120" r="5.5"/><circle cx="140" cy="108" r="5.5"/><circle cx="140" cy="96" r="5.5"/><circle cx="140" cy="84" r="5.5"/>
+        <circle cx="160" cy="120" r="5.5"/><circle cx="160" cy="108" r="5.5"/><circle cx="160" cy="96" r="5.5"/>
+        <circle cx="180" cy="120" r="5.5"/><circle cx="180" cy="108" r="5.5"/>
+        <circle cx="200" cy="120" r="5.5"/>
+        <circle cx="220" cy="120" r="5.5"/>
+      </g>
+      <text x="150" y="155" text-anchor="middle" fill="#e8eef4" font-size="10" font-weight="700">median: 15 PPG</text>
+    </g>
+    <g transform="translate(370,4)">
+      <rect width="345" height="165" rx="10" fill="#111920" stroke="#243040"/>
+      <text x="172" y="22" text-anchor="middle" fill="#4d96ff" font-size="11" font-weight="700">Centers (points per game)</text>
+      <line x1="40" y1="130" x2="320" y2="130" stroke="#243040" stroke-width="1.5"/>
+      <g fill="#4d96ff">
+        <circle cx="80" cy="120" r="5.5"/><circle cx="80" cy="108" r="5.5"/>
+        <circle cx="100" cy="120" r="5.5"/><circle cx="100" cy="108" r="5.5"/>
+        <circle cx="120" cy="120" r="5.5"/><circle cx="120" cy="108" r="5.5"/><circle cx="120" cy="96" r="5.5"/>
+        <circle cx="140" cy="120" r="5.5"/><circle cx="140" cy="108" r="5.5"/>
+        <circle cx="160" cy="120" r="5.5"/>
+        <circle cx="180" cy="120" r="5.5"/>
+        <circle cx="200" cy="120" r="5.5"/>
+      </g>
+      <text x="140" y="155" text-anchor="middle" fill="#e8eef4" font-size="10" font-weight="700">median: 11 PPG</text>
+    </g>
+  </svg>
+  <figcaption class="viz-figcaption"><span class="fig-dot" style="background:#4d96ff"></span><span class="fig-num">Fig. C</span> Guards score higher on average (median: 15 PPG) than centers (median: 11 PPG), but guards also have more variance.</figcaption>
+</figure>
 
-The shape of a sports dot plot often follows a log-normal pattern — many average performers and a thin tail of superstars.
+**Visualize scoring distributions** — most players cluster around league average, with a few stars far above. The shape of a sports dot plot often follows a log-normal pattern: many average performers and a thin tail of superstars. This pattern is <a href="https://www.khanacademy.org/math/statistics-probability/summarizing-quantitative-data" rel="nofollow">visible across sports</a> — basketball points per game, baseball batting averages, soccer goals per season.
 
-## Try the Interactive Explorer
+**Compare positions** — overlay dot plots for guards versus forwards versus centers. Guards typically have higher scoring variance (some score 25+ points, others score 8). Centers cluster more tightly (most score 10-14). The [statistical dot plot visualizer](/blog/statistics-dot-plot-visualizer/) makes this comparison interactive.
 
-Switch between the three real-world datasets below to see how dot plots reveal different stories in each domain.
+**Track trends** — plot a player's game-by-game performance across a season. A tight cluster means consistent performance. A wide spread means inconsistency. A shift in the cluster position over time reveals improvement or decline.
+
+**Identify breakouts** — a dot far from the cluster signals an unusually good (or bad) game. A rookie scoring 40 points in a game where they typically score 8 is a breakout signal that scouts and analysts look for.
+
+## Clinical Trial Data: Seeing Treatment Effects
+
+In clinical research, dot plots of patient outcomes reveal the full story behind a treatment effect. Consider a drug trial with 40 patients — 20 in the treatment group and 20 in the control group.
+
+<figure class="viz-figure">
+  <svg viewBox="0 0 720 200" xmlns="http://www.w3.org/2000/svg" font-family="Inter, sans-serif">
+    {/* Control group */}
+    <g transform="translate(10,4)">
+      <rect width="345" height="155" rx="10" fill="#111920" stroke="#243040"/>
+      <text x="172" y="22" text-anchor="middle" fill="#ff6b6b" font-size="11" font-weight="700">Control (placebo)</text>
+      <line x1="40" y1="125" x2="320" y2="125" stroke="#243040" stroke-width="1.5"/>
+      <g fill="#ff6b6b" opacity="0.85">
+        <circle cx="100" cy="115" r="5.5"/><circle cx="100" cy="103" r="5.5"/>
+        <circle cx="120" cy="115" r="5.5"/><circle cx="120" cy="103" r="5.5"/><circle cx="120" cy="91" r="5.5"/>
+        <circle cx="140" cy="115" r="5.5"/><circle cx="140" cy="103" r="5.5"/><circle cx="140" cy="91" r="5.5"/>
+        <circle cx="160" cy="115" r="5.5"/><circle cx="160" cy="103" r="5.5"/><circle cx="160" cy="91" r="5.5"/><circle cx="160" cy="79" r="5.5"/>
+        <circle cx="180" cy="115" r="5.5"/><circle cx="180" cy="103" r="5.5"/><circle cx="180" cy="91" r="5.5"/>
+        <circle cx="200" cy="115" r="5.5"/><circle cx="200" cy="103" r="5.5"/>
+        <circle cx="220" cy="115" r="5.5"/>
+      </g>
+      <line x1="160" y1="128" x2="160" y2="30" stroke="#ff6b6b" stroke-width="2" stroke-dasharray="4 3"/>
+      <text x="165" y="36" fill="#ff6b6b" font-size="10" font-weight="600">median: 18mm</text>
+    </g>
+    {/* Treatment group */}
+    <g transform="translate(370,4)">
+      <rect width="345" height="155" rx="10" fill="#111920" stroke="#243040"/>
+      <text x="172" y="22" text-anchor="middle" fill="#00d4aa" font-size="11" font-weight="700">Treatment (drug)</text>
+      <line x1="40" y1="125" x2="320" y2="125" stroke="#243040" stroke-width="1.5"/>
+      <g fill="#00d4aa" opacity="0.85">
+        <circle cx="100" cy="115" r="5.5"/>
+        <circle cx="120" cy="115" r="5.5"/><circle cx="120" cy="103" r="5.5"/>
+        <circle cx="140" cy="115" r="5.5"/><circle cx="140" cy="103" r="5.5"/><circle cx="140" cy="91" r="5.5"/>
+        <circle cx="160" cy="115" r="5.5"/><circle cx="160" cy="103" r="5.5"/><circle cx="160" cy="91" r="5.5"/>
+        <circle cx="180" cy="115" r="5.5"/><circle cx="180" cy="103" r="5.5"/><circle cx="180" cy="91" r="5.5"/><circle cx="180" cy="79" r="5.5"/>
+        <circle cx="200" cy="115" r="5.5"/><circle cx="200" cy="103" r="5.5"/><circle cx="200" cy="91" r="5.5"/><circle cx="200" cy="79" r="5.5"/>
+        <circle cx="220" cy="115" r="5.5"/><circle cx="220" cy="103" r="5.5"/><circle cx="220" cy="91" r="5.5"/>
+        <circle cx="240" cy="115" r="5.5"/><circle cx="240" cy="103" r="5.5"/>
+        <circle cx="260" cy="115" r="5.5"/>
+      </g>
+      <line x1="200" y1="128" x2="200" y2="30" stroke="#00d4aa" stroke-width="2" stroke-dasharray="4 3"/>
+      <text x="205" y="36" fill="#00d4aa" font-size="10" font-weight="600">median: 24mm</text>
+    </g>
+  </svg>
+  <figcaption class="viz-figcaption"><span class="fig-dot" style="background:#00d4aa"></span><span class="fig-num">Fig. D</span> Clinical trial results: the treatment group's distribution shifts right (median: 24mm) compared to control (median: 18mm), suggesting the drug works.</figcaption>
+</figure>
+
+The dot plot reveals what a t-test cannot fully communicate:
+
+- **The treatment effect is consistent.** The entire treatment distribution shifts right — it is not driven by a few extreme responders. This is crucial evidence that the drug works for most patients, not just a subset.
+- **The overlap region is informative.** The area where both distributions have dots represents patients who responded similarly regardless of treatment. The size of this overlap tells you how reliable the treatment effect is.
+- **Individual responders stand out.** A few control patients improved dramatically (dots far to the right in the control group). These are natural responders — patients who would have improved without the drug. Identifying them prevents overestimating the treatment effect.
+
+The [dot-and-whisker plot](/blog/dot-and-whisker-plot-maker/) combines the dot plot with a box plot to give both the visual evidence and the statistical summary in a single display. For clinical data, this combination is the gold standard.
+
+## Manufacturing Quality Control
+
+In manufacturing, dot plots monitor process stability across shifts, machines, and time periods. A dot plot of part dimensions reveals whether the process is centered on target, whether the spread is consistent, and whether outliers indicate defects.
+
+When a manufacturing process drifts, the dot plot shows it immediately. The cluster shifts left or right. The spread widens. Outliers appear. These are signals that the process needs adjustment — signals that a control chart might miss if the drift is gradual.
+
+The [professional dot plot tool](/professional-dot-plot-tool/) can import CSV files from production databases, making it easy to generate dot plots from real manufacturing data without specialized software.
+
+## How to Read a Real-World Dot Plot
+
+Reading a dot plot is simple, but reading it well requires a systematic approach. Here is a five-step method that professional analysts use:
+
+<figure class="viz-figure">
+  <svg viewBox="0 0 720 210" xmlns="http://www.w3.org/2000/svg" font-family="Inter, sans-serif">
+    <g transform="translate(10,4)">
+      <rect width="700" height="165" rx="10" fill="#111920" stroke="#243040"/>
+      {/* Step 1 */}
+      <g transform="translate(30,30)">
+        <rect width="120" height="90" rx="8" fill="#00d4aa" opacity="0.1" stroke="#00d4aa" stroke-width="1.5"/>
+        <text x="60" y="25" text-anchor="middle" fill="#00d4aa" font-size="11" font-weight="700">Step 1</text>
+        <text x="60" y="45" text-anchor="middle" fill="#e8eef4" font-size="10">Count the dots</text>
+        <text x="60" y="60" text-anchor="middle" fill="#6b7d8f" font-size="9">Does the sample</text>
+        <text x="60" y="72" text-anchor="middle" fill="#6b7d8f" font-size="9">size match?</text>
+      </g>
+      {/* Step 2 */}
+      <g transform="translate(170,30)">
+        <rect width="120" height="90" rx="8" fill="#4d96ff" opacity="0.1" stroke="#4d96ff" stroke-width="1.5"/>
+        <text x="60" y="25" text-anchor="middle" fill="#4d96ff" font-size="11" font-weight="700">Step 2</text>
+        <text x="60" y="45" text-anchor="middle" fill="#e8eef4" font-size="10">Find the center</text>
+        <text x="60" y="60" text-anchor="middle" fill="#6b7d8f" font-size="9">Where does the</text>
+        <text x="60" y="72" text-anchor="middle" fill="#6b7d8f" font-size="9">bulk sit?</text>
+      </g>
+      {/* Step 3 */}
+      <g transform="translate(310,30)">
+        <rect width="120" height="90" rx="8" fill="#ffd93d" opacity="0.1" stroke="#ffd93d" stroke-width="1.5"/>
+        <text x="60" y="25" text-anchor="middle" fill="#ffd93d" font-size="11" font-weight="700">Step 3</text>
+        <text x="60" y="45" text-anchor="middle" fill="#e8eef4" font-size="10">Check the shape</text>
+        <text x="60" y="60" text-anchor="middle" fill="#6b7d8f" font-size="9">Symmetric, skewed,</text>
+        <text x="60" y="72" text-anchor="middle" fill="#6b7d8f" font-size="9">or bimodal?</text>
+      </g>
+      {/* Step 4 */}
+      <g transform="translate(450,30)">
+        <rect width="120" height="90" rx="8" fill="#9b59b6" opacity="0.1" stroke="#9b59b6" stroke-width="1.5"/>
+        <text x="60" y="25" text-anchor="middle" fill="#9b59b6" font-size="11" font-weight="700">Step 4</text>
+        <text x="60" y="45" text-anchor="middle" fill="#e8eef4" font-size="10">Spot outliers</text>
+        <text x="60" y="60" text-anchor="middle" fill="#6b7d8f" font-size="9">Any dots far from</text>
+        <text x="60" y="72" text-anchor="middle" fill="#6b7d8f" font-size="9">the cluster?</text>
+      </g>
+      {/* Step 5 */}
+      <g transform="translate(590,30)">
+        <rect width="80" height="90" rx="8" fill="#ff6b6b" opacity="0.1" stroke="#ff6b6b" stroke-width="1.5"/>
+        <text x="40" y="25" text-anchor="middle" fill="#ff6b6b" font-size="11" font-weight="700">Step 5</text>
+        <text x="40" y="45" text-anchor="middle" fill="#e8eef4" font-size="10">Tell the story</text>
+        <text x="40" y="60" text-anchor="middle" fill="#6b7d8f" font-size="9">What does</text>
+        <text x="40" y="72" text-anchor="middle" fill="#6b7d8f" font-size="9">this mean?</text>
+      </g>
+      <text x="350" y="150" text-anchor="middle" fill="#e8eef4" font-size="12" font-weight="700">The 5-step dot plot reading method</text>
+    </g>
+  </svg>
+  <figcaption class="viz-figcaption"><span class="fig-dot" style="background:#9b59b6"></span><span class="fig-num">Fig. E</span> The five-step method: count, center, shape, outliers, story. Follow this sequence for every dot plot you encounter.</figcaption>
+</figure>
+
+1. **Count the dots.** Verify that the number of dots matches your expected sample size. Missing dots may indicate missing data. Extra dots may indicate duplicates.
+2. **Find the center.** Where does the bulk of the data sit? This is your typical value. In a symmetric distribution, the center is the mean and median. In a skewed distribution, the median is more reliable.
+3. **Check the shape.** Is the distribution symmetric, right-skewed, left-skewed, bimodal, or uniform? The shape tells you which summary statistics are trustworthy and which statistical tests are appropriate.
+4. **Spot outliers.** Are there dots far from the main cluster? Outliers may represent genuine extreme events, data entry errors, or subgroups within the data.
+5. **Tell the story.** What does this distribution mean in context? A bimodal exam score distribution means two groups of students. A right-skewed salary distribution means income inequality. A tight cluster of manufacturing measurements means a stable process.
 
 ## Key Takeaways
 
-1. **Dot plots preserve individual data points** — unlike histograms, no information is lost
-2. **Skewness is visible at a glance** — you don't need to calculate a skewness coefficient
-3. **Outliers can't hide** — every data point gets its own dot
-4. **Clusters reveal subgroups** — multimodal patterns jump out immediately
-5. **They work for any domain** — salaries, scores, sports, science, business metrics
+1. **Dot plots preserve individual data points** — unlike histograms, no information is lost. Every dot is one real observation.
+2. **Skewness is visible at a glance** — you do not need to calculate a skewness coefficient. The direction of the tail tells you everything.
+3. **Outliers cannot hide** — every data point gets its own dot. Outliers that would be invisible in a histogram or box plot are obvious in a dot plot.
+4. **Clusters reveal subgroups** — multimodal patterns jump out immediately. Two clusters mean two populations. A gap means a natural break.
+5. **They work for any domain** — salaries, exam scores, sports statistics, clinical trials, manufacturing measurements, and more.
+
+For a deeper understanding of how dot plots compare to other chart types, see our [scatter plot guide](/blog/scatter-plot-deep-dive/) and our [dot-and-whisker plot comparison](/blog/dot-and-whisker-plot-maker/). To explore distribution shapes interactively, try the [statistics dot plot visualizer](/blog/statistics-dot-plot-visualizer/).
 
 ## Make Your Own Dot Plots
 
@@ -62,5 +320,7 @@ Use our free tools to visualize your own real-world data:
 
 - **[Dot Plot Maker®](/)** — paste any dataset and get an instant dot plot
 - **[Professional Dot Plot Tool](/professional-dot-plot-tool/)** — import CSV/Excel files, export SVG, advanced styling
+- **[Statistics Visualizer](/blog/statistics-dot-plot-visualizer/)** — explore descriptive statistics with interactive dot plots
+- **[Compare Datasets](/blog/compare-dot-plot-maker/)** — compare two groups side by side
 
 Both tools are completely free, require no signup, and all data processing happens in your browser.

@@ -9,45 +9,316 @@ category: "Statistics"
 
 ## What Are Outliers?
 
-An **outlier** is a data point that differs significantly from other observations. It may be:
+An **outlier** is a data point that differs significantly from other observations. The formal definition varies by method, but the core idea is universal: an outlier is a value that sits far from the main cluster of data, so far that it warrants separate investigation.
 
-- A **genuine extreme value** — the tallest person in a height survey, a record-breaking temperature
-- A **data error** — a typo, a sensor malfunction, a unit conversion mistake
-- A **meaningful anomaly** — a fraud transaction, a medical emergency, a system failure
+Outliers fall into three categories:
 
-Either way, outliers deserve attention. Ignoring them can distort means, inflate standard deviations, and lead to wrong conclusions.
+- A **genuine extreme value** — the tallest person in a height survey, a record-breaking temperature, a Nobel laureate's publication count. These are real observations that represent the natural variability of the population.
+- A **data error** — a typo, a sensor malfunction, a unit conversion mistake, a decimal point in the wrong place. These are not real observations; they are artifacts of the data collection process.
+- A **meaningful anomaly** — a fraud transaction, a medical emergency, a system failure, a stock market crash. These are real observations that represent rare but important events.
+
+Either way, outliers deserve attention. Ignoring them can distort means, inflate standard deviations, and lead to wrong conclusions. But removing them without investigation is equally dangerous — you might discard the most important data point in your dataset.
+
+The key insight is that **outlier detection is not a mechanical process**. It requires judgment. A statistical rule can flag potential outliers, but only a human can determine whether they are errors, anomalies, or genuine extremes. This is why visual tools like dot plots are so valuable: they show the outlier in context, letting you make an informed decision.
+
+## Why Outliers Matter
+
+Outliers are not just statistical curiosities. They have real consequences for analysis and decision-making.
+
+<figure class="viz-figure">
+  <svg viewBox="0 0 720 210" xmlns="http://www.w3.org/2000/svg" font-family="Inter, sans-serif">
+    {/* Without outlier */}
+    <g transform="translate(10,4)">
+      <rect width="345" height="165" rx="10" fill="#111920" stroke="#243040"/>
+      <text x="172" y="22" text-anchor="middle" fill="#00d4aa" font-size="11" font-weight="700">Without outlier</text>
+      <line x1="40" y1="130" x2="320" y2="130" stroke="#243040" stroke-width="1.5"/>
+      <g fill="#00d4aa">
+        <circle cx="100" cy="120" r="6"/><circle cx="100" cy="105" r="6"/>
+        <circle cx="120" cy="120" r="6"/><circle cx="120" cy="105" r="6"/><circle cx="120" cy="90" r="6"/>
+        <circle cx="140" cy="120" r="6"/><circle cx="140" cy="105" r="6"/><circle cx="140" cy="90" r="6"/>
+        <circle cx="160" cy="120" r="6"/><circle cx="160" cy="105" r="6"/><circle cx="160" cy="90" r="6"/><circle cx="160" cy="75" r="6"/>
+        <circle cx="180" cy="120" r="6"/><circle cx="180" cy="105" r="6"/><circle cx="180" cy="90" r="6"/>
+        <circle cx="200" cy="120" r="6"/><circle cx="200" cy="105" r="6"/>
+        <circle cx="220" cy="120" r="6"/>
+        <circle cx="240" cy="120" r="6"/>
+      </g>
+      <line x1="160" y1="133" x2="160" y2="35" stroke="#00d4aa" stroke-width="2" stroke-dasharray="4 3"/>
+      <text x="165" y="41" fill="#00d4aa" font-size="10" font-weight="600">mean = 52</text>
+      <text x="172" y="155" text-anchor="middle" fill="#e8eef4" font-size="11" font-weight="700">SD = 12</text>
+    </g>
+    {/* With outlier */}
+    <g transform="translate(370,4)">
+      <rect width="345" height="165" rx="10" fill="#111920" stroke="#243040"/>
+      <text x="172" y="22" text-anchor="middle" fill="#ff6b6b" font-size="11" font-weight="700">With outlier</text>
+      <line x1="40" y1="130" x2="320" y2="130" stroke="#243040" stroke-width="1.5"/>
+      <g fill="#00d4aa">
+        <circle cx="80" cy="120" r="6"/><circle cx="80" cy="105" r="6"/>
+        <circle cx="100" cy="120" r="6"/><circle cx="100" cy="105" r="6"/><circle cx="100" cy="90" r="6"/>
+        <circle cx="120" cy="120" r="6"/><circle cx="120" cy="105" r="6"/><circle cx="120" cy="90" r="6"/>
+        <circle cx="140" cy="120" r="6"/><circle cx="140" cy="105" r="6"/><circle cx="140" cy="90" r="6"/><circle cx="140" cy="75" r="6"/>
+        <circle cx="160" cy="120" r="6"/><circle cx="160" cy="105" r="6"/><circle cx="160" cy="90" r="6"/>
+        <circle cx="180" cy="120" r="6"/><circle cx="180" cy="105" r="6"/>
+        <circle cx="200" cy="120" r="6"/>
+        <circle cx="220" cy="120" r="6"/>
+      </g>
+      {/* Outlier */}
+      <circle cx="300" cy="120" r="8" fill="none" stroke="#ff6b6b" stroke-width="2.5"/>
+      <line x1="175" y1="133" x2="175" y2="35" stroke="#ffd93d" stroke-width="2" stroke-dasharray="4 3"/>
+      <text x="180" y="41" fill="#ffd93d" font-size="10" font-weight="600">mean = 68</text>
+      <text x="172" y="155" text-anchor="middle" fill="#e8eef4" font-size="11" font-weight="700">SD = 28</text>
+      <text x="300" y="108" text-anchor="middle" fill="#ff6b6b" font-size="10" font-weight="700">outlier</text>
+    </g>
+  </svg>
+  <figcaption class="viz-figcaption"><span class="fig-dot" style="background:#ff6b6b"></span><span class="fig-num">Fig. A</span> One outlier shifts the mean from 52 to 68 and more than doubles the standard deviation from 12 to 28.</figcaption>
+</figure>
+
+**The mean is not resistant to outliers.** A single extreme value can shift the mean dramatically. In Figure A, the mean jumps from 52 to 68 — a 31% increase — because of one outlier. The median, by contrast, barely moves. This is why the median is preferred for skewed distributions: it resists the influence of extreme values.
+
+**The standard deviation inflates.** The standard deviation more than doubles (from 12 to 28) because the outlier is far from the mean. This inflation makes the data appear more variable than it actually is, which can lead to incorrect conclusions about precision.
+
+**Hypothesis tests can be misled.** A t-test comparing two groups may produce a significant p-value that is driven entirely by one outlier in one group, not by a genuine difference between the populations. This is called the [masking effect](https://en.wikipedia.org/wiki/Outlier#Masking_and_swamping), where one outlier hides the true pattern.
+
+**Regression lines tilt.** In [scatter plots](/blog/scatter-plot-deep-dive/), a single outlier can tilt the regression line, creating the appearance of a correlation where none exists (or hiding a correlation that does). This is one of the most common sources of error in applied statistics.
 
 ## The IQR Method for Detecting Outliers
 
-The most widely used method for flagging outliers is the **1.5× IQR rule**:
+The most widely used method for flagging outliers is the **1.5× IQR rule**, introduced by John Tukey. The method is simple, robust, and objective.
 
-1. Calculate **Q1** (25th percentile) and **Q3** (75th percentile)
-2. Compute the **IQR** = Q3 − Q1 (the interquartile range)
-3. Set **lower fence** = Q1 − 1.5 × IQR
-4. Set **upper fence** = Q3 + 1.5 × IQR
-5. Any value **below the lower fence** or **above the upper fence** is flagged as an outlier
+<figure class="viz-figure">
+  <svg viewBox="0 0 720 220" xmlns="http://www.w3.org/2000/svg" font-family="Inter, sans-serif">
+    <g transform="translate(40,10)">
+      {/* Axis */}
+      <line x1="50" y1="140" x2="650" y2="140" stroke="#243040" stroke-width="2"/>
+      <g fill="#6b7d8f" font-size="10" text-anchor="middle">
+        <text x="100" y="157">10</text><text x="200" y="157">20</text><text x="300" y="157">30</text>
+        <text x="400" y="157">40</text><text x="500" y="157">50</text><text x="600" y="157">60</text>
+      </g>
+      {/* Lower fence */}
+      <line x1="140" y1="60" x2="140" y2="138" stroke="#ff6b6b" stroke-width="1.5" stroke-dasharray="6 4"/>
+      <text x="140" y="52" text-anchor="middle" fill="#ff6b6b" font-size="10" font-weight="600">lower fence</text>
+      {/* Upper fence */}
+      <line x1="520" y1="60" x2="520" y2="138" stroke="#ff6b6b" stroke-width="1.5" stroke-dasharray="6 4"/>
+      <text x="520" y="52" text-anchor="middle" fill="#ff6b6b" font-size="10" font-weight="600">upper fence</text>
+      {/* Box */}
+      <rect x="230" y="80" width="180" height="60" rx="4" fill="#00d4aa" opacity="0.25" stroke="#00d4aa" stroke-width="2"/>
+      <line x1="320" y1="80" x2="320" y2="140" stroke="#00d4aa" stroke-width="3"/>
+      {/* Whiskers */}
+      <line x1="200" y1="110" x2="200" y2="138" stroke="#00d4aa" stroke-width="2"/>
+      <line x1="190" y1="138" x2="210" y2="138" stroke="#00d4aa" stroke-width="2"/>
+      <line x1="410" y1="110" x2="410" y2="138" stroke="#00d4aa" stroke-width="2"/>
+      <line x1="400" y1="138" x2="420" y2="138" stroke="#00d4aa" stroke-width="2"/>
+      {/* Outliers */}
+      <circle cx="90" cy="115" r="7" fill="none" stroke="#ff6b6b" stroke-width="2.5"/>
+      <circle cx="120" cy="115" r="7" fill="none" stroke="#ff6b6b" stroke-width="2.5"/>
+      <circle cx="560" cy="115" r="7" fill="none" stroke="#ff6b6b" stroke-width="2.5"/>
+      <circle cx="600" cy="115" r="7" fill="none" stroke="#ff6b6b" stroke-width="2.5"/>
+      <circle cx="630" cy="115" r="7" fill="none" stroke="#ff6b6b" stroke-width="2.5"/>
+      {/* IQR bracket */}
+      <line x1="230" y1="65" x2="410" y2="65" stroke="#ffd93d" stroke-width="1.5"/>
+      <line x1="230" y1="60" x2="230" y2="70" stroke="#ffd93d" stroke-width="1.5"/>
+      <line x1="410" y1="60" x2="410" y2="70" stroke="#ffd93d" stroke-width="1.5"/>
+      <text x="320" y="75" text-anchor="middle" fill="#ffd93d" font-size="10" font-weight="600">1.5 × IQR</text>
+      {/* Formulas */}
+      <g fill="#e8eef4" font-size="10" text-anchor="middle">
+        <text x="320" y="178" font-weight="700">Q1 = 24, Q3 = 42, IQR = 18</text>
+        <text x="320" y="195" fill="#6b7d8f">Lower fence = 24 − 1.5(18) = −3 | Upper fence = 42 + 1.5(18) = 69</text>
+      </g>
+    </g>
+  </svg>
+  <figcaption class="viz-figcaption"><span class="fig-dot" style="background:#ff6b6b"></span><span class="fig-num">Fig. B</span> Tukey's 1.5× IQR rule: points beyond the fences (dashed red lines) are flagged as outliers.</figcaption>
+</figure>
 
-This method is robust because it uses quartiles (which resist outlier influence) rather than the mean and standard deviation (which don't).
+Here is the method step by step:
+
+1. **Calculate Q1** (25th percentile) and **Q3** (75th percentile). These are the values that mark the boundaries of the middle 50% of the data.
+2. **Compute the IQR** = Q3 − Q1. The interquartile range measures the spread of the middle half of the data.
+3. **Set the lower fence** = Q1 − 1.5 × IQR. Any value below this fence is a potential outlier.
+4. **Set the upper fence** = Q3 + 1.5 × IQR. Any value above this fence is a potential outlier.
+5. **Flag outliers** — any data point beyond either fence is flagged for investigation.
+
+The multiplier **1.5** is a convention, not a law. Tukey chose it as a balance between sensitivity and specificity. A smaller multiplier (like 1.0) would flag too many points as outliers. A larger multiplier (like 3.0) would miss real outliers. The 1.5× rule has become the industry standard, and [most statistical software](https://www.itl.nist.gov/div898/handbook/eda/section3/eda35h.htm) uses it as the default.
+
+Some disciplines use a more extreme threshold — **3 × IQR** — to identify "far outliers" or "extreme outliers." These are points so far from the main distribution that they almost certainly represent data entry errors or genuinely extraordinary events.
+
+The key insight is that the IQR method is **resistant to outliers**. Because Q1 and Q3 are based on quartiles (which depend on the rank order of values, not their magnitudes), a single extreme value cannot shift the fences. This makes the method self-correcting: the more extreme the outlier, the more clearly it falls beyond the fences. For a comprehensive technical reference on outlier detection, see <a href="https://www.itl.nist.gov/div898/handbook/eda/section3/eda35h.htm" rel="nofollow">NIST's Handbook on EDA - Outlier Detection</a>.
 
 ## Why Dot Plots Are Perfect for Outlier Detection
 
-- **Every point is visible** — outliers can't hide in a bin like they would in a histogram
-- **Distance from the cluster is obvious** — an isolated dot stands out immediately
-- **Context is preserved** — you see the outlier alongside the rest of the data
-- **Visual + statistical** — the IQR fences give you a formal rule, the plot gives you intuition
+Dot plots are one of the best tools for outlier detection because they combine visual clarity with statistical rigor.
 
-## Try the Outlier Detection Tool
+**Every point is visible.** In a histogram, outliers can hide in the tail of a wide bin. In a box plot, outliers are shown as individual dots, but you cannot see the rest of the distribution. In a dot plot, every data point gets its own dot. Nothing is hidden, nothing is aggregated, nothing is lost.
 
-Switch between preset datasets or enter your own data. Outliers are automatically detected and highlighted in red with ring markers on the dot plot.
+**Distance from the cluster is obvious.** An isolated dot far from the main cluster stands out immediately. Your visual system processes spatial distance in milliseconds — faster than any statistical test can compute a p-value. This speed makes dot plots ideal for quick data screening.
 
-## What to Do When You Find an Outlier
+**Context is preserved.** You see the outlier alongside the rest of the data. This context is critical for deciding whether the outlier is an error, an anomaly, or a genuine extreme. A dot plot shows you how far the outlier is from the cluster, how many other points are nearby, and whether the overall distribution is symmetric or skewed.
 
-1. **Investigate** — is it a data entry error? A sensor glitch? A genuine extreme?
-2. **Document** — record the outlier and the reason for any action taken
-3. **Decide** — remove (if error), keep (if genuine), or report separately
-4. **Never silently remove** — dropping outliers without justification is bad science
+**Visual + statistical.** The IQR fences give you a formal, objective rule. The dot plot gives you intuition and context. Together, they give you both the detection and the interpretation.
 
-## Common Outlier Scenarios
+<figure class="viz-figure">
+  <svg viewBox="0 0 720 200" xmlns="http://www.w3.org/2000/svg" font-family="Inter, sans-serif">
+    {/* Dot plot with outliers highlighted */}
+    <g transform="translate(10,4)">
+      <rect width="700" height="155" rx="10" fill="#111920" stroke="#243040"/>
+      <text x="350" y="22" text-anchor="middle" fill="#e8eef4" font-size="12" font-weight="700">Dot plot with IQR outlier detection</text>
+      {/* Axis */}
+      <line x1="60" y1="120" x2="640" y2="120" stroke="#243040" stroke-width="1.5"/>
+      <g fill="#6b7d8f" font-size="10" text-anchor="middle">
+        <text x="60" y="137">0</text><text x="160" y="137">10</text><text x="260" y="137">20</text>
+        <text x="360" y="137">30</text><text x="460" y="137">40</text><text x="560" y="137">50</text><text x="640" y="137">60</text>
+      </g>
+      {/* Normal dots */}
+      <g fill="#00d4aa">
+        <circle cx="180" cy="110" r="6"/><circle cx="180" cy="95" r="6"/>
+        <circle cx="200" cy="110" r="6"/><circle cx="200" cy="95" r="6"/><circle cx="200" cy="80" r="6"/>
+        <circle cx="220" cy="110" r="6"/><circle cx="220" cy="95" r="6"/><circle cx="220" cy="80" r="6"/>
+        <circle cx="240" cy="110" r="6"/><circle cx="240" cy="95" r="6"/><circle cx="240" cy="80" r="6"/><circle cx="240" cy="65" r="6"/>
+        <circle cx="260" cy="110" r="6"/><circle cx="260" cy="95" r="6"/><circle cx="260" cy="80" r="6"/>
+        <circle cx="280" cy="110" r="6"/><circle cx="280" cy="95" r="6"/>
+        <circle cx="300" cy="110" r="6"/>
+        <circle cx="320" cy="110" r="6"/>
+        <circle cx="340" cy="110" r="6"/>
+        <circle cx="360" cy="110" r="6"/>
+        <circle cx="380" cy="110" r="6"/>
+        <circle cx="400" cy="110" r="6"/>
+        <circle cx="420" cy="110" r="6"/>
+      </g>
+      {/* Outliers */}
+      <circle cx="80" cy="110" r="8" fill="none" stroke="#ff6b6b" stroke-width="2.5"/>
+      <circle cx="120" cy="110" r="8" fill="none" stroke="#ff6b6b" stroke-width="2.5"/>
+      <circle cx="540" cy="110" r="8" fill="none" stroke="#ff6b6b" stroke-width="2.5"/>
+      <circle cx="600" cy="110" r="8" fill="none" stroke="#ff6b6b" stroke-width="2.5"/>
+      {/* Labels */}
+      <text x="100" y="50" text-anchor="middle" fill="#ff6b6b" font-size="10" font-weight="700">outlier</text>
+      <text x="570" y="50" text-anchor="middle" fill="#ff6b6b" font-size="10" font-weight="700">outlier</text>
+      <text x="300" y="155" text-anchor="middle" fill="#6b7d8f" font-size="10">normal range</text>
+    </g>
+  </svg>
+  <figcaption class="viz-figcaption"><span class="fig-dot" style="background:#ff6b6b"></span><span class="fig-num">Fig. C</span> Outliers (red rings) stand out immediately on a dot plot — isolated dots far from the main cluster are flagged for investigation.</figcaption>
+</figure>
+
+## Types of Outliers
+
+Not all outliers are the same. Understanding the type helps you decide what to do with it.
+
+### Point Outliers
+
+A **point outlier** is a single data point that is far from the rest. This is the most common type and the easiest to detect. Examples include a salary of $2,000,000 in a dataset of $40,000–$80,000 salaries, or a test score of 3 out of 100 in a class averaging 74%.
+
+Point outliers are what the 1.5× IQR rule is designed to catch. They are visible on a dot plot as isolated dots far from the main cluster.
+
+### Contextual Outliers
+
+A **contextual outlier** is a data point that is extreme in one context but normal in another. For example, a temperature of 105°F is normal in Death Valley in July but anomalous in Anchorage in July. A sales spike of 500% is normal on Black Friday but anomalous on a Tuesday in March.
+
+Contextual outliers cannot be detected by the IQR method alone, because the method does not consider context. You need domain knowledge to identify them. A [dot plot with time on the x-axis](/blog/scatter-plot-deep-dive/) can reveal contextual outliers by showing the point in its temporal context.
+
+### Collective Outliers
+
+A **collective outlier** is a group of data points that are individually normal but collectively anomalous. For example, ten consecutive temperature readings of 98.6°F in a system that normally varies between 95°F and 102°F — each reading is normal, but the sequence is not.
+
+Collective outliers are the hardest to detect and are outside the scope of the IQR method. They require pattern recognition, time-series analysis, or domain expertise.
+
+## The Z-Score Method vs. the IQR Method
+
+Two methods dominate outlier detection: the IQR method and the Z-score method. Understanding when to use each is essential.
+
+<figure class="viz-figure">
+  <svg viewBox="0 0 720 210" xmlns="http://www.w3.org/2000/svg" font-family="Inter, sans-serif">
+    {/* Z-score */}
+    <g transform="translate(10,4)">
+      <rect width="345" height="165" rx="10" fill="#111920" stroke="#243040"/>
+      <text x="172" y="22" text-anchor="middle" fill="#4d96ff" font-size="11" font-weight="700">Z-Score Method</text>
+      <text x="172" y="40" text-anchor="middle" fill="#6b7d8f" font-size="9">Uses mean + standard deviation</text>
+      <g fill="#e8eef4" font-size="10">
+        <text x="30" y="65" fill="#4d96ff" font-weight="700">Formula:</text>
+        <text x="30" y="82">Z = (x − mean) / SD</text>
+        <text x="30" y="102" fill="#4d96ff" font-weight="700">Threshold:</text>
+        <text x="30" y="119">|Z| > 2 or |Z| > 3</text>
+        <text x="30" y="139" fill="#4d96ff" font-weight="700">Weakness:</text>
+        <text x="30" y="156" fill="#ff6b6b">Outliers inflate mean + SD</text>
+      </g>
+    </g>
+    {/* IQR */}
+    <g transform="translate(370,4)">
+      <rect width="345" height="165" rx="10" fill="#111920" stroke="#243040"/>
+      <text x="172" y="22" text-anchor="middle" fill="#00d4aa" font-size="11" font-weight="700">IQR Method</text>
+      <text x="172" y="40" text-anchor="middle" fill="#6b7d8f" font-size="9">Uses quartiles (rank-based)</text>
+      <g fill="#e8eef4" font-size="10">
+        <text x="30" y="65" fill="#00d4aa" font-weight="700">Formula:</text>
+        <text x="30" y="82">fences = Q1 − 1.5×IQR, Q3 + 1.5×IQR</text>
+        <text x="30" y="102" fill="#00d4aa" font-weight="700">Threshold:</text>
+        <text x="30" y="119">Beyond fences</text>
+        <text x="30" y="139" fill="#00d4aa" font-weight="700">Strength:</text>
+        <text x="30" y="156" fill="#00d4aa">Resistant to outliers</text>
+      </g>
+    </g>
+  </svg>
+  <figcaption class="viz-figcaption"><span class="fig-dot" style="background:#00d4aa"></span><span class="fig-num">Fig. D</span> Z-score vs. IQR: the Z-score method is sensitive to outliers (they inflate the mean and SD), while the IQR method is resistant.</figcaption>
+</figure>
+
+The **Z-score method** computes how many standard deviations a point is from the mean. A Z-score greater than 2 (or 3, depending on the threshold) flags the point as an outlier. The method is intuitive and widely taught, but it has a critical weakness: the mean and standard deviation are themselves affected by outliers. A single extreme value inflates the standard deviation, making other outliers harder to detect. This circularity makes the Z-score method unreliable for small datasets with multiple outliers.
+
+The **IQR method** uses quartiles, which are based on rank order, not magnitude. A single extreme value cannot shift Q1 or Q3, so the fences remain stable regardless of how extreme the outlier is. This resistance makes the IQR method the preferred choice for most practical applications.
+
+For a deeper understanding of how these methods compare, see our [statistics dot plot visualizer](/blog/statistics-dot-plot-visualizer/) which computes both measures interactively.
+
+## Real-World Outlier Scenarios
+
+Outliers appear in every domain that works with data. Here are the most common scenarios and what they typically mean.
+
+<figure class="viz-figure">
+  <svg viewBox="0 0 720 210" xmlns="http://www.w3.org/2000/svg" font-family="Inter, sans-serif">
+    {/* Housing */}
+    <g transform="translate(10,4)">
+      <rect width="225" height="165" rx="10" fill="#111920" stroke="#243040"/>
+      <text x="112" y="22" text-anchor="middle" fill="#00d4aa" font-size="11" font-weight="700">Housing Prices</text>
+      <line x1="30" y1="130" x2="200" y2="130" stroke="#243040" stroke-width="1.5"/>
+      <g fill="#00d4aa">
+        <circle cx="60" cy="120" r="5.5"/><circle cx="60" cy="108" r="5.5"/>
+        <circle cx="75" cy="120" r="5.5"/><circle cx="75" cy="108" r="5.5"/><circle cx="75" cy="96" r="5.5"/>
+        <circle cx="90" cy="120" r="5.5"/><circle cx="90" cy="108" r="5.5"/><circle cx="90" cy="96" r="5.5"/>
+        <circle cx="105" cy="120" r="5.5"/><circle cx="105" cy="108" r="5.5"/><circle cx="105" cy="96" r="5.5"/><circle cx="105" cy="84" r="5.5"/>
+        <circle cx="120" cy="120" r="5.5"/><circle cx="120" cy="108" r="5.5"/>
+        <circle cx="135" cy="120" r="5.5"/>
+        <circle cx="150" cy="120" r="5.5"/>
+      </g>
+      <circle cx="190" cy="120" r="7" fill="none" stroke="#ff6b6b" stroke-width="2"/>
+      <text x="112" y="155" text-anchor="middle" fill="#6b7d8f" font-size="9">$2M in $300K neighborhood</text>
+    </g>
+    {/* Test scores */}
+    <g transform="translate(248,4)">
+      <rect width="225" height="165" rx="10" fill="#111920" stroke="#243040"/>
+      <text x="112" y="22" text-anchor="middle" fill="#4d96ff" font-size="11" font-weight="700">Test Scores</text>
+      <line x1="30" y1="130" x2="200" y2="130" stroke="#243040" stroke-width="1.5"/>
+      <g fill="#4d96ff">
+        <circle cx="120" cy="120" r="5.5"/><circle cx="120" cy="108" r="5.5"/><circle cx="120" cy="96" r="5.5"/>
+        <circle cx="135" cy="120" r="5.5"/><circle cx="135" cy="108" r="5.5"/><circle cx="135" cy="96" r="5.5"/><circle cx="135" cy="84" r="5.5"/>
+        <circle cx="150" cy="120" r="5.5"/><circle cx="150" cy="108" r="5.5"/><circle cx="150" cy="96" r="5.5"/><circle cx="150" cy="84" r="5.5"/>
+        <circle cx="165" cy="120" r="5.5"/><circle cx="165" cy="108" r="5.5"/><circle cx="165" cy="96" r="5.5"/>
+        <circle cx="180" cy="120" r="5.5"/><circle cx="180" cy="108" r="5.5"/>
+      </g>
+      <circle cx="40" cy="120" r="7" fill="none" stroke="#ff6b6b" stroke-width="2"/>
+      <text x="112" y="155" text-anchor="middle" fill="#6b7d8f" font-size="9">Score of 12 out of 100</text>
+    </g>
+    {/* Manufacturing */}
+    <g transform="translate(486,4)">
+      <rect width="225" height="165" rx="10" fill="#111920" stroke="#243040"/>
+      <text x="112" y="22" text-anchor="middle" fill="#ffd93d" font-size="11" font-weight="700">Manufacturing</text>
+      <line x1="30" y1="130" x2="200" y2="130" stroke="#243040" stroke-width="1.5"/>
+      <g fill="#ffd93d">
+        <circle cx="80" cy="120" r="5.5"/><circle cx="80" cy="108" r="5.5"/>
+        <circle cx="95" cy="120" r="5.5"/><circle cx="95" cy="108" r="5.5"/><circle cx="95" cy="96" r="5.5"/>
+        <circle cx="110" cy="120" r="5.5"/><circle cx="110" cy="108" r="5.5"/><circle cx="110" cy="96" r="5.5"/><circle cx="110" cy="84" r="5.5"/>
+        <circle cx="125" cy="120" r="5.5"/><circle cx="125" cy="108" r="5.5"/><circle cx="125" cy="96" r="5.5"/>
+        <circle cx="140" cy="120" r="5.5"/><circle cx="140" cy="108" r="5.5"/>
+        <circle cx="155" cy="120" r="5.5"/>
+      </g>
+      <circle cx="190" cy="120" r="7" fill="none" stroke="#ff6b6b" stroke-width="2"/>
+      <text x="112" y="155" text-anchor="middle" fill="#6b7d8f" font-size="9">Part dimension 5× spec</text>
+    </g>
+  </svg>
+  <figcaption class="viz-figcaption"><span class="fig-dot" style="background:#ffd93d"></span><span class="fig-num">Fig. E</span> Three common outlier scenarios: luxury properties in housing data, absent students in test scores, and machine malfunctions in manufacturing.</figcaption>
+</figure>
 
 | Domain | Typical Outlier | Likely Cause |
 |--------|----------------|--------------|
@@ -57,9 +328,37 @@ Switch between preset datasets or enter your own data. Outliers are automaticall
 | Manufacturing | Part dimension 5× specification | Machine malfunction |
 | Health data | Blood pressure 250/150 | Measurement error or emergency |
 
+Each scenario requires a different response. The housing outlier is genuine — keep it. The test score outlier is likely an error — investigate and possibly remove. The web analytics outlier may be a bot — filter it out before analysis. The manufacturing outlier signals a defect — stop the line and fix the machine. The health data outlier may be a medical emergency — escalate immediately.
+
+## What to Do When You Find an Outlier
+
+Finding an outlier is only the first step. What you do next matters more.
+
+1. **Investigate.** Is it a data entry error? A sensor glitch? A genuine extreme? The answer determines your next action. Check the source data, verify the measurement, and consult domain experts if needed.
+
+2. **Document.** Record the outlier, the value, and the reason for any action taken. Future analysts (including your future self) need to know what was done and why.
+
+3. **Decide.** If the outlier is an error, remove it and note the removal. If it is genuine, keep it and consider whether it should be analyzed separately. If it is ambiguous, report the analysis both with and without the outlier.
+
+4. **Never silently remove.** Dropping outliers without justification is bad science. It biases your results and hides the truth. Always document your reasoning.
+
+For a deeper understanding of how outliers affect statistical analysis, see our [dot-and-whisker plot guide](/blog/dot-and-whisker-plot-maker/) and our [real-world dot plot examples](/blog/real-world-dot-plot-examples/). For formal outlier detection methods beyond the IQR rule, see <a href="https://en.wikipedia.org/wiki/Outlier#Mild_and_extreme_outliers" rel="nofollow">Wikipedia's overview of outlier detection methods</a>.
+
+## Best Practices for Outlier Detection
+
+To get the most from outlier detection, follow these professional guidelines:
+
+- **Always visualize before computing.** A dot plot shows outliers in context. A number alone does not.
+- **Use the IQR method as your default.** It is robust, objective, and widely accepted. Switch to Z-scores only for large, approximately normal datasets.
+- **Check for multiple outliers.** The IQR method can miss outliers when multiple extreme values exist in the same direction (the masking effect). Consider using the adjusted box plot or the generalized ESD test for multiple outliers.
+- **Consider the domain.** A temperature of 110°F is an outlier in Minnesota but normal in Arizona. Context matters.
+- **Report both with and without outliers.** If you remove outliers, show the analysis both ways. This lets your audience judge the impact.
+
 ## Create Your Own Outlier-Ready Dot Plots
 
 - **[Dot Plot Maker®](/)** — paste any dataset for an instant dot plot
 - **[Professional Tool](/professional-dot-plot-tool/)** — import CSV/Excel, export SVG, advanced styling
+- **[Outlier Detection Tool](/blog/outlier-dot-plot-maker/)** — auto-detect outliers with the IQR method
+- **[Statistics Visualizer](/blog/statistics-dot-plot-visualizer/)** — explore descriptive statistics with interactive dot plots
 
 Free, no signup, all processing in your browser.
