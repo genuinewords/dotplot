@@ -25,6 +25,7 @@
     { "label": "nav.pro", "href": "/professional-dot-plot-tool/" },
     { "label": "nav.catScatter", "href": "/categorical-scatter-plot/" },
     { "label": "nav.histogram", "href": "/histogram-maker/" },
+    { "label": "nav.boxPlot", "href": "/box-plot-maker/" },
     { "label": "nav.blog", "href": "/blog/" },
     { "label": "nav.about", "href": "/about-us/" },
     { "label": "nav.contact", "href": "/contact-us/" }

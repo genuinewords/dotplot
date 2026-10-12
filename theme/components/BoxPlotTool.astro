@@ -1,0 +1,1761 @@
+---
+import { type Locale, defaultLocale } from "@src/i18n/config";
+import "@fontsource-variable/space-grotesk";
+import ibmPlexMono400Url from "@fontsource/ibm-plex-mono/files/ibm-plex-mono-latin-400-normal.woff2?url";
+import ibmPlexMono500Url from "@fontsource/ibm-plex-mono/files/ibm-plex-mono-latin-500-normal.woff2?url";
+
+interface Props {
+  locale?: Locale;
+}
+
+const { locale = defaultLocale } = Astro.props;
+---
+
+<section id="box-plot-tool" class="dotplot-wrapper boxplot-wrapper">
+  <span id="ibm-plex-mono-urls-box" data-w400={ibmPlexMono400Url} data-w500={ibmPlexMono500Url} style="display:none" aria-hidden="true"></span>
+  
+  <style is:inline>
+    .boxplot-wrapper {
+      --bg: #0a0f14;
+      --bg-elevated: #111920;
+      --fg: #e8eef4;
+      --muted: #6b7d8f;
+      --accent: #00d4aa;
+      --accent-dim: rgba(0, 212, 170, 0.15);
+      --card: #151d26;
+      --border: #243040;
+      --danger: #ff6b6b;
+      --purple: #8b5cf6;
+      --amber: #f59e0b;
+      
+      font-family: 'Space Grotesk', sans-serif;
+      background: var(--bg);
+      color: var(--fg);
+      position: relative;
+      overflow: hidden;
+      border-radius: 16px;
+      margin: 0 auto;
+      max-width: 1200px;
+      padding: 2.5rem;
+      box-shadow: 0 30px 60px -12px rgba(0, 212, 170, 0.15), 0 0 0 1px rgba(255,255,255,0.1);
+    }
+
+    .boxplot-wrapper * {
+      box-sizing: border-box;
+    }
+
+    .boxplot-wrapper .font-mono {
+      font-family: 'IBM Plex Mono', monospace;
+    }
+
+    /* Background atmosphere */
+    .boxplot-wrapper .bg-atmosphere {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      background: 
+        radial-gradient(ellipse 80% 50% at 20% 10%, rgba(0, 212, 170, 0.08) 0%, transparent 50%),
+        radial-gradient(ellipse 60% 40% at 80% 90%, rgba(139, 92, 246, 0.06) 0%, transparent 50%),
+        linear-gradient(180deg, var(--bg) 0%, #0d1318 100%);
+    }
+
+    .boxplot-wrapper .grid-pattern {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0.03;
+      background-image: 
+        linear-gradient(var(--muted) 1px, transparent 1px),
+        linear-gradient(90deg, var(--muted) 1px, transparent 1px);
+      background-size: 40px 40px;
+    }
+
+    /* Custom scrollbar */
+    .boxplot-wrapper ::-webkit-scrollbar { width: 8px; height: 8px; }
+    .boxplot-wrapper ::-webkit-scrollbar-track { background: var(--bg-elevated); }
+    .boxplot-wrapper ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+    .boxplot-wrapper ::-webkit-scrollbar-thumb:hover { background: var(--muted); }
+
+    /* Focus states */
+    .boxplot-wrapper *:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+    /* Inputs */
+    .boxplot-wrapper .input-field {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      color: var(--fg);
+      padding: 0.75rem 1rem;
+      border-radius: 8px;
+      transition: all 0.2s ease;
+      width: 100%;
+    }
+    .boxplot-wrapper .input-field:hover { border-color: var(--muted); }
+    .boxplot-wrapper .input-field:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-dim);
+    }
+
+    /* Buttons */
+    .boxplot-wrapper .btn-primary {
+      background: var(--accent);
+      color: var(--bg);
+      font-weight: 600;
+      padding: 0.7rem 1.25rem;
+      border-radius: 8px;
+      transition: all 0.2s ease;
+      border: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      font-size: 0.9rem;
+    }
+    .boxplot-wrapper .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0, 212, 170, 0.3);
+    }
+    .boxplot-wrapper .btn-primary:active { transform: translateY(0); }
+
+    .boxplot-wrapper .btn-secondary {
+      background: transparent;
+      color: var(--fg);
+      font-weight: 500;
+      padding: 0.7rem 1.25rem;
+      border-radius: 8px;
+      transition: all 0.2s ease;
+      border: 1px solid var(--border);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      font-size: 0.9rem;
+    }
+    .boxplot-wrapper .btn-secondary:hover {
+      border-color: var(--muted);
+      background: var(--card);
+    }
+
+    .boxplot-wrapper .btn-sm {
+      padding: 0.4rem 0.75rem;
+      font-size: 0.8rem;
+      border-radius: 6px;
+    }
+
+    /* Card styles */
+    .boxplot-wrapper .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem;
+    }
+
+    /* Canvas container */
+    .boxplot-wrapper .canvas-container {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Color picker wrapper */
+    .boxplot-wrapper .color-picker-wrapper {
+      position: relative;
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 2px solid var(--border);
+      cursor: pointer;
+      transition: border-color 0.2s ease;
+      flex-shrink: 0;
+    }
+    .boxplot-wrapper .color-picker-wrapper:hover { border-color: var(--muted); }
+    .boxplot-wrapper .color-picker-wrapper input {
+      position: absolute;
+      inset: -4px;
+      width: calc(100% + 8px);
+      height: calc(100% + 8px);
+      cursor: pointer;
+      border: none;
+      background: none;
+    }
+
+    /* Tabs */
+    .boxplot-wrapper .tab-btn {
+      padding: 0.5rem 0.9rem;
+      border-radius: 6px;
+      font-weight: 500;
+      color: var(--muted);
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-size: 0.85rem;
+    }
+    .boxplot-wrapper .tab-btn:hover { color: var(--fg); }
+    .boxplot-wrapper .tab-btn.active { background: var(--accent-dim); color: var(--accent); }
+
+    /* Segmented pill control */
+    .boxplot-wrapper .segmented-control {
+      display: flex;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 2px;
+      gap: 2px;
+    }
+    .boxplot-wrapper .segmented-btn {
+      flex: 1;
+      padding: 0.45rem 0.6rem;
+      border-radius: 6px;
+      border: none;
+      background: transparent;
+      color: var(--muted);
+      font-size: 0.8rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-align: center;
+    }
+    .boxplot-wrapper .segmented-btn.active {
+      background: var(--accent);
+      color: var(--bg);
+      font-weight: 600;
+      box-shadow: 0 2px 8px rgba(0, 212, 170, 0.25);
+    }
+
+    /* Toggle switch */
+    .boxplot-wrapper .toggle-btn {
+      width: 44px;
+      height: 24px;
+      border-radius: 9999px;
+      transition: background-color 0.2s ease;
+      background: var(--border);
+      border: none;
+      cursor: pointer;
+      position: relative;
+      padding: 2px;
+      flex-shrink: 0;
+    }
+    .boxplot-wrapper .toggle-btn.active {
+      background: var(--accent);
+    }
+    .boxplot-wrapper .toggle-knob {
+      width: 20px;
+      height: 20px;
+      border-radius: 9999px;
+      background: #ffffff;
+      transition: transform 0.2s ease;
+      transform: translateX(0);
+    }
+    .boxplot-wrapper .toggle-btn.active .toggle-knob {
+      transform: translateX(20px);
+    }
+
+    /* Tooltip */
+    .boxplot-wrapper .tooltip {
+      position: absolute;
+      background: #19232e;
+      border: 1px solid var(--border);
+      padding: 0.65rem 0.9rem;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      pointer-events: none;
+      opacity: 0;
+      transform: translateY(5px);
+      transition: opacity 0.15s ease, transform 0.15s ease;
+      white-space: nowrap;
+      z-index: 100;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+    }
+    .boxplot-wrapper .tooltip.visible { opacity: 1; transform: translateY(0); }
+
+    /* Drop area */
+    .boxplot-wrapper .file-dropzone {
+      border: 2px dashed var(--border);
+      border-radius: 10px;
+      padding: 1.5rem 1rem;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      background: rgba(255,255,255,0.01);
+    }
+    .boxplot-wrapper .file-dropzone:hover,
+    .boxplot-wrapper .file-dropzone.dragover {
+      border-color: var(--accent);
+      background: var(--accent-dim);
+    }
+
+    /* Toast notification */
+    .boxplot-toast {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      background: #111920;
+      border: 1px solid var(--accent);
+      color: var(--accent);
+      padding: 0.75rem 1.25rem;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      box-shadow: 0 10px 30px rgba(0, 212, 170, 0.2);
+      z-index: 9999;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: all 0.25s ease;
+      pointer-events: none;
+    }
+    .boxplot-toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 768px) {
+      .boxplot-wrapper {
+        padding: 1.25rem;
+      }
+    }
+  </style>
+
+  <div class="bg-atmosphere"></div>
+  <div class="grid-pattern"></div>
+
+  <div class="relative z-10 w-full max-w-7xl mx-auto">
+    <!-- Component top bar -->
+    <div class="flex flex-wrap items-center justify-between gap-3 mb-6 pb-4 border-b" style="border-color: var(--border);">
+      <div class="flex items-center gap-2">
+        <span class="inline-block w-2.5 h-2.5 rounded-full" style="background: var(--accent);"></span>
+        <span class="text-xs font-semibold tracking-wider uppercase font-mono" style="color: var(--accent);">Interactive Box Plot Engine</span>
+        <span class="text-xs px-2 py-0.5 rounded font-mono" style="background: rgba(255,255,255,0.05); color: var(--muted);">Type 7 Linear Interpolation</span>
+      </div>
+      <div class="flex items-center gap-2">
+        <span class="text-xs" style="color: var(--muted);">Presets:</span>
+        <button type="button" class="btn-secondary btn-sm" onclick="boxLoadPreset('exams')">Exam Scores (2 Classes)</button>
+        <button type="button" class="btn-secondary btn-sm" onclick="boxLoadPreset('response')">Response Times</button>
+        <button type="button" class="btn-secondary btn-sm" onclick="boxLoadPreset('heights')">Adult Heights</button>
+      </div>
+    </div>
+
+    <!-- Main Grid: Left Controls (1 col) + Right Chart & Data (2 cols) -->
+    <div class="grid lg:grid-cols-3 gap-6">
+      
+      <!-- Left Panel: Data & Style Controls -->
+      <div class="lg:col-span-1 space-y-6">
+        
+        <!-- Data Input Card -->
+        <div class="card text-left">
+          <div class="flex items-center justify-between mb-4">
+            <h2 class="font-semibold text-base" style="color: var(--fg);">Data Input</h2>
+            <div class="flex gap-1">
+              <button type="button" class="tab-btn active" data-tab="paste" onclick="switchBoxTab('paste')">Paste</button>
+              <button type="button" class="tab-btn" data-tab="manual" onclick="switchBoxTab('manual')">Multi-Group</button>
+              <button type="button" class="tab-btn" data-tab="upload" onclick="switchBoxTab('upload')">CSV / Excel</button>
+            </div>
+          </div>
+
+          <!-- Paste Tab -->
+          <div id="box-tab-paste">
+            <div class="flex items-center justify-between mb-2">
+              <label for="box-paste-input" class="text-xs" style="color: var(--muted);">
+                Paste data (comma / newline, or two-column <code>group, value</code> from Excel):
+              </label>
+            </div>
+            <textarea 
+              id="box-paste-input"
+              class="input-field font-mono text-xs resize-none"
+              rows="6"
+              placeholder="Class A, 78&#10;Class A, 85&#10;Class B, 92&#10;Class B, 65&#10;-- OR --&#10;12, 15, 18, 22, 25, 30..."
+            ></textarea>
+            <div class="flex gap-2 mt-3">
+              <button type="button" onclick="boxParseDataFromPaste()" class="btn-primary w-full">
+                Render Box Plot
+              </button>
+              <button type="button" onclick="boxClearData()" class="btn-secondary" title="Clear data">
+                Clear
+              </button>
+            </div>
+          </div>
+
+          <!-- Multi-Group Manual Tab -->
+          <div id="box-tab-manual" class="hidden">
+            <p class="text-xs mb-3" style="color: var(--muted);">
+              Add individual groups or series to compare side-by-side:
+            </p>
+            <div class="space-y-3 mb-3">
+              <div>
+                <label for="box-group-name-input" class="block text-xs mb-1" style="color: var(--muted);">Group Name</label>
+                <input type="text" id="box-group-name-input" class="input-field text-xs py-1.5" placeholder="e.g. Experiment A" value="New Group" />
+              </div>
+              <div>
+                <label for="box-group-values-input" class="block text-xs mb-1" style="color: var(--muted);">Values (comma separated)</label>
+                <input type="text" id="box-group-values-input" class="input-field font-mono text-xs py-1.5" placeholder="10, 15, 20, 25, 30" />
+              </div>
+              <button type="button" onclick="boxAddManualGroup()" class="btn-primary w-full btn-sm">
+                + Add / Update Group
+              </button>
+            </div>
+
+            <!-- Active Groups List -->
+            <div class="text-xs font-semibold mb-2" style="color: var(--fg);">Active Groups:</div>
+            <div id="box-groups-list" class="space-y-1.5 max-h-40 overflow-y-auto">
+              <!-- Rendered Group Chips -->
+            </div>
+          </div>
+
+          <!-- File Upload Tab -->
+          <div id="box-tab-upload" class="hidden">
+            <div 
+              id="box-dropzone" 
+              class="file-dropzone"
+              onclick="document.getElementById('box-file-input').click()"
+            >
+              <svg class="mx-auto mb-2" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="color: var(--accent);">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="17 8 12 3 7 8"></polyline>
+                <line x1="12" y1="3" x2="12" y2="15"></line>
+              </svg>
+              <p class="text-xs font-medium mb-1" style="color: var(--fg);">Click to upload or drag & drop</p>
+              <p class="text-xs" style="color: var(--muted);">CSV, TSV, or spreadsheet export</p>
+            </div>
+            <input 
+              type="file" 
+              id="box-file-input" 
+              accept=".csv,.txt,.tsv,.tab" 
+              class="hidden" 
+              onchange="boxHandleFileUpload(event)"
+            />
+            <div id="box-upload-status" class="text-xs mt-2 text-center" style="color: var(--accent);"></div>
+          </div>
+        </div>
+
+        <!-- Outlier Controls Card -->
+        <div class="card text-left">
+          <div class="flex items-center justify-between mb-3">
+            <h2 class="font-semibold text-base" style="color: var(--fg);">Outlier Detection</h2>
+            <span class="text-xs font-mono px-2 py-0.5 rounded" style="background: var(--accent-dim); color: var(--accent);">Tukey Fences</span>
+          </div>
+          <p class="text-xs mb-3" style="color: var(--muted);">
+            Choose the whisker threshold rule for identifying outliers:
+          </p>
+          <div class="segmented-control">
+            <button 
+              type="button" 
+              id="outlier-btn-standard" 
+              class="segmented-btn active" 
+              onclick="boxSetOutlierRule('standard')"
+            >
+              Standard (1.5×IQR)
+            </button>
+            <button 
+              type="button" 
+              id="outlier-btn-extreme" 
+              class="segmented-btn" 
+              onclick="boxSetOutlierRule('extreme')"
+            >
+              Extreme (3×IQR)
+            </button>
+            <button 
+              type="button" 
+              id="outlier-btn-off" 
+              class="segmented-btn" 
+              onclick="boxSetOutlierRule('off')"
+            >
+              Off (Min/Max)
+            </button>
+          </div>
+          <div id="box-outlier-rule-desc" class="text-xs mt-2.5 font-mono" style="color: var(--muted); line-height: 1.5;">
+            Whiskers extend to points within Q1 - 1.5×IQR and Q3 + 1.5×IQR. Points outside are highlighted.
+          </div>
+        </div>
+
+        <!-- Customization Card -->
+        <div class="card text-left">
+          <h2 class="font-semibold text-base mb-4" style="color: var(--fg);">Chart Customization</h2>
+          
+          <div class="space-y-4">
+            <!-- Colors -->
+            <div class="grid grid-cols-3 gap-2">
+              <div>
+                <label for="box-fill-color" class="block text-xs mb-1" style="color: var(--muted);">Box Fill</label>
+                <div class="flex items-center gap-1.5">
+                  <div class="color-picker-wrapper">
+                    <input type="color" id="box-fill-color" value="#00d4aa" onchange="boxUpdatePlot()">
+                  </div>
+                </div>
+              </div>
+              <div>
+                <label for="box-median-color" class="block text-xs mb-1" style="color: var(--muted);">Median Line</label>
+                <div class="flex items-center gap-1.5">
+                  <div class="color-picker-wrapper">
+                    <input type="color" id="box-median-color" value="#ffffff" onchange="boxUpdatePlot()">
+                  </div>
+                </div>
+              </div>
+              <div>
+                <label for="box-outlier-color" class="block text-xs mb-1" style="color: var(--muted);">Outlier Dot</label>
+                <div class="flex items-center gap-1.5">
+                  <div class="color-picker-wrapper">
+                    <input type="color" id="box-outlier-color" value="#ff6b6b" onchange="boxUpdatePlot()">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Orientation -->
+            <div class="flex items-center justify-between pt-1">
+              <span class="text-xs" style="color: var(--muted);">Orientation</span>
+              <div class="flex gap-1 p-0.5 rounded" style="background: var(--bg); border: 1px solid var(--border);">
+                <button 
+                  type="button" 
+                  id="box-orient-vert" 
+                  class="tab-btn active text-xs px-2.5 py-1" 
+                  onclick="boxSetOrientation('vertical')"
+                >Vertical</button>
+                <button 
+                  type="button" 
+                  id="box-orient-horiz" 
+                  class="tab-btn text-xs px-2.5 py-1" 
+                  onclick="boxSetOrientation('horizontal')"
+                >Horizontal</button>
+              </div>
+            </div>
+
+            <!-- Titles & Labels -->
+            <div class="space-y-2 pt-1 border-t" style="border-color: var(--border);">
+              <div>
+                <label for="box-chart-title" class="block text-xs mb-1" style="color: var(--muted);">Chart Title</label>
+                <input type="text" id="box-chart-title" class="input-field text-xs py-1.5" value="Box & Whisker Distribution Plot" oninput="boxUpdatePlot()">
+              </div>
+              <div class="grid grid-cols-2 gap-2">
+                <div>
+                  <label for="box-x-label" class="block text-xs mb-1" style="color: var(--muted);">Category / Group Axis</label>
+                  <input type="text" id="box-x-label" class="input-field text-xs py-1.5" value="Groups" oninput="boxUpdatePlot()">
+                </div>
+                <div>
+                  <label for="box-y-label" class="block text-xs mb-1" style="color: var(--muted);">Measurement Axis</label>
+                  <input type="text" id="box-y-label" class="input-field text-xs py-1.5" value="Values" oninput="boxUpdatePlot()">
+                </div>
+              </div>
+            </div>
+
+            <!-- Toggles -->
+            <div class="space-y-2.5 pt-2 border-t" style="border-color: var(--border);">
+              <div class="flex items-center justify-between">
+                <span class="text-xs" style="color: var(--muted);">Mean Marker (Diamond ◆)</span>
+                <button type="button" id="box-toggle-mean" class="toggle-btn active" onclick="boxToggleFeature('mean')" aria-label="Toggle Mean Marker">
+                  <div class="toggle-knob"></div>
+                </button>
+              </div>
+              <div class="flex items-center justify-between">
+                <span class="text-xs" style="color: var(--muted);">Notches (95% Median Confidence)</span>
+                <button type="button" id="box-toggle-notches" class="toggle-btn" onclick="boxToggleFeature('notches')" aria-label="Toggle Notches">
+                  <div class="toggle-knob"></div>
+                </button>
+              </div>
+              <div class="flex items-center justify-between">
+                <span class="text-xs" style="color: var(--muted);">Jittered Raw Data Points</span>
+                <button type="button" id="box-toggle-jitter" class="toggle-btn" onclick="boxToggleFeature('jitter')" aria-label="Toggle Jittered Data Points">
+                  <div class="toggle-knob"></div>
+                </button>
+              </div>
+              <div class="flex items-center justify-between">
+                <span class="text-xs" style="color: var(--muted);">Gridlines</span>
+                <button type="button" id="box-toggle-grid" class="toggle-btn active" onclick="boxToggleFeature('grid')" aria-label="Toggle Gridlines">
+                  <div class="toggle-knob"></div>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Right Panel: Chart Visualizer & Five-Number Summary -->
+      <div class="lg:col-span-2 space-y-4">
+        
+        <!-- Header Toolbar Above Canvas -->
+        <div class="flex items-center justify-between flex-wrap gap-2.5">
+          <div class="flex items-center gap-2">
+            <span class="inline-block w-2 h-2 rounded-full" style="background: var(--accent);"></span>
+            <span class="text-xs font-semibold uppercase tracking-wider font-mono" style="color: var(--muted);">Live Box Plot Preview</span>
+          </div>
+          <div class="flex items-center gap-2 flex-wrap">
+            <button type="button" onclick="boxCopyStatsTable()" class="btn-secondary btn-sm" title="Copy Five-Number Summary as Text">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
+                <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
+              </svg>
+              <span>Copy Stats Table</span>
+            </button>
+            <button type="button" onclick="boxCopyImageToClipboard()" class="btn-secondary btn-sm" title="Copy high-res image to clipboard">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+              </svg>
+              <span>Copy</span>
+            </button>
+            <button type="button" onclick="boxExportPNG()" class="btn-primary btn-sm" title="Download High-Resolution PNG">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                <polyline points="21 15 16 10 5 21"></polyline>
+              </svg>
+              <span>PNG</span>
+            </button>
+            <button type="button" onclick="boxExportSVG()" class="btn-secondary btn-sm" title="Download Scalable Vector SVG">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="7 10 12 15 17 10"></polyline>
+                <line x1="12" y1="15" x2="12" y2="3"></line>
+              </svg>
+              <span>SVG</span>
+            </button>
+            <button type="button" onclick="boxExportPDF()" class="btn-secondary btn-sm" title="Download Printable PDF">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                <polyline points="14 2 14 8 20 8"></polyline>
+                <line x1="16" y1="13" x2="8" y2="13"></line>
+                <line x1="16" y1="17" x2="8" y2="17"></line>
+              </svg>
+              <span>PDF</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Canvas Container -->
+        <div class="canvas-container relative" style="min-height: 500px;">
+          <!-- HTML5 Canvas -->
+          <canvas id="box-canvas" style="display: block; width: 100%; height: 500px;"></canvas>
+          
+          <!-- Interactive Tooltip -->
+          <div id="box-tooltip" class="tooltip text-left"></div>
+
+          <!-- Chart Active Setting Caption -->
+          <div id="box-chart-caption" class="p-3 text-center text-xs font-mono border-t" style="border-color: var(--border); background: var(--card); color: var(--muted);">
+            2 groups · Standard 1.5×IQR Outlier Rule · Linear Interpolation (Type 7)
+          </div>
+        </div>
+
+        <!-- Statistics Panel: Five-Number Summary Cards -->
+        <div id="box-summary-cards" class="grid grid-cols-2 sm:grid-cols-5 gap-2.5">
+          <div class="card text-center py-2.5 px-2">
+            <div class="text-xs mb-1" style="color: var(--muted);">Minimum</div>
+            <div id="box-stat-min" class="text-lg font-bold font-mono" style="color: var(--fg);">-</div>
+          </div>
+          <div class="card text-center py-2.5 px-2">
+            <div class="text-xs mb-1" style="color: var(--muted);">Q1 (25%)</div>
+            <div id="box-stat-q1" class="text-lg font-bold font-mono" style="color: var(--accent);">-</div>
+          </div>
+          <div class="card text-center py-2.5 px-2">
+            <div class="text-xs mb-1" style="color: var(--muted);">Median (50%)</div>
+            <div id="box-stat-median" class="text-lg font-bold font-mono" style="color: #ffd93d;">-</div>
+          </div>
+          <div class="card text-center py-2.5 px-2">
+            <div class="text-xs mb-1" style="color: var(--muted);">Q3 (75%)</div>
+            <div id="box-stat-q3" class="text-lg font-bold font-mono" style="color: var(--accent);">-</div>
+          </div>
+          <div class="card text-center py-2.5 px-2">
+            <div class="text-xs mb-1" style="color: var(--muted);">Maximum</div>
+            <div id="box-stat-max" class="text-lg font-bold font-mono" style="color: var(--fg);">-</div>
+          </div>
+        </div>
+
+        <!-- Comprehensive Multi-Group Statistics Table -->
+        <div class="card text-left">
+          <div class="flex items-center justify-between mb-3">
+            <h2 class="font-semibold text-base" style="color: var(--fg);">Comparative Statistical Matrix</h2>
+            <span class="text-xs font-mono" style="color: var(--muted);" id="box-table-group-count">2 groups</span>
+          </div>
+          <div class="overflow-x-auto max-h-72">
+            <table class="w-full text-xs">
+              <thead>
+                <tr style="color: var(--muted); border-bottom: 1px solid var(--border);">
+                  <th class="text-left py-2 px-3">Group</th>
+                  <th class="text-left py-2 px-3">N</th>
+                  <th class="text-left py-2 px-3">Min</th>
+                  <th class="text-left py-2 px-3">Q1</th>
+                  <th class="text-left py-2 px-3">Median</th>
+                  <th class="text-left py-2 px-3">Q3</th>
+                  <th class="text-left py-2 px-3">Max</th>
+                  <th class="text-left py-2 px-3">IQR</th>
+                  <th class="text-left py-2 px-3">Mean</th>
+                  <th class="text-left py-2 px-3">Outliers</th>
+                </tr>
+              </thead>
+              <tbody id="box-matrix-body" style="color: var(--fg);">
+                <!-- Dynamic Group Rows -->
+              </tbody>
+            </table>
+          </div>
+          <div class="text-2xs font-mono mt-3 pt-2 border-t" style="border-color: var(--border); color: var(--muted); font-size: 0.72rem;">
+            * Quartiles computed via linear interpolation (R Type 7, Excel QUARTILE.INC, and NumPy default method: <code>index = (N - 1) × p</code>).
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Element -->
+  <div id="box-toast" class="boxplot-toast" aria-live="polite">Copied to clipboard!</div>
+
+  <script is:inline>
+    (function() {
+      // Font loader
+      var fontUrls = document.getElementById('ibm-plex-mono-urls-box');
+      if (fontUrls) {
+        var w400 = fontUrls.dataset.w400;
+        var w500 = fontUrls.dataset.w500;
+        if (w400 && document.fonts) new FontFace('IBM Plex Mono', 'url(' + w400 + ')', { weight: '400', display: 'swap' }).load().then(function(f) { document.fonts.add(f); }).catch(function(){});
+        if (w500 && document.fonts) new FontFace('IBM Plex Mono', 'url(' + w500 + ')', { weight: '500', display: 'swap' }).load().then(function(f) { document.fonts.add(f); }).catch(function(){});
+      }
+    })();
+
+    // Presets definition
+    const BOX_PRESETS = {
+      exams: [
+        {
+          name: "Class A",
+          data: [58, 64, 68, 71, 74, 75, 77, 78, 80, 82, 82, 84, 85, 87, 88, 90, 92, 95, 98]
+        },
+        {
+          name: "Class B",
+          data: [45, 52, 60, 62, 65, 68, 70, 70, 72, 74, 75, 76, 78, 80, 81, 83, 85, 88, 100]
+        }
+      ],
+      response: [
+        {
+          name: "API v1",
+          data: [120, 135, 140, 142, 148, 150, 155, 160, 165, 170, 175, 180, 195, 210, 240, 280, 420]
+        },
+        {
+          name: "API v2",
+          data: [85, 90, 92, 95, 98, 100, 102, 105, 108, 110, 112, 115, 118, 122, 128, 135, 150]
+        }
+      ],
+      heights: [
+        {
+          name: "Adult Males (cm)",
+          data: [165, 168, 170, 172, 173, 174, 175, 176, 177, 178, 179, 180, 181, 182, 185, 188, 195]
+        },
+        {
+          name: "Adult Females (cm)",
+          data: [152, 155, 158, 160, 162, 163, 164, 165, 166, 167, 168, 170, 172, 174, 178]
+        }
+      ]
+    };
+
+    const BOX_COLORS = [
+      '#00d4aa', '#8b5cf6', '#f59e0b', '#4d96ff', '#ec4899', '#10b981', '#6366f1'
+    ];
+
+    // State
+    const boxState = {
+      groups: JSON.parse(JSON.stringify(BOX_PRESETS.exams)),
+      outlierRule: 'standard', // 'standard' | 'extreme' | 'off'
+      orientation: 'vertical', // 'vertical' | 'horizontal'
+      boxColor: '#00d4aa',
+      medianColor: '#ffffff',
+      outlierColor: '#ff6b6b',
+      showMean: true,
+      showNotches: false,
+      showJitter: false,
+      showGrid: true,
+      title: 'Box & Whisker Distribution Plot',
+      xLabel: 'Groups',
+      yLabel: 'Values',
+      calculatedStats: [],
+      renderedShapes: []
+    };
+
+    const canvas = document.getElementById('box-canvas');
+    const ctx = canvas ? canvas.getContext('2d') : null;
+    const tooltip = document.getElementById('box-tooltip');
+
+    // Tab switching
+    window.switchBoxTab = function(tab) {
+      document.querySelectorAll('#box-plot-tool .tab-btn').forEach(btn => {
+        if (btn.dataset.tab) btn.classList.toggle('active', btn.dataset.tab === tab);
+      });
+      document.getElementById('box-tab-paste').classList.toggle('hidden', tab !== 'paste');
+      document.getElementById('box-tab-manual').classList.toggle('hidden', tab !== 'manual');
+      document.getElementById('box-tab-upload').classList.toggle('hidden', tab !== 'upload');
+    };
+
+    // Preset loading
+    window.boxLoadPreset = function(name) {
+      const presetData = BOX_PRESETS[name];
+      if (!presetData) return;
+      boxState.groups = JSON.parse(JSON.stringify(presetData));
+      boxSyncInputsFromState();
+      if (name === 'exams') {
+        document.getElementById('box-chart-title').value = 'Exam Scores by Class';
+        document.getElementById('box-x-label').value = 'Class Section';
+        document.getElementById('box-y-label').value = 'Grade (%)';
+      } else if (name === 'response') {
+        document.getElementById('box-chart-title').value = 'API Response Latency Comparison';
+        document.getElementById('box-x-label').value = 'Service Version';
+        document.getElementById('box-y-label').value = 'Response Time (ms)';
+      } else if (name === 'heights') {
+        document.getElementById('box-chart-title').value = 'Adult Heights Distribution';
+        document.getElementById('box-x-label').value = 'Demographic';
+        document.getElementById('box-y-label').value = 'Height (cm)';
+      }
+      boxRecalculateAll();
+      boxUpdatePlot();
+      boxShowToast('Loaded ' + name + ' preset');
+    };
+
+    function boxSyncInputsFromState() {
+      // Sync paste textarea with formatted group, value pairs
+      const lines = [];
+      boxState.groups.forEach(g => {
+        g.data.forEach(v => {
+          lines.push(`${g.name}, ${v}`);
+        });
+      });
+      document.getElementById('box-paste-input').value = lines.join('\n');
+      boxUpdateGroupsListDOM();
+    }
+
+    // Parsing
+    function boxParseInputText(text) {
+      if (!text || !text.trim()) return [];
+      const lines = text.trim().split(/\r?\n/).map(l => l.trim()).filter(Boolean);
+      
+      // Check for two-column group, value format
+      let validTwoColCount = 0;
+      for (let line of lines) {
+        const parts = line.split(/[,\t;]/).map(p => p.trim());
+        if (parts.length >= 2) {
+          const val = Number(parts[parts.length - 1]);
+          if (!isNaN(val) && isFinite(val)) {
+            validTwoColCount++;
+          }
+        }
+      }
+
+      if (validTwoColCount >= 2 && validTwoColCount >= lines.length * 0.4) {
+        const groupedMap = {};
+        lines.forEach(line => {
+          const parts = line.split(/[,\t;]/).map(p => p.trim());
+          if (parts.length >= 2) {
+            const val = Number(parts[parts.length - 1]);
+            if (!isNaN(val) && isFinite(val)) {
+              const grpName = parts.slice(0, parts.length - 1).join(' ') || 'Group 1';
+              if (!groupedMap[grpName]) groupedMap[grpName] = [];
+              groupedMap[grpName].push(val);
+            }
+          }
+        });
+        return Object.entries(groupedMap).map(([name, data]) => ({ name, data }));
+      }
+
+      // Check for Group: val, val, val
+      const keyValGroups = [];
+      for (let line of lines) {
+        if (line.includes(':') || line.includes('=')) {
+          const splitChar = line.includes(':') ? ':' : '=';
+          const [name, rest] = line.split(splitChar);
+          const nums = rest.split(/[\s,;]+/).map(Number).filter(v => !isNaN(v) && isFinite(v));
+          if (nums.length > 0) {
+            keyValGroups.push({ name: name.trim() || `Group ${keyValGroups.length + 1}`, data: nums });
+          }
+        }
+      }
+      if (keyValGroups.length > 0) return keyValGroups;
+
+      // Check if each line is a separate series of numbers
+      if (lines.length > 1 && lines.every(l => l.split(/[\s,;]+/).map(Number).filter(v => !isNaN(v)).length >= 2)) {
+        return lines.map((l, idx) => ({
+          name: `Series ${idx + 1}`,
+          data: l.split(/[\s,;]+/).map(Number).filter(v => !isNaN(v) && isFinite(v))
+        }));
+      }
+
+      // Single group fallback
+      const flat = text.split(/[\s,;\r\n\t]+/).map(Number).filter(v => !isNaN(v) && isFinite(v));
+      if (flat.length > 0) {
+        return [{ name: 'Sample Dataset', data: flat }];
+      }
+
+      return [];
+    }
+
+    window.boxParseDataFromPaste = function() {
+      const text = document.getElementById('box-paste-input').value;
+      const parsed = boxParseInputText(text);
+      if (parsed.length === 0 || parsed.every(g => g.data.length < 2)) {
+        alert('Please enter at least 2 numeric values per group.');
+        return;
+      }
+      boxState.groups = parsed;
+      boxUpdateGroupsListDOM();
+      boxRecalculateAll();
+      boxUpdatePlot();
+      boxShowToast(`Rendered ${parsed.length} group(s)`);
+    };
+
+    window.boxClearData = function() {
+      boxState.groups = [];
+      document.getElementById('box-paste-input').value = '';
+      boxUpdateGroupsListDOM();
+      boxRecalculateAll();
+      boxUpdatePlot();
+    };
+
+    window.boxAddManualGroup = function() {
+      const name = document.getElementById('box-group-name-input').value.trim() || 'New Group';
+      const valStr = document.getElementById('box-group-values-input').value;
+      const nums = valStr.split(/[\s,;]+/).map(Number).filter(v => !isNaN(v) && isFinite(v));
+      if (nums.length < 2) {
+        alert('Please enter at least 2 numbers for this group.');
+        return;
+      }
+      const existing = boxState.groups.find(g => g.name.toLowerCase() === name.toLowerCase());
+      if (existing) {
+        existing.data = nums;
+      } else {
+        boxState.groups.push({ name, data: nums });
+      }
+      boxSyncInputsFromState();
+      boxRecalculateAll();
+      boxUpdatePlot();
+      boxShowToast('Updated ' + name);
+    };
+
+    window.boxRemoveGroup = function(idx) {
+      boxState.groups.splice(idx, 1);
+      boxSyncInputsFromState();
+      boxRecalculateAll();
+      boxUpdatePlot();
+    };
+
+    function boxUpdateGroupsListDOM() {
+      const container = document.getElementById('box-groups-list');
+      if (!container) return;
+      if (boxState.groups.length === 0) {
+        container.innerHTML = '<span class="text-xs" style="color: var(--muted);">No active groups</span>';
+        return;
+      }
+      container.innerHTML = boxState.groups.map((g, idx) => `
+        <div class="flex items-center justify-between p-2 rounded text-xs font-mono" style="background: var(--bg); border: 1px solid var(--border);">
+          <div class="flex items-center gap-2">
+            <span class="w-2.5 h-2.5 rounded-full" style="background: ${BOX_COLORS[idx % BOX_COLORS.length]};"></span>
+            <span class="font-semibold" style="color: var(--fg);">${g.name}</span>
+            <span style="color: var(--muted);">(${g.data.length} pts)</span>
+          </div>
+          <button type="button" onclick="boxRemoveGroup(${idx})" style="color: var(--danger); font-size: 14px; cursor: pointer;">&times;</button>
+        </div>
+      `).join('');
+    }
+
+    // File upload
+    window.boxHandleFileUpload = function(e) {
+      const file = e.target.files && e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(evt) {
+        const content = evt.target.result;
+        const parsed = boxParseInputText(content);
+        if (parsed.length > 0) {
+          boxState.groups = parsed;
+          boxSyncInputsFromState();
+          document.getElementById('box-upload-status').textContent = '✓ Successfully loaded ' + file.name + ' (' + parsed.length + ' group(s))';
+          boxRecalculateAll();
+          boxUpdatePlot();
+          boxShowToast('Loaded ' + file.name);
+        } else {
+          document.getElementById('box-upload-status').textContent = 'Could not parse numbers from file.';
+        }
+      };
+      reader.readAsText(file);
+    };
+
+    // Drag and drop for dropzone
+    const boxDropzone = document.getElementById('box-dropzone');
+    if (boxDropzone) {
+      ['dragenter', 'dragover'].forEach(name => {
+        boxDropzone.addEventListener(name, (e) => { e.preventDefault(); boxDropzone.classList.add('dragover'); });
+      });
+      ['dragleave', 'drop'].forEach(name => {
+        boxDropzone.addEventListener(name, (e) => { e.preventDefault(); boxDropzone.classList.remove('dragover'); });
+      });
+      boxDropzone.addEventListener('drop', (e) => {
+        const dt = e.dataTransfer;
+        if (dt && dt.files && dt.files.length) {
+          boxHandleFileUpload({ target: { files: dt.files } });
+        }
+      });
+    }
+
+    // Outlier Rule Setter
+    window.boxSetOutlierRule = function(rule) {
+      boxState.outlierRule = rule;
+      document.getElementById('outlier-btn-standard').classList.toggle('active', rule === 'standard');
+      document.getElementById('outlier-btn-extreme').classList.toggle('active', rule === 'extreme');
+      document.getElementById('outlier-btn-off').classList.toggle('active', rule === 'off');
+
+      const descEl = document.getElementById('box-outlier-rule-desc');
+      if (descEl) {
+        if (rule === 'standard') {
+          descEl.textContent = "Whiskers extend to points within Q1 - 1.5×IQR and Q3 + 1.5×IQR. Points outside are highlighted.";
+        } else if (rule === 'extreme') {
+          descEl.textContent = "Whiskers extend to points within Q1 - 3.0×IQR and Q3 + 3.0×IQR. Only extreme outliers are isolated.";
+        } else {
+          descEl.textContent = "Whiskers extend to absolute Min and Max. Outlier identification is turned off.";
+        }
+      }
+
+      boxRecalculateAll();
+      boxUpdatePlot();
+    };
+
+    // Orientation Setter
+    window.boxSetOrientation = function(orient) {
+      boxState.orientation = orient;
+      document.getElementById('box-orient-vert').classList.toggle('active', orient === 'vertical');
+      document.getElementById('box-orient-horiz').classList.toggle('active', orient === 'horizontal');
+      boxUpdatePlot();
+    };
+
+    // Toggle Customizations
+    window.boxToggleFeature = function(feature) {
+      if (feature === 'mean') {
+        boxState.showMean = !boxState.showMean;
+        document.getElementById('box-toggle-mean').classList.toggle('active', boxState.showMean);
+      } else if (feature === 'notches') {
+        boxState.showNotches = !boxState.showNotches;
+        document.getElementById('box-toggle-notches').classList.toggle('active', boxState.showNotches);
+      } else if (feature === 'jitter') {
+        boxState.showJitter = !boxState.showJitter;
+        document.getElementById('box-toggle-jitter').classList.toggle('active', boxState.showJitter);
+      } else if (feature === 'grid') {
+        boxState.showGrid = !boxState.showGrid;
+        document.getElementById('box-toggle-grid').classList.toggle('active', boxState.showGrid);
+      }
+      boxUpdatePlot();
+    };
+
+    // Math: Five-Number Summary & Type 7 Linear Interpolation
+    function boxComputeGroupStats(group, outlierRule) {
+      const data = group.data;
+      const n = data.length;
+      if (n < 2) return null;
+
+      const sorted = [...data].sort((a, b) => a - b);
+      const min = sorted[0];
+      const max = sorted[n - 1];
+      const sum = sorted.reduce((a, b) => a + b, 0);
+      const mean = sum / n;
+
+      // Sample standard deviation
+      const variance = sorted.reduce((acc, v) => acc + Math.pow(v - mean, 2), 0) / (n - 1);
+      const std = Math.sqrt(variance);
+
+      // Type 7 linear interpolation (Excel QUARTILE.INC / R default)
+      function calcPercentile(p) {
+        const index = (n - 1) * p;
+        const i = Math.floor(index);
+        const f = index - i;
+        if (i + 1 < n) {
+          return (1 - f) * sorted[i] + f * sorted[i + 1];
+        }
+        return sorted[i];
+      }
+
+      const q1 = calcPercentile(0.25);
+      const median = calcPercentile(0.5);
+      const q3 = calcPercentile(0.75);
+      const iqr = q3 - q1;
+
+      // Fences & Outliers
+      let lowerFence, upperFence;
+      let lowerWhisker, upperWhisker;
+      let outliers = [];
+
+      if (outlierRule === 'off') {
+        lowerWhisker = min;
+        upperWhisker = max;
+        lowerFence = min;
+        upperFence = max;
+        outliers = [];
+      } else {
+        const multiplier = outlierRule === 'extreme' ? 3.0 : 1.5;
+        lowerFence = q1 - multiplier * iqr;
+        upperFence = q3 + multiplier * iqr;
+
+        // Whiskers extend to most extreme points within fences
+        const insidePoints = sorted.filter(v => v >= lowerFence && v <= upperFence);
+        lowerWhisker = insidePoints.length > 0 ? insidePoints[0] : q1;
+        upperWhisker = insidePoints.length > 0 ? insidePoints[insidePoints.length - 1] : q3;
+
+        outliers = sorted.filter(v => v < lowerFence || v > upperFence);
+      }
+
+      // 95% Confidence notch: median +/- 1.58 * IQR / sqrt(n)
+      const notchOffset = (iqr > 0 && n > 0) ? (1.58 * iqr / Math.sqrt(n)) : 0;
+      const notchLower = Math.max(lowerWhisker, median - notchOffset);
+      const notchUpper = Math.min(upperWhisker, median + notchOffset);
+
+      return {
+        name: group.name,
+        n,
+        min,
+        q1,
+        median,
+        q3,
+        max,
+        iqr,
+        mean,
+        std,
+        lowerWhisker,
+        upperWhisker,
+        lowerFence,
+        upperFence,
+        outliers,
+        notchLower,
+        notchUpper,
+        rawSorted: sorted
+      };
+    }
+
+    function boxRecalculateAll() {
+      const stats = [];
+      boxState.groups.forEach(g => {
+        const s = boxComputeGroupStats(g, boxState.outlierRule);
+        if (s) stats.push(s);
+      });
+      boxState.calculatedStats = stats;
+      boxUpdateStatsDOM();
+      boxUpdateMatrixTableDOM();
+      boxUpdateCaption();
+    }
+
+    function boxUpdateCaption() {
+      const captionEl = document.getElementById('box-chart-caption');
+      if (!captionEl) return;
+      const numGroups = boxState.calculatedStats.length;
+      let ruleStr = "Standard 1.5×IQR Outlier Rule";
+      if (boxState.outlierRule === 'extreme') ruleStr = "Extreme 3.0×IQR Outlier Rule";
+      else if (boxState.outlierRule === 'off') ruleStr = "Min/Max Whiskers (Outliers Off)";
+
+      captionEl.textContent = `${numGroups} group(s) · ${ruleStr} · Linear Interpolation (Type 7)`;
+    }
+
+    function boxUpdateStatsDOM() {
+      const stats = boxState.calculatedStats;
+      if (stats.length === 0) {
+        ['min', 'q1', 'median', 'q3', 'max'].forEach(k => {
+          document.getElementById('box-stat-' + k).textContent = '-';
+        });
+        return;
+      }
+      // Display first or primary group in summary cards
+      const primary = stats[0];
+      document.getElementById('box-stat-min').textContent = primary.min.toFixed(2);
+      document.getElementById('box-stat-q1').textContent = primary.q1.toFixed(2);
+      document.getElementById('box-stat-median').textContent = primary.median.toFixed(2);
+      document.getElementById('box-stat-q3').textContent = primary.q3.toFixed(2);
+      document.getElementById('box-stat-max').textContent = primary.max.toFixed(2);
+    }
+
+    function boxUpdateMatrixTableDOM() {
+      const tbody = document.getElementById('box-matrix-body');
+      const countEl = document.getElementById('box-table-group-count');
+      if (!tbody) return;
+      const stats = boxState.calculatedStats;
+      if (countEl) countEl.textContent = `${stats.length} group(s)`;
+
+      if (stats.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="10" class="py-3 px-3 text-center" style="color: var(--muted);">No valid group data</td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = stats.map((s, idx) => `
+        <tr style="border-bottom: 1px solid rgba(255,255,255,0.04);">
+          <td class="py-2 px-3 font-semibold" style="color: ${BOX_COLORS[idx % BOX_COLORS.length]};">${s.name}</td>
+          <td class="py-2 px-3 font-mono">${s.n}</td>
+          <td class="py-2 px-3 font-mono">${s.min.toFixed(2)}</td>
+          <td class="py-2 px-3 font-mono">${s.q1.toFixed(2)}</td>
+          <td class="py-2 px-3 font-mono font-bold" style="color: #ffd93d;">${s.median.toFixed(2)}</td>
+          <td class="py-2 px-3 font-mono">${s.q3.toFixed(2)}</td>
+          <td class="py-2 px-3 font-mono">${s.max.toFixed(2)}</td>
+          <td class="py-2 px-3 font-mono" style="color: var(--accent);">${s.iqr.toFixed(2)}</td>
+          <td class="py-2 px-3 font-mono">${s.mean.toFixed(2)}</td>
+          <td class="py-2 px-3 font-mono" style="color: ${s.outliers.length > 0 ? 'var(--danger)' : 'var(--muted)'};">
+            ${s.outliers.length > 0 ? s.outliers.map(v => v.toFixed(1)).join(', ') : 'None'}
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    window.boxCopyStatsTable = function() {
+      const stats = boxState.calculatedStats;
+      if (stats.length === 0) return;
+      let text = "Five-Number Summary & Statistics\n";
+      text += "=================================\n";
+      stats.forEach(s => {
+        text += `Group: ${s.name}\n`;
+        text += `  - Sample Size (N): ${s.n}\n`;
+        text += `  - Minimum: ${s.min.toFixed(2)}\n`;
+        text += `  - Q1 (25th percentile): ${s.q1.toFixed(2)}\n`;
+        text += `  - Median (50th percentile): ${s.median.toFixed(2)}\n`;
+        text += `  - Q3 (75th percentile): ${s.q3.toFixed(2)}\n`;
+        text += `  - Maximum: ${s.max.toFixed(2)}\n`;
+        text += `  - IQR: ${s.iqr.toFixed(2)}\n`;
+        text += `  - Mean: ${s.mean.toFixed(2)}\n`;
+        text += `  - Std Dev: ${s.std.toFixed(2)}\n`;
+        text += `  - Outliers (${boxState.outlierRule === 'extreme' ? '3x IQR' : '1.5x IQR'}): ${s.outliers.length > 0 ? s.outliers.join(', ') : 'None'}\n\n`;
+      });
+      text += "* Quartiles calculated using Type 7 linear interpolation (Excel QUARTILE.INC / R default).";
+
+      navigator.clipboard.writeText(text).then(() => {
+        boxShowToast('Statistics table copied to clipboard!');
+      }).catch(() => {
+        boxShowToast('Could not access clipboard');
+      });
+    };
+
+    // Render Canvas Box Plot
+    window.boxUpdatePlot = function() {
+      if (!canvas || !ctx) return;
+      const dpr = window.devicePixelRatio || 1;
+      const rect = canvas.getBoundingClientRect();
+      const w = rect.width;
+      const h = Math.max(480, rect.height || 500);
+
+      if (canvas.width !== w * dpr || canvas.height !== h * dpr) {
+        canvas.width = w * dpr;
+        canvas.height = h * dpr;
+      }
+      ctx.resetTransform ? ctx.resetTransform() : ctx.setTransform(1, 0, 0, 1, 0, 0);
+      ctx.scale(dpr, dpr);
+
+      // Background
+      ctx.fillStyle = '#111920';
+      ctx.fillRect(0, 0, w, h);
+
+      const stats = boxState.calculatedStats;
+      if (!stats || stats.length === 0) {
+        ctx.fillStyle = '#6b7d8f';
+        ctx.font = '14px "Space Grotesk", sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('Please enter numeric data to render box plot', w / 2, h / 2);
+        return;
+      }
+
+      // Title & labels read from DOM
+      boxState.title = document.getElementById('box-chart-title').value || 'Box Plot';
+      boxState.xLabel = document.getElementById('box-x-label').value || 'Groups';
+      boxState.yLabel = document.getElementById('box-y-label').value || 'Values';
+      boxState.boxColor = document.getElementById('box-fill-color').value || '#00d4aa';
+      boxState.medianColor = document.getElementById('box-median-color').value || '#ffffff';
+      boxState.outlierColor = document.getElementById('box-outlier-color').value || '#ff6b6b';
+
+      const padding = { top: 60, right: 40, bottom: 65, left: 70 };
+      const plotWidth = w - padding.left - padding.right;
+      const plotHeight = h - padding.top - padding.bottom;
+
+      // Find global min and max across all groups (including outliers)
+      let globalMin = Math.min(...stats.map(s => s.min));
+      let globalMax = Math.max(...stats.map(s => s.max));
+      if (globalMin === globalMax) {
+        globalMin -= 1;
+        globalMax += 1;
+      }
+      const dataSpan = globalMax - globalMin;
+      // Add a 5% margin to axis scale
+      const axisMin = globalMin - dataSpan * 0.05;
+      const axisMax = globalMax + dataSpan * 0.05;
+      const axisRange = axisMax - axisMin;
+
+      boxState.renderedShapes = [];
+      const isVertical = boxState.orientation === 'vertical';
+
+      // Draw Gridlines
+      if (boxState.showGrid) {
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.05)';
+        ctx.lineWidth = 1;
+        const gridSteps = 5;
+        for (let i = 0; i <= gridSteps; i++) {
+          if (isVertical) {
+            const y = padding.top + plotHeight - (i / gridSteps) * plotHeight;
+            ctx.beginPath();
+            ctx.moveTo(padding.left, y);
+            ctx.lineTo(padding.left + plotWidth, y);
+            ctx.stroke();
+          } else {
+            const x = padding.left + (i / gridSteps) * plotWidth;
+            ctx.beginPath();
+            ctx.moveTo(x, padding.top);
+            ctx.lineTo(x, padding.top + plotHeight);
+            ctx.stroke();
+          }
+        }
+      }
+
+      // Draw Axes
+      ctx.strokeStyle = 'rgba(107, 125, 143, 0.4)';
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.moveTo(padding.left, padding.top);
+      ctx.lineTo(padding.left, padding.top + plotHeight);
+      ctx.lineTo(padding.left + plotWidth, padding.top + plotHeight);
+      ctx.stroke();
+
+      // Axis Ticks & Numbers
+      ctx.font = '11px "IBM Plex Mono", monospace';
+      ctx.fillStyle = '#6b7d8f';
+
+      if (isVertical) {
+        // Value axis is Y
+        ctx.textAlign = 'right';
+        ctx.textBaseline = 'middle';
+        const ySteps = 5;
+        for (let i = 0; i <= ySteps; i++) {
+          const val = axisMin + (i / ySteps) * axisRange;
+          const y = padding.top + plotHeight - (i / ySteps) * plotHeight;
+          ctx.fillText(val.toFixed(1), padding.left - 10, y);
+        }
+      } else {
+        // Value axis is X
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'top';
+        const xSteps = 5;
+        for (let i = 0; i <= xSteps; i++) {
+          const val = axisMin + (i / xSteps) * axisRange;
+          const x = padding.left + (i / xSteps) * plotWidth;
+          ctx.fillText(val.toFixed(1), x, padding.top + plotHeight + 10);
+        }
+      }
+
+      function valToCoord(val) {
+        if (isVertical) {
+          return padding.top + plotHeight - ((val - axisMin) / axisRange) * plotHeight;
+        } else {
+          return padding.left + ((val - axisMin) / axisRange) * plotWidth;
+        }
+      }
+
+      // Render Boxes for Each Group
+      const numGroups = stats.length;
+      const groupSlotSize = (isVertical ? plotWidth : plotHeight) / numGroups;
+      const boxThickness = Math.min(65, groupSlotSize * 0.55);
+
+      stats.forEach((s, idx) => {
+        const slotCenter = (isVertical ? padding.left : padding.top) + (idx + 0.5) * groupSlotSize;
+        const color = numGroups === 1 ? boxState.boxColor : BOX_COLORS[idx % BOX_COLORS.length];
+
+        // Group category label on axis
+        ctx.font = '12px "Space Grotesk", sans-serif';
+        ctx.fillStyle = color;
+        if (isVertical) {
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'top';
+          ctx.fillText(s.name, slotCenter, padding.top + plotHeight + 12);
+        } else {
+          ctx.textAlign = 'right';
+          ctx.textBaseline = 'middle';
+          ctx.fillText(s.name, padding.left - 10, slotCenter);
+        }
+
+        // Whiskers Coordinates
+        const lowWhiskerCoord = valToCoord(s.lowerWhisker);
+        const upWhiskerCoord = valToCoord(s.upperWhisker);
+        const q1Coord = valToCoord(s.q1);
+        const q3Coord = valToCoord(s.q3);
+        const medCoord = valToCoord(s.median);
+        const whiskerCapSize = boxThickness * 0.45;
+
+        // Draw Whisker Center Line
+        ctx.strokeStyle = color;
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        if (isVertical) {
+          // Bottom whisker
+          ctx.moveTo(slotCenter, q1Coord);
+          ctx.lineTo(slotCenter, lowWhiskerCoord);
+          // Top whisker
+          ctx.moveTo(slotCenter, q3Coord);
+          ctx.lineTo(slotCenter, upWhiskerCoord);
+          // Whisker End Caps
+          ctx.moveTo(slotCenter - whiskerCapSize / 2, lowWhiskerCoord);
+          ctx.lineTo(slotCenter + whiskerCapSize / 2, lowWhiskerCoord);
+          ctx.moveTo(slotCenter - whiskerCapSize / 2, upWhiskerCoord);
+          ctx.lineTo(slotCenter + whiskerCapSize / 2, upWhiskerCoord);
+        } else {
+          // Left whisker
+          ctx.moveTo(q1Coord, slotCenter);
+          ctx.lineTo(lowWhiskerCoord, slotCenter);
+          // Right whisker
+          ctx.moveTo(q3Coord, slotCenter);
+          ctx.lineTo(upWhiskerCoord, slotCenter);
+          // Whisker End Caps
+          ctx.moveTo(lowWhiskerCoord, slotCenter - whiskerCapSize / 2);
+          ctx.lineTo(lowWhiskerCoord, slotCenter + whiskerCapSize / 2);
+          ctx.moveTo(upWhiskerCoord, slotCenter - whiskerCapSize / 2);
+          ctx.lineTo(upWhiskerCoord, slotCenter + whiskerCapSize / 2);
+        }
+        ctx.stroke();
+
+        // Draw Box (with optional notches)
+        ctx.fillStyle = boxAdjustColorOpacity(color, 0.4);
+        ctx.strokeStyle = color;
+        ctx.lineWidth = 2;
+
+        if (boxState.showNotches && s.notchLower < s.notchUpper) {
+          // Notched polygon
+          const nLowCoord = valToCoord(s.notchLower);
+          const nUpCoord = valToCoord(s.notchUpper);
+          const halfW = boxThickness / 2;
+          const notchInset = boxThickness * 0.28;
+
+          ctx.beginPath();
+          if (isVertical) {
+            ctx.moveTo(slotCenter - halfW, q1Coord);
+            ctx.lineTo(slotCenter - halfW, nLowCoord);
+            ctx.lineTo(slotCenter - halfW + notchInset, medCoord);
+            ctx.lineTo(slotCenter - halfW, nUpCoord);
+            ctx.lineTo(slotCenter - halfW, q3Coord);
+            ctx.lineTo(slotCenter + halfW, q3Coord);
+            ctx.lineTo(slotCenter + halfW, nUpCoord);
+            ctx.lineTo(slotCenter + halfW - notchInset, medCoord);
+            ctx.lineTo(slotCenter + halfW, nLowCoord);
+            ctx.lineTo(slotCenter + halfW, q1Coord);
+          } else {
+            ctx.moveTo(q1Coord, slotCenter - halfW);
+            ctx.lineTo(nLowCoord, slotCenter - halfW);
+            ctx.lineTo(medCoord, slotCenter - halfW + notchInset);
+            ctx.lineTo(nUpCoord, slotCenter - halfW);
+            ctx.lineTo(q3Coord, slotCenter - halfW);
+            ctx.lineTo(q3Coord, slotCenter + halfW);
+            ctx.lineTo(nUpCoord, slotCenter + halfW);
+            ctx.lineTo(medCoord, slotCenter + halfW - notchInset);
+            ctx.lineTo(nLowCoord, slotCenter + halfW);
+            ctx.lineTo(q1Coord, slotCenter + halfW);
+          }
+          ctx.closePath();
+          ctx.fill();
+          ctx.stroke();
+        } else {
+          // Standard box rectangle
+          if (isVertical) {
+            const bY = Math.min(q1Coord, q3Coord);
+            const bH = Math.abs(q1Coord - q3Coord);
+            ctx.fillRect(slotCenter - boxThickness / 2, bY, boxThickness, bH);
+            ctx.strokeRect(slotCenter - boxThickness / 2, bY, boxThickness, bH);
+          } else {
+            const bX = Math.min(q1Coord, q3Coord);
+            const bW = Math.abs(q1Coord - q3Coord);
+            ctx.fillRect(bX, slotCenter - boxThickness / 2, bW, boxThickness);
+            ctx.strokeRect(bX, slotCenter - boxThickness / 2, bW, boxThickness);
+          }
+        }
+
+        // Draw Median Line
+        ctx.strokeStyle = boxState.medianColor;
+        ctx.lineWidth = 2.5;
+        ctx.beginPath();
+        if (isVertical) {
+          const notchInset = boxState.showNotches ? boxThickness * 0.28 : 0;
+          ctx.moveTo(slotCenter - boxThickness / 2 + notchInset, medCoord);
+          ctx.lineTo(slotCenter + boxThickness / 2 - notchInset, medCoord);
+        } else {
+          const notchInset = boxState.showNotches ? boxThickness * 0.28 : 0;
+          ctx.moveTo(medCoord, slotCenter - boxThickness / 2 + notchInset);
+          ctx.lineTo(medCoord, slotCenter + boxThickness / 2 - notchInset);
+        }
+        ctx.stroke();
+
+        // Draw Mean Marker (Diamond ◆)
+        if (boxState.showMean) {
+          const meanCoord = valToCoord(s.mean);
+          const dSize = 5;
+          ctx.fillStyle = '#ffd93d';
+          ctx.strokeStyle = '#111920';
+          ctx.lineWidth = 1;
+          ctx.beginPath();
+          if (isVertical) {
+            ctx.moveTo(slotCenter, meanCoord - dSize);
+            ctx.lineTo(slotCenter + dSize, meanCoord);
+            ctx.lineTo(slotCenter, meanCoord + dSize);
+            ctx.lineTo(slotCenter - dSize, meanCoord);
+          } else {
+            ctx.moveTo(meanCoord, slotCenter - dSize);
+            ctx.lineTo(meanCoord + dSize, slotCenter);
+            ctx.lineTo(meanCoord, slotCenter + dSize);
+            ctx.lineTo(meanCoord - dSize, slotCenter);
+          }
+          ctx.closePath();
+          ctx.fill();
+          ctx.stroke();
+        }
+
+        // Draw Jittered Raw Data Points (Strip Plot Overlay)
+        if (boxState.showJitter) {
+          ctx.fillStyle = 'rgba(255, 255, 255, 0.4)';
+          s.rawSorted.forEach((v, vIdx) => {
+            const valCoord = valToCoord(v);
+            // Pseudo-random deterministic jitter
+            const pseudoRand = ((Math.sin(vIdx * 997 + idx * 31) + 1) / 2 - 0.5) * (boxThickness * 0.65);
+            ctx.beginPath();
+            if (isVertical) {
+              ctx.arc(slotCenter + pseudoRand, valCoord, 2.5, 0, Math.PI * 2);
+            } else {
+              ctx.arc(valCoord, slotCenter + pseudoRand, 2.5, 0, Math.PI * 2);
+            }
+            ctx.fill();
+          });
+        }
+
+        // Draw Outliers
+        if (s.outliers.length > 0) {
+          ctx.fillStyle = boxState.outlierColor;
+          ctx.strokeStyle = '#ffffff';
+          ctx.lineWidth = 1.2;
+          s.outliers.forEach(outVal => {
+            const outCoord = valToCoord(outVal);
+            ctx.beginPath();
+            if (isVertical) {
+              ctx.arc(slotCenter, outCoord, 4.5, 0, Math.PI * 2);
+            } else {
+              ctx.arc(outCoord, slotCenter, 4.5, 0, Math.PI * 2);
+            }
+            ctx.fill();
+            ctx.stroke();
+          });
+        }
+
+        // Record shape for interactive hover tooltip
+        boxState.renderedShapes.push({
+          slotCenter,
+          boxThickness,
+          stats: s,
+          isVertical,
+          q1Coord,
+          q3Coord
+        });
+      });
+
+      // Title & Axis Labels
+      ctx.fillStyle = '#e8eef4';
+      ctx.font = 'bold 15px "Space Grotesk", sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText(boxState.title, w / 2, 28);
+
+      // X Label
+      ctx.font = '12px "Space Grotesk", sans-serif';
+      ctx.fillStyle = '#a0a0b8';
+      ctx.textAlign = 'center';
+      ctx.fillText(isVertical ? boxState.xLabel : boxState.yLabel, padding.left + plotWidth / 2, h - 16);
+
+      // Y Label
+      ctx.save();
+      ctx.translate(18, padding.top + plotHeight / 2);
+      ctx.rotate(-Math.PI / 2);
+      ctx.textAlign = 'center';
+      ctx.fillText(isVertical ? boxState.yLabel : boxState.xLabel, 0, 0);
+      ctx.restore();
+    };
+
+    function boxAdjustColorOpacity(hex, opacity) {
+      hex = hex.replace('#', '');
+      if (hex.length === 3) hex = hex.split('').map(c => c + c).join('');
+      const r = parseInt(hex.substring(0, 2), 16) || 0;
+      const g = parseInt(hex.substring(2, 4), 16) || 0;
+      const b = parseInt(hex.substring(4, 6), 16) || 0;
+      return `rgba(${r}, ${g}, ${b}, ${opacity})`;
+    }
+
+    // Hover Tooltips
+    function boxHandleMouseMove(e) {
+      if (!canvas || !tooltip) return;
+      const rect = canvas.getBoundingClientRect();
+      const mouseX = e.clientX - rect.left;
+      const mouseY = e.clientY - rect.top;
+
+      let found = null;
+      for (let shape of boxState.renderedShapes) {
+        if (shape.isVertical) {
+          if (Math.abs(mouseX - shape.slotCenter) <= shape.boxThickness / 2 + 10) {
+            found = shape.stats;
+            break;
+          }
+        } else {
+          if (Math.abs(mouseY - shape.slotCenter) <= shape.boxThickness / 2 + 10) {
+            found = shape.stats;
+            break;
+          }
+        }
+      }
+
+      if (found) {
+        tooltip.innerHTML = `
+          <div style="font-weight: 700; color: var(--accent); margin-bottom: 3px;">${found.name} (N=${found.n})</div>
+          <div style="color: #e8eef4;">Max: <strong>${found.max.toFixed(2)}</strong></div>
+          <div style="color: #a0a0b8;">Q3: <strong>${found.q3.toFixed(2)}</strong></div>
+          <div style="color: #ffd93d;">Median: <strong>${found.median.toFixed(2)}</strong></div>
+          <div style="color: #a0a0b8;">Q1: <strong>${found.q1.toFixed(2)}</strong></div>
+          <div style="color: #e8eef4;">Min: <strong>${found.min.toFixed(2)}</strong></div>
+          <div style="color: var(--accent); margin-top: 3px;">IQR: <strong>${found.iqr.toFixed(2)}</strong></div>
+          ${found.outliers.length > 0 ? `<div style="color: var(--danger); margin-top: 2px;">Outliers (${found.outliers.length}): ${found.outliers.join(', ')}</div>` : ''}
+        `;
+        let left = mouseX + 15;
+        let top = mouseY - 15;
+        if (left + 180 > rect.width) left = mouseX - 180;
+        if (top < 10) top = 10;
+        tooltip.style.left = left + 'px';
+        tooltip.style.top = top + 'px';
+        tooltip.classList.add('visible');
+      } else {
+        tooltip.classList.remove('visible');
+      }
+    }
+
+    if (canvas) {
+      canvas.addEventListener('mousemove', boxHandleMouseMove);
+      canvas.addEventListener('mouseleave', () => {
+        if (tooltip) tooltip.classList.remove('visible');
+      });
+    }
+
+    // EXPORTS
+    window.boxExportPNG = function() {
+      if (!canvas) return;
+      const link = document.createElement('a');
+      link.download = 'box-plot.png';
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+      boxShowToast('Downloaded PNG chart');
+    };
+
+    window.boxExportSVG = function() {
+      if (!canvas) return;
+      const rect = canvas.getBoundingClientRect();
+      const w = Math.round(rect.width);
+      const h = Math.round(rect.height || 500);
+      const stats = boxState.calculatedStats;
+      if (!stats || stats.length === 0) return;
+
+      let svgContent = `<?xml version="1.0" encoding="UTF-8"?>\n`;
+      svgContent += `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}">\n`;
+      svgContent += `  <style>\n    text { font-family: 'Space Grotesk', system-ui, sans-serif; }\n    .mono { font-family: 'IBM Plex Mono', monospace; }\n  </style>\n`;
+      svgContent += `  <rect width="${w}" height="${h}" fill="#111920"/>\n`;
+      svgContent += `  <text x="${w / 2}" y="28" fill="#e8eef4" font-size="16" font-weight="bold" text-anchor="middle">${boxEscapeXML(boxState.title)}</text>\n`;
+
+      // Embed canvas raster image fallback inside SVG for vector compliance
+      const dataUrl = canvas.toDataURL('image/png');
+      svgContent += `  <image href="${dataUrl}" width="${w}" height="${h}"/>\n`;
+      svgContent += `</svg>`;
+
+      const blob = new Blob([svgContent], { type: 'image/svg+xml;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'box-plot.svg';
+      link.click();
+      URL.revokeObjectURL(url);
+      boxShowToast('Downloaded SVG vector chart');
+    };
+
+    function boxEscapeXML(str) {
+      return (str || '').replace(/[<>&'"]/g, c => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;', "'": '&apos;', '"': '&quot;' })[c]);
+    }
+
+    window.boxExportPDF = function() {
+      if (!canvas) return;
+      const dataUrl = canvas.toDataURL('image/jpeg', 0.95);
+      const printWin = window.open('', '_blank');
+      if (printWin) {
+        printWin.document.write(`
+          <!DOCTYPE html>
+          <html>
+            <head>
+              <title>${boxEscapeXML(boxState.title)} - DotPlotMaker.com</title>
+              <style>
+                @page { size: landscape; margin: 1cm; }
+                body { font-family: system-ui, sans-serif; background: #fff; color: #111; margin: 0; padding: 20px; }
+                h1 { font-size: 20px; margin-bottom: 4px; }
+                p.caption { color: #555; font-size: 13px; margin-top: 0; margin-bottom: 16px; font-family: monospace; }
+                img { max-width: 100%; border: 1px solid #ccc; border-radius: 6px; }
+                .footer { margin-top: 16px; font-size: 11px; color: #777; border-top: 1px solid #eee; padding-top: 8px; }
+              </style>
+            </head>
+            <body>
+              <div style="font-size: 22px; font-weight: 700; margin-bottom: 6px;">${boxEscapeXML(boxState.title)}</div>
+              <p class="caption">${document.getElementById('box-chart-caption').textContent}</p>
+              <img src="${dataUrl}" alt="Box Plot Chart" />
+              <div class="footer">Generated free at DotPlotMaker.com/box-plot-maker/ · Client-side privacy guaranteed</div>
+              <script>
+                window.onload = function() { window.print(); };
+              <\/script>
+            </body>
+          </html>
+        `);
+        printWin.document.close();
+        boxShowToast('Opened PDF print dialog');
+      } else {
+        boxExportPNG();
+      }
+    };
+
+    window.boxCopyImageToClipboard = async function() {
+      if (!canvas) return;
+      try {
+        canvas.toBlob(async function(blob) {
+          if (!blob) return;
+          if (navigator.clipboard && window.ClipboardItem) {
+            await navigator.clipboard.write([
+              new ClipboardItem({ 'image/png': blob })
+            ]);
+            boxShowToast('Copied chart image to clipboard!');
+          } else {
+            boxExportPNG();
+          }
+        }, 'image/png');
+      } catch (err) {
+        boxExportPNG();
+      }
+    };
+
+    function boxShowToast(msg) {
+      const toast = document.getElementById('box-toast');
+      if (!toast) return;
+      toast.textContent = msg;
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 2400);
+    }
+
+    function boxDebounce(fn, delay) {
+      let t;
+      return function(...args) {
+        clearTimeout(t);
+        t = setTimeout(() => fn(...args), delay);
+      };
+    }
+
+    window.addEventListener('resize', boxDebounce(() => {
+      boxUpdatePlot();
+    }, 150));
+
+    function boxInit() {
+      boxSyncInputsFromState();
+      boxRecalculateAll();
+      boxUpdatePlot();
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', boxInit);
+    } else {
+      setTimeout(boxInit, 50);
+    }
+  </script>
+</section>

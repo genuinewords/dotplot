@@ -1,0 +1,661 @@
+---
+import BaseLayout from "@theme/layouts/BaseLayout.astro";
+import BoxPlotTool from "@theme/components/BoxPlotTool.astro";
+import BoxPlotSchema from "@theme/components/BoxPlotSchema.astro";
+import { defaultLocale } from "@src/i18n/config";
+
+const locale = defaultLocale;
+
+const pageTitle = "Free Box Plot Maker — Box & Whisker Plots Online";
+const pageDescription = "Make a box plot in seconds. Paste data, compare groups side by side, auto outlier detection, export PNG/SVG/PDF — free, no signup.";
+
+const faqs = [
+  {
+    question: "What is a box plot?",
+    answer: "A box plot (also known as a box and whisker plot) is a standardized statistical visualization that displays the distribution of continuous numerical data through a five-number summary: minimum, first quartile (Q1), median (Q2), third quartile (Q3), and maximum. The central box spans the interquartile range (middle 50% of values), while whiskers and individual points indicate data spread and detected outliers."
+  },
+  {
+    question: "What is the five-number summary?",
+    answer: "The five-number summary consists of five key descriptive statistics: Minimum (the smallest non-outlier value), First Quartile / Q1 (the 25th percentile mark below which 25% of data falls), Median / Q2 (the 50th percentile or middle value), Third Quartile / Q3 (the 75th percentile mark below which 75% of data falls), and Maximum (the largest non-outlier value)."
+  },
+  {
+    question: "How is the Interquartile Range (IQR) calculated?",
+    answer: "The Interquartile Range is calculated as IQR = Q3 - Q1. It measures the statistical spread of the middle 50% of your dataset. Because it ignores the lowest 25% and highest 25% of observations, the IQR provides a robust measure of statistical dispersion that is resistant to extreme values and rogue outliers."
+  },
+  {
+    question: "What is the Tukey 1.5×IQR outlier rule?",
+    answer: "Formulated by mathematician John Tukey, the rule establishes statistical 'fences' to flag anomalous values. The lower fence is Q1 - (1.5 × IQR) and the upper fence is Q3 + (1.5 × IQR). Any observation falling outside these boundaries is classified as an outlier and plotted individually as a separate marker rather than included inside the whisker."
+  },
+  {
+    question: "How do I use this online box plot maker?",
+    answer: "Simply paste your numbers into the data input box separated by commas, spaces, or newlines, or click one of our preset buttons to load sample data. To compare groups, enter one group per line or paste two columns (group label, value) straight from Excel. The box plot and five-number summary stat cards update instantly in real time."
+  },
+  {
+    question: "How do I compare multiple groups side by side?",
+    answer: "You can compare multiple groups by pasting two columns directly from a spreadsheet where column A is the group name and column B is the numeric value (e.g. 'Class A, 88'). Alternatively, paste comma-separated values on separate lines in the multi-group box. The tool automatically renders parallel, color-coded box plots on a shared coordinate axis."
+  },
+  {
+    question: "How does a box plot compare to a histogram?",
+    answer: "Box plots provide a compact summary of center, spread, and outliers, making them unmatched for comparing dozens of groups side by side. Histograms display the exact frequency distribution and shape of a single dataset (showing modality, gaps, and peaks) but become unwieldy when comparing multiple groups simultaneously."
+  },
+  {
+    question: "How do you read skewness from a box plot?",
+    answer: "Examine the position of the median line inside the box and the relative lengths of the whiskers. If the median line sits closer to Q1 and the upper whisker is noticeably longer, the data is right-skewed (positive skew). If the median line sits closer to Q3 and the lower whisker is longer, the data is left-skewed (negative skew). In a symmetric distribution, the median splits the box evenly."
+  },
+  {
+    question: "What do the whiskers on a box plot represent?",
+    answer: "Whiskers extend from the edges of the box (Q1 and Q3) to the most extreme data points that still lie within the calculated outlier fences (within 1.5 × IQR). They illustrate the expected reach of the non-outlier distribution. Any points beyond the whisker tips are plotted individually as outlier dots."
+  },
+  {
+    question: "Why do quartile calculation methods differ between statistical tools?",
+    answer: "There are nine recognized mathematical methods for calculating sample quantiles. Excel's QUARTILE.INC, R's default type 7, and NumPy's 'linear' method use linear interpolation based on p = (k - 1) / (n - 1). Other packages use Tukey hinges or Moore & McCabe midpoints. Our tool employs Type 7 linear interpolation so your results perfectly match standard Excel and R calculations."
+  },
+  {
+    question: "Is this box plot maker free to use?",
+    answer: "Yes, this tool is 100% free with no sign-up, no email registration, and no watermarks on any exported charts. You can generate unlimited box plots, analyze multi-group datasets, and download publication-ready files without any restrictions."
+  },
+  {
+    question: "Can I upload Excel or CSV data?",
+    answer: "Yes. You can drag and drop any CSV or comma-separated text file directly into the upload tab, or paste tab-delimited two-column tables copied directly from Microsoft Excel or Google Sheets into the multi-group editor."
+  },
+  {
+    question: "What file formats can I export from this tool?",
+    answer: "You can download your box plot as a high-resolution PNG image, a lossless scalable vector graphic (SVG) for academic journals, or a clean PDF document. You can also copy the rendered image straight to your clipboard or copy the complete five-number summary as a plain-text table."
+  },
+  {
+    question: "Is my data kept private when using this tool?",
+    answer: "Yes, 100% of the statistical calculations and graphics rendering occur entirely client-side inside your browser. No data points, group names, or uploaded files are ever sent to, processed by, or stored on any remote server."
+  },
+  {
+    question: "How do I make a box plot in Excel compared to this online tool?",
+    answer: "In Excel, you select your data, click Insert > Recommended Charts > Box & Whisker, and format series options through nested property panes. Our free online tool eliminates manual menu navigation: simply paste your numbers to receive instant interactive previews, automated outlier toggling (1.5x vs 3x IQR), and one-click SVG/PDF exports."
+  }
+];
+---
+
+<BaseLayout locale={locale} title={pageTitle} description={pageDescription}>
+  <BoxPlotSchema faqs={faqs} slot="head" />
+
+  <div class="page-content">
+    <!-- Hero Section -->
+    <div class="hero animate-fade-in-up" style="opacity: 0;">
+      <span class="badge">Free Online Tool</span>
+      <h1 class="hero-title">Free Box Plot Maker — Create Box & Whisker Plots Online</h1>
+      <p class="hero-subtitle">
+        Generate publication-ready box and whisker plots in seconds. Paste single or multi-group datasets straight from Excel, automatically calculate the five-number summary and IQR, detect outliers with Tukey's rule, customize colors and orientations, and export high-resolution PNG, SVG, or PDF graphics — 100% free with zero signup.
+      </p>
+      <div class="hero-cta">
+        <a href="#box-plot-tool" class="btn-primary"><span>Generate Box Plot</span></a>
+        <a href="/histogram-maker/" class="btn-secondary"><span>Histogram Maker</span></a>
+      </div>
+    </div>
+
+    <!-- Box Plot Tool Component -->
+    <section class="tool-section" style="margin-bottom: 4rem;">
+      <BoxPlotTool locale={locale} />
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════════════
+         HOW TO MAKE A BOX PLOT IN 3 STEPS
+         ══════════════════════════════════════════════════════════════ -->
+    <section class="section" id="how-it-works" style="margin-top: 2rem;">
+      <div style="text-align: center; margin-bottom: 3rem;">
+        <h2 class="section-title">How to Make a Box Plot Online in 3 Simple Steps</h2>
+        <p class="section-subtitle" style="max-width: 650px; margin: 0 auto; color: var(--color-text-secondary); font-size: 1.1rem; line-height: 1.6;">
+          Transforming raw numbers into an informative, publication-grade box and whisker diagram takes just seconds.
+        </p>
+      </div>
+
+      <div class="steps-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem;">
+        <!-- Step 1 -->
+        <div id="step-1" class="step-card glass-card animate-fade-in-up" style="animation-delay: 0.1s; opacity: 0; padding: 2rem; position: relative;">
+          <div class="step-number" style="position: absolute; top: -12px; left: -12px; width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, var(--color-primary), var(--color-primary-light)); color: #0a0a1a; font-weight: 700; font-size: 0.9rem; display: flex; align-items: center; justify-content: center;">1</div>
+          <div class="step-icon" style="width: 48px; height: 48px; border-radius: 10px; background: rgba(0, 212, 170, 0.1); color: var(--color-primary); display: flex; align-items: center; justify-content: center; margin: 0 auto 1.25rem;" aria-hidden="true">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+              <line x1="16" y1="13" x2="8" y2="13"></line>
+              <line x1="16" y1="17" x2="8" y2="17"></line>
+            </svg>
+          </div>
+          <h3 class="step-title" style="font-size: 1.25rem; font-weight: 700; margin-bottom: 0.75rem;">Step 1: Enter or Upload Your Data</h3>
+          <p class="step-desc" style="color: var(--color-text-secondary); font-size: 0.93rem; line-height: 1.6;">
+            Paste numbers separated by commas, spaces, or line breaks into the input field. For multi-group comparisons, paste two columns straight from Excel (e.g. Class, Score) or upload a CSV file. You can also click our sample presets (exam scores, heights, or response times) to start instantly.
+          </p>
+        </div>
+
+        <!-- Step 2 -->
+        <div id="step-2" class="step-card glass-card animate-fade-in-up" style="animation-delay: 0.25s; opacity: 0; padding: 2rem; position: relative;">
+          <div class="step-number" style="position: absolute; top: -12px; left: -12px; width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, var(--color-primary), var(--color-primary-light)); color: #0a0a1a; font-weight: 700; font-size: 0.9rem; display: flex; align-items: center; justify-content: center;">2</div>
+          <div class="step-icon" style="width: 48px; height: 48px; border-radius: 10px; background: rgba(0, 212, 170, 0.1); color: var(--color-primary); display: flex; align-items: center; justify-content: center; margin: 0 auto 1.25rem;" aria-hidden="true">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="6" width="18" height="12" rx="2"></rect>
+              <line x1="12" y1="6" x2="12" y2="18"></line>
+              <line x1="8" y1="6" x2="8" y2="18"></line>
+              <line x1="16" y1="6" x2="16" y2="18"></line>
+            </svg>
+          </div>
+          <h3 class="step-title" style="font-size: 1.25rem; font-weight: 700; margin-bottom: 0.75rem;">Step 2: Compare Groups & Detect Outliers</h3>
+          <p class="step-desc" style="color: var(--color-text-secondary); font-size: 0.93rem; line-height: 1.6;">
+            Review your side-by-side box plots and inspect the five-number summary stat cards below the canvas. Toggle outlier sensitivity between Standard (1.5×IQR), Extreme (3.0×IQR), or Off to watch whiskers recalculate and rogue data points isolate automatically.
+          </p>
+        </div>
+
+        <!-- Step 3 -->
+        <div id="step-3" class="step-card glass-card animate-fade-in-up" style="animation-delay: 0.4s; opacity: 0; padding: 2rem; position: relative;">
+          <div class="step-number" style="position: absolute; top: -12px; left: -12px; width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, var(--color-primary), var(--color-primary-light)); color: #0a0a1a; font-weight: 700; font-size: 0.9rem; display: flex; align-items: center; justify-content: center;">3</div>
+          <div class="step-icon" style="width: 48px; height: 48px; border-radius: 10px; background: rgba(0, 212, 170, 0.1); color: var(--color-primary); display: flex; align-items: center; justify-content: center; margin: 0 auto 1.25rem;" aria-hidden="true">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="7 10 12 15 17 10"></polyline>
+              <line x1="12" y1="15" x2="12" y2="3"></line>
+            </svg>
+          </div>
+          <h3 class="step-title" style="font-size: 1.25rem; font-weight: 700; margin-bottom: 0.75rem;">Step 3: Customize & Export Graphics</h3>
+          <p class="step-desc" style="color: var(--color-text-secondary); font-size: 0.93rem; line-height: 1.6;">
+            Personalize your box colors, median lines, and outlier markers. Toggle confidence notches, mean markers, or jittered observation points, then export high-resolution PNG, vector SVG, or printable PDF files with a single click.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════════════
+         SECTION 1: ANATOMY OF A BOX PLOT
+         ══════════════════════════════════════════════════════════════ -->
+    <section class="topical-section" id="anatomy" style="margin-top: 4rem;">
+      <div class="topical-container">
+        <h2 class="section-title">Anatomy of a Box Plot: The Five-Number Summary & Fences</h2>
+        <p class="topical-intro">
+          Introduced by pioneering statistician John Tukey in 1977, the box plot communicates center, spread, skewness, and potential anomalies in a single compact graphic. Understanding the mathematical foundation behind every component ensures accurate statistical interpretation.
+        </p>
+
+        <!-- Labeled Diagram Container -->
+        <div class="diagram-wrapper" style="background: var(--color-bg-card); border: 1px solid var(--color-border); border-radius: 16px; padding: 2rem; margin: 2rem 0; box-shadow: 0 16px 36px rgba(0,0,0,0.3);">
+          <div style="text-align: center; margin-bottom: 1.5rem;">
+            <span style="font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--color-primary);">Technical Diagram</span>
+            <h3 style="margin: 0.35rem 0 0; font-size: 1.35rem; color: var(--color-text-primary);">Labeled Box and Whisker Plot Structure</h3>
+          </div>
+
+          <div style="max-width: 820px; margin: 0 auto; overflow-x: auto;">
+            <svg viewBox="0 0 800 360" width="100%" height="auto" style="display: block; min-width: 600px;" role="img" aria-label="Detailed technical anatomy diagram of a box plot showing minimum, lower fence, first quartile, median line, third quartile, interquartile range, upper fence, maximum, and Tukey outliers.">
+              <!-- Grid background -->
+              <rect width="800" height="360" rx="12" fill="#0d141d"/>
+              <line x1="50" y1="280" x2="750" y2="280" stroke="#243040" stroke-width="2"/>
+
+              <!-- Axis markers -->
+              <line x1="80" y1="275" x2="80" y2="285" stroke="#6b7d8f" stroke-width="1.5"/>
+              <line x1="200" y1="275" x2="200" y2="285" stroke="#6b7d8f" stroke-width="1.5"/>
+              <line x1="320" y1="275" x2="320" y2="285" stroke="#6b7d8f" stroke-width="1.5"/>
+              <line x1="420" y1="275" x2="420" y2="285" stroke="#6b7d8f" stroke-width="1.5"/>
+              <line x1="560" y1="275" x2="560" y2="285" stroke="#6b7d8f" stroke-width="1.5"/>
+              <line x1="680" y1="275" x2="680" y2="285" stroke="#6b7d8f" stroke-width="1.5"/>
+              <line x1="740" y1="275" x2="740" y2="285" stroke="#6b7d8f" stroke-width="1.5"/>
+
+              <text x="400" y="315" fill="#6b7d8f" font-family="'Space Grotesk', sans-serif" font-size="12" text-anchor="middle">Continuous Numerical Scale (X-Axis)</text>
+
+              <!-- Outlier point on the left -->
+              <circle cx="90" cy="150" r="6" fill="#ff6b6b" stroke="#ffffff" stroke-width="1.5"/>
+              <!-- Annotation: Outlier -->
+              <line x1="90" y1="135" x2="90" y2="70" stroke="#ff6b6b" stroke-width="1.5" stroke-dasharray="3,3"/>
+              <rect x="35" y="45" width="110" height="24" rx="4" fill="rgba(255, 107, 107, 0.15)" stroke="#ff6b6b" stroke-width="1"/>
+              <text x="90" y="61" fill="#ff6b6b" font-family="'IBM Plex Mono', monospace" font-size="11" font-weight="700" text-anchor="middle">Outlier (&lt; Fence)</text>
+
+              <!-- Lower Whisker (from 200 to 320) -->
+              <line x1="200" y1="150" x2="320" y2="150" stroke="#e8eef4" stroke-width="2.5"/>
+              <!-- Lower Whisker Cap -->
+              <line x1="200" y1="120" x2="200" y2="180" stroke="#e8eef4" stroke-width="2.5"/>
+              <!-- Annotation: Lower Whisker End -->
+              <line x1="200" y1="190" x2="200" y2="245" stroke="#6b7d8f" stroke-width="1.5" stroke-dasharray="3,3"/>
+              <text x="200" y="260" fill="#e8eef4" font-family="'Space Grotesk', sans-serif" font-size="11" font-weight="600" text-anchor="middle">Whisker Min</text>
+
+              <!-- The Box (Q1=320 to Q3=560) -->
+              <rect x="320" y="90" width="240" height="120" rx="4" fill="rgba(0, 212, 170, 0.2)" stroke="#00d4aa" stroke-width="2.5"/>
+
+              <!-- Median Line (Q2=420) -->
+              <line x1="420" y1="90" x2="420" y2="210" stroke="#ffd166" stroke-width="3.5"/>
+
+              <!-- Upper Whisker (from 560 to 680) -->
+              <line x1="560" y1="150" x2="680" y2="150" stroke="#e8eef4" stroke-width="2.5"/>
+              <!-- Upper Whisker Cap -->
+              <line x1="680" y1="120" x2="680" y2="180" stroke="#e8eef4" stroke-width="2.5"/>
+              <!-- Annotation: Upper Whisker End -->
+              <line x1="680" y1="190" x2="680" y2="245" stroke="#6b7d8f" stroke-width="1.5" stroke-dasharray="3,3"/>
+              <text x="680" y="260" fill="#e8eef4" font-family="'Space Grotesk', sans-serif" font-size="11" font-weight="600" text-anchor="middle">Whisker Max</text>
+
+              <!-- Outlier point on the right -->
+              <circle cx="735" cy="150" r="6" fill="#ff6b6b" stroke="#ffffff" stroke-width="1.5"/>
+              <!-- Annotation: Outlier Right -->
+              <line x1="735" y1="135" x2="735" y2="70" stroke="#ff6b6b" stroke-width="1.5" stroke-dasharray="3,3"/>
+              <rect x="680" y="45" width="110" height="24" rx="4" fill="rgba(255, 107, 107, 0.15)" stroke="#ff6b6b" stroke-width="1"/>
+              <text x="735" y="61" fill="#ff6b6b" font-family="'IBM Plex Mono', monospace" font-size="11" font-weight="700" text-anchor="middle">Outlier (&gt; Fence)</text>
+
+              <!-- Annotation: Q1 -->
+              <line x1="320" y1="80" x2="320" y2="35" stroke="#00d4aa" stroke-width="1.5" stroke-dasharray="3,3"/>
+              <text x="320" y="25" fill="#00d4aa" font-family="'Space Grotesk', sans-serif" font-size="12" font-weight="700" text-anchor="middle">Q1 (25th %ile)</text>
+
+              <!-- Annotation: Median -->
+              <line x1="420" y1="80" x2="420" y2="35" stroke="#ffd166" stroke-width="1.5" stroke-dasharray="3,3"/>
+              <text x="420" y="25" fill="#ffd166" font-family="'Space Grotesk', sans-serif" font-size="12" font-weight="700" text-anchor="middle">Median / Q2 (50th)</text>
+
+              <!-- Annotation: Q3 -->
+              <line x1="560" y1="80" x2="560" y2="35" stroke="#00d4aa" stroke-width="1.5" stroke-dasharray="3,3"/>
+              <text x="560" y="25" fill="#00d4aa" font-family="'Space Grotesk', sans-serif" font-size="12" font-weight="700" text-anchor="middle">Q3 (75th %ile)</text>
+
+              <!-- Annotation: IQR bracket under the box -->
+              <path d="M 320 220 L 320 230 L 440 230 L 440 238 L 440 230 L 560 230 L 560 220" fill="none" stroke="#8b5cf6" stroke-width="1.5"/>
+              <text x="440" y="255" fill="#8b5cf6" font-family="'Space Grotesk', sans-serif" font-size="12" font-weight="700" text-anchor="middle">IQR = Q3 - Q1 (Middle 50%)</text>
+            </svg>
+          </div>
+        </div>
+
+        <div class="topical-grid topical-grid-3" style="margin-top: 2rem;">
+          <!-- Component 1: Central Box -->
+          <div class="topical-card topical-card-accent">
+            <div class="topical-card-badge" style="color: var(--color-primary); font-weight: 700; text-transform: uppercase; font-size: 0.75rem; margin-bottom: 0.5rem;">Core Body</div>
+            <h3>The Box (IQR)</h3>
+            <p style="color: var(--color-text-secondary); line-height: 1.6;">
+              The rectangular box represents the middle 50% of your data. The lower boundary marks the <strong>First Quartile (Q1)</strong>, while the upper boundary marks the <strong>Third Quartile (Q3)</strong>. The length of the box equals the <strong>Interquartile Range (IQR)</strong>, providing an intuitive visual measure of statistical dispersion.
+            </p>
+          </div>
+
+          <!-- Component 2: Median Line -->
+          <div class="topical-card topical-card-orange">
+            <div class="topical-card-badge" style="color: var(--color-warning); font-weight: 700; text-transform: uppercase; font-size: 0.75rem; margin-bottom: 0.5rem;">Center Measure</div>
+            <h3>The Median Line (Q2)</h3>
+            <p style="color: var(--color-text-secondary); line-height: 1.6;">
+              The bold interior line represents the <strong>Median</strong> (the 50th percentile). Unlike the arithmetic mean, the median is immune to extreme skewness and outliers. Its relative location inside the box instantly signals distribution asymmetry: centered means symmetric, closer to Q1 means right-skewed.
+            </p>
+          </div>
+
+          <!-- Component 3: Whiskers & Outliers -->
+          <div class="topical-card topical-card-purple">
+            <div class="topical-card-badge" style="color: var(--color-accent); font-weight: 700; text-transform: uppercase; font-size: 0.75rem; margin-bottom: 0.5rem;">Tukey Fences</div>
+            <h3>Whiskers & Outliers</h3>
+            <p style="color: var(--color-text-secondary); line-height: 1.6;">
+              Whiskers project outward to the highest and lowest non-outlier data points. Under the standard <strong>Tukey 1.5×IQR rule</strong>, points beyond <code>Q1 - 1.5×IQR</code> or <code>Q3 + 1.5×IQR</code> are isolated and plotted individually as circular outlier markers.
+            </p>
+          </div>
+        </div>
+
+        <!-- Formulas & Quartile Methods -->
+        <div style="background: var(--color-bg-card); border: 1px solid var(--color-border); border-radius: 12px; padding: 2rem; margin-top: 2.5rem;">
+          <h3 style="font-size: 1.3rem; margin-bottom: 1rem; color: var(--color-text-primary);">Tukey Outlier Formulas & Quartile Methods Explained</h3>
+          <p style="color: var(--color-text-secondary); line-height: 1.7; margin-bottom: 1.25rem;">
+            When calculating whether a data point is an outlier, statisticians compute inner fences using the following standard mathematical formulas:
+          </p>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">
+            <div style="background: var(--color-bg-elevated); padding: 1rem 1.25rem; border-radius: 8px; border-left: 3px solid var(--color-primary);">
+              <div style="font-size: 0.8rem; text-transform: uppercase; color: var(--color-muted); font-weight: 700;">Lower Outlier Fence</div>
+              <code style="font-size: 1rem; color: var(--color-primary); font-family: 'IBM Plex Mono', monospace;">Lower = Q1 - (1.5 × IQR)</code>
+            </div>
+            <div style="background: var(--color-bg-elevated); padding: 1rem 1.25rem; border-radius: 8px; border-left: 3px solid var(--color-warning);">
+              <div style="font-size: 0.8rem; text-transform: uppercase; color: var(--color-muted); font-weight: 700;">Upper Outlier Fence</div>
+              <code style="font-size: 1rem; color: var(--color-warning); font-family: 'IBM Plex Mono', monospace;">Upper = Q3 + (1.5 × IQR)</code>
+            </div>
+            <div style="background: var(--color-bg-elevated); padding: 1rem 1.25rem; border-radius: 8px; border-left: 3px solid #ff6b6b;">
+              <div style="font-size: 0.8rem; text-transform: uppercase; color: var(--color-muted); font-weight: 700;">Extreme Outlier Fence</div>
+              <code style="font-size: 1rem; color: #ff6b6b; font-family: 'IBM Plex Mono', monospace;">Outer = Q ± (3.0 × IQR)</code>
+            </div>
+          </div>
+          <p style="color: var(--color-text-secondary); line-height: 1.7; font-size: 0.95rem;">
+            <strong>Why Quartile Values Vary Across Software:</strong> In statistics, there are nine distinct methods for computing sample quantiles (Hyndman and Fan, 1996). <strong>Type 7 linear interpolation</strong> (where the quantile index is <code>h = (n - 1)p + 1</code>) is the default algorithm in Microsoft Excel (<code>QUARTILE.INC</code>), the R statistical language, and Python's NumPy library. Other software like Minitab or TI-84 calculators use hinge methods (Type 6 or Type 2) that can produce slightly different quartile cutoffs for small sample sizes. Our tool utilizes Type 7 linear interpolation to guarantee 100% mathematical consistency with your Excel and R spreadsheets.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════════════
+         SECTION 2: BOX PLOT VS HISTOGRAM
+         ══════════════════════════════════════════════════════════════ -->
+    <section class="topical-section" id="box-plot-vs-histogram" style="margin-top: 4rem;">
+      <div class="topical-container">
+        <h2 class="section-title">Box Plot vs. Histogram: When to Use Which</h2>
+        <p class="topical-intro">
+          Both box plots and histograms illustrate numerical distributions, but they serve complementary analytical roles. Choosing the right display depends on whether you are comparing multiple categories or diagnosing the exact shape of a single dataset.
+        </p>
+
+        <div class="topical-two-col" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-top: 2rem;">
+          <!-- Box Plot Column -->
+          <div class="topical-col" style="background: var(--color-bg-card); border: 1px solid var(--color-border); border-radius: 12px; padding: 2rem;">
+            <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
+              <div style="width: 12px; height: 12px; border-radius: 50%; background: var(--color-primary);"></div>
+              <h3 style="margin: 0; font-size: 1.35rem; color: var(--color-text-primary);">Box Plots</h3>
+            </div>
+            <ul class="topical-list" style="margin-top: 1rem; color: var(--color-text-secondary); line-height: 1.7;">
+              <li><strong>Multi-Group Comparisons:</strong> Display 5, 10, or 20 groups side by side on a single screen without clutter.</li>
+              <li><strong>Compact Statistical Summary:</strong> Condenses any sample size into five robust numbers (min, Q1, median, Q3, max).</li>
+              <li><strong>Objective Outlier Identification:</strong> Isolates rogue observations automatically using formal 1.5×IQR Tukey fences.</li>
+              <li><strong>Blind Spot:</strong> Compresses the interior shape; cannot differentiate between unimodal, uniform, or bimodal clusters without adding jittered dots.</li>
+            </ul>
+          </div>
+
+          <!-- Histogram Column -->
+          <div class="topical-col" style="background: var(--color-bg-card); border: 1px solid var(--color-border); border-radius: 12px; padding: 2rem;">
+            <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
+              <div style="width: 12px; height: 12px; border-radius: 50%; background: var(--color-accent);"></div>
+              <h3 style="margin: 0; font-size: 1.35rem; color: var(--color-text-primary);">Histograms</h3>
+            </div>
+            <ul class="topical-list" style="margin-top: 1rem; color: var(--color-text-secondary); line-height: 1.7;">
+              <li><strong>Full Distribution Shape:</strong> Highlights multiple modes (bimodal peaks), empty gaps, and granular frequency spikes.</li>
+              <li><strong>Single-Dataset Focus:</strong> Exceptional for drilling deep into one continuous variable (e.g. customer wait times).</li>
+              <li><strong>Frequency Counts:</strong> Bar heights directly convey the number of observations within each interval.</li>
+              <li><strong>Group Limitation:</strong> Overlapping or stacking more than 3 histograms becomes visually confusing and difficult to read.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Comparative Feature Table -->
+        <div style="overflow-x: auto; margin-top: 2.5rem; background: var(--color-bg-card); border: 1px solid var(--color-border); border-radius: 12px; padding: 1rem;">
+          <table style="width: 100%; border-collapse: collapse; font-size: 0.93rem; text-align: left;">
+            <thead>
+              <tr style="border-bottom: 1px solid var(--color-border); color: var(--color-text-primary);">
+                <th style="padding: 1rem;">Comparison Dimension</th>
+                <th style="padding: 1rem; color: var(--color-primary);">Box Plot (Box & Whisker)</th>
+                <th style="padding: 1rem; color: var(--color-accent);">Histogram</th>
+              </tr>
+            </thead>
+            <tbody style="color: var(--color-text-secondary);">
+              <tr style="border-bottom: 1px solid rgba(255,255,255,0.04);">
+                <td style="padding: 0.85rem 1rem; font-weight: 600; color: var(--color-text-primary);">Primary Strength</td>
+                <td style="padding: 0.85rem 1rem;">Comparing distributions across multiple groups</td>
+                <td style="padding: 0.85rem 1rem;">Inspecting the detailed shape and frequency peaks of one dataset</td>
+              </tr>
+              <tr style="border-bottom: 1px solid rgba(255,255,255,0.04);">
+                <td style="padding: 0.85rem 1rem; font-weight: 600; color: var(--color-text-primary);">Number of Groups</td>
+                <td style="padding: 0.85rem 1rem;">Superb for 2 to 30+ groups side by side</td>
+                <td style="padding: 0.85rem 1rem;">Best for 1 dataset (max 2 with overlay)</td>
+              </tr>
+              <tr style="border-bottom: 1px solid rgba(255,255,255,0.04);">
+                <td style="padding: 0.85rem 1rem; font-weight: 600; color: var(--color-text-primary);">Outlier Detection</td>
+                <td style="padding: 0.85rem 1rem;">Automated via Tukey 1.5×IQR boundary rule</td>
+                <td style="padding: 0.85rem 1rem;">Requires visual inspection of isolated edge bins</td>
+              </tr>
+              <tr style="border-bottom: 1px solid rgba(255,255,255,0.04);">
+                <td style="padding: 0.85rem 1rem; font-weight: 600; color: var(--color-text-primary);">Modality Visibility</td>
+                <td style="padding: 0.85rem 1rem;">Hides bimodal splits (unless jittered points are shown)</td>
+                <td style="padding: 0.85rem 1rem;">Immediately displays twin peaks, valleys, and gaps</td>
+              </tr>
+              <tr>
+                <td style="padding: 0.85rem 1rem; font-weight: 600; color: var(--color-text-primary);">Alternative Companion</td>
+                <td style="padding: 0.85rem 1rem;"><a href="/" style="color: var(--color-primary); text-decoration: underline;">Dot plot maker</a> (for small groups under 50 values)</td>
+                <td style="padding: 0.85rem 1rem;"><a href="/histogram-maker/" style="color: var(--color-accent); text-decoration: underline;">Histogram maker</a> (for binning continuous observations)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════════════
+         SECTION 3: WHEN TO USE / WHEN NOT TO USE
+         ══════════════════════════════════════════════════════════════ -->
+    <section class="topical-section" id="when-to-use" style="margin-top: 4rem;">
+      <div class="topical-container">
+        <h2 class="section-title">When to Use a Box Plot (and When Not To)</h2>
+        <p class="topical-intro">
+          Knowing when to deploy a box plot ensures your findings communicate maximum insight while preventing common visualization pitfalls.
+        </p>
+
+        <div class="topical-two-col" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+          <!-- When to use -->
+          <div class="topical-col topical-col-good" style="background: var(--color-bg-card); border: 1px solid var(--color-border); border-radius: 12px; padding: 2rem;">
+            <h3 style="color: var(--color-primary); font-size: 1.3rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              When a Box Plot is Ideal
+            </h3>
+            <ul class="topical-list" style="color: var(--color-text-secondary); line-height: 1.7;">
+              <li><strong>Comparing experimental treatments:</strong> Comparing control vs. drug dosage groups in clinical trials or scientific experiments.</li>
+              <li><strong>Benchmarking operational metrics:</strong> Evaluating API latency, transaction durations, or page load times across multiple servers.</li>
+              <li><strong>Analyzing student test scores:</strong> Comparing exam performance across 5 different classrooms or academic semesters.</li>
+              <li><strong>Identifying extreme anomalies:</strong> Systematically tagging outliers using objective 1.5×IQR criteria rather than subjective visual guesses.</li>
+              <li><strong>Handling large datasets:</strong> Summarizing thousands of records with zero performance lag or graphical clutter.</li>
+            </ul>
+          </div>
+
+          <!-- When not to use -->
+          <div class="topical-col topical-col-limit" style="background: var(--color-bg-card); border: 1px solid var(--color-border); border-radius: 12px; padding: 2rem;">
+            <h3 style="color: #ff6b6b; font-size: 1.3rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>
+              When NOT to Use a Box Plot
+            </h3>
+            <ul class="topical-list" style="color: var(--color-text-secondary); line-height: 1.7;">
+              <li><strong>Very small sample sizes (N &lt; 20):</strong> Quartile estimates become unstable on tiny samples. For small collections, <a href="/" style="color: var(--color-primary); font-weight: 600; text-decoration: underline;">use our free dot plot maker</a> so every individual observation remains visible.</li>
+              <li><strong>Multimodal distributions:</strong> A bimodal dataset (with two distinct clusters) produces a box plot that looks identical to a uniform dataset. To view peaks and valleys, <a href="/histogram-maker/" style="color: var(--color-primary); font-weight: 600; text-decoration: underline;">generate a histogram</a> instead.</li>
+              <li><strong>Purely categorical data:</strong> When comparing categorical totals or counts, deploy a bar chart or categorical scatter plot.</li>
+              <li><strong>In-depth outlier diagnostics:</strong> When investigating the exact impact and root causes of anomalies, consult our <a href="/blog/outlier-dot-plot-maker/" style="color: var(--color-primary); font-weight: 600; text-decoration: underline;">outlier detection guide</a>.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════════════
+         SECTION 4: HOW TO READ A BOX PLOT
+         ══════════════════════════════════════════════════════════════ -->
+    <section class="topical-section" id="how-to-read" style="margin-top: 4rem;">
+      <div class="topical-container">
+        <h2 class="section-title">How to Read a Box Plot: Skewness, Spread, and Group Differences</h2>
+        <p class="topical-intro">
+          Reading a box plot takes only moments once you understand how to decode the four core visual signatures: center position, box span, whisker asymmetry, and isolated dots.
+        </p>
+
+        <div class="topical-grid topical-grid-4" style="margin-top: 2rem;">
+          <!-- Signature 1: Skewness -->
+          <div class="topical-card topical-card-accent">
+            <div class="topical-card-badge" style="color: var(--color-primary); font-weight: 700; text-transform: uppercase; font-size: 0.75rem; margin-bottom: 0.5rem;">Asymmetry</div>
+            <h3>Reading Skewness</h3>
+            <p style="color: var(--color-text-secondary); line-height: 1.6;">
+              When the median line is closer to Q1 and the upper whisker is elongated, the distribution is <strong>right-skewed</strong> (e.g. executive compensation). When the median sits closer to Q3 with a long lower whisker, it is <strong>left-skewed</strong>.
+            </p>
+          </div>
+
+          <!-- Signature 2: Spread & Variability -->
+          <div class="topical-card topical-card-purple">
+            <div class="topical-card-badge" style="color: var(--color-accent); font-weight: 700; text-transform: uppercase; font-size: 0.75rem; margin-bottom: 0.5rem;">Dispersion</div>
+            <h3>Evaluating Spread</h3>
+            <p style="color: var(--color-text-secondary); line-height: 1.6;">
+              A long box signals high variability and a large interquartile range across the core observations. A squashed box indicates tight clustering around the center. Compare whisker lengths to assess total range variability.
+            </p>
+          </div>
+
+          <!-- Signature 3: Comparing Groups -->
+          <div class="topical-card topical-card-orange">
+            <div class="topical-card-badge" style="color: var(--color-warning); font-weight: 700; text-transform: uppercase; font-size: 0.75rem; margin-bottom: 0.5rem;">Parallel Comparison</div>
+            <h3>Comparing Groups</h3>
+            <p style="color: var(--color-text-secondary); line-height: 1.6;">
+              Check whether median lines are aligned or shifted. Look at box overlap: if two boxes do not overlap along the numerical scale, the groups likely exhibit statistically significant differences. Enable notches to view 95% confidence intervals.
+            </p>
+          </div>
+
+          <!-- Signature 4: Spotting Outliers -->
+          <div class="topical-card topical-card-red">
+            <div class="topical-card-badge" style="color: var(--color-error); font-weight: 700; text-transform: uppercase; font-size: 0.75rem; margin-bottom: 0.5rem;">Anomalies</div>
+            <h3>Spotting Outliers</h3>
+            <p style="color: var(--color-text-secondary); line-height: 1.6;">
+              Points plotted beyond whisker caps are verified statistical outliers. Notice whether outliers appear exclusively on one end (indicating a heavy one-sided tail) or symmetrically on both extremes.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════════════
+         SECTION 5: BOX PLOTS IN STATISTICS EDUCATION
+         ══════════════════════════════════════════════════════════════ -->
+    <section class="topical-section" id="education" style="margin-top: 4rem;">
+      <div class="topical-container">
+        <h2 class="section-title">Box Plots in Statistics Education & Curriculums</h2>
+        <p class="topical-intro">
+          From sixth-grade common core classrooms to AP Statistics exams and college data science sequences, box plots are fundamental to teaching non-parametric summary statistics and exploratory data analysis.
+        </p>
+
+        <div class="topical-grid topical-grid-3" style="margin-top: 2rem;">
+          <!-- Level 1: Common Core 6.SP -->
+          <div class="topical-card">
+            <div class="topical-card-badge" style="color: var(--color-primary); font-weight: 700; text-transform: uppercase; font-size: 0.75rem; margin-bottom: 0.5rem;">Middle School</div>
+            <h3>Common Core 6.SP Standards</h3>
+            <p style="color: var(--color-text-secondary); line-height: 1.6;">
+              Standard <strong>CCSS.MATH.CONTENT.6.SP.B.4</strong> requires students to display numerical data in plots on a number line, including dot plots, histograms, and box plots. Standard <strong>6.SP.B.5.C</strong> emphasizes reporting measures of center (median) and variability (interquartile range). Our tool enables students to test concepts without spreadsheet setup.
+            </p>
+          </div>
+
+          <!-- Level 2: AP Statistics -->
+          <div class="topical-card">
+            <div class="topical-card-badge" style="color: var(--color-accent); font-weight: 700; text-transform: uppercase; font-size: 0.75rem; margin-bottom: 0.5rem;">Advanced Placement</div>
+            <h3>AP Statistics Curriculum</h3>
+            <p style="color: var(--color-text-secondary); line-height: 1.6;">
+              Unit 1 of the AP Statistics course requires students to describe one-variable distributions using the <strong>SOCS</strong> framework (Shape, Outliers, Center, and Spread). Free-response questions frequently ask students to compare parallel box plots and justify whether extreme values meet the <code>1.5 × IQR</code> outlier rule.
+            </p>
+          </div>
+
+          <!-- Level 3: College Stats & Data Science -->
+          <div class="topical-card">
+            <div class="topical-card-badge" style="color: #4d96ff; font-weight: 700; text-transform: uppercase; font-size: 0.75rem; margin-bottom: 0.5rem;">Higher Education</div>
+            <h3>College Stats & Data Science</h3>
+            <p style="color: var(--color-text-secondary); line-height: 1.6;">
+              In university biostatistics, engineering, and data science courses, box plots serve as the primary visual diagnostic before running ANOVA tests, checking variance homogeneity (homoscedasticity), and conducting robust regression. Notched box plots provide instant visual inference tests for median equality.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════════════
+         SECTION 6: FREQUENTLY ASKED QUESTIONS (15 FAQS)
+         ══════════════════════════════════════════════════════════════ -->
+    <section class="section" id="faq" style="margin-top: 4rem;">
+      <div style="text-align: center; margin-bottom: 3rem;">
+        <h2 class="section-title">Frequently Asked Questions</h2>
+        <p class="section-subtitle" style="max-width: 600px; margin: 0 auto; color: var(--color-text-secondary); font-size: 1.05rem;">
+          Everything you need to know about creating, interpreting, and exporting box and whisker plots online.
+        </p>
+      </div>
+
+      <div class="faq-list">
+        {faqs.map((faq) => (
+          <details class="faq-item">
+            <summary>{faq.question}</summary>
+            <div class="faq-answer">
+              <p>{faq.answer}</p>
+            </div>
+          </details>
+        ))}
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════════════
+         FINAL CTA
+         ══════════════════════════════════════════════════════════════ -->
+    <div class="final-cta" style="text-align: center; margin: 5rem 0 3rem; padding: 3rem 1.5rem; background: radial-gradient(ellipse at center, rgba(0, 212, 170, 0.08) 0%, transparent 70%); border-radius: 16px; border: 1px solid var(--color-border);">
+      <h2 style="font-size: 2.2rem; font-weight: 800; margin-bottom: 1rem; background: linear-gradient(135deg, var(--color-text-primary), var(--color-primary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+        Ready to Compare Distributions and Flag Outliers?
+      </h2>
+      <p style="color: var(--color-text-secondary); max-width: 600px; margin: 0 auto 2rem; font-size: 1.1rem; line-height: 1.6;">
+        Jump back to the top of the page to paste your single or multi-group dataset, inspect five-number summaries, and download publication-ready vector charts.
+      </p>
+      <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+        <a href="#box-plot-tool" class="btn-primary" style="padding: 0.85rem 2rem; font-size: 1rem;"><span>Build Your Box Plot</span></a>
+        <a href="/histogram-maker/" class="btn-secondary" style="padding: 0.85rem 2rem; font-size: 1rem; background: transparent; border: 1px solid var(--color-border); color: var(--color-text-primary);"><span>Need Frequency Bins? Try Histogram Maker</span></a>
+      </div>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .hero {
+    text-align: center;
+    padding: 3rem 0 2rem;
+  }
+  .hero-title {
+    font-size: 3rem;
+    font-weight: 900;
+    line-height: 1.15;
+    margin: 1rem 0;
+    background: linear-gradient(135deg, var(--color-text-primary) 30%, var(--color-primary) 70%, var(--color-accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .hero-subtitle {
+    font-size: 1.2rem;
+    color: var(--color-text-secondary);
+    max-width: 760px;
+    margin: 0 auto 2rem;
+    line-height: 1.6;
+  }
+  .hero-cta {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+  }
+
+  .topical-section {
+    padding: 2.5rem 0;
+  }
+  .topical-container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .topical-intro {
+    text-align: center;
+    max-width: 800px;
+    margin: 0.75rem auto 2.5rem;
+    color: var(--color-text-secondary);
+    font-size: 1.1rem;
+    line-height: 1.7;
+  }
+  .topical-grid {
+    display: grid;
+    gap: 1.5rem;
+  }
+  .topical-grid-4 {
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  }
+  .topical-grid-3 {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  }
+  .topical-card {
+    background: var(--color-bg-card);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 1.75rem;
+    transition: transform 0.2s ease, border-color 0.2s ease;
+  }
+  .topical-card:hover {
+    transform: translateY(-3px);
+    border-color: var(--color-border-hover);
+  }
+  .topical-card-accent {
+    border-top: 3px solid var(--color-primary);
+  }
+  .topical-card-purple {
+    border-top: 3px solid var(--color-accent);
+  }
+  .topical-card-orange {
+    border-top: 3px solid var(--color-warning);
+  }
+  .topical-card-teal {
+    border-top: 3px solid #4d96ff;
+  }
+  .topical-card-red {
+    border-top: 3px solid var(--color-error);
+  }
+
+  .faq-list {
+    max-width: 800px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  @media (max-width: 768px) {
+    .hero-title {
+      font-size: 2.2rem;
+    }
+    .hero-subtitle {
+      font-size: 1.05rem;
+    }
+  }
+</style>
