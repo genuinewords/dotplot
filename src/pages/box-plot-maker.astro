@@ -399,10 +399,12 @@ const faqs = [
         <div class="topical-two-col" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
           <!-- When to use -->
           <div class="topical-col topical-col-good" style="background: var(--color-bg-card); border: 1px solid var(--color-border); border-radius: 12px; padding: 2rem;">
-            <h3 style="color: var(--color-primary); font-size: 1.3rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
-              When a Box Plot is Ideal
-            </h3>
+            <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem;">
+              <span style="color: var(--color-primary); display: flex;" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              </span>
+              <h3 style="color: var(--color-primary); font-size: 1.3rem; margin: 0;">When a Box Plot is Ideal</h3>
+            </div>
             <ul class="topical-list" style="color: var(--color-text-secondary); line-height: 1.7;">
               <li><strong>Comparing experimental treatments:</strong> Comparing control vs. drug dosage groups in clinical trials or scientific experiments.</li>
               <li><strong>Benchmarking operational metrics:</strong> Evaluating API latency, transaction durations, or page load times across multiple servers.</li>
@@ -414,14 +416,16 @@ const faqs = [
 
           <!-- When not to use -->
           <div class="topical-col topical-col-limit" style="background: var(--color-bg-card); border: 1px solid var(--color-border); border-radius: 12px; padding: 2rem;">
-            <h3 style="color: #ff6b6b; font-size: 1.3rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>
-              When NOT to Use a Box Plot
-            </h3>
+            <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem;">
+              <span style="color: #ff6b6b; display: flex;" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>
+              </span>
+              <h3 style="color: #ff6b6b; font-size: 1.3rem; margin: 0;">When NOT to Use a Box Plot</h3>
+            </div>
             <ul class="topical-list" style="color: var(--color-text-secondary); line-height: 1.7;">
-              <li><strong>Very small sample sizes (N &lt; 20):</strong> Quartile estimates become unstable on tiny samples. For small collections, <a href="/" style="color: var(--color-primary); font-weight: 600; text-decoration: underline;">use our free dot plot maker</a> so every individual observation remains visible.</li>
+              <li><strong>Very small sample sizes (N &lt; 20):</strong> Quartile estimates become unstable on tiny samples. For small collections, <a href="/" style="color: var(--color-primary); font-weight: 600; text-decoration: underline;">use our free dot plot maker</a> or <a href="/stem-and-leaf-plot-maker/" style="color: var(--color-primary); font-weight: 600; text-decoration: underline;">stem-and-leaf plot maker</a> so every individual observation remains visible.</li>
               <li><strong>Multimodal distributions:</strong> A bimodal dataset (with two distinct clusters) produces a box plot that looks identical to a uniform dataset. To view peaks and valleys, <a href="/histogram-maker/" style="color: var(--color-primary); font-weight: 600; text-decoration: underline;">generate a histogram</a> instead.</li>
-              <li><strong>Purely categorical data:</strong> When comparing categorical totals or counts, deploy a bar chart or categorical scatter plot.</li>
+              <li><strong>Purely categorical data:</strong> When comparing categorical totals or counts, deploy a bar chart or frequency table.</li>
               <li><strong>In-depth outlier diagnostics:</strong> When investigating the exact impact and root causes of anomalies, consult our <a href="/blog/outlier-dot-plot-maker/" style="color: var(--color-primary); font-weight: 600; text-decoration: underline;">outlier detection guide</a>.</li>
             </ul>
           </div>

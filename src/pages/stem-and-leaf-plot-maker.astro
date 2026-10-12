@@ -1,0 +1,589 @@
+---
+import BaseLayout from "@theme/layouts/BaseLayout.astro";
+import StemAndLeafTool from "@theme/components/StemAndLeafTool.astro";
+import StemAndLeafSchema from "@theme/components/StemAndLeafSchema.astro";
+import { defaultLocale } from "@src/i18n/config";
+
+const locale = defaultLocale;
+
+const pageTitle = "Free Stem-and-Leaf Plot Maker Online";
+const pageDescription = "Make a stem-and-leaf plot in seconds. Paste data, split stems, back-to-back comparison, export PNG/SVG/PDF — free, no signup.";
+
+const faqs = [
+  {
+    question: "What is a stem-and-leaf plot?",
+    answer: "A stem-and-leaf plot (also called a stemplot) is an exploratory data visualization that organizes quantitative numerical data into rows by splitting each observation into a 'stem' (the leading digit or digits) and a 'leaf' (the trailing final digit). Unlike a histogram which groups numbers into anonymous bins, a stem-and-leaf display retains every original data value."
+  },
+  {
+    question: "How do you read a stem-and-leaf plot?",
+    answer: "To read a stem-and-leaf plot, look at the vertical bar separating the stem and leaves. The stem column on the left displays the leading digits, while the leaves on the right list the final digits. Combine the stem and leaf according to the key. For example, a stem of 5 with leaves 2, 4, and 8 represents the numbers 52, 54, and 58."
+  },
+  {
+    question: "How do I use this online stem-and-leaf plot maker?",
+    answer: "Simply paste your raw numbers into the input box separated by commas, spaces, or newlines, or click one of our sample datasets. The tool instantly calculates the optimal leaf unit, renders an aligned monospace plot, calculates live summary statistics (mean, median, mode, range), and formats an accurate key."
+  },
+  {
+    question: "What are split stems and when should I use them?",
+    answer: "Split stems divide each stem category into two equal rows: the first row contains leaves from 0 through 4, and the second row contains leaves from 5 through 9. Split stems are used when too many data points crowd into only two or three stems, stretching the display vertically so distribution shape, modality, and clusters become clearly visible."
+  },
+  {
+    question: "What is a back-to-back stem-and-leaf plot?",
+    answer: "A back-to-back stem-and-leaf plot compares two related datasets along a single, shared central stem column. Group A leaves extend to the left (read right-to-left), while Group B leaves extend to the right (read left-to-right). It provides an immediate visual comparison of center, spread, and shape between two groups, such as pre-test vs. post-test scores."
+  },
+  {
+    question: "How does a stem-and-leaf plot compare to a histogram?",
+    answer: "Both displays reveal distribution shape, skewness, and modality. However, a stem-and-leaf plot preserves every individual data value, while a histogram condenses observations into frequency bars where individual numbers are lost. Histograms are superior for large datasets (N > 100), whereas stemplots excel for small-to-moderate classroom datasets."
+  },
+  {
+    question: "How does a stem-and-leaf plot compare to a dot plot?",
+    answer: "Both charts preserve individual numerical values. A dot plot stacks identical dots along an axis, making it ideal for visualizing repeated discrete counts. A stem-and-leaf plot displays the actual numeric digits, organizing observations into a natural semi-tabular frequency histogram."
+  },
+  {
+    question: "Why should you include empty stems?",
+    answer: "Including empty stems ensures that intervals with zero observations remain visible on the vertical scale. Skipping empty stems artificially compresses the distance between values, which masks true outliers and conceals multimodal gaps in your distribution."
+  },
+  {
+    question: "How does the tool handle decimal numbers and leaf units?",
+    answer: "For decimal numbers, the tool automatically sets the leaf unit to 0.1 (tenths) or 0.01 (hundredths). For example, with numbers like 3.2, 3.5, and 4.1, the stems represent the whole numbers (3, 4) and the leaves represent tenths (2, 5, 1). You can also manually choose your leaf unit using the dropdown menu."
+  },
+  {
+    question: "How do you find the median from a stem-and-leaf plot?",
+    answer: "Because the leaves are ordered from smallest to largest, you find the median by counting (N + 1) / 2 positions into the ordered leaves from the top or bottom. If N is even, the median is the arithmetic mean of the two middle observations."
+  },
+  {
+    question: "When should you NOT use a stem-and-leaf plot?",
+    answer: "Do not use a stem-and-leaf plot for large datasets (over 100 to 150 values), as leaf rows become excessively long and difficult to scan. In those situations, use a histogram for single-variable distributions or a box plot for multi-group comparisons."
+  },
+  {
+    question: "Is this stem-and-leaf plot maker completely free?",
+    answer: "Yes, this tool is 100% free with no sign-up, no email registration, and no watermarks on any exported charts or worksheet tables. You can generate unlimited plots and download publication-ready files without any restrictions."
+  },
+  {
+    question: "Can I copy the plot as clean plain text for worksheets?",
+    answer: "Yes! Click the 'Copy as Plain Text' button to copy an aligned monospace ASCII table including headers, stems, leaves, and the key. You can paste it directly into Microsoft Word, Google Docs, or LaTeX exam papers."
+  },
+  {
+    question: "What file formats can I export from this tool?",
+    answer: "You can download your stem-and-leaf display as a crisp PNG image, a scalable vector SVG file, or a print-ready PDF document. You can also copy the rendered image directly to your clipboard."
+  },
+  {
+    question: "Is my data kept private when using this tool?",
+    answer: "Yes, 100% of the statistical calculations and diagram rendering occur entirely client-side inside your browser. No data points, uploaded files, or numbers are ever transmitted to or stored on any remote server."
+  }
+];
+---
+
+<BaseLayout locale={locale} title={pageTitle} description={pageDescription}>
+  <StemAndLeafSchema faqs={faqs} slot="head" />
+
+  <div class="page-content">
+    <!-- Hero Section -->
+    <div class="hero animate-fade-in-up" style="opacity: 0;">
+      <span class="badge">Free Online Tool</span>
+      <h1 class="hero-title">Free Stem-and-Leaf Plot Maker</h1>
+      <p class="hero-subtitle">
+        Create clean, accurate stem-and-leaf plots in seconds. Paste raw numbers, split stems for granular views, compare two groups side-by-side with back-to-back mode, and copy clean plain-text tables for classroom worksheets or export high-resolution PNG, SVG, and PDF graphics — 100% free with no signup.
+      </p>
+      <div class="hero-cta">
+        <a href="#stem-and-leaf-tool" class="btn-primary"><span>Generate Stem Plot</span></a>
+        <a href="/histogram-maker/" class="btn-secondary"><span>Histogram Maker</span></a>
+      </div>
+    </div>
+
+    <!-- Stem and Leaf Tool Component -->
+    <section class="tool-section" style="margin-bottom: 4rem;">
+      <StemAndLeafTool locale={locale} />
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════════════
+         HOW TO MAKE A STEM-AND-LEAF PLOT IN 3 STEPS
+         ══════════════════════════════════════════════════════════════ -->
+    <section class="section" id="how-it-works" style="margin-top: 2rem;">
+      <div style="text-align: center; margin-bottom: 3rem;">
+        <h2 class="section-title">How to Make a Stem-and-Leaf Plot in 3 Simple Steps</h2>
+        <p class="section-subtitle" style="max-width: 650px; margin: 0 auto; color: var(--color-text-secondary); font-size: 1.1rem; line-height: 1.6;">
+          Generate textbook-accurate stemplots with live statistics and auto-formatted keys in seconds.
+        </p>
+      </div>
+
+      <div class="steps-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem;">
+        <!-- Step 1 -->
+        <div id="step-1" class="step-card glass-card animate-fade-in-up" style="animation-delay: 0.1s; opacity: 0; padding: 2rem; position: relative;">
+          <div class="step-number" style="position: absolute; top: -12px; left: -12px; width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, var(--color-primary), var(--color-primary-light)); color: #0a0a1a; font-weight: 700; font-size: 0.9rem; display: flex; align-items: center; justify-content: center;">1</div>
+          <div class="step-icon" style="width: 48px; height: 48px; border-radius: 10px; background: rgba(0, 212, 170, 0.1); color: var(--color-primary); display: flex; align-items: center; justify-content: center; margin: 0 auto 1.25rem;" aria-hidden="true">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+              <line x1="16" y1="13" x2="8" y2="13"></line>
+              <line x1="16" y1="17" x2="8" y2="17"></line>
+            </svg>
+          </div>
+          <h3 class="step-title" style="font-size: 1.25rem; font-weight: 700; margin-bottom: 0.75rem;">Step 1: Enter or Upload Your Data</h3>
+          <p class="step-desc" style="color: var(--color-text-secondary); font-size: 0.93rem; line-height: 1.6;">
+            Paste your numbers separated by commas, spaces, or line breaks into the input field, or upload a CSV spreadsheet. You can also click our one-click sample presets (exam scores, plant heights, or race times) to explore immediately.
+          </p>
+        </div>
+
+        <!-- Step 2 -->
+        <div id="step-2" class="step-card glass-card animate-fade-in-up" style="animation-delay: 0.25s; opacity: 0; padding: 2rem; position: relative;">
+          <div class="step-number" style="position: absolute; top: -12px; left: -12px; width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, var(--color-primary), var(--color-primary-light)); color: #0a0a1a; font-weight: 700; font-size: 0.9rem; display: flex; align-items: center; justify-content: center;">2</div>
+          <div class="step-icon" style="width: 48px; height: 48px; border-radius: 10px; background: rgba(0, 212, 170, 0.1); color: var(--color-primary); display: flex; align-items: center; justify-content: center; margin: 0 auto 1.25rem;" aria-hidden="true">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="3" width="18" height="18" rx="2"></rect>
+              <line x1="9" y1="3" x2="9" y2="21"></line>
+              <line x1="3" y1="9" x2="21" y2="9"></line>
+            </svg>
+          </div>
+          <h3 class="step-title" style="font-size: 1.25rem; font-weight: 700; margin-bottom: 0.75rem;">Step 2: Choose Plot Options</h3>
+          <p class="step-desc" style="color: var(--color-text-secondary); font-size: 0.93rem; line-height: 1.6;">
+            Configure split stems (dividing 0-4 and 5-9), enable back-to-back dual group comparison, toggle empty stem display, sort leaves ascending, and select your leaf unit for integer or decimal values.
+          </p>
+        </div>
+
+        <!-- Step 3 -->
+        <div id="step-3" class="step-card glass-card animate-fade-in-up" style="animation-delay: 0.4s; opacity: 0; padding: 2rem; position: relative;">
+          <div class="step-number" style="position: absolute; top: -12px; left: -12px; width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, var(--color-primary), var(--color-primary-light)); color: #0a0a1a; font-weight: 700; font-size: 0.9rem; display: flex; align-items: center; justify-content: center;">3</div>
+          <div class="step-icon" style="width: 48px; height: 48px; border-radius: 10px; background: rgba(0, 212, 170, 0.1); color: var(--color-primary); display: flex; align-items: center; justify-content: center; margin: 0 auto 1.25rem;" aria-hidden="true">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
+              <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
+            </svg>
+          </div>
+          <h3 class="step-title" style="font-size: 1.25rem; font-weight: 700; margin-bottom: 0.75rem;">Step 3: Copy or Export Graphics</h3>
+          <p class="step-desc" style="color: var(--color-text-secondary); font-size: 0.93rem; line-height: 1.6;">
+            Click "Copy as Plain Text" to copy a cleanly formatted monospace table directly into educational worksheets and assignments, or export high-resolution PNG, vector SVG, and printable PDF documents.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════════════
+         SECTION 1: HOW STEM-AND-LEAF PLOTS WORK (ANATOMY)
+         ══════════════════════════════════════════════════════════════ -->
+    <section class="topical-section" id="how-they-work" style="margin-top: 4rem;">
+      <div class="topical-container">
+        <h2 class="section-title">How Stem-and-Leaf Plots Work: Anatomy & Worked Example</h2>
+        <p class="topical-intro">
+          Invented by statistician Arthur Bowley in the early 1900s and popularized by John Tukey in 1977, the stem-and-leaf plot bridges the gap between raw data tables and graphical histograms. It arranges numerical observations so that the distribution shape is visible while every individual value remains intact.
+        </p>
+
+        <!-- Worked Example Box -->
+        <div style="background: var(--color-bg-card); border: 1px solid var(--color-border); border-radius: 16px; padding: 2rem; margin: 2rem 0; box-shadow: 0 16px 36px rgba(0,0,0,0.25);">
+          <div style="text-align: center; margin-bottom: 1.5rem;">
+            <span style="font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--color-primary);">Step-by-Step Walkthrough</span>
+            <h3 style="margin: 0.35rem 0 0; font-size: 1.35rem; color: var(--color-text-primary);">Constructing a Stemplot from Raw Observations</h3>
+          </div>
+
+          <p style="color: var(--color-text-secondary); line-height: 1.7; margin-bottom: 1.5rem;">
+            Suppose a science class records the following 15 test scores:
+            <br />
+            <code style="background: var(--color-bg-elevated); padding: 0.25rem 0.6rem; border-radius: 6px; color: var(--color-primary); font-family: 'IBM Plex Mono', monospace; font-size: 0.95rem;">52, 54, 58, 61, 62, 65, 67, 68, 70, 71, 72, 74, 85, 87, 94</code>
+          </p>
+
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-bottom: 1.5rem;">
+            <!-- Stem Explanation -->
+            <div style="background: var(--color-bg-elevated); border: 1px solid var(--color-border); border-radius: 10px; padding: 1.5rem;">
+              <h4 style="color: var(--color-primary); font-size: 1.1rem; margin-top: 0; margin-bottom: 0.5rem;">1. Identify the Stems</h4>
+              <p style="color: var(--color-text-secondary); font-size: 0.92rem; line-height: 1.6; margin: 0;">
+                The leading digit represents the tens place. The scores span from the 50s to the 90s, yielding five stems: <strong>5, 6, 7, 8, and 9</strong>. Write them vertically separated by a solid vertical line.
+              </p>
+            </div>
+
+            <!-- Leaf Explanation -->
+            <div style="background: var(--color-bg-elevated); border: 1px solid var(--color-border); border-radius: 10px; padding: 1.5rem;">
+              <h4 style="color: var(--color-accent); font-size: 1.1rem; margin-top: 0; margin-bottom: 0.5rem;">2. Record & Order the Leaves</h4>
+              <p style="color: var(--color-text-secondary); font-size: 0.92rem; line-height: 1.6; margin: 0;">
+                The trailing digit represents the ones place. For stem 5, the scores 52, 54, and 58 produce leaves <strong>2, 4, 8</strong>. Sort the leaves in ascending order with consistent horizontal spacing.
+              </p>
+            </div>
+
+            <!-- Key Explanation -->
+            <div style="background: var(--color-bg-elevated); border: 1px solid var(--color-border); border-radius: 10px; padding: 1.5rem;">
+              <h4 style="color: var(--color-warning); font-size: 1.1rem; margin-top: 0; margin-bottom: 0.5rem;">3. Always Include a Key</h4>
+              <p style="color: var(--color-text-secondary); font-size: 0.92rem; line-height: 1.6; margin: 0;">
+                Without a key, a stemplot is meaningless. A row reading <code>5 | 2</code> could represent 52, 5.2, or 520. Writing <code>Key: 5 | 2 = 52</code> establishes the mathematical scale.
+              </p>
+            </div>
+          </div>
+
+          <!-- Visual Monospace Representation -->
+          <div style="background: #0d141d; border: 1px solid var(--color-border); border-radius: 8px; padding: 1.25rem; font-family: 'IBM Plex Mono', monospace; font-size: 0.95rem; color: #e8eef4; max-width: 320px; margin: 0 auto; text-align: left;">
+            <div style="color: var(--color-muted); border-bottom: 1px solid #243040; padding-bottom: 4px; margin-bottom: 6px;">Stem | Leaf</div>
+            <div>&nbsp;&nbsp; 5 | 2 4 8</div>
+            <div>&nbsp;&nbsp; 6 | 1 2 5 7 8</div>
+            <div>&nbsp;&nbsp; 7 | 0 1 2 4</div>
+            <div>&nbsp;&nbsp; 8 | 5 7</div>
+            <div>&nbsp;&nbsp; 9 | 4</div>
+            <div style="margin-top: 10px; padding-top: 6px; border-top: 1px solid #243040; color: var(--color-primary); font-size: 0.85rem;">Key: 5 | 2 = 52 test score</div>
+          </div>
+        </div>
+
+        <div class="topical-grid topical-grid-3" style="margin-top: 2rem;">
+          <!-- Feature 1: Exact Value Preservation -->
+          <div class="topical-card topical-card-accent">
+            <div class="topical-card-badge" style="color: var(--color-primary); font-weight: 700; text-transform: uppercase; font-size: 0.75rem; margin-bottom: 0.5rem;">Core Advantage</div>
+            <h3>Exact Value Preservation</h3>
+            <p style="color: var(--color-text-secondary); line-height: 1.6;">
+              When numbers enter a histogram, their precise identity is replaced by a bin count. With a stem-and-leaf display, every single value can be recovered instantly. You can compute the exact mean, median, quartiles, and range directly from the graph.
+            </p>
+          </div>
+
+          <!-- Feature 2: Split Stems -->
+          <div class="topical-card topical-card-orange">
+            <div class="topical-card-badge" style="color: var(--color-warning); font-weight: 700; text-transform: uppercase; font-size: 0.75rem; margin-bottom: 0.5rem;">Advanced Option</div>
+            <h3>Split Stems (Groups of 5)</h3>
+            <p style="color: var(--color-text-secondary); line-height: 1.6;">
+              If observations cluster tightly within just two or three stems, the plot looks overly squashed. Enabling <strong>Split Stems</strong> gives each stem two lines: the first row for leaves 0–4 and the second row for leaves 5–9, revealing subtle peaks and valleys.
+            </p>
+          </div>
+
+          <!-- Feature 3: Back-to-Back Comparison -->
+          <div class="topical-card topical-card-purple">
+            <div class="topical-card-badge" style="color: var(--color-accent); font-weight: 700; text-transform: uppercase; font-size: 0.75rem; margin-bottom: 0.5rem;">Comparative Analysis</div>
+            <h3>Back-to-Back Comparisons</h3>
+            <p style="color: var(--color-text-secondary); line-height: 1.6;">
+              By sharing a single stem in the center, two datasets can be plotted simultaneously. Group A leaves radiate outward to the left, while Group B leaves branch to the right. This allows immediate visual comparison of treatment effects, cohorts, or exam periods.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════════════
+         SECTION 2: 3-WAY COMPARISON TABLE
+         ══════════════════════════════════════════════════════════════ -->
+    <section class="topical-section" id="comparison-table" style="margin-top: 4rem;">
+      <div class="topical-container">
+        <h2 class="section-title">Stem-and-Leaf Plot vs. Histogram vs. Dot Plot</h2>
+        <p class="topical-intro">
+          Understanding the mathematical differences between these three classical univariate displays helps you select the optimal visualization for your sample size and educational audience.
+        </p>
+
+        <!-- Comparison Table -->
+        <div style="overflow-x: auto; margin-top: 2.5rem; background: var(--color-bg-card); border: 1px solid var(--color-border); border-radius: 12px; padding: 1rem;">
+          <table style="width: 100%; border-collapse: collapse; font-size: 0.93rem; text-align: left;">
+            <thead>
+              <tr style="border-bottom: 1px solid var(--color-border); color: var(--color-text-primary);">
+                <th style="padding: 1rem;">Feature</th>
+                <th style="padding: 1rem; color: var(--color-primary);">Stem-and-Leaf Plot</th>
+                <th style="padding: 1rem; color: #4d96ff;">Histogram</th>
+                <th style="padding: 1rem; color: var(--color-accent);">Dot Plot</th>
+              </tr>
+            </thead>
+            <tbody style="color: var(--color-text-secondary);">
+              <tr style="border-bottom: 1px solid rgba(255,255,255,0.04);">
+                <td style="padding: 0.85rem 1rem; font-weight: 600; color: var(--color-text-primary);">Preserves Raw Data</td>
+                <td style="padding: 0.85rem 1rem;">Yes (digits are preserved as leaves)</td>
+                <td style="padding: 0.85rem 1rem;">No (aggregated into bin intervals)</td>
+                <td style="padding: 0.85rem 1rem;">Yes (each point is an individual dot)</td>
+              </tr>
+              <tr style="border-bottom: 1px solid rgba(255,255,255,0.04);">
+                <td style="padding: 0.85rem 1rem; font-weight: 600; color: var(--color-text-primary);">Ideal Sample Size</td>
+                <td style="padding: 0.85rem 1rem;">Small to moderate (15 to 100 values)</td>
+                <td style="padding: 0.85rem 1rem;">Large (100 to 10,000+ observations)</td>
+                <td style="padding: 0.85rem 1rem;">Small (10 to 60 values)</td>
+              </tr>
+              <tr style="border-bottom: 1px solid rgba(255,255,255,0.04);">
+                <td style="padding: 0.85rem 1rem; font-weight: 600; color: var(--color-text-primary);">Display Orientation</td>
+                <td style="padding: 0.85rem 1rem;">Vertical text rows (read like a turned histogram)</td>
+                <td style="padding: 0.85rem 1rem;">Vertical columns or horizontal bars</td>
+                <td style="padding: 0.85rem 1rem;">Horizontal number line with stacked dots</td>
+              </tr>
+              <tr style="border-bottom: 1px solid rgba(255,255,255,0.04);">
+                <td style="padding: 0.85rem 1rem; font-weight: 600; color: var(--color-text-primary);">Two-Group Comparison</td>
+                <td style="padding: 0.85rem 1rem;">Back-to-back mirrored stemplot</td>
+                <td style="padding: 0.85rem 1rem;">Overlaid or stacked bars (can get cluttered)</td>
+                <td style="padding: 0.85rem 1rem;">Multi-row categorical dot plots</td>
+              </tr>
+              <tr style="border-bottom: 1px solid rgba(255,255,255,0.04);">
+                <td style="padding: 0.85rem 1rem; font-weight: 600; color: var(--color-text-primary);">Key / Legend Required</td>
+                <td style="padding: 0.85rem 1rem;">Mandatory (defines the leaf unit)</td>
+                <td style="padding: 0.85rem 1rem;">Axis tick marks provide scale</td>
+                <td style="padding: 0.85rem 1rem;">Number line provides numerical scale</td>
+              </tr>
+              <tr>
+                <td style="padding: 0.85rem 1rem; font-weight: 600; color: var(--color-text-primary);">Companion Tool</td>
+                <td style="padding: 0.85rem 1rem;">Active tool (above)</td>
+                <td style="padding: 0.85rem 1rem;"><a href="/histogram-maker/" style="color: #4d96ff; text-decoration: underline;">Histogram Maker</a></td>
+                <td style="padding: 0.85rem 1rem;"><a href="/" style="color: var(--color-primary); text-decoration: underline;">Dot Plot Maker</a></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════════════
+         SECTION 3: WHEN TO USE / WHEN NOT TO USE
+         ══════════════════════════════════════════════════════════════ -->
+    <section class="topical-section" id="when-to-use" style="margin-top: 4rem;">
+      <div class="topical-container">
+        <h2 class="section-title">When to Use a Stem-and-Leaf Plot (and When Not To)</h2>
+        <p class="topical-intro">
+          While stemplots offer unmatched clarity for classroom instruction and exploratory data inspection, choosing the right tool for your dataset size ensures optimal analytical clarity.
+        </p>
+
+        <div class="topical-two-col" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+          <!-- When to use -->
+          <div class="topical-col topical-col-good" style="background: var(--color-bg-card); border: 1px solid var(--color-border); border-radius: 12px; padding: 2rem;">
+            <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem;">
+              <span style="color: var(--color-primary); display: flex;" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              </span>
+              <h3 style="color: var(--color-primary); font-size: 1.3rem; margin: 0;">When a Stem-and-Leaf Plot is Ideal</h3>
+            </div>
+            <ul class="topical-list" style="color: var(--color-text-secondary); line-height: 1.7;">
+              <li><strong>Classroom teaching & worksheets:</strong> Introducing distributions to students without obscuring original values.</li>
+              <li><strong>Small to moderate samples (N = 15 to 100):</strong> Large enough to show distributional shape, but small enough that leaf rows do not wrap.</li>
+              <li><strong>Exam score and grade comparisons:</strong> Quick grading breakdowns showing exact boundaries and student clusters.</li>
+              <li><strong>Back-to-back group contrasts:</strong> Contrasting pre-test vs. post-test performance or two treatment arms side by side.</li>
+              <li><strong>Quick manual calculations:</strong> Finding the median, mode, and range directly from ordered leaf rows without software.</li>
+            </ul>
+          </div>
+
+          <!-- When not to use -->
+          <div class="topical-col topical-col-limit" style="background: var(--color-bg-card); border: 1px solid var(--color-border); border-radius: 12px; padding: 2rem;">
+            <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem;">
+              <span style="color: #ff6b6b; display: flex;" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>
+              </span>
+              <h3 style="color: #ff6b6b; font-size: 1.3rem; margin: 0;">When NOT to Use a Stem-and-Leaf Plot</h3>
+            </div>
+            <ul class="topical-list" style="color: var(--color-text-secondary); line-height: 1.7;">
+              <li><strong>Large datasets (N &gt; 150):</strong> When hundreds of points create excessively long leaf strings, switch to our <a href="/histogram-maker/" style="color: var(--color-primary); font-weight: 600; text-decoration: underline;">free histogram maker</a> for clean bin aggregation.</li>
+              <li><strong>Comparing many groups simultaneously:</strong> For comparing 4 or more groups, stemplots cannot scale; deploy our <a href="/box-plot-maker/" style="color: var(--color-primary); font-weight: 600; text-decoration: underline;">free box plot maker</a> for parallel box comparisons.</li>
+              <li><strong>Broad continuous ranges with extreme variance:</strong> If data spans from 2 to 20,000, stems become unwieldy with hundreds of empty rows.</li>
+              <li><strong>Small discrete counts:</strong> For counting repeated integer occurrences under 40 points, use our <a href="/" style="color: var(--color-primary); font-weight: 600; text-decoration: underline;">dot plot maker</a>.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════════════
+         SECTION 4: HOW TO READ A STEM-AND-LEAF PLOT
+         ══════════════════════════════════════════════════════════════ -->
+    <section class="topical-section" id="how-to-read" style="margin-top: 4rem;">
+      <div class="topical-container">
+        <h2 class="section-title">How to Read a Stem-and-Leaf Plot: Shape, Center, and Anomalies</h2>
+        <p class="topical-intro">
+          Reading a stemplot is like looking at a horizontal histogram turned on its side. By scanning the lengths of the leaf rows, you can identify four primary distributional characteristics.
+        </p>
+
+        <div class="topical-grid topical-grid-4" style="margin-top: 2rem;">
+          <!-- Diagnostic 1: Overall Shape & Skew -->
+          <div class="topical-card topical-card-accent">
+            <div class="topical-card-badge" style="color: var(--color-primary); font-weight: 700; text-transform: uppercase; font-size: 0.75rem; margin-bottom: 0.5rem;">Symmetry</div>
+            <h3>Distribution Shape & Skew</h3>
+            <p style="color: var(--color-text-secondary); line-height: 1.6;">
+              Rotate the plot 90 degrees counter-clockwise: the leaf lengths trace out the distribution curve. If the longest rows sit near the top with trailing stems stretching down, the distribution is right-skewed. If clustered near the bottom, it is left-skewed.
+            </p>
+          </div>
+
+          <!-- Diagnostic 2: Finding Median from Leaves -->
+          <div class="topical-card topical-card-orange">
+            <div class="topical-card-badge" style="color: var(--color-warning); font-weight: 700; text-transform: uppercase; font-size: 0.75rem; margin-bottom: 0.5rem;">Central Tendency</div>
+            <h3>Pinpointing the Median</h3>
+            <p style="color: var(--color-text-secondary); line-height: 1.6;">
+              Because leaves are sorted ascendingly, finding the median is straightforward. Count <code>(N + 1) / 2</code> numbers in from either the lowest or highest value. You land directly on the median leaf without having to write out a separate list.
+            </p>
+          </div>
+
+          <!-- Diagnostic 3: Locating the Mode -->
+          <div class="topical-card topical-card-purple">
+            <div class="topical-card-badge" style="color: var(--color-accent); font-weight: 700; text-transform: uppercase; font-size: 0.75rem; margin-bottom: 0.5rem;">Frequency Peak</div>
+            <h3>Locating the Mode</h3>
+            <p style="color: var(--color-text-secondary); line-height: 1.6;">
+              Repeated identical digits on the same stem row immediately reveal the mode. A row like <code>7 | 2 2 2 5</code> signals that 72 appears three times, making modal clusters and ties effortless to detect.
+            </p>
+          </div>
+
+          <!-- Diagnostic 4: Spotting Gaps & Outliers -->
+          <div class="topical-card topical-card-teal">
+            <div class="topical-card-badge" style="color: #4d96ff; font-weight: 700; text-transform: uppercase; font-size: 0.75rem; margin-bottom: 0.5rem;">Outliers</div>
+            <h3>Spotting Outliers & Gaps</h3>
+            <p style="color: var(--color-text-secondary); line-height: 1.6;">
+              When empty stems are included, an extreme rogue observation stands out separated from the main cluster by multiple blank lines. An isolated leaf sitting three empty stems away signals a potential statistical outlier.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════════════
+         SECTION 5: STEM-AND-LEAF IN STATISTICS EDUCATION
+         ══════════════════════════════════════════════════════════════ -->
+    <section class="topical-section" id="education" style="margin-top: 4rem;">
+      <div class="topical-container">
+        <h2 class="section-title">Stem-and-Leaf Displays in Statistics Education</h2>
+        <p class="topical-intro">
+          From middle school Common Core mathematics to introductory college biostatistics, stemplots remain the premier tool for teaching foundational data literacy.
+        </p>
+
+        <div class="topical-grid topical-grid-3" style="margin-top: 2rem;">
+          <!-- Common Core Middle School -->
+          <div class="topical-card">
+            <div class="topical-card-badge" style="color: var(--color-primary); font-weight: 700; text-transform: uppercase; font-size: 0.75rem; margin-bottom: 0.5rem;">Middle School</div>
+            <h3>Common Core 6.SP Standards</h3>
+            <p style="color: var(--color-text-secondary); line-height: 1.6;">
+              Standard <strong>CCSS.MATH.CONTENT.6.SP.B.4</strong> requires sixth-grade students to display numerical data in plots on a number line, including dot plots, histograms, and box plots, with stemplots introduced as the transitional step connecting raw lists to grouped charts.
+            </p>
+          </div>
+
+          <!-- High School / AP Prep -->
+          <div class="topical-card">
+            <div class="topical-card-badge" style="color: var(--color-accent); font-weight: 700; text-transform: uppercase; font-size: 0.75rem; margin-bottom: 0.5rem;">High School</div>
+            <h3>AP Statistics Exploratory EDA</h3>
+            <p style="color: var(--color-text-secondary); line-height: 1.6;">
+              In Unit 1 of AP Statistics, students analyze single-variable distributions using the <strong>SOCS</strong> acronym (Shape, Outliers, Center, and Spread). Stemplots allow quick manual distribution sketching during timed exams without requiring graphing calculator menus.
+            </p>
+          </div>
+
+          <!-- Classroom Worksheets -->
+          <div class="topical-card">
+            <div class="topical-card-badge" style="color: #4d96ff; font-weight: 700; text-transform: uppercase; font-size: 0.75rem; margin-bottom: 0.5rem;">Teaching Utility</div>
+            <h3>Teacher Worksheet Export</h3>
+            <p style="color: var(--color-text-secondary); line-height: 1.6;">
+              Teachers frequently need clean monospace tables for classroom handouts, quiz problems, and homework assignments. Our "Copy as Plain Text" button formats ASCII stemplots perfectly formatted for Word, Docs, and printed worksheets.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════════════
+         SECTION 6: FREQUENTLY ASKED QUESTIONS (15 FAQS)
+         ══════════════════════════════════════════════════════════════ -->
+    <section class="section" id="faq" style="margin-top: 4rem;">
+      <div style="text-align: center; margin-bottom: 3rem;">
+        <h2 class="section-title">Frequently Asked Questions</h2>
+        <p class="section-subtitle" style="max-width: 600px; margin: 0 auto; color: var(--color-text-secondary); font-size: 1.05rem;">
+          Everything you need to know about creating, interpreting, and exporting stem-and-leaf plots.
+        </p>
+      </div>
+
+      <div class="faq-list">
+        {faqs.map((faq) => (
+          <details class="faq-item">
+            <summary>{faq.question}</summary>
+            <div class="faq-answer">
+              <p>{faq.answer}</p>
+            </div>
+          </details>
+        ))}
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════════════
+         FINAL CTA
+         ══════════════════════════════════════════════════════════════ -->
+    <div class="final-cta" style="text-align: center; margin: 5rem 0 3rem; padding: 3rem 1.5rem; background: radial-gradient(ellipse at center, rgba(0, 212, 170, 0.08) 0%, transparent 70%); border-radius: 16px; border: 1px solid var(--color-border);">
+      <h2 style="font-size: 2.2rem; font-weight: 800; margin-bottom: 1rem; background: linear-gradient(135deg, var(--color-text-primary), var(--color-primary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+        Ready to Build Your Stem-and-Leaf Plot?
+      </h2>
+      <p style="color: var(--color-text-secondary); max-width: 600px; margin: 0 auto 2rem; font-size: 1.1rem; line-height: 1.6;">
+        Jump back to the top of the page to paste your dataset, test split stems or back-to-back comparisons, and copy clean plain-text worksheet tables.
+      </p>
+      <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+        <a href="#stem-and-leaf-tool" class="btn-primary" style="padding: 0.85rem 2rem; font-size: 1rem;"><span>Build Your Stem Plot</span></a>
+        <a href="/histogram-maker/" class="btn-secondary" style="padding: 0.85rem 2rem; font-size: 1rem; background: transparent; border: 1px solid var(--color-border); color: var(--color-text-primary);"><span>Large Datasets? Try Histogram Maker</span></a>
+      </div>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .hero {
+    text-align: center;
+    padding: 3rem 0 2rem;
+  }
+  .hero-title {
+    font-size: 3rem;
+    font-weight: 900;
+    line-height: 1.15;
+    margin: 1rem 0;
+    background: linear-gradient(135deg, var(--color-text-primary) 30%, var(--color-primary) 70%, var(--color-accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .hero-subtitle {
+    font-size: 1.2rem;
+    color: var(--color-text-secondary);
+    max-width: 760px;
+    margin: 0 auto 2rem;
+    line-height: 1.6;
+  }
+  .hero-cta {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+  }
+
+  .topical-section {
+    padding: 2.5rem 0;
+  }
+  .topical-container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .topical-intro {
+    text-align: center;
+    max-width: 800px;
+    margin: 0.75rem auto 2.5rem;
+    color: var(--color-text-secondary);
+    font-size: 1.1rem;
+    line-height: 1.7;
+  }
+  .topical-grid {
+    display: grid;
+    gap: 1.5rem;
+  }
+  .topical-grid-4 {
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  }
+  .topical-grid-3 {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  }
+  .topical-card {
+    background: var(--color-bg-card);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 1.75rem;
+    transition: transform 0.2s ease, border-color 0.2s ease;
+  }
+  .topical-card:hover {
+    transform: translateY(-3px);
+    border-color: var(--color-border-hover);
+  }
+  .topical-card-accent {
+    border-top: 3px solid var(--color-primary);
+  }
+  .topical-card-purple {
+    border-top: 3px solid var(--color-accent);
+  }
+  .topical-card-orange {
+    border-top: 3px solid var(--color-warning);
+  }
+  .topical-card-teal {
+    border-top: 3px solid #4d96ff;
+  }
+
+  .faq-list {
+    max-width: 800px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  @media (max-width: 768px) {
+    .hero-title {
+      font-size: 2.2rem;
+    }
+    .hero-subtitle {
+      font-size: 1.05rem;
+    }
+  }
+</style>

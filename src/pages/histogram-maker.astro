@@ -289,7 +289,7 @@ const faqs = [
               <tr>
                 <td style="padding: 0.85rem 1rem; font-weight: 600; color: var(--color-text-primary);">Best Companion Tool</td>
                 <td style="padding: 0.85rem 1rem;"><a href="/" style="color: var(--color-primary); text-decoration: underline;">Dot plot maker</a> for granular examination</td>
-                <td style="padding: 0.85rem 1rem;"><a href="/categorical-scatter-plot/" style="color: var(--color-accent); text-decoration: underline;">Categorical scatter plot</a></td>
+                <td style="padding: 0.85rem 1rem;">Standard bar chart (or <a href="/" style="color: var(--color-accent); text-decoration: underline;">dot plot maker</a>)</td>
               </tr>
             </tbody>
           </table>
@@ -310,10 +310,12 @@ const faqs = [
         <div class="topical-two-col" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
           <!-- When to use -->
           <div class="topical-col topical-col-good" style="background: var(--color-bg-card); border: 1px solid var(--color-border); border-radius: 12px; padding: 2rem;">
-            <h3 style="color: var(--color-primary); font-size: 1.3rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
-              When a Histogram is Best
-            </h3>
+            <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem;">
+              <span style="color: var(--color-primary); display: flex;" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              </span>
+              <h3 style="color: var(--color-primary); font-size: 1.3rem; margin: 0;">When a Histogram is Best</h3>
+            </div>
             <ul class="topical-list" style="color: var(--color-text-secondary); line-height: 1.7;">
               <li><strong>Large datasets (N &gt; 100):</strong> Histograms compress thousands of records into clean, digestible summaries without visual crowding.</li>
               <li><strong>Diagnosing statistical skew:</strong> Instantly revealing whether customer checkout times, salaries, or call durations trail off to the right.</li>
@@ -325,12 +327,14 @@ const faqs = [
 
           <!-- When not to use -->
           <div class="topical-col topical-col-limit" style="background: var(--color-bg-card); border: 1px solid var(--color-border); border-radius: 12px; padding: 2rem;">
-            <h3 style="color: #ff6b6b; font-size: 1.3rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>
-              When NOT to Use a Histogram
-            </h3>
+            <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem;">
+              <span style="color: #ff6b6b; display: flex;" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>
+              </span>
+              <h3 style="color: #ff6b6b; font-size: 1.3rem; margin: 0;">When NOT to Use a Histogram</h3>
+            </div>
             <ul class="topical-list" style="color: var(--color-text-secondary); line-height: 1.7;">
-              <li><strong>Small datasets (N &lt; 50):</strong> Aggregating 20 data points into 6 bins conceals critical nuances. For small datasets, <a href="/" style="color: var(--color-primary); font-weight: 600; text-decoration: underline;">try our free dot plot maker</a> instead to view every single individual dot.</li>
+              <li><strong>Small datasets (N &lt; 50):</strong> Aggregating 20 data points into 6 bins conceals critical nuances. For small datasets, <a href="/" style="color: var(--color-primary); font-weight: 600; text-decoration: underline;">try our free dot plot maker</a> or <a href="/stem-and-leaf-plot-maker/" style="color: var(--color-primary); font-weight: 600; text-decoration: underline;">stem-and-leaf plot maker</a> instead to retain every individual raw digit.</li>
               <li><strong>Comparing multiple groups simultaneously:</strong> Overlapping or stacking histograms for 3+ groups creates visual confusion; <a href="/box-plot-maker/" style="color: var(--color-primary); font-weight: 600; text-decoration: underline;">use our free box plot maker</a> to compare distributions side by side.</li>
               <li><strong>Purely categorical data:</strong> When comparing sales by state or feedback ratings by department, use a bar chart or categorical scatter plot.</li>
               <li><strong>Tracking changes over time:</strong> If temporal sequence matters (e.g. stock prices over 30 days), use a line graph or time series plot.</li>

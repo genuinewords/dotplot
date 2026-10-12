@@ -1,0 +1,1424 @@
+---
+import { type Locale, defaultLocale } from "@src/i18n/config";
+import "@fontsource-variable/space-grotesk";
+import ibmPlexMono400Url from "@fontsource/ibm-plex-mono/files/ibm-plex-mono-latin-400-normal.woff2?url";
+import ibmPlexMono500Url from "@fontsource/ibm-plex-mono/files/ibm-plex-mono-latin-500-normal.woff2?url";
+
+interface Props {
+  locale?: Locale;
+}
+
+const { locale = defaultLocale } = Astro.props;
+---
+
+<section id="stem-and-leaf-tool" class="dotplot-wrapper stemleaf-wrapper">
+  <span id="ibm-plex-mono-urls-stem" data-w400={ibmPlexMono400Url} data-w500={ibmPlexMono500Url} style="display:none" aria-hidden="true"></span>
+
+  <style is:inline>
+    .stemleaf-wrapper {
+      --bg: #0a0f14;
+      --bg-elevated: #111920;
+      --fg: #e8eef4;
+      --muted: #6b7d8f;
+      --accent: #00d4aa;
+      --accent-dim: rgba(0, 212, 170, 0.15);
+      --card: #151d26;
+      --border: #243040;
+      --danger: #ff6b6b;
+      --purple: #8b5cf6;
+      --amber: #f59e0b;
+      --blue: #4d96ff;
+
+      font-family: 'Space Grotesk', sans-serif;
+      background: var(--bg);
+      color: var(--fg);
+      position: relative;
+      overflow: hidden;
+      border-radius: 16px;
+      margin: 0 auto;
+      max-width: 1200px;
+      padding: 2.5rem;
+      box-shadow: 0 30px 60px -12px rgba(0, 212, 170, 0.15), 0 0 0 1px rgba(255,255,255,0.1);
+    }
+
+    .stemleaf-wrapper * {
+      box-sizing: border-box;
+    }
+
+    .stemleaf-wrapper .font-mono {
+      font-family: 'IBM Plex Mono', monospace;
+    }
+
+    /* Background atmosphere */
+    .stemleaf-wrapper .bg-atmosphere {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      background: 
+        radial-gradient(ellipse 80% 50% at 20% 10%, rgba(0, 212, 170, 0.08) 0%, transparent 50%),
+        radial-gradient(ellipse 60% 40% at 80% 90%, rgba(139, 92, 246, 0.06) 0%, transparent 50%),
+        linear-gradient(180deg, var(--bg) 0%, #0d1318 100%);
+    }
+
+    .stemleaf-wrapper .grid-pattern {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0.03;
+      background-image: 
+        linear-gradient(var(--muted) 1px, transparent 1px),
+        linear-gradient(90deg, var(--muted) 1px, transparent 1px);
+      background-size: 40px 40px;
+    }
+
+    /* Custom scrollbar */
+    .stemleaf-wrapper ::-webkit-scrollbar { width: 8px; height: 8px; }
+    .stemleaf-wrapper ::-webkit-scrollbar-track { background: var(--bg-elevated); }
+    .stemleaf-wrapper ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+    .stemleaf-wrapper ::-webkit-scrollbar-thumb:hover { background: var(--muted); }
+
+    /* Focus states */
+    .stemleaf-wrapper *:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+    /* Inputs */
+    .stemleaf-wrapper .input-field {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      color: var(--fg);
+      padding: 0.75rem 1rem;
+      border-radius: 8px;
+      transition: all 0.2s ease;
+      width: 100%;
+    }
+    .stemleaf-wrapper .input-field:hover { border-color: var(--muted); }
+    .stemleaf-wrapper .input-field:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-dim);
+    }
+
+    /* Buttons */
+    .stemleaf-wrapper .btn-primary {
+      background: var(--accent);
+      color: var(--bg);
+      font-weight: 600;
+      padding: 0.7rem 1.25rem;
+      border-radius: 8px;
+      transition: all 0.2s ease;
+      border: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      font-size: 0.9rem;
+    }
+    .stemleaf-wrapper .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0, 212, 170, 0.3);
+    }
+    .stemleaf-wrapper .btn-primary:active { transform: translateY(0); }
+
+    .stemleaf-wrapper .btn-secondary {
+      background: var(--card);
+      border: 1px solid var(--border);
+      color: var(--fg);
+      padding: 0.7rem 1.25rem;
+      border-radius: 8px;
+      transition: all 0.2s ease;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      font-size: 0.9rem;
+      text-decoration: none;
+    }
+    .stemleaf-wrapper .btn-secondary:hover {
+      border-color: var(--muted);
+      background: var(--bg-elevated);
+      color: var(--fg);
+    }
+
+    .stemleaf-wrapper .btn-sm {
+      padding: 0.45rem 0.85rem;
+      font-size: 0.8rem;
+    }
+
+    /* Cards */
+    .stemleaf-wrapper .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.25rem;
+      position: relative;
+    }
+
+    /* Tabs */
+    .stemleaf-wrapper .tab-btn {
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      background: transparent;
+      border: none;
+      color: var(--muted);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .stemleaf-wrapper .tab-btn.active {
+      background: var(--card);
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    /* Toggles */
+    .stemleaf-wrapper .toggle-btn {
+      position: relative;
+      width: 40px;
+      height: 22px;
+      background: var(--border);
+      border-radius: 11px;
+      cursor: pointer;
+      transition: background 0.2s ease;
+      border: none;
+      padding: 0;
+    }
+    .stemleaf-wrapper .toggle-btn.active {
+      background: var(--accent);
+    }
+    .stemleaf-wrapper .toggle-knob {
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 16px;
+      height: 16px;
+      background: #ffffff;
+      border-radius: 50%;
+      transition: transform 0.2s ease;
+    }
+    .stemleaf-wrapper .toggle-btn.active .toggle-knob {
+      transform: translateX(18px);
+    }
+
+    /* Stem Leaf Display Box */
+    .stemleaf-wrapper .plot-canvas-container {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .stemleaf-wrapper .plot-table-container {
+      padding: 1.5rem;
+      overflow-x: auto;
+      min-height: 380px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+    }
+
+    .stemleaf-wrapper .stem-plot-table {
+      border-collapse: collapse;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.95rem;
+      line-height: 1.7;
+    }
+
+    .stemleaf-wrapper .stem-plot-table th {
+      padding: 0.5rem 1rem;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--muted);
+      border-bottom: 2px solid var(--border);
+    }
+
+    .stemleaf-wrapper .stem-plot-table td {
+      padding: 0.25rem 1rem;
+      white-space: nowrap;
+    }
+
+    .stemleaf-wrapper .stem-cell {
+      font-weight: 700;
+      color: var(--accent);
+      text-align: center;
+      border-left: 2px solid var(--border);
+      border-right: 2px solid var(--border);
+      background: rgba(0, 212, 170, 0.04);
+      padding: 0.25rem 1.25rem !important;
+    }
+
+    .stemleaf-wrapper .leaf-cell-left {
+      text-align: right;
+      color: var(--purple);
+      letter-spacing: 0.25em;
+    }
+
+    .stemleaf-wrapper .leaf-cell-right {
+      text-align: left;
+      color: var(--fg);
+      letter-spacing: 0.25em;
+    }
+
+    .stemleaf-wrapper .stemleaf-toast {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      background: var(--card);
+      border: 1px solid var(--accent);
+      color: var(--fg);
+      padding: 0.75rem 1.25rem;
+      border-radius: 8px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      z-index: 9999;
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      pointer-events: none;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.9rem;
+    }
+    .stemleaf-wrapper .stemleaf-toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    @media (max-width: 768px) {
+      .stemleaf-wrapper {
+        padding: 1.25rem;
+      }
+    }
+  </style>
+
+  <!-- Atmosphere -->
+  <div class="bg-atmosphere" aria-hidden="true"></div>
+  <div class="grid-pattern" aria-hidden="true"></div>
+
+  <div class="relative z-10 space-y-6">
+    
+    <!-- Top Bar: Title & Sample Presets -->
+    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 pb-4 border-b" style="border-color: var(--border);">
+      <div>
+        <div class="flex items-center gap-2 mb-1">
+          <span class="inline-block w-2.5 h-2.5 rounded-full" style="background: var(--accent);"></span>
+          <span class="text-xs font-semibold uppercase tracking-wider font-mono" style="color: var(--accent);">Online Statistical Visualizer</span>
+        </div>
+        <h2 class="text-2xl font-bold tracking-tight" style="color: var(--fg); margin: 0;">Interactive Stem-and-Leaf Plot Maker</h2>
+      </div>
+
+      <!-- Presets & Reset -->
+      <div class="flex items-center gap-2 flex-wrap">
+        <span class="text-xs font-mono" style="color: var(--muted);">Presets:</span>
+        <button type="button" onclick="stemLoadPreset('testScores')" class="btn-secondary btn-sm" title="Load Exam Scores Sample">Test Scores</button>
+        <button type="button" onclick="stemLoadPreset('plantHeights')" class="btn-secondary btn-sm" title="Load Plant Heights (Decimals) Sample">Plant Heights</button>
+        <button type="button" onclick="stemLoadPreset('raceTimes')" class="btn-secondary btn-sm" title="Load Race Times Sample">Race Times</button>
+        <button type="button" onclick="stemResetData()" class="btn-secondary btn-sm" title="Reset all data and controls">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+            <path d="M3 3v5h5"></path>
+          </svg>
+          <span>Reset</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Main Tool Layout (Grid) -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      
+      <!-- Left Panel: Inputs & Controls (1 col) -->
+      <div class="space-y-4">
+        
+        <!-- Input Mode / Back-to-Back Switch -->
+        <div class="card space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-mono uppercase tracking-wider" style="color: var(--muted);">Comparison Mode</span>
+            <div class="flex items-center gap-2">
+              <span class="text-xs" style="color: var(--fg);">Back-to-Back</span>
+              <button type="button" id="stem-toggle-backtoback" class="toggle-btn" onclick="stemToggleBackToBack()" aria-label="Toggle Back-to-Back Stem Plot">
+                <div class="toggle-knob"></div>
+              </button>
+            </div>
+          </div>
+          <p class="text-xs" style="color: var(--muted); margin: 0; line-height: 1.5;">
+            Compare two datasets mirrored along a central stem column.
+          </p>
+        </div>
+
+        <!-- Data Input Box (Dataset 1) -->
+        <div class="card space-y-3">
+          <div class="flex items-center justify-between">
+            <h2 id="stem-data-title-1" class="font-semibold text-base" style="color: var(--fg); margin: 0;">Data Input</h2>
+            <span id="stem-count-badge-1" class="text-xs font-mono px-2 py-0.5 rounded" style="background: var(--bg-elevated); color: var(--accent);">0 values</span>
+          </div>
+
+          <!-- Tabs: Paste vs CSV Upload -->
+          <div class="flex gap-1 p-1 rounded-lg border" style="background: var(--bg); border-color: var(--border);">
+            <button type="button" id="stem-tab-btn-paste-1" class="tab-btn active flex-1 text-center" onclick="stemSwitchTab('paste', 1)">Paste Text</button>
+            <button type="button" id="stem-tab-btn-file-1" class="tab-btn flex-1 text-center" onclick="stemSwitchTab('file', 1)">Upload CSV</button>
+          </div>
+
+          <!-- Paste Tab -->
+          <div id="stem-tab-content-paste-1">
+            <textarea
+              id="stem-data-input-1"
+              rows="5"
+              class="input-field font-mono text-sm"
+              placeholder="Paste numbers separated by commas, spaces, or lines (e.g. 52, 54, 58, 61, 62, 65, 70, 71)..."
+              oninput="stemHandleInputDebounced()"
+            ></textarea>
+          </div>
+
+          <!-- File Upload Tab -->
+          <div id="stem-tab-content-file-1" class="hidden">
+            <label class="block border-2 border-dashed rounded-lg p-4 text-center cursor-pointer transition hover:border-accent" style="border-color: var(--border); background: var(--bg);">
+              <svg class="mx-auto mb-2" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--muted);">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="17 8 12 3 7 8"></polyline>
+                <line x1="12" y1="3" x2="12" y2="15"></line>
+              </svg>
+              <span class="text-xs font-medium block" style="color: var(--fg);">Upload CSV or Text File</span>
+              <span class="text-2xs block mt-1" style="color: var(--muted);">Click or drag & drop</span>
+              <input type="file" id="stem-file-input-1" accept=".csv,.txt" class="hidden" onchange="stemHandleFileUpload(event, 1)" />
+            </label>
+          </div>
+        </div>
+
+        <!-- Data Input Box (Dataset 2 - Back-to-Back Mode) -->
+        <div id="stem-container-dataset-2" class="card space-y-3 hidden" style="border-color: rgba(139, 92, 246, 0.4);">
+          <div class="flex items-center justify-between">
+            <h2 class="font-semibold text-base" style="color: var(--purple); margin: 0;">Dataset 2 (Group A / Left)</h2>
+            <span id="stem-count-badge-2" class="text-xs font-mono px-2 py-0.5 rounded" style="background: var(--bg-elevated); color: var(--purple);">0 values</span>
+          </div>
+
+          <textarea
+            id="stem-data-input-2"
+            rows="4"
+            class="input-field font-mono text-sm"
+            placeholder="Paste second dataset for comparison (e.g. 48, 50, 52, 55, 63, 67, 72)..."
+            oninput="stemHandleInputDebounced()"
+          ></textarea>
+        </div>
+
+        <!-- Plot Configuration Options -->
+        <div class="card space-y-4">
+          <h2 class="font-semibold text-base" style="color: var(--fg); margin: 0;">Plot Options</h2>
+
+          <div class="space-y-3">
+            <!-- Split Stems Toggle -->
+            <div class="flex items-center justify-between">
+              <div>
+                <span class="text-xs font-medium block" style="color: var(--fg);">Split Stems (0-4 & 5-9)</span>
+                <span class="text-2xs block" style="color: var(--muted);">Divides each stem into two lines</span>
+              </div>
+              <button type="button" id="stem-toggle-split" class="toggle-btn" onclick="stemToggleOption('split')" aria-label="Toggle Split Stems">
+                <div class="toggle-knob"></div>
+              </button>
+            </div>
+
+            <!-- Include Empty Stems Toggle -->
+            <div class="flex items-center justify-between">
+              <div>
+                <span class="text-xs font-medium block" style="color: var(--fg);">Include Empty Stems</span>
+                <span class="text-2xs block" style="color: var(--muted);">Show stems with zero observations</span>
+              </div>
+              <button type="button" id="stem-toggle-empty" class="toggle-btn active" onclick="stemToggleOption('empty')" aria-label="Toggle Empty Stems">
+                <div class="toggle-knob"></div>
+              </button>
+            </div>
+
+            <!-- Ordered Leaves Toggle -->
+            <div class="flex items-center justify-between">
+              <div>
+                <span class="text-xs font-medium block" style="color: var(--fg);">Order Leaves</span>
+                <span class="text-2xs block" style="color: var(--muted);">Sort leaves in ascending sequence</span>
+              </div>
+              <button type="button" id="stem-toggle-order" class="toggle-btn active" onclick="stemToggleOption('order')" aria-label="Toggle Ordered Leaves">
+                <div class="toggle-knob"></div>
+              </button>
+            </div>
+
+            <!-- Leaf Unit Selector -->
+            <div>
+              <label class="text-xs font-medium block mb-1" style="color: var(--fg);">Leaf Unit</label>
+              <select id="stem-leaf-unit" class="input-field text-xs font-mono" onchange="stemHandleUnitChange()">
+                <option value="auto">Auto (Detect from data)</option>
+                <option value="1">1 (Ones digit — e.g. 52 = 5 | 2)</option>
+                <option value="0.1">0.1 (Tenths — e.g. 5.2 = 5 | 2)</option>
+                <option value="0.01">0.01 (Hundredths — e.g. 0.52 = 5 | 2)</option>
+                <option value="10">10 (Tens — e.g. 520 = 5 | 2)</option>
+              </select>
+            </div>
+
+            <!-- Chart Title -->
+            <div>
+              <label class="text-xs font-medium block mb-1" style="color: var(--fg);">Chart Title</label>
+              <input type="text" id="stem-chart-title" class="input-field text-xs" value="Stem-and-Leaf Display" oninput="stemUpdatePlot()" />
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Right Panel: Visualizer, Table, Key & Stats (2 cols) -->
+      <div class="lg:col-span-2 space-y-4">
+        
+        <!-- Header Toolbar Above Display -->
+        <div class="flex items-center justify-between flex-wrap gap-2.5">
+          <div class="flex items-center gap-2">
+            <span class="inline-block w-2 h-2 rounded-full" style="background: var(--accent);"></span>
+            <span class="text-xs font-semibold uppercase tracking-wider font-mono" style="color: var(--muted);">Live Monospace Plot</span>
+          </div>
+
+          <div class="flex items-center gap-2 flex-wrap">
+            <button type="button" onclick="stemCopyPlainText()" class="btn-primary btn-sm" title="Copy clean text table for worksheets">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
+                <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
+              </svg>
+              <span>Copy as Plain Text</span>
+            </button>
+            <button type="button" onclick="stemCopyImageToClipboard()" class="btn-secondary btn-sm" title="Copy image to clipboard">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+              </svg>
+              <span>Copy Image</span>
+            </button>
+            <button type="button" onclick="stemExportPNG()" class="btn-secondary btn-sm" title="Download High-Resolution PNG">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                <polyline points="21 15 16 10 5 21"></polyline>
+              </svg>
+              <span>PNG</span>
+            </button>
+            <button type="button" onclick="stemExportSVG()" class="btn-secondary btn-sm" title="Download Scalable Vector SVG">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="7 10 12 15 17 10"></polyline>
+                <line x1="12" y1="15" x2="12" y2="3"></line>
+              </svg>
+              <span>SVG</span>
+            </button>
+            <button type="button" onclick="stemPrintDialog()" class="btn-secondary btn-sm" title="Open printable worksheet view">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="6 9 6 2 18 2 18 9"></polyline>
+                <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+                <rect x="6" y="14" width="12" height="8"></rect>
+              </svg>
+              <span>Print / PDF</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Interactive Plot Visualizer Container -->
+        <div class="plot-canvas-container" id="stem-render-container">
+          <!-- Title Banner -->
+          <div class="p-3 border-b flex items-center justify-between" style="border-color: var(--border); background: var(--card);">
+            <div id="stem-rendered-title" class="font-bold text-sm" style="color: var(--fg);">Stem-and-Leaf Display</div>
+            <div id="stem-rendered-subtitle" class="text-xs font-mono" style="color: var(--muted);">N = 0</div>
+          </div>
+
+          <!-- HTML/Monospace Tabular Display -->
+          <div class="plot-table-container">
+            <div id="stem-table-wrapper" style="width: 100%; max-width: 650px; margin: auto;">
+              <!-- Dynamic Table Built in JS -->
+            </div>
+          </div>
+
+          <!-- Key / Legend Footer -->
+          <div class="p-3 border-t flex flex-col sm:flex-row items-center justify-between gap-2 text-xs font-mono" style="border-color: var(--border); background: var(--card); color: var(--muted);">
+            <div id="stem-legend-key" class="font-bold" style="color: var(--accent);">Key: 3 | 2 = 32</div>
+            <div id="stem-legend-unit">Leaf Unit: 1</div>
+          </div>
+
+          <!-- Hidden Canvas for Raster / PNG export -->
+          <canvas id="stem-export-canvas" style="display: none;"></canvas>
+        </div>
+
+        <!-- Live Statistics Panel -->
+        <div class="space-y-3">
+          <div class="flex items-center justify-between">
+            <h2 class="font-semibold text-base" style="color: var(--fg); margin: 0;">Summary Statistics</h2>
+            <span class="text-xs font-mono" style="color: var(--muted);">Live calculation</span>
+          </div>
+
+          <!-- Stat Cards Grid -->
+          <div id="stem-stats-grid" class="grid grid-cols-2 sm:grid-cols-6 gap-2.5">
+            <div class="card text-center py-2.5 px-2">
+              <div class="text-xs mb-1" style="color: var(--muted);">Count (N)</div>
+              <div id="stem-stat-count" class="text-lg font-bold font-mono" style="color: var(--fg);">-</div>
+            </div>
+            <div class="card text-center py-2.5 px-2">
+              <div class="text-xs mb-1" style="color: var(--muted);">Mean</div>
+              <div id="stem-stat-mean" class="text-lg font-bold font-mono" style="color: var(--accent);">-</div>
+            </div>
+            <div class="card text-center py-2.5 px-2">
+              <div class="text-xs mb-1" style="color: var(--muted);">Median</div>
+              <div id="stem-stat-median" class="text-lg font-bold font-mono" style="color: var(--amber);">-</div>
+            </div>
+            <div class="card text-center py-2.5 px-2">
+              <div class="text-xs mb-1" style="color: var(--muted);">Mode</div>
+              <div id="stem-stat-mode" class="text-lg font-bold font-mono" style="color: var(--fg);">-</div>
+            </div>
+            <div class="card text-center py-2.5 px-2">
+              <div class="text-xs mb-1" style="color: var(--muted);">Range</div>
+              <div id="stem-stat-range" class="text-lg font-bold font-mono" style="color: var(--fg);">-</div>
+            </div>
+            <div class="card text-center py-2.5 px-2">
+              <div class="text-xs mb-1" style="color: var(--muted);">Min / Max</div>
+              <div id="stem-stat-minmax" class="text-sm font-bold font-mono pt-1" style="color: var(--fg);">-</div>
+            </div>
+          </div>
+
+          <!-- Secondary Group Stats (When in Back-to-Back Mode) -->
+          <div id="stem-stats-grid-2" class="grid grid-cols-2 sm:grid-cols-6 gap-2.5 hidden" style="border-top: 1px dashed var(--border); padding-top: 0.75rem;">
+            <div class="card text-center py-2.5 px-2">
+              <div class="text-xs mb-1" style="color: var(--purple);">Group A (N)</div>
+              <div id="stem-stat-count-2" class="text-lg font-bold font-mono" style="color: var(--purple);">-</div>
+            </div>
+            <div class="card text-center py-2.5 px-2">
+              <div class="text-xs mb-1" style="color: var(--purple);">Mean</div>
+              <div id="stem-stat-mean-2" class="text-lg font-bold font-mono" style="color: var(--purple);">-</div>
+            </div>
+            <div class="card text-center py-2.5 px-2">
+              <div class="text-xs mb-1" style="color: var(--purple);">Median</div>
+              <div id="stem-stat-median-2" class="text-lg font-bold font-mono" style="color: var(--purple);">-</div>
+            </div>
+            <div class="card text-center py-2.5 px-2">
+              <div class="text-xs mb-1" style="color: var(--purple);">Mode</div>
+              <div id="stem-stat-mode-2" class="text-lg font-bold font-mono" style="color: var(--purple);">-</div>
+            </div>
+            <div class="card text-center py-2.5 px-2">
+              <div class="text-xs mb-1" style="color: var(--purple);">Range</div>
+              <div id="stem-stat-range-2" class="text-lg font-bold font-mono" style="color: var(--purple);">-</div>
+            </div>
+            <div class="card text-center py-2.5 px-2">
+              <div class="text-xs mb-1" style="color: var(--purple);">Min / Max</div>
+              <div id="stem-stat-minmax-2" class="text-sm font-bold font-mono pt-1" style="color: var(--purple);">-</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="stem-toast" class="stemleaf-toast" aria-live="polite">Copied to clipboard!</div>
+
+  <script is:inline>
+    // Presets
+    const STEM_PRESETS = {
+      testScores: {
+        title: "Algebra Exam Scores",
+        d1: "52, 54, 58, 61, 62, 65, 67, 68, 70, 71, 72, 74, 75, 75, 78, 80, 81, 82, 85, 87, 88, 90, 92, 95, 98",
+        d2: "45, 48, 52, 56, 60, 62, 64, 65, 68, 70, 71, 72, 73, 76, 78, 81, 82, 84, 88, 91",
+        unit: "1"
+      },
+      plantHeights: {
+        title: "Seedling Heights (cm)",
+        d1: "1.2, 1.4, 1.5, 1.8, 2.1, 2.3, 2.3, 2.7, 2.9, 3.2, 3.4, 3.5, 3.8, 4.0, 4.2, 4.5, 5.1",
+        d2: "0.8, 1.1, 1.3, 1.6, 1.9, 2.0, 2.2, 2.4, 2.8, 3.0, 3.1, 3.3, 3.6, 3.9",
+        unit: "0.1"
+      },
+      raceTimes: {
+        title: "100m Sprint Times (seconds)",
+        d1: "11.2, 11.4, 11.5, 11.8, 12.0, 12.1, 12.2, 12.4, 12.6, 12.8, 13.1, 13.3, 13.7",
+        d2: "10.9, 11.1, 11.3, 11.5, 11.6, 11.9, 12.0, 12.2, 12.3, 12.7, 12.9, 13.4",
+        unit: "0.1"
+      }
+    };
+
+    // Application State
+    const stemState = {
+      isBackToBack: false,
+      splitStems: false,
+      includeEmptyStems: true,
+      orderedLeaves: true,
+      selectedUnit: 'auto',
+      title: 'Stem-and-Leaf Display',
+      data1Raw: STEM_PRESETS.testScores.d1,
+      data2Raw: STEM_PRESETS.testScores.d2,
+      data1Parsed: [],
+      data2Parsed: [],
+      calculatedUnit: 1,
+      plotData: []
+    };
+
+    function stemInit() {
+      const input1 = document.getElementById('stem-data-input-1');
+      const input2 = document.getElementById('stem-data-input-2');
+      if (input1) input1.value = stemState.data1Raw;
+      if (input2) input2.value = stemState.data2Raw;
+
+      stemParseAndRender();
+    }
+
+    function stemLoadPreset(key) {
+      const p = STEM_PRESETS[key];
+      if (!p) return;
+      stemState.title = p.title;
+      stemState.data1Raw = p.d1;
+      stemState.data2Raw = p.d2;
+      stemState.selectedUnit = p.unit;
+
+      const titleInput = document.getElementById('stem-chart-title');
+      if (titleInput) titleInput.value = p.title;
+
+      const unitSel = document.getElementById('stem-leaf-unit');
+      if (unitSel) unitSel.value = p.unit;
+
+      const input1 = document.getElementById('stem-data-input-1');
+      if (input1) input1.value = p.d1;
+
+      const input2 = document.getElementById('stem-data-input-2');
+      if (input2) input2.value = p.d2;
+
+      stemParseAndRender();
+      stemShowToast('Loaded ' + p.title + ' preset');
+    }
+
+    function stemResetData() {
+      stemState.data1Raw = '';
+      stemState.data2Raw = '';
+      stemState.isBackToBack = false;
+      stemState.splitStems = false;
+      stemState.includeEmptyStems = true;
+      stemState.orderedLeaves = true;
+      stemState.selectedUnit = 'auto';
+      stemState.title = 'Stem-and-Leaf Display';
+
+      document.getElementById('stem-data-input-1').value = '';
+      document.getElementById('stem-data-input-2').value = '';
+      document.getElementById('stem-chart-title').value = stemState.title;
+      document.getElementById('stem-leaf-unit').value = 'auto';
+
+      document.getElementById('stem-toggle-backtoback').classList.remove('active');
+      document.getElementById('stem-container-dataset-2').classList.add('hidden');
+      document.getElementById('stem-stats-grid-2').classList.add('hidden');
+      document.getElementById('stem-data-title-1').textContent = 'Data Input';
+
+      document.getElementById('stem-toggle-split').classList.remove('active');
+      document.getElementById('stem-toggle-empty').classList.add('active');
+      document.getElementById('stem-toggle-order').classList.add('active');
+
+      stemParseAndRender();
+      stemShowToast('Reset board');
+    }
+
+    function stemToggleBackToBack() {
+      stemState.isBackToBack = !stemState.isBackToBack;
+      const btn = document.getElementById('stem-toggle-backtoback');
+      const box2 = document.getElementById('stem-container-dataset-2');
+      const stats2 = document.getElementById('stem-stats-grid-2');
+      const title1 = document.getElementById('stem-data-title-1');
+
+      if (stemState.isBackToBack) {
+        btn.classList.add('active');
+        box2.classList.remove('hidden');
+        stats2.classList.remove('hidden');
+        title1.textContent = 'Dataset 1 (Group B / Right)';
+      } else {
+        btn.classList.remove('active');
+        box2.classList.add('hidden');
+        stats2.classList.add('hidden');
+        title1.textContent = 'Data Input';
+      }
+
+      stemParseAndRender();
+    }
+
+    function stemToggleOption(opt) {
+      if (opt === 'split') {
+        stemState.splitStems = !stemState.splitStems;
+        document.getElementById('stem-toggle-split').classList.toggle('active', stemState.splitStems);
+      } else if (opt === 'empty') {
+        stemState.includeEmptyStems = !stemState.includeEmptyStems;
+        document.getElementById('stem-toggle-empty').classList.toggle('active', stemState.includeEmptyStems);
+      } else if (opt === 'order') {
+        stemState.orderedLeaves = !stemState.orderedLeaves;
+        document.getElementById('stem-toggle-order').classList.toggle('active', stemState.orderedLeaves);
+      }
+      stemParseAndRender();
+    }
+
+    function stemHandleUnitChange() {
+      stemState.selectedUnit = document.getElementById('stem-leaf-unit').value;
+      stemParseAndRender();
+    }
+
+    function stemSwitchTab(tab, groupNum) {
+      const pasteBtn = document.getElementById('stem-tab-btn-paste-' + groupNum);
+      const fileBtn = document.getElementById('stem-tab-btn-file-' + groupNum);
+      const pasteContent = document.getElementById('stem-tab-content-paste-' + groupNum);
+      const fileContent = document.getElementById('stem-tab-content-file-' + groupNum);
+
+      if (tab === 'paste') {
+        pasteBtn.classList.add('active');
+        fileBtn.classList.remove('active');
+        pasteContent.classList.remove('hidden');
+        fileContent.classList.add('hidden');
+      } else {
+        pasteBtn.classList.remove('active');
+        fileBtn.classList.add('active');
+        pasteContent.classList.add('hidden');
+        fileContent.classList.remove('hidden');
+      }
+    }
+
+    function stemHandleFileUpload(e, groupNum) {
+      const file = e.target.files && e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(evt) {
+        const text = evt.target.result;
+        if (groupNum === 1) {
+          stemState.data1Raw = text;
+          document.getElementById('stem-data-input-1').value = text;
+        } else {
+          stemState.data2Raw = text;
+          document.getElementById('stem-data-input-2').value = text;
+        }
+        stemSwitchTab('paste', groupNum);
+        stemParseAndRender();
+        stemShowToast('File loaded: ' + file.name);
+      };
+      reader.readAsText(file);
+    }
+
+    let stemDebounceTimer;
+    function stemHandleInputDebounced() {
+      clearTimeout(stemDebounceTimer);
+      stemDebounceTimer = setTimeout(() => {
+        stemState.data1Raw = document.getElementById('stem-data-input-1').value;
+        if (stemState.isBackToBack) {
+          stemState.data2Raw = document.getElementById('stem-data-input-2').value;
+        }
+        stemParseAndRender();
+      }, 150);
+    }
+
+    function stemExtractNumbers(text) {
+      if (!text) return [];
+      const matches = text.match(/-?\d+(?:\.\d+)?/g);
+      if (!matches) return [];
+      return matches.map(Number).filter(n => !isNaN(n));
+    }
+
+    function stemDetermineLeafUnit(arr) {
+      if (stemState.selectedUnit !== 'auto') {
+        return parseFloat(stemState.selectedUnit);
+      }
+      if (!arr || arr.length === 0) return 1;
+
+      // Check for decimal places
+      let maxDecimals = 0;
+      arr.forEach(val => {
+        const s = val.toString();
+        const dot = s.indexOf('.');
+        if (dot !== -1) {
+          const dec = s.length - dot - 1;
+          if (dec > maxDecimals) maxDecimals = dec;
+        }
+      });
+
+      if (maxDecimals === 1) return 0.1;
+      if (maxDecimals >= 2) return 0.01;
+
+      // All integers
+      const maxVal = Math.max(...arr);
+      const minVal = Math.min(...arr);
+      const span = maxVal - minVal;
+
+      if (span <= 10 && maxVal < 10) return 0.1;
+      if (span > 500) return 10;
+      return 1;
+    }
+
+    function stemComputeStats(arr) {
+      if (!arr || arr.length === 0) {
+        return { count: 0, mean: '-', median: '-', mode: '-', range: '-', min: '-', max: '-' };
+      }
+      const n = arr.length;
+      const sorted = [...arr].sort((a, b) => a - b);
+      const sum = sorted.reduce((acc, v) => acc + v, 0);
+      const mean = sum / n;
+
+      let median;
+      if (n % 2 === 1) {
+        median = sorted[Math.floor(n / 2)];
+      } else {
+        median = (sorted[n / 2 - 1] + sorted[n / 2]) / 2;
+      }
+
+      // Mode
+      const counts = {};
+      let maxFreq = 0;
+      sorted.forEach(v => {
+        counts[v] = (counts[v] || 0) + 1;
+        if (counts[v] > maxFreq) maxFreq = counts[v];
+      });
+
+      let modes = [];
+      if (maxFreq > 1) {
+        for (let k in counts) {
+          if (counts[k] === maxFreq) modes.push(Number(k));
+        }
+      }
+      const modeStr = modes.length > 0 ? (modes.length <= 3 ? modes.join(', ') : modes.slice(0, 3).join(', ') + '...') : 'None';
+
+      const min = sorted[0];
+      const max = sorted[n - 1];
+      const range = max - min;
+
+      return {
+        count: n,
+        mean: mean.toFixed(2),
+        median: median.toFixed(2),
+        mode: modeStr,
+        range: range.toFixed(2),
+        min: min.toFixed(2),
+        max: max.toFixed(2)
+      };
+    }
+
+    function stemParseAndRender() {
+      const arr1 = stemExtractNumbers(stemState.data1Raw);
+      const arr2 = stemState.isBackToBack ? stemExtractNumbers(stemState.data2Raw) : [];
+
+      stemState.data1Parsed = arr1;
+      stemState.data2Parsed = arr2;
+
+      document.getElementById('stem-count-badge-1').textContent = arr1.length + ' values';
+      if (stemState.isBackToBack) {
+        document.getElementById('stem-count-badge-2').textContent = arr2.length + ' values';
+      }
+
+      // Determine unit based on all data
+      const allVals = arr1.concat(arr2);
+      const unit = stemDetermineLeafUnit(allVals);
+      stemState.calculatedUnit = unit;
+
+      // Calculate stats
+      const stats1 = stemComputeStats(arr1);
+      document.getElementById('stem-stat-count').textContent = stats1.count;
+      document.getElementById('stem-stat-mean').textContent = stats1.mean;
+      document.getElementById('stem-stat-median').textContent = stats1.median;
+      document.getElementById('stem-stat-mode').textContent = stats1.mode;
+      document.getElementById('stem-stat-range').textContent = stats1.range;
+      document.getElementById('stem-stat-minmax').textContent = stats1.min !== '-' ? stats1.min + ' / ' + stats1.max : '-';
+
+      if (stemState.isBackToBack) {
+        const stats2 = stemComputeStats(arr2);
+        document.getElementById('stem-stat-count-2').textContent = stats2.count;
+        document.getElementById('stem-stat-mean-2').textContent = stats2.mean;
+        document.getElementById('stem-stat-median-2').textContent = stats2.median;
+        document.getElementById('stem-stat-mode-2').textContent = stats2.mode;
+        document.getElementById('stem-stat-range-2').textContent = stats2.range;
+        document.getElementById('stem-stat-minmax-2').textContent = stats2.min !== '-' ? stats2.min + ' / ' + stats2.max : '-';
+      }
+
+      // Build Stem-and-Leaf Structure
+      stemBuildPlotRows(arr1, arr2, unit);
+      stemRenderTable();
+      stemUpdateLegend();
+    }
+
+    function stemBuildPlotRows(arr1, arr2, unit) {
+      if (arr1.length === 0 && arr2.length === 0) {
+        stemState.plotData = [];
+        return;
+      }
+
+      function extractStemLeaf(val) {
+        const scaled = Math.round(val / unit);
+        const leaf = Math.abs(scaled) % 10;
+        let stem = Math.floor(scaled / 10);
+        return { stem, leaf, val };
+      }
+
+      const pairs1 = arr1.map(extractStemLeaf);
+      const pairs2 = arr2.map(extractStemLeaf);
+
+      const allPairs = pairs1.concat(pairs2);
+      const allStems = allPairs.map(p => p.stem);
+      const minStem = Math.min(...allStems);
+      const maxStem = Math.max(...allStems);
+
+      const map1 = {};
+      const map2 = {};
+
+      pairs1.forEach(p => {
+        const key = stemState.splitStems ? (p.stem + (p.leaf < 5 ? 'a' : 'b')) : p.stem.toString();
+        if (!map1[key]) map1[key] = [];
+        map1[key].push(p.leaf);
+      });
+
+      pairs2.forEach(p => {
+        const key = stemState.splitStems ? (p.stem + (p.leaf < 5 ? 'a' : 'b')) : p.stem.toString();
+        if (!map2[key]) map2[key] = [];
+        map2[key].push(p.leaf);
+      });
+
+      const rows = [];
+
+      for (let s = minStem; s <= maxStem; s++) {
+        if (stemState.splitStems) {
+          const keyA = s + 'a';
+          const keyB = s + 'b';
+          const l1A = map1[keyA] || [];
+          const l2A = map2[keyA] || [];
+          const l1B = map1[keyB] || [];
+          const l2B = map2[keyB] || [];
+
+          if (stemState.includeEmptyStems || (l1A.length > 0 || l2A.length > 0)) {
+            rows.push({
+              stemLabel: s.toString(),
+              subStem: '0-4',
+              leaves1: l1A,
+              leaves2: l2A
+            });
+          }
+          if (stemState.includeEmptyStems || (l1B.length > 0 || l2B.length > 0)) {
+            rows.push({
+              stemLabel: s.toString(),
+              subStem: '5-9',
+              leaves1: l1B,
+              leaves2: l2B
+            });
+          }
+        } else {
+          const key = s.toString();
+          const l1 = map1[key] || [];
+          const l2 = map2[key] || [];
+          if (stemState.includeEmptyStems || (l1.length > 0 || l2.length > 0)) {
+            rows.push({
+              stemLabel: s.toString(),
+              subStem: '',
+              leaves1: l1,
+              leaves2: l2
+            });
+          }
+        }
+      }
+
+      // Order leaves
+      rows.forEach(r => {
+        if (stemState.orderedLeaves) {
+          r.leaves1.sort((a, b) => a - b);
+          r.leaves2.sort((a, b) => a - b);
+        }
+      });
+
+      stemState.plotData = rows;
+    }
+
+    function stemRenderTable() {
+      const wrapper = document.getElementById('stem-table-wrapper');
+      const titleEl = document.getElementById('stem-rendered-title');
+      const subEl = document.getElementById('stem-rendered-subtitle');
+      if (!wrapper) return;
+
+      const titleInput = document.getElementById('stem-chart-title');
+      const userTitle = (titleInput && titleInput.value.trim()) || 'Stem-and-Leaf Display';
+      if (titleEl) titleEl.textContent = userTitle;
+      
+      const totalN = stemState.data1Parsed.length + (stemState.isBackToBack ? stemState.data2Parsed.length : 0);
+      if (subEl) {
+        subEl.textContent = stemState.isBackToBack 
+          ? `Group A: N=${stemState.data2Parsed.length} · Group B: N=${stemState.data1Parsed.length}`
+          : `N = ${totalN}`;
+      }
+
+      if (stemState.plotData.length === 0) {
+        wrapper.innerHTML = `
+          <div class="text-center py-12" style="color: var(--muted); font-family: 'Space Grotesk', sans-serif;">
+            <p>No valid numerical data entered.</p>
+            <p class="text-xs mt-1">Paste numbers on the left or select a sample preset to render the plot.</p>
+          </div>
+        `;
+        return;
+      }
+
+      let html = '<table class="stem-plot-table" style="margin: 0 auto;"><thead><tr>';
+
+      if (stemState.isBackToBack) {
+        html += '<th class="text-right" style="color: var(--purple);">Group A (Leaves)</th>';
+        html += '<th class="text-center" style="color: var(--accent);">Stem</th>';
+        html += '<th class="text-left" style="color: var(--fg);">Group B (Leaves)</th>';
+      } else {
+        html += '<th class="text-center" style="color: var(--accent);">Stem</th>';
+        html += '<th class="text-left" style="color: var(--fg);">Leaf</th>';
+      }
+      html += '</tr></thead><tbody>';
+
+      stemState.plotData.forEach(row => {
+        html += '<tr>';
+        const stemDisplay = row.subStem ? `${row.stemLabel}` : row.stemLabel;
+        const stemBadge = row.subStem ? `<span style="font-size:0.75rem; opacity:0.6; margin-left:2px;">${row.subStem === '0-4' ? '*' : '.'}</span>` : '';
+
+        if (stemState.isBackToBack) {
+          // Left leaves (Group A): reversed order for visual symmetry outwards from stem
+          const leftLeaves = [...row.leaves2].reverse().join(' ');
+          const rightLeaves = row.leaves1.join(' ');
+          html += `<td class="leaf-cell-left">${leftLeaves}</td>`;
+          html += `<td class="stem-cell">${stemDisplay}${stemBadge}</td>`;
+          html += `<td class="leaf-cell-right">${rightLeaves}</td>`;
+        } else {
+          const rightLeaves = row.leaves1.join(' ');
+          html += `<td class="stem-cell">${stemDisplay}${stemBadge}</td>`;
+          html += `<td class="leaf-cell-right">${rightLeaves}</td>`;
+        }
+        html += '</tr>';
+      });
+
+      html += '</tbody></table>';
+      wrapper.innerHTML = html;
+    }
+
+    function stemUpdateLegend() {
+      const keyEl = document.getElementById('stem-legend-key');
+      const unitEl = document.getElementById('stem-legend-unit');
+      if (!keyEl || !unitEl) return;
+
+      const unit = stemState.calculatedUnit;
+      unitEl.textContent = `Leaf Unit: ${unit}`;
+
+      // Pick representative value
+      const sampleRow = stemState.plotData.find(r => r.leaves1.length > 0 || (r.leaves2 && r.leaves2.length > 0));
+      if (!sampleRow) {
+        keyEl.textContent = 'Key: 3 | 2 = 32';
+        return;
+      }
+
+      const stemVal = parseInt(sampleRow.stemLabel, 10);
+      const leafVal = sampleRow.leaves1.length > 0 ? sampleRow.leaves1[0] : sampleRow.leaves2[0];
+      const actualVal = (stemVal * 10 + leafVal) * unit;
+
+      const formattedVal = Number.isInteger(actualVal) ? actualVal : actualVal.toFixed(unit < 0.1 ? 2 : 1);
+
+      if (stemState.isBackToBack) {
+        keyEl.textContent = `Key: 4 | ${stemVal} | ${leafVal} represents ${(stemVal * 10 + 4) * unit} (Group A) and ${formattedVal} (Group B)`;
+      } else {
+        keyEl.textContent = `Key: ${sampleRow.stemLabel} | ${leafVal} = ${formattedVal}`;
+      }
+    }
+
+    function stemUpdatePlot() {
+      stemRenderTable();
+      stemUpdateLegend();
+    }
+
+    // OUTPUTS
+
+    // 1. Copy as Plain Text
+    window.stemCopyPlainText = function() {
+      if (stemState.plotData.length === 0) {
+        stemShowToast('No data to copy');
+        return;
+      }
+
+      const titleInput = document.getElementById('stem-chart-title');
+      const title = (titleInput && titleInput.value.trim()) || 'Stem-and-Leaf Display';
+      const keyText = document.getElementById('stem-legend-key').textContent;
+      const unitText = document.getElementById('stem-legend-unit').textContent;
+
+      let text = `${title}\n`;
+      text += `${'='.repeat(title.length)}\n`;
+
+      if (stemState.isBackToBack) {
+        text += `Group A (Leaves) | Stem | Group B (Leaves)\n`;
+        text += `-----------------+------+-----------------\n`;
+        stemState.plotData.forEach(row => {
+          const left = [...row.leaves2].reverse().join(' ').padStart(16, ' ');
+          const stem = (row.stemLabel + (row.subStem ? (row.subStem === '0-4' ? '*' : '.') : '')).padStart(4, ' ').padEnd(5, ' ');
+          const right = row.leaves1.join(' ');
+          text += `${left} | ${stem}| ${right}\n`;
+        });
+      } else {
+        text += `Stem | Leaf\n`;
+        text += `-----+-------------------------\n`;
+        stemState.plotData.forEach(row => {
+          const stem = (row.stemLabel + (row.subStem ? (row.subStem === '0-4' ? '*' : '.') : '')).padStart(4, ' ');
+          const leaves = row.leaves1.join(' ');
+          text += `${stem} | ${leaves}\n`;
+        });
+      }
+
+      text += `\n${keyText}\n${unitText}\n`;
+      text += `Created at DotPlotMaker.com/stem-and-leaf-plot-maker/\n`;
+
+      navigator.clipboard.writeText(text).then(() => {
+        stemShowToast('Copied plain text worksheet table!');
+      }).catch(() => {
+        stemShowToast('Could not access clipboard');
+      });
+    };
+
+    // 2. Generate Canvas Representation for PNG / Clipboard
+    function stemRenderToCanvas() {
+      const canvas = document.getElementById('stem-export-canvas');
+      if (!canvas) return null;
+      const ctx = canvas.getContext('2d');
+      if (!ctx) return null;
+
+      const title = document.getElementById('stem-chart-title').value || 'Stem-and-Leaf Display';
+      const keyText = document.getElementById('stem-legend-key').textContent;
+      const unitText = document.getElementById('stem-legend-unit').textContent;
+
+      const rows = stemState.plotData;
+      const rowHeight = 28;
+      const headerHeight = 90;
+      const footerHeight = 70;
+      const totalHeight = Math.max(450, headerHeight + rows.length * rowHeight + footerHeight);
+      const totalWidth = 650;
+
+      const dpr = 2; // high-res 2x
+      canvas.width = totalWidth * dpr;
+      canvas.height = totalHeight * dpr;
+
+      ctx.resetTransform ? ctx.resetTransform() : ctx.setTransform(1, 0, 0, 1, 0, 0);
+      ctx.scale(dpr, dpr);
+
+      // Background
+      ctx.fillStyle = '#111920';
+      ctx.fillRect(0, 0, totalWidth, totalHeight);
+
+      // Title Banner
+      ctx.fillStyle = '#00d4aa';
+      ctx.fillRect(0, 0, totalWidth, 4);
+
+      ctx.font = 'bold 18px "Space Grotesk", sans-serif';
+      ctx.fillStyle = '#e8eef4';
+      ctx.textAlign = 'center';
+      ctx.fillText(title, totalWidth / 2, 40);
+
+      ctx.font = '12px "IBM Plex Mono", monospace';
+      ctx.fillStyle = '#6b7d8f';
+      ctx.fillText(`N = ${stemState.data1Parsed.length + (stemState.isBackToBack ? stemState.data2Parsed.length : 0)} · DotPlotMaker.com`, totalWidth / 2, 62);
+
+      // Divider
+      ctx.strokeStyle = '#243040';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(40, 75);
+      ctx.lineTo(totalWidth - 40, 75);
+      ctx.stroke();
+
+      const startY = headerHeight + 15;
+      const centerStemX = totalWidth / 2;
+
+      ctx.font = '14px "IBM Plex Mono", monospace';
+
+      if (stemState.isBackToBack) {
+        // Headers
+        ctx.fillStyle = '#8b5cf6';
+        ctx.textAlign = 'right';
+        ctx.fillText('Group A', centerStemX - 45, startY - 12);
+
+        ctx.fillStyle = '#00d4aa';
+        ctx.textAlign = 'center';
+        ctx.fillText('Stem', centerStemX, startY - 12);
+
+        ctx.fillStyle = '#e8eef4';
+        ctx.textAlign = 'left';
+        ctx.fillText('Group B', centerStemX + 45, startY - 12);
+
+        // Vertical lines for Stem column
+        ctx.strokeStyle = '#243040';
+        ctx.beginPath();
+        ctx.moveTo(centerStemX - 30, startY - 24);
+        ctx.lineTo(centerStemX - 30, startY + rows.length * rowHeight);
+        ctx.moveTo(centerStemX + 30, startY - 24);
+        ctx.lineTo(centerStemX + 30, startY + rows.length * rowHeight);
+        ctx.stroke();
+
+        rows.forEach((row, idx) => {
+          const y = startY + idx * rowHeight + 16;
+          const leftText = [...row.leaves2].reverse().join('  ');
+          const stemText = row.stemLabel + (row.subStem ? (row.subStem === '0-4' ? '*' : '.') : '');
+          const rightText = row.leaves1.join('  ');
+
+          ctx.fillStyle = '#8b5cf6';
+          ctx.textAlign = 'right';
+          ctx.fillText(leftText, centerStemX - 45, y);
+
+          ctx.fillStyle = '#00d4aa';
+          ctx.textAlign = 'center';
+          ctx.fillText(stemText, centerStemX, y);
+
+          ctx.fillStyle = '#e8eef4';
+          ctx.textAlign = 'left';
+          ctx.fillText(rightText, centerStemX + 45, y);
+        });
+      } else {
+        const stemX = 220;
+        ctx.fillStyle = '#00d4aa';
+        ctx.textAlign = 'right';
+        ctx.fillText('Stem', stemX - 20, startY - 12);
+
+        ctx.fillStyle = '#e8eef4';
+        ctx.textAlign = 'left';
+        ctx.fillText('Leaf', stemX + 20, startY - 12);
+
+        ctx.strokeStyle = '#243040';
+        ctx.beginPath();
+        ctx.moveTo(stemX, startY - 24);
+        ctx.lineTo(stemX, startY + rows.length * rowHeight);
+        ctx.stroke();
+
+        rows.forEach((row, idx) => {
+          const y = startY + idx * rowHeight + 16;
+          const stemText = row.stemLabel + (row.subStem ? (row.subStem === '0-4' ? '*' : '.') : '');
+          const rightText = row.leaves1.join('  ');
+
+          ctx.fillStyle = '#00d4aa';
+          ctx.textAlign = 'right';
+          ctx.fillText(stemText, stemX - 20, y);
+
+          ctx.fillStyle = '#e8eef4';
+          ctx.textAlign = 'left';
+          ctx.fillText(rightText, stemX + 20, y);
+        });
+      }
+
+      // Footer Box
+      const footerY = totalHeight - 40;
+      ctx.strokeStyle = '#243040';
+      ctx.beginPath();
+      ctx.moveTo(40, footerY - 15);
+      ctx.lineTo(totalWidth - 40, footerY - 15);
+      ctx.stroke();
+
+      ctx.fillStyle = '#00d4aa';
+      ctx.textAlign = 'left';
+      ctx.font = '12px "IBM Plex Mono", monospace';
+      ctx.fillText(keyText, 50, footerY + 8);
+
+      ctx.fillStyle = '#6b7d8f';
+      ctx.textAlign = 'right';
+      ctx.fillText(unitText, totalWidth - 50, footerY + 8);
+
+      return canvas;
+    }
+
+    // 3. Export PNG
+    window.stemExportPNG = function() {
+      const canvas = stemRenderToCanvas();
+      if (!canvas) return;
+      const link = document.createElement('a');
+      link.download = 'stem-and-leaf-plot.png';
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+      stemShowToast('Downloaded high-resolution PNG');
+    };
+
+    // 4. Export SVG
+    window.stemExportSVG = function() {
+      const canvas = stemRenderToCanvas();
+      if (!canvas) return;
+      const w = 650;
+      const h = canvas.height / 2;
+      const dataUrl = canvas.toDataURL('image/png');
+
+      let svg = `<?xml version="1.0" encoding="UTF-8"?>\n`;
+      svg += `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}">\n`;
+      svg += `  <image href="${dataUrl}" width="${w}" height="${h}"/>\n`;
+      svg += `</svg>`;
+
+      const blob = new Blob([svg], { type: 'image/svg+xml;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'stem-and-leaf-plot.svg';
+      link.click();
+      URL.revokeObjectURL(url);
+      stemShowToast('Downloaded SVG vector file');
+    };
+
+    // 5. Copy Image to Clipboard
+    window.stemCopyImageToClipboard = async function() {
+      const canvas = stemRenderToCanvas();
+      if (!canvas) return;
+      try {
+        canvas.toBlob(async function(blob) {
+          if (!blob) return;
+          if (navigator.clipboard && window.ClipboardItem) {
+            await navigator.clipboard.write([
+              new ClipboardItem({ 'image/png': blob })
+            ]);
+            stemShowToast('Copied chart image to clipboard!');
+          } else {
+            stemExportPNG();
+          }
+        }, 'image/png');
+      } catch (err) {
+        stemExportPNG();
+      }
+    };
+
+    // 6. Print Dialog
+    window.stemPrintDialog = function() {
+      const canvas = stemRenderToCanvas();
+      if (!canvas) return;
+      const dataUrl = canvas.toDataURL('image/png');
+      const title = document.getElementById('stem-chart-title').value || 'Stem-and-Leaf Plot';
+      const keyText = document.getElementById('stem-legend-key').textContent;
+
+      const printWin = window.open('', '_blank');
+      if (printWin) {
+        printWin.document.write(`
+          <!DOCTYPE html>
+          <html>
+            <head>
+              <title>${title} - Worksheet Print</title>
+              <style>
+                @page { size: portrait; margin: 1.5cm; }
+                body { font-family: system-ui, sans-serif; background: #fff; color: #111; margin: 0; padding: 20px; text-align: center; }
+                h1 { font-size: 22px; margin-bottom: 6px; }
+                p.caption { color: #555; font-size: 13px; margin-top: 0; margin-bottom: 20px; }
+                img { max-width: 100%; border: 1px solid #ccc; border-radius: 6px; }
+                .footer { margin-top: 24px; font-size: 11px; color: #777; border-top: 1px solid #eee; padding-top: 10px; }
+              </style>
+            </head>
+            <body>
+              <div style="font-size: 24px; font-weight: 700; margin-bottom: 6px;">${title}</div>
+              <p class="caption">${keyText}</p>
+              <img src="${dataUrl}" alt="Stem-and-Leaf Plot" />
+              <div class="footer">Created free at DotPlotMaker.com/stem-and-leaf-plot-maker/ · Educational Worksheet Material</div>
+              <script>
+                window.onload = function() { window.print(); };
+              <\/script>
+            </body>
+          </html>
+        `);
+        printWin.document.close();
+        stemShowToast('Opened print dialog');
+      } else {
+        stemExportPNG();
+      }
+    };
+
+    function stemShowToast(msg) {
+      const toast = document.getElementById('stem-toast');
+      if (!toast) return;
+      toast.textContent = msg;
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 2400);
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', stemInit);
+    } else {
+      setTimeout(stemInit, 50);
+    }
+  </script>
+</section>

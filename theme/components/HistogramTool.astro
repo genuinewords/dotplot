@@ -1663,7 +1663,7 @@ const { locale = defaultLocale } = Astro.props;
               </style>
             </head>
             <body>
-              <h1>${histEscapeXML(histState.title)}</h1>
+              <div style="font-size: 22px; font-weight: 700; margin-bottom: 6px;">${histEscapeXML(histState.title)}</div>
               <p class="caption">${document.getElementById('hist-chart-caption').textContent}</p>
               <img src="${dataUrl}" alt="Histogram Chart" />
               <div class="footer">Generated free at DotPlotMaker.com/histogram-maker/ · Client-side privacy guaranteed</div>

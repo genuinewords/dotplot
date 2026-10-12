@@ -1,0 +1,87 @@
+---
+import siteConfig from "@src/config/site.json";
+
+interface Props {
+  faqs: { question: string; answer: string }[];
+}
+
+const { faqs } = Astro.props;
+
+const softwareAppSchema = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  name: "Free Stem-and-Leaf Plot Maker",
+  applicationCategory: "WebApplication",
+  operatingSystem: "Web",
+  url: `${siteConfig.siteUrl}/stem-and-leaf-plot-maker/`,
+  description: "Free online stem-and-leaf plot maker with back-to-back comparison, split stems, custom leaf units, live statistics, and plain text worksheet export.",
+  offers: {
+    "@type": "Offer",
+    price: "0",
+    priceCurrency: "USD",
+    description: "100% free to use — no signup required",
+  },
+  featureList: [
+    "Interactive stem-and-leaf plot generation from raw text or CSV files",
+    "Back-to-back stem-and-leaf comparison mode for two datasets",
+    "Split stems toggle (0-4 and 5-9) for finer distribution views",
+    "Include empty stems toggle for true gap representation",
+    "Configurable leaf units (integers, tenths, hundredths, tens)",
+    "Auto-generated mathematical key and legend",
+    "Live statistics: Count, Mean, Median, Mode, Range, and Min/Max",
+    "One-click copy as plain text monospace table for teachers and worksheets",
+    "Export high-resolution PNG, vector SVG, and print-friendly PDF views",
+    "100% client-side data privacy — no data ever transmitted to servers",
+  ].join("\n"),
+  screenshot: `${siteConfig.siteUrl}${siteConfig.metaImage}`,
+  author: {
+    "@type": "Organization",
+    name: siteConfig.legalName,
+    url: siteConfig.siteUrl,
+  },
+};
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqs.map((faq) => ({
+    "@type": "Question",
+    name: faq.question,
+    acceptedAnswer: {
+      "@type": "Answer",
+      text: faq.answer,
+    },
+  })),
+};
+
+const howToSchema = {
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  name: "How to Make a Stem-and-Leaf Plot Online in 3 Steps",
+  description: "Create an accurate, publication-grade stem-and-leaf display in three simple steps: enter your data, configure display options, and export your chart.",
+  step: [
+    {
+      "@type": "HowToStep",
+      name: "Step 1: Enter or Upload Your Data",
+      text: "Paste single or dual datasets separated by commas, spaces, or lines, or upload a CSV file directly. You can also click our sample presets to start instantly.",
+      url: `${siteConfig.siteUrl}/stem-and-leaf-plot-maker/#step-1`,
+    },
+    {
+      "@type": "HowToStep",
+      name: "Step 2: Choose Plot Options",
+      text: "Toggle split stems (0-4 and 5-9), enable back-to-back dual comparison, toggle empty stems, sort leaves, and select the appropriate leaf unit for decimals.",
+      url: `${siteConfig.siteUrl}/stem-and-leaf-plot-maker/#step-2`,
+    },
+    {
+      "@type": "HowToStep",
+      name: "Step 3: Copy or Export Worksheet Graphics",
+      text: "Copy the clean monospace plain-text table directly into Word or Google Docs, or download publication-ready PNG, vector SVG, or print-ready PDF files.",
+      url: `${siteConfig.siteUrl}/stem-and-leaf-plot-maker/#step-3`,
+    },
+  ],
+};
+---
+
+<script is:inline type="application/ld+json" set:html={JSON.stringify(softwareAppSchema)} />
+<script is:inline type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+<script is:inline type="application/ld+json" set:html={JSON.stringify(howToSchema)} />
