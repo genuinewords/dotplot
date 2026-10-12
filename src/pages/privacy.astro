@@ -1,45 +1,307 @@
 ---
 import BaseLayout from "@theme/layouts/BaseLayout.astro";
 import { defaultLocale } from "@src/i18n/config";
-import { t, getTranslations } from "@src/i18n/utils";
 
 const locale = defaultLocale;
-const trans = getTranslations(locale);
-const sections = trans.privacy?.content || [];
+const effectiveDate = "October 12, 2026";
+const lastUpdated = "October 12, 2026";
 ---
 
-<BaseLayout locale={locale} title={t(locale, "privacy.title")} description={t(locale, "privacy.intro")}>
+<BaseLayout
+  locale={locale}
+  title="Privacy Policy - Dot Plot Maker®"
+  description="Privacy Policy for Dot Plot Maker®. Learn how we protect student and visitor privacy with 100% client-side data processing and transparent advertising disclosures."
+>
   <div class="page-content">
     <div class="page-header animate-fade-in-up" style="opacity: 0;">
-      <h1>{t(locale, "privacy.title")}</h1>
-      <p>{t(locale, "privacy.intro")}</p>
+      <div class="badge" style="margin-bottom: 0.75rem;">Legal & Privacy</div>
+      <h1>Privacy Policy</h1>
+      <p>Clear, honest, and comprehensive disclosures about how Dot Plot Maker® handles data, cookies, and advertising.</p>
+      <div class="policy-meta">
+        <span><strong>Effective Date:</strong> {effectiveDate}</span>
+        <span class="meta-divider">•</span>
+        <span><strong>Last Updated:</strong> {lastUpdated}</span>
+      </div>
     </div>
 
-    <div class="legal-content">
-      {sections.map((section: { heading: string; text: string }) => (
-        <section class="legal-section">
-          <h2>{section.heading}</h2>
-          <p>{section.text}</p>
-        </section>
-      ))}
+    <div class="legal-container">
+      <!-- 1. Introduction -->
+      <section class="legal-card glass-card">
+        <h2>1. Overview & Commitment to Privacy</h2>
+        <p>
+          Dot Plot Maker® ("we," "our," or "the website"), accessible at <a href="https://www.dotplotmaker.com">dotplotmaker.com</a>, provides free browser-based statistical visualization tools and educational resources. We take the privacy of our visitors—especially students, educators, and academic researchers—extremely seriously.
+        </p>
+        <p>
+          This Privacy Policy explains how information is handled when you visit our website, use our statistical chart generators (Dot Plot Maker, Histogram Maker, Box Plot Maker, Stem-and-Leaf Plot Maker, Outlier Calculator, Worksheet Generators), or contact us.
+        </p>
+      </section>
+
+      <!-- 2. Data from Tools: 100% Client-Side -->
+      <section class="legal-card glass-card client-side-card">
+        <div class="card-badge">Core Privacy Guarantee</div>
+        <h2>2. Data Entered into Visualization Tools (100% Client-Side)</h2>
+        <p>
+          All statistical data entered, pasted, imported via CSV, or uploaded into any tool on Dot Plot Maker® is processed <strong>strictly and entirely within your own web browser</strong> using client-side JavaScript.
+        </p>
+        <ul class="policy-list">
+          <li><strong>Zero Server Transmission:</strong> Your numerical data points, labels, titles, sample scores, and uploaded files are never transmitted to our web servers or any external third-party server.</li>
+          <li><strong>Zero Data Storage:</strong> We do not log, record, store, or database any datasets entered into our tools.</li>
+          <li><strong>Instant Destruction:</strong> As soon as you refresh or close your browser tab, your data is completely purged from your device's memory.</li>
+          <li><strong>No Accounts Required:</strong> We do not require account registration, passwords, or login credentials to access any feature of our website.</li>
+        </ul>
+      </section>
+
+      <!-- 3. Advertising & Google AdSense Disclosures -->
+      <section class="legal-card glass-card">
+        <h2>3. Advertising & Google AdSense</h2>
+        <p>
+          To maintain Dot Plot Maker® as a completely free resource for students and teachers worldwide, we display advertisements provided by <strong>Google AdSense</strong>.
+        </p>
+        <p>
+          Google AdSense is a third-party advertising service provided by Google LLC. Please review how advertising data is handled:
+        </p>
+        <ul class="policy-list">
+          <li>
+            <strong>Use of Cookies:</strong> Third-party vendors, including Google, use cookies to serve advertisements based on a user's prior visits to this website or other websites on the Internet.
+          </li>
+          <li>
+            <strong>DoubleClick Cookie:</strong> Google's use of advertising cookies (including the DoubleClick cookie) enables it and its partners to serve targeted, interest-based advertisements to users based on their browsing patterns across the web.
+          </li>
+          <li>
+            <strong>Opting Out of Personalized Ads:</strong> You have the right to opt out of personalized advertising at any time. You can disable personalized ads by visiting <a href="https://adssettings.google.com" target="_blank" rel="noopener noreferrer">Google Ads Settings</a>.
+          </li>
+          <li>
+            <strong>Third-Party Vendor Opt-Out:</strong> You can also opt out of participating third-party vendors' cookies for interest-based advertising by visiting the Digital Advertising Alliance Consumer Choice page at <a href="https://www.aboutads.info/choices/" target="_blank" rel="noopener noreferrer">aboutads.info/choices</a> or the Network Advertising Initiative opt-out page at <a href="https://optout.networkadvertising.org/" target="_blank" rel="noopener noreferrer">optout.networkadvertising.org</a>.
+          </li>
+          <li>
+            <strong>How Google Uses Data:</strong> For more detailed information on how Google collects and processes data when you use partner sites, please read <a href="https://policies.google.com/technologies/partner-sites" target="_blank" rel="noopener noreferrer">How Google uses information from sites or apps that use our services</a>.
+          </li>
+        </ul>
+      </section>
+
+      <!-- 4. Actual Analytics & Tracking Disclosures -->
+      <section class="legal-card glass-card">
+        <h2>4. Analytics, Web Hosting, & Search Console Disclosures</h2>
+        <p>
+          We believe in complete transparency about what tracking technologies are and are not present on our website:
+        </p>
+        <ul class="policy-list">
+          <li>
+            <strong>No Google Analytics:</strong> We do not currently run Google Analytics (GA4/Universal Analytics), Google Tag Manager, or third-party session recording scripts on Dot Plot Maker®.
+          </li>
+          <li>
+            <strong>Search Engine Webmaster Verification:</strong> Our website contains standard meta tag verification codes for search engines (Google Search Console, Microsoft Bing Webmaster Tools, and Yandex Webmaster). These verification tags only confirm website ownership with search engine crawlers and do not collect, track, or transmit any personal data about visitors.
+          </li>
+          <li>
+            <strong>Standard Web Server Hosting Logs:</strong> Dot Plot Maker® is hosted on the Vercel infrastructure. Like virtually all web hosts, Vercel servers automatically collect standard technical access log data. This includes IP addresses, browser user-agent strings, referring URLs, request timestamps, and HTTP response codes. These server logs are collected solely for system security, DDoS mitigation, and network reliability, and are never joined with user identities.
+          </li>
+        </ul>
+      </section>
+
+      <!-- 5. Cookies & Local Storage -->
+      <section class="legal-card glass-card">
+        <h2>5. Cookies & Local Storage</h2>
+        <p>
+          Cookies are small text files placed on your computer or mobile device when you visit a website. Here is how cookies and storage are utilized on Dot Plot Maker®:
+        </p>
+        <ul class="policy-list">
+          <li>
+            <strong>First-Party Technical Storage:</strong> We do not set persistent tracking cookies. Our chart tools utilize standard browser in-memory state so that your charts update instantly as you edit numbers.
+          </li>
+          <li>
+            <strong>Third-Party Advertising Cookies:</strong> As detailed in Section 3, Google AdSense and its advertising partners set third-party cookies to deliver, measure, and personalize ads, prevent ad fraud, and cap ad repetition.
+          </li>
+          <li>
+            <strong>Managing Cookies in Your Browser:</strong> Most web browsers allow you to control or block cookies through their browser settings. Note that disabling cookies will not affect your ability to generate and download charts on Dot Plot Maker®.
+          </li>
+        </ul>
+      </section>
+
+      <!-- 6. Children's Online Privacy Protection -->
+      <section class="legal-card glass-card classroom-card">
+        <div class="card-badge">COPPA Compliance</div>
+        <h2>6. Children's Privacy (COPPA & Educational Use)</h2>
+        <p>
+          Dot Plot Maker® is frequently utilized in elementary, middle, and high school classrooms as an instructional aid for mathematics and statistics curricula (including Common Core standards and AP Statistics).
+        </p>
+        <ul class="policy-list">
+          <li>
+            <strong>No Personal Information Collected:</strong> We do not knowingly collect, request, or solicit personally identifiable information from children under the age of 13 (or under 16 in applicable jurisdictions).
+          </li>
+          <li>
+            <strong>No Student Accounts:</strong> Students can access every tool, generate dot plots, construct histograms, build box plots, and print worksheets entirely without providing a name, email address, school affiliation, or any form of identification.
+          </li>
+          <li>
+            <strong>Parent / Teacher Inquiries:</strong> If you are a parent, guardian, or educator and believe a child has contacted us and provided personal information via email without consent, please contact us at <a href="mailto:contact@dotplotmaker.com">contact@dotplotmaker.com</a>. We will promptly delete that communication from our email records.
+          </li>
+        </ul>
+      </section>
+
+      <!-- 7. Communications via Contact Form or Email -->
+      <section class="legal-card glass-card">
+        <h2>7. Contact Inquiries & Email Communications</h2>
+        <p>
+          If you choose to contact us directly via email at <code>contact@dotplotmaker.com</code> or using our website contact form, we collect only the information you voluntarily provide (such as your name, email address, and the contents of your message).
+        </p>
+        <p>
+          We use this information exclusively to respond to your inquiry, troubleshoot reported bugs, or provide educational support. We do not sell, rent, or add your email address to marketing mailing lists.
+        </p>
+      </section>
+
+      <!-- 8. Third-Party Links -->
+      <section class="legal-card glass-card">
+        <h2>8. External Links</h2>
+        <p>
+          Our educational blog articles and guides may contain links to external educational resources (such as the College Board, Wikipedia, or statistical references). We are not responsible for the privacy practices, content, or policies of external websites. We encourage you to review the privacy policies of any third-party websites you visit.
+        </p>
+      </section>
+
+      <!-- 9. Changes to This Privacy Policy -->
+      <section class="legal-card glass-card">
+        <h2>9. Updates to This Policy</h2>
+        <p>
+          We may update this Privacy Policy periodically to reflect changes in our practices, applicable laws, or regulatory guidance. Any modifications will be posted directly to this page with an updated "Effective Date" and "Last Updated" timestamp at the top of the policy.
+        </p>
+      </section>
+
+      <!-- 10. Contact Information -->
+      <section class="legal-card glass-card contact-box">
+        <h2>10. Contact Us Regarding Privacy</h2>
+        <p>
+          If you have any questions, concerns, or requests regarding this Privacy Policy or our data practices, please reach out to us:
+        </p>
+        <div class="contact-info-block">
+          <p><strong>Website:</strong> Dot Plot Maker® (<a href="https://www.dotplotmaker.com">dotplotmaker.com</a>)</p>
+          <p><strong>Privacy Contact Email:</strong> <a href="mailto:contact@dotplotmaker.com">contact@dotplotmaker.com</a></p>
+          <p><strong>Contact Page:</strong> <a href="/contact/">dotplotmaker.com/contact/</a></p>
+        </div>
+      </section>
     </div>
   </div>
 </BaseLayout>
 
 <style>
-  .legal-content {
-    max-width: 800px;
+  .policy-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.92rem;
+    color: var(--color-text-muted);
+    margin-top: 1rem;
+    flex-wrap: wrap;
+  }
+  .meta-divider {
+    color: var(--color-border);
+  }
+  .legal-container {
+    max-width: 860px;
     display: flex;
     flex-direction: column;
-    gap: 2rem;
+    gap: 1.75rem;
   }
-  .legal-section h2 {
-    font-size: 1.3rem;
-    margin-bottom: 0.75rem;
+  .legal-card {
+    padding: 2.25rem;
+  }
+  .legal-card:hover {
+    transform: none;
+  }
+  .legal-card h2 {
+    font-size: 1.35rem;
+    margin-bottom: 1rem;
     color: var(--color-text-primary);
   }
-  .legal-section p {
+  .legal-card p {
     color: var(--color-text-secondary);
     line-height: 1.8;
+    margin-bottom: 1rem;
+    font-size: 0.98rem;
+  }
+  .legal-card p:last-child {
+    margin-bottom: 0;
+  }
+  .card-badge {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 0.25rem 0.65rem;
+    border-radius: 6px;
+    background: rgba(0, 212, 170, 0.15);
+    color: var(--color-primary);
+    margin-bottom: 0.75rem;
+  }
+  .client-side-card {
+    border-color: rgba(0, 212, 170, 0.3);
+    background: rgba(0, 212, 170, 0.03);
+  }
+  .client-side-card h2 {
+    color: var(--color-primary);
+  }
+  .classroom-card {
+    border-color: rgba(139, 92, 246, 0.3);
+    background: rgba(139, 92, 246, 0.03);
+  }
+  .classroom-card .card-badge {
+    background: rgba(139, 92, 246, 0.15);
+    color: var(--color-accent-light);
+  }
+  .classroom-card h2 {
+    color: var(--color-accent-light);
+  }
+  .policy-list {
+    list-style: none;
+    padding: 0;
+    margin: 1rem 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+  }
+  .policy-list li {
+    padding-left: 1.5rem;
+    position: relative;
+    color: var(--color-text-secondary);
+    line-height: 1.75;
+    font-size: 0.96rem;
+  }
+  .policy-list li::before {
+    content: "•";
+    position: absolute;
+    left: 0.25rem;
+    color: var(--color-primary);
+    font-size: 1.25rem;
+    line-height: 1.4;
+  }
+  .policy-list strong {
+    color: var(--color-text-primary);
+  }
+  .contact-box {
+    background: rgba(255, 255, 255, 0.03);
+  }
+  .contact-info-block {
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+    padding: 1.25rem 1.5rem;
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .contact-info-block p {
+    margin-bottom: 0;
+    font-size: 0.95rem;
+  }
+  code {
+    background: rgba(255, 255, 255, 0.08);
+    padding: 0.2rem 0.45rem;
+    border-radius: 4px;
+    font-family: var(--font-mono);
+    font-size: 0.9em;
+  }
+  @media (max-width: 640px) {
+    .legal-card {
+      padding: 1.5rem;
+    }
   }
 </style>

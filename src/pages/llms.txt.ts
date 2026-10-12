@@ -10,7 +10,7 @@ Dot Plot Maker® is a free online tool for creating dot plot visualizations from
 
 ## Contact
 - Email: ${siteConfig.contactEmail}
-- Website: ${siteConfig.siteUrl}/contact-us/
+- Website: ${siteConfig.siteUrl}/contact/
 
 ## Sitemap
 ${siteConfig.siteUrl}/sitemap-index.xml

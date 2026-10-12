@@ -139,7 +139,7 @@
   ],
   "about": {
     "title": "About Dot Plot Maker®",
-    "intro": "Dot Plot Maker® is a free online tool that makes data visualization accessible to everyone. Create beautiful dot plots in seconds.",
+    "intro": "Dot Plot Maker® is a free online tool suite that makes statistical visualization accessible to everyone. Create beautiful, publication-grade dot plots, histograms, box plots, and stem-and-leaf displays in seconds.",
     "missionTitle": "Our Mission",
     "missionText": "We believe data visualization should be simple, free, and accessible. Our mission is to provide high-quality statistical visualization tools that anyone can use without specialized software, coding knowledge, or expensive subscriptions.",
     "whyTitle": "Why Dot Plot Maker®?",
@@ -149,14 +149,14 @@
       "All processing happens client-side — your data never leaves your browser",
       "Export directly to infinitely scalable SVG vector formats",
       "Download as high-dpi PNG for immediate presentation use",
-      "Fully responsive architecture works beautifully on desktop and tablet"
+      "Fully responsive architecture works beautifully on desktop, tablet, and mobile"
     ],
     "techTitle": "Technology",
-    "techText": "Dot Plot Maker® is built with modern web technologies to ensure fast performance and reliability. The dot plot rendering engine uses SVG for crisp, scalable graphics at any resolution. The entire application runs client-side, meaning your data never leaves your device."
+    "techText": "Dot Plot Maker® is built with modern web technologies to ensure fast performance and reliability. The rendering engines use SVG and Canvas for crisp, scalable graphics at any resolution. The entire application runs client-side, meaning your data never leaves your device."
   },
   "contact": {
     "title": "Contact Us",
-    "intro": "Have a question, suggestion, or found a bug? We would love to hear from you. Fill out the form below and we will get back to you as soon as possible.",
+    "intro": "Have a question, suggestion, or found a bug? We would love to hear from you. Reach out to our team directly at contact@dotplotmaker.com.",
     "nameLabel": "Your Name",
     "namePlaceholder": "Enter your name",
     "emailLabel": "Your Email",
@@ -164,10 +164,10 @@
     "messageLabel": "Message",
     "messagePlaceholder": "Tell us what's on your mind...",
     "submit": "Send Message",
-    "sending": "Sending...",
-    "success": "Thank you! Your message has been sent successfully. We will get back to you soon.",
-    "error": "Something went wrong. Please try again later.",
-    "networkError": "Network error. Please check your connection and try again.",
+    "sending": "Opening email client...",
+    "success": "Your message is ready in your email client. Thank you for reaching out!",
+    "error": "Something went wrong. Please email us directly at contact@dotplotmaker.com.",
+    "networkError": "Please email us directly at contact@dotplotmaker.com.",
     "fallback": "You can also reach us directly at"
   },
   "terms": {
@@ -180,19 +180,19 @@
       },
       {
         "heading": "Description of Service",
-        "text": "Dot Plot Maker® provides a free online tool for creating dot plot visualizations from numerical data. The service is provided as-is and is available for personal, educational, and commercial use."
+        "text": "Dot Plot Maker® provides free online tools for creating statistical visualizations (dot plots, histograms, box plots, stem-and-leaf plots) and worksheets from numerical data. The service is provided as-is and is available for personal, educational, and commercial use."
       },
       {
         "heading": "User Responsibilities",
-        "text": "You are responsible for the data you input into the tool. Do not input sensitive, confidential, or personally identifiable information. While all data processing occurs client-side in your browser, you use the service at your own risk."
+        "text": "You are responsible for the data and parameters you input into the tools. While all calculations occur client-side in your browser, users should verify statistical outputs before relying on them for critical assessments or publications."
       },
       {
-        "heading": "Intellectual Property",
-        "text": "The dot plots you create using our tool are yours to use as you see fit. The website design, code, branding, and content of DotPlotMaker.com remain the intellectual property of its owners."
+        "heading": "Ownership & Intellectual Property",
+        "text": "The charts and visualizations you create using our tools are yours to use, publish, and distribute as you see fit. The website design, code, branding, and proprietary educational guides remain the intellectual property of DotPlotMaker.com."
       },
       {
         "heading": "Limitation of Liability",
-        "text": "Dot Plot Maker® is provided without warranty of any kind. We are not liable for any damages arising from the use or inability to use our service, including but not limited to data loss, inaccurate visualizations, or service interruptions."
+        "text": "Dot Plot Maker® is provided without warranty of any kind. We are not liable for any damages arising from the use or inability to use our service, including but not limited to data loss or service interruptions."
       },
       {
         "heading": "Changes to Terms",
@@ -202,35 +202,27 @@
   },
   "privacy": {
     "title": "Privacy Policy",
-    "intro": "Your privacy is important to us. This Privacy Policy explains how Dot Plot Maker® handles your information.",
+    "intro": "Your privacy is important to us. This Privacy Policy explains how Dot Plot Maker® handles your information with 100% client-side data processing and transparent advertising disclosures.",
     "content": [
       {
-        "heading": "Data Collection",
-        "text": "Dot Plot Maker® does not collect, store, or transmit the data you enter into the dot plot tool. All data processing occurs entirely within your web browser using client-side JavaScript."
+        "heading": "Data Collection & Client-Side Processing",
+        "text": "Dot Plot Maker® does not collect, store, or transmit the data you enter into any chart or worksheet tool. All data processing occurs entirely within your web browser using client-side JavaScript."
       },
       {
-        "heading": "Analytics",
-        "text": "We may use privacy-respecting analytics tools to understand how visitors use our website. This may include anonymous data such as page views, browser type, and general geographic region. No personally identifiable information is collected through analytics."
+        "heading": "Advertising (Google AdSense)",
+        "text": "We display advertisements served by Google AdSense. Google and third-party vendors use cookies (including the DoubleClick cookie) to serve ads based on prior visits. Users can opt out of personalized advertising via Google Ads Settings."
       },
       {
-        "heading": "Cookies",
-        "text": "Our website may use essential cookies for basic functionality such as remembering your preferences. We do not use tracking cookies or share data with third-party advertisers."
+        "heading": "Analytics & Hosting",
+        "text": "We do not run Google Analytics on this site. Standard non-identifiable web server access logs are collected by our hosting provider (Vercel) solely for security and performance."
       },
       {
-        "heading": "Contact Form",
-        "text": "If you use our contact form, the information you provide (name, email, message) is sent to our email via a third-party form service (Web3Forms). This data is used solely to respond to your inquiry and is not stored beyond what is necessary."
+        "heading": "Children's Privacy (COPPA)",
+        "text": "Our tools are free and accessible to students of all ages without registration, accounts, or collection of personal information. We do not knowingly collect personal data from children under 13."
       },
       {
-        "heading": "Third-Party Links",
-        "text": "Our website may contain links to external sites. We are not responsible for the privacy practices of these third-party websites."
-      },
-      {
-        "heading": "Changes to This Policy",
-        "text": "We may update this Privacy Policy from time to time. Any changes will be posted on this page with an updated revision date."
-      },
-      {
-        "heading": "Contact",
-        "text": "If you have questions about this Privacy Policy, please contact us through our contact page or email us at contact@dotplotmaker.com."
+        "heading": "Contact for Privacy Inquiries",
+        "text": "For questions about this Privacy Policy, please contact us directly at contact@dotplotmaker.com."
       }
     ]
   },

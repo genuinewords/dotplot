@@ -2,21 +2,21 @@
 import BaseLayout from "@theme/layouts/BaseLayout.astro";
 import ContactForm from "@theme/components/ContactForm.astro";
 import { defaultLocale } from "@src/i18n/config";
-import { t } from "@src/i18n/utils";
 
 const locale = defaultLocale;
 ---
 
 <BaseLayout
   locale={locale}
-  title={t(locale, "contact.title")}
-  description={t(locale, "contact.intro")}
+  title="Contact Us - Dot Plot Maker®"
+  description="Get in touch with the Dot Plot Maker® team for questions, feedback, bug reports, and educational inquiries."
   pageType="contact"
 >
   <div class="page-content">
     <div class="page-header animate-fade-in-up" style="opacity: 0;">
-      <h1>{t(locale, "contact.title")}</h1>
-      <p>{t(locale, "contact.intro")}</p>
+      <div class="badge" style="margin-bottom: 0.75rem;">Get in Touch</div>
+      <h1>Contact Us</h1>
+      <p>Have a question about our statistics tools, found a bug, or need help with a classroom worksheet? We'd love to hear from you.</p>
     </div>
 
     <ContactForm locale={locale} />

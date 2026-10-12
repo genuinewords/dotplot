@@ -1,0 +1,228 @@
+---
+import BaseLayout from "@theme/layouts/BaseLayout.astro";
+import { defaultLocale } from "@src/i18n/config";
+
+const locale = defaultLocale;
+---
+
+<BaseLayout
+  locale={locale}
+  title="About Dot Plot Maker®"
+  description="Dot Plot Maker® provides free, private, browser-based statistics visualization tools and worksheet generators for students, teachers, and researchers."
+  pageType="about"
+>
+  <div class="page-content">
+    <div class="page-header animate-fade-in-up" style="opacity: 0;">
+      <div class="badge" style="margin-bottom: 0.75rem;">About Us</div>
+      <h1>About Dot Plot Maker®</h1>
+      <p>Free, accessible, and privacy-respecting statistical charts built for classrooms, research, and data storytelling.</p>
+    </div>
+
+    <div class="about-container">
+      <!-- Main Story Section -->
+      <section class="about-card glass-card">
+        <h2>What Dot Plot Maker® Is</h2>
+        <p>
+          Dot Plot Maker® is a specialized educational web platform offering a full suite of free, interactive statistics visualization tools. Our platform enables students, educators, and analysts to instantly create publication-quality statistical charts—including univariate dot plots, comparative grouped strip charts, histograms with customizable bin widths, box plots with automated 1.5×IQR Tukey outlier detection, and stem-and-leaf displays. We also provide printable classroom worksheet generators with live-computed answer keys to support interactive mathematics instruction.
+        </p>
+        <p>
+          Unlike complex, generic graphing calculators or enterprise business intelligence software that require steep learning curves, software installations, or expensive yearly subscriptions, Dot Plot Maker® is designed specifically for statistical understanding. Every chart tool emphasizes direct data inspection, allowing learners and researchers to see how individual raw observations shape broader distribution characteristics—such as center, shape, spread, clusters, gaps, and outliers.
+        </p>
+      </section>
+
+      <!-- Purpose & Audience -->
+      <section class="about-card glass-card">
+        <h2>Who It's For & Why It Exists</h2>
+        <p>
+          Dot Plot Maker® was created to solve a persistent classroom and research challenge: creating clean, mathematically accurate distribution charts should not require writing code in R or Python, nor should it require wrestling with unintuitive spreadsheet chart wizards.
+        </p>
+        <p>
+          Our platform serves three primary audiences:
+        </p>
+        <div class="audience-grid">
+          <div class="audience-item">
+            <h3>Students (Middle School to College)</h3>
+            <p>
+              From 6th-grade introductory data units to AP Statistics and undergraduate introductory statistics, students use our tools to visualize homework problems, explore five-number summaries, and verify distribution shapes with immediate visual feedback.
+            </p>
+          </div>
+          <div class="audience-item">
+            <h3>Educators & Instructors</h3>
+            <p>
+              Teachers utilize Dot Plot Maker® to generate presentation-ready demonstration charts for lectures, build customized classroom handouts, and print random practice worksheets with paired teacher answer keys in seconds—saving hours of lesson prep time.
+            </p>
+          </div>
+          <div class="audience-item">
+            <h3>Researchers & Professionals</h3>
+            <p>
+              Academic researchers, scientists, and data communicators use our high-resolution export engine to produce publication-grade charts that preserve individual sample points rather than masking them behind opaque summary bars.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Credibility & Privacy -->
+      <section class="about-card glass-card privacy-highlight">
+        <div class="privacy-icon-box">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+        </div>
+        <div>
+          <h2>100% Client-Side Privacy Guarantee</h2>
+          <p>
+            We believe educational tools should never compromise student or researcher privacy. All statistical computations, data sorting, quartile determinations, and vector graphics rendering take place <strong>entirely within your web browser</strong> using client-side JavaScript.
+          </p>
+          <p>
+            When you paste raw numbers, import a CSV, or test experimental data on Dot Plot Maker®, <strong>no data is ever transmitted to our servers, stored in any database, or shared with third parties</strong>. Once you close or reload your browser tab, your data is gone from your device's memory. No user account, registration, or email address is ever required to use our tools.
+          </p>
+        </div>
+      </section>
+
+      <!-- Core Tools Overview -->
+      <section class="about-card glass-card">
+        <h2>Our Suite of Tools</h2>
+        <ul class="tools-list">
+          <li>
+            <strong>Dot Plot Maker:</strong> Generate classic Cleveland and stacked frequency dot plots with custom binning, point sizing, and dual-group comparisons.
+          </li>
+          <li>
+            <strong>Histogram Maker:</strong> Construct frequency and relative frequency histograms with customizable bin intervals, automatic Sturges/Freedman-Diaconis calculation, and frequency polygon overlays.
+          </li>
+          <li>
+            <strong>Box Plot Maker:</strong> Calculate minimum, Q1, median, Q3, and maximum values with automated Tukey outlier identification (1.5×IQR fences) and mean markers.
+          </li>
+          <li>
+            <strong>Stem-and-Leaf Plot Maker:</strong> Build single and back-to-back stem-and-leaf displays with automatic stem splitting and key generation.
+          </li>
+          <li>
+            <strong>Outlier Calculator:</strong> Compare Tukey fences with Z-score metrics to diagnose mild and extreme anomalies in any numerical dataset.
+          </li>
+          <li>
+            <strong>Statistics Worksheet Generator:</strong> Generate randomized, curriculum-aligned printable practice sheets complete with comprehensive teacher answer keys.
+          </li>
+        </ul>
+      </section>
+
+      <!-- Contact Callout -->
+      <section class="about-card glass-card contact-cta">
+        <h2>Questions or Feedback?</h2>
+        <p>
+          We continuously refine our tools based on feedback from math teachers, statistics professors, and students worldwide. If you notice a bug, have a feature suggestion, or want to share how you use Dot Plot Maker® in your classroom, please reach out via our <a href="/contact/">Contact Page</a> or email us directly at <a href="mailto:contact@dotplotmaker.com">contact@dotplotmaker.com</a>.
+        </p>
+      </section>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .about-container {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    max-width: 860px;
+  }
+  .about-card {
+    padding: 2.25rem;
+  }
+  .about-card:hover {
+    transform: none;
+  }
+  .about-card h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1.1rem;
+    color: var(--color-primary);
+  }
+  .about-card p {
+    color: var(--color-text-secondary);
+    line-height: 1.85;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+  }
+  .about-card p:last-child {
+    margin-bottom: 0;
+  }
+  .audience-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+    margin-top: 1.25rem;
+  }
+  @media (min-width: 640px) {
+    .audience-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  .audience-item {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 1.25rem;
+  }
+  .audience-item h3 {
+    font-size: 1.05rem;
+    color: var(--color-text-primary);
+    margin-bottom: 0.6rem;
+  }
+  .audience-item p {
+    font-size: 0.92rem;
+    line-height: 1.7;
+    margin-bottom: 0;
+  }
+  .privacy-highlight {
+    display: flex;
+    gap: 1.5rem;
+    align-items: flex-start;
+    border-color: rgba(0, 212, 170, 0.25);
+    background: rgba(0, 212, 170, 0.04);
+  }
+  .privacy-icon-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    border-radius: 14px;
+    background: rgba(0, 212, 170, 0.12);
+    color: var(--color-primary);
+    flex-shrink: 0;
+  }
+  .tools-list {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+  }
+  .tools-list li {
+    padding-left: 1.5rem;
+    position: relative;
+    color: var(--color-text-secondary);
+    line-height: 1.75;
+  }
+  .tools-list li::before {
+    content: "•";
+    position: absolute;
+    left: 0.25rem;
+    color: var(--color-primary);
+    font-size: 1.3rem;
+    line-height: 1.4;
+  }
+  .tools-list strong {
+    color: var(--color-text-primary);
+  }
+  .contact-cta {
+    background: rgba(139, 92, 246, 0.04);
+    border-color: rgba(139, 92, 246, 0.2);
+  }
+  .contact-cta h2 {
+    color: var(--color-accent-light);
+  }
+  @media (max-width: 640px) {
+    .about-card {
+      padding: 1.5rem;
+    }
+    .privacy-highlight {
+      flex-direction: column;
+      gap: 1rem;
+    }
+  }
+</style>

@@ -1,45 +1,257 @@
 ---
 import BaseLayout from "@theme/layouts/BaseLayout.astro";
 import { defaultLocale } from "@src/i18n/config";
-import { t, getTranslations } from "@src/i18n/utils";
 
 const locale = defaultLocale;
-const trans = getTranslations(locale);
-const sections = trans.terms?.content || [];
+const effectiveDate = "October 12, 2026";
+const lastUpdated = "October 12, 2026";
 ---
 
-<BaseLayout locale={locale} title={t(locale, "terms.title")} description={t(locale, "terms.intro")}>
+<BaseLayout
+  locale={locale}
+  title="Terms of Service - Dot Plot Maker®"
+  description="Terms of Service for Dot Plot Maker®. Clear, plain-English terms governing the free, educational use of our statistical chart tools."
+>
   <div class="page-content">
     <div class="page-header animate-fade-in-up" style="opacity: 0;">
-      <h1>{t(locale, "terms.title")}</h1>
-      <p>{t(locale, "terms.intro")}</p>
+      <div class="badge" style="margin-bottom: 0.75rem;">Terms & Conditions</div>
+      <h1>Terms of Service</h1>
+      <p>Plain-English terms governing your use of Dot Plot Maker® and our free statistics visualization tools.</p>
+      <div class="terms-meta">
+        <span><strong>Effective Date:</strong> {effectiveDate}</span>
+        <span class="meta-divider">•</span>
+        <span><strong>Last Updated:</strong> {lastUpdated}</span>
+      </div>
     </div>
 
-    <div class="legal-content">
-      {sections.map((section: { heading: string; text: string }) => (
-        <section class="legal-section">
-          <h2>{section.heading}</h2>
-          <p>{section.text}</p>
-        </section>
-      ))}
+    <div class="legal-container">
+      <!-- 1. Agreement to Terms -->
+      <section class="legal-card glass-card">
+        <h2>1. Agreement to Terms</h2>
+        <p>
+          By accessing or using Dot Plot Maker® (accessible at <a href="https://www.dotplotmaker.com">dotplotmaker.com</a>, including all chart generation tools, worksheet generators, guides, and related services), you agree to be bound by these Terms of Service.
+        </p>
+        <p>
+          If you do not agree with these terms, please do not access or use this website.
+        </p>
+      </section>
+
+      <!-- 2. Description of Free Educational Service -->
+      <section class="legal-card glass-card">
+        <h2>2. Description of Service & Free Educational Access</h2>
+        <p>
+          Dot Plot Maker® provides free, browser-based statistical visualization software and mathematics instructional aids—including our Dot Plot Maker, Histogram Maker, Box Plot Maker, Stem-and-Leaf Plot Maker, Outlier Calculator, and Worksheet Generators.
+        </p>
+        <ul class="terms-list">
+          <li><strong>No Paywalls or Subscriptions:</strong> All tools and worksheet generators are provided 100% free of charge for students, educators, academic researchers, and the general public.</li>
+          <li><strong>No Mandatory Account Creation:</strong> You are not required to create an account, register, or supply login credentials to use our tools.</li>
+          <li><strong>Educational Focus:</strong> Our tools are intended to assist in statistical learning, homework verification, classroom instruction, and exploratory data analysis.</li>
+        </ul>
+      </section>
+
+      <!-- 3. Client-Side Data & User Responsibilities -->
+      <section class="legal-card glass-card">
+        <h2>3. User Responsibilities & Statistical Results</h2>
+        <p>
+          All statistical charts generated on Dot Plot Maker® are calculated client-side in your web browser based solely on the numbers and labels you input.
+        </p>
+        <ul class="terms-list">
+          <li>
+            <strong>Accuracy of Input:</strong> You are solely responsible for the numerical values, labels, and parameters (such as bin widths, interval boundaries, and outlier methods) entered into the tools.
+          </li>
+          <li>
+            <strong>Verification for Critical Uses:</strong> While our calculations adhere strictly to standard statistical methodologies (including Tukey's 1.5×IQR outlier fences, standard quartiles, and Sturges' binning rules), statistical software should always be independently verified for high-stakes scientific publications, clinical trials, legal proceedings, or graded examinations.
+          </li>
+          <li>
+            <strong>Data Sensitivity:</strong> Because all tool processing occurs in your browser and is never stored on our servers, closing or refreshing your browser tab will delete your in-progress work. We advise users to save or export their charts (PNG/SVG) and worksheets before closing the tab.
+          </li>
+        </ul>
+      </section>
+
+      <!-- 4. Ownership of Generated Content -->
+      <section class="legal-card glass-card ownership-card">
+        <div class="card-badge">Full User Ownership</div>
+        <h2>4. Ownership of Your Charts & Data</h2>
+        <p>
+          <strong>You retain 100% full ownership, rights, and copyright to all charts, SVG graphics, PNG images, and worksheets you create using Dot Plot Maker®.</strong>
+        </p>
+        <p>
+          You are free to:
+        </p>
+        <ul class="terms-list">
+          <li>Include generated charts in academic research papers, theses, and dissertations.</li>
+          <li>Use charts in corporate presentations, business reports, and commercial publications.</li>
+          <li>Print, copy, and distribute generated worksheets and answer keys in your classroom or homeschooling group.</li>
+          <li>Share visualizations on social media, blogs, or video presentations.</li>
+        </ul>
+        <p>
+          Attribution to Dot Plot Maker® is never required (though always warmly appreciated).
+        </p>
+      </section>
+
+      <!-- 5. Intellectual Property of the Website -->
+      <section class="legal-card glass-card">
+        <h2>5. Website Intellectual Property</h2>
+        <p>
+          The Dot Plot Maker® website design, branding, logo, visual components, original articles, tutorials, source code, and user interface styling remain the intellectual property of Dot Plot Maker®.
+        </p>
+        <p>
+          You may not scrape our website to mirror the entire site, re-host our code under a deceptive brand, or reproduce our proprietary written articles and guides without explicit written permission.
+        </p>
+      </section>
+
+      <!-- 6. Acceptable Use -->
+      <section class="legal-card glass-card">
+        <h2>6. Acceptable Use Policy</h2>
+        <p>
+          To ensure reliable, high-performance access for all students and classrooms worldwide, you agree not to:
+        </p>
+        <ul class="terms-list">
+          <li>Attempt to disrupt, overload, or compromise the server infrastructure or bandwidth through denial-of-service (DDoS) attacks or malicious automated scripts.</li>
+          <li>Use the website for any unlawful, harassing, or fraudulent activity.</li>
+          <li>Circumvent or tamper with security headers, content security policies, or advertising systems.</li>
+        </ul>
+      </section>
+
+      <!-- 7. Disclaimer of Warranties & Limitation of Liability -->
+      <section class="legal-card glass-card">
+        <h2>7. Disclaimer of Warranties & Limitation of Liability</h2>
+        <p>
+          DOT PLOT MAKER® IS PROVIDED STRICTLY ON AN "AS-IS" AND "AS-AVAILABLE" BASIS, WITHOUT WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, OR NON-INFRINGEMENT.
+        </p>
+        <p>
+          IN NO EVENT SHALL DOT PLOT MAKER®, ITS CREATORS, OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES (INCLUDING LOSS OF DATA, INTERRUPTED LESSONS, OR INACCURATE STATISTICAL INTERPRETATIONS) ARISING FROM THE USE OF OR INABILITY TO USE OUR SERVICE.
+        </p>
+      </section>
+
+      <!-- 8. Modifications to Terms -->
+      <section class="legal-card glass-card">
+        <h2>8. Changes to These Terms</h2>
+        <p>
+          We reserve the right to revise or update these Terms of Service at any time. Any changes will become effective immediately upon posting to this page with an updated "Effective Date" and "Last Updated" timestamp. Your continued use of the website following changes constitutes acceptance of the modified terms.
+        </p>
+      </section>
+
+      <!-- 9. Contact -->
+      <section class="legal-card glass-card contact-box">
+        <h2>9. Contact Us Regarding Terms</h2>
+        <p>
+          If you have questions regarding these Terms of Service, please reach out to us:
+        </p>
+        <div class="contact-info-block">
+          <p><strong>Website:</strong> Dot Plot Maker® (<a href="https://www.dotplotmaker.com">dotplotmaker.com</a>)</p>
+          <p><strong>Inquiries Email:</strong> <a href="mailto:contact@dotplotmaker.com">contact@dotplotmaker.com</a></p>
+          <p><strong>Contact Page:</strong> <a href="/contact/">dotplotmaker.com/contact/</a></p>
+        </div>
+      </section>
     </div>
   </div>
 </BaseLayout>
 
 <style>
-  .legal-content {
-    max-width: 800px;
+  .terms-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.92rem;
+    color: var(--color-text-muted);
+    margin-top: 1rem;
+    flex-wrap: wrap;
+  }
+  .meta-divider {
+    color: var(--color-border);
+  }
+  .legal-container {
+    max-width: 860px;
     display: flex;
     flex-direction: column;
-    gap: 2rem;
+    gap: 1.75rem;
   }
-  .legal-section h2 {
-    font-size: 1.3rem;
-    margin-bottom: 0.75rem;
+  .legal-card {
+    padding: 2.25rem;
+  }
+  .legal-card:hover {
+    transform: none;
+  }
+  .legal-card h2 {
+    font-size: 1.35rem;
+    margin-bottom: 1rem;
     color: var(--color-text-primary);
   }
-  .legal-section p {
+  .legal-card p {
     color: var(--color-text-secondary);
     line-height: 1.8;
+    margin-bottom: 1rem;
+    font-size: 0.98rem;
+  }
+  .legal-card p:last-child {
+    margin-bottom: 0;
+  }
+  .card-badge {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 0.25rem 0.65rem;
+    border-radius: 6px;
+    background: rgba(0, 212, 170, 0.15);
+    color: var(--color-primary);
+    margin-bottom: 0.75rem;
+  }
+  .ownership-card {
+    border-color: rgba(0, 212, 170, 0.3);
+    background: rgba(0, 212, 170, 0.03);
+  }
+  .ownership-card h2 {
+    color: var(--color-primary);
+  }
+  .terms-list {
+    list-style: none;
+    padding: 0;
+    margin: 1rem 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+  }
+  .terms-list li {
+    padding-left: 1.5rem;
+    position: relative;
+    color: var(--color-text-secondary);
+    line-height: 1.75;
+    font-size: 0.96rem;
+  }
+  .terms-list li::before {
+    content: "•";
+    position: absolute;
+    left: 0.25rem;
+    color: var(--color-primary);
+    font-size: 1.25rem;
+    line-height: 1.4;
+  }
+  .terms-list strong {
+    color: var(--color-text-primary);
+  }
+  .contact-box {
+    background: rgba(255, 255, 255, 0.03);
+  }
+  .contact-info-block {
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+    padding: 1.25rem 1.5rem;
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .contact-info-block p {
+    margin-bottom: 0;
+    font-size: 0.95rem;
+  }
+  @media (max-width: 640px) {
+    .legal-card {
+      padding: 1.5rem;
+    }
   }
 </style>
