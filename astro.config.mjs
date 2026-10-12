@@ -10,7 +10,7 @@ export default defineConfig({
   output: "static",
   adapter: vercel(),
   redirects: {
-    "/blog/dot-plot-vs-histogram": "/dot-plot-vs-histogram/",
+    "/dot-plot-vs-histogram": "/blog/dot-plot-vs-histogram/",
     "/about-us": "/about/",
     "/contact-us": "/contact/",
   },

@@ -59,13 +59,13 @@
       "permanent": true
     },
     {
-      "source": "/blog/dot-plot-vs-histogram",
-      "destination": "/dot-plot-vs-histogram/",
+      "source": "/dot-plot-vs-histogram",
+      "destination": "/blog/dot-plot-vs-histogram/",
       "permanent": true
     },
     {
-      "source": "/blog/dot-plot-vs-histogram/",
-      "destination": "/dot-plot-vs-histogram/",
+      "source": "/dot-plot-vs-histogram/",
+      "destination": "/blog/dot-plot-vs-histogram/",
       "permanent": true
     },
     {
