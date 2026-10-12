@@ -1,0 +1,572 @@
+%PDF-1.4
+%‚„œ”
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [3 0 R] /Count 1 >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 4 0 R /F2 5 0 R /F3 6 0 R >> >> /Contents 7 0 R >>
+endobj
+4 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+5 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >>
+endobj
+6 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Oblique >>
+endobj
+7 0 obj
+<< /Length 8505 >>
+stream
+0 0.83 0.67 RG
+0.04 0.06 0.1 rg
+24 730 564 46 re
+B
+BT
+/F2 15 Tf
+0 0.83 0.67 rg
+36 755 Td
+(AP STATISTICS EXAM CHEAT SHEET) Tj
+ET
+BT
+/F1 9 Tf
+0.8 0.85 0.9 rg
+36 738 Td
+(Comprehensive 9-Unit Formula & Concept Guide ∑ DotPlotMaker.com) Tj
+ET
+0.82 0.85 0.9 RG
+0.98 0.98 0.99 rg
+24 600 274 118 re
+B
+0.1 0.14 0.2 RG
+0.1 0.14 0.2 rg
+24 700 274 18 re
+B
+BT
+/F2 8.5 Tf
+1 1 1 rg
+32 705 Td
+(UNIT 1: ONE-VARIABLE DATA) Tj
+ET
+BT
+/F2 7.5 Tf
+0.05 0.05 0.1 rg
+32 688 Td
+(" SOCS for Distributions:) Tj
+ET
+BT
+/F1 7.5 Tf
+0.15 0.15 0.2 rg
+32 677 Td
+(  Shape \(skewed/symmetric\), Outliers, Center \(median/mean\), Spread \(IQR/SD\).) Tj
+ET
+BT
+/F2 7.5 Tf
+0.05 0.05 0.1 rg
+32 666 Td
+(" Five-Number Summary & IQR:) Tj
+ET
+BT
+/F1 7.5 Tf
+0.15 0.15 0.2 rg
+32 655 Td
+(  Min, Q1, Median \(Q2\), Q3, Max.  IQR = Q3 - Q1.) Tj
+ET
+BT
+/F2 7.5 Tf
+0.05 0.05 0.1 rg
+32 644 Td
+(" Tukey 1.5xIQR Outlier Fences:) Tj
+ET
+BT
+/F1 7.5 Tf
+0.15 0.15 0.2 rg
+32 633 Td
+(  Lower = Q1 - 1.5\(IQR\)  |  Upper = Q3 + 1.5\(IQR\).) Tj
+ET
+BT
+/F2 7.5 Tf
+0.05 0.05 0.1 rg
+32 622 Td
+(" Robustness Rule:) Tj
+ET
+BT
+/F1 7.5 Tf
+0.15 0.15 0.2 rg
+32 611 Td
+(  Skewed data -> use Median & IQR \(resistant\). Symmetric -> Mean & SD.) Tj
+ET
+0.82 0.85 0.9 RG
+0.98 0.98 0.99 rg
+24 482 274 108 re
+B
+0.1 0.14 0.2 RG
+0.1 0.14 0.2 rg
+24 572 274 18 re
+B
+BT
+/F2 8.5 Tf
+1 1 1 rg
+32 577 Td
+(UNIT 2: TWO-VARIABLE DATA & REGRESSION) Tj
+ET
+BT
+/F2 7.5 Tf
+0.05 0.05 0.1 rg
+32 560 Td
+(" Least-Squares Regression Line \(LSRL\):) Tj
+ET
+BT
+/F1 7.5 Tf
+0.15 0.15 0.2 rg
+32 549 Td
+(  y-hat = a + bx   where  b = r*\(sy / sx\)  and  a = y_bar - b*\(x_bar\).) Tj
+ET
+BT
+/F2 7.5 Tf
+0.05 0.05 0.1 rg
+32 538 Td
+(" Correlation \(r\) & Coefficient of Det \(r≤\):) Tj
+ET
+BT
+/F1 7.5 Tf
+0.15 0.15 0.2 rg
+32 527 Td
+(  r in [-1, 1] \(direction & strength\). r≤ = % variation in y explained by x.) Tj
+ET
+BT
+/F2 7.5 Tf
+0.05 0.05 0.1 rg
+32 516 Td
+(" Residuals:) Tj
+ET
+BT
+/F1 7.5 Tf
+0.15 0.15 0.2 rg
+32 505 Td
+(  Residual = Actual - Predicted = y - y-hat. Random residual plot = linear.) Tj
+ET
+0.82 0.85 0.9 RG
+0.98 0.98 0.99 rg
+24 378 274 94 re
+B
+0.1 0.14 0.2 RG
+0.1 0.14 0.2 rg
+24 454 274 18 re
+B
+BT
+/F2 8.5 Tf
+1 1 1 rg
+32 459 Td
+(UNIT 3: COLLECTING DATA) Tj
+ET
+BT
+/F2 7.5 Tf
+0.05 0.05 0.1 rg
+32 442 Td
+(" Sampling Methods:) Tj
+ET
+BT
+/F1 7.5 Tf
+0.15 0.15 0.2 rg
+32 431 Td
+(  SRS \(equal chance\), Stratified \(groups->samples\), Cluster \(all in chosen groups\).) Tj
+ET
+BT
+/F2 7.5 Tf
+0.05 0.05 0.1 rg
+32 420 Td
+(" Experiments vs. Observational:) Tj
+ET
+BT
+/F1 7.5 Tf
+0.15 0.15 0.2 rg
+32 409 Td
+(  Only randomized experiments establish CAUSATION \(control, randomize, replicate\).) Tj
+ET
+BT
+/F2 7.5 Tf
+0.05 0.05 0.1 rg
+32 398 Td
+(" Biases:) Tj
+ET
+BT
+/F1 7.5 Tf
+0.15 0.15 0.2 rg
+32 387 Td
+(  Undercoverage, Nonresponse, Voluntary Response, Response bias.) Tj
+ET
+0.82 0.85 0.9 RG
+0.98 0.98 0.99 rg
+24 274 274 94 re
+B
+0.1 0.14 0.2 RG
+0.1 0.14 0.2 rg
+24 350 274 18 re
+B
+BT
+/F2 8.5 Tf
+1 1 1 rg
+32 355 Td
+(UNIT 4: PROBABILITY RULES) Tj
+ET
+BT
+/F2 7.5 Tf
+0.05 0.05 0.1 rg
+32 338 Td
+(" Addition & Complement:) Tj
+ET
+BT
+/F1 7.5 Tf
+0.15 0.15 0.2 rg
+32 327 Td
+(  P\(A or B\) = P\(A\) + P\(B\) - P\(A and B\).   P\(A^c\) = 1 - P\(A\).) Tj
+ET
+BT
+/F2 7.5 Tf
+0.05 0.05 0.1 rg
+32 316 Td
+(" Conditional & Independence:) Tj
+ET
+BT
+/F1 7.5 Tf
+0.15 0.15 0.2 rg
+32 305 Td
+(  P\(A|B\) = P\(A and B\) / P\(B\).   Independent if P\(A|B\) = P\(A\) or P\(A and B\) = P\(A\)*P\(B\).) Tj
+ET
+BT
+/F2 7.5 Tf
+0.05 0.05 0.1 rg
+32 294 Td
+(" Multiplication Rule:) Tj
+ET
+BT
+/F1 7.5 Tf
+0.15 0.15 0.2 rg
+32 283 Td
+(  P\(A and B\) = P\(A\) * P\(B|A\). \(If independent: P\(A\)*P\(B\)\).) Tj
+ET
+0.82 0.85 0.9 RG
+0.98 0.98 0.99 rg
+24 148 274 116 re
+B
+0.1 0.14 0.2 RG
+0.1 0.14 0.2 rg
+24 246 274 18 re
+B
+BT
+/F2 8.5 Tf
+1 1 1 rg
+32 251 Td
+(UNIT 5: RANDOM VARIABLES) Tj
+ET
+BT
+/F2 7.5 Tf
+0.05 0.05 0.1 rg
+32 234 Td
+(" Discrete RV Mean & Variance:) Tj
+ET
+BT
+/F1 7.5 Tf
+0.15 0.15 0.2 rg
+32 223 Td
+(  mu_X = E\(X\) = sum[x * P\(x\)].   sigma_X≤ = sum[\(x - mu\)≤ * P\(x\)].) Tj
+ET
+BT
+/F2 7.5 Tf
+0.05 0.05 0.1 rg
+32 212 Td
+(" Binomial Distribution B\(n, p\):) Tj
+ET
+BT
+/F1 7.5 Tf
+0.15 0.15 0.2 rg
+32 201 Td
+(  mu = n*p,   sigma = sqrt\(n*p*\(1-p\)\).  P\(X = k\) = \(n choose k\)*p^k*\(1-p\)^\(n-k\).) Tj
+ET
+BT
+/F2 7.5 Tf
+0.05 0.05 0.1 rg
+32 190 Td
+(" Geometric Distribution Geom\(p\):) Tj
+ET
+BT
+/F1 7.5 Tf
+0.15 0.15 0.2 rg
+32 179 Td
+(  First success on trial k: P\(Y = k\) = \(1-p\)^\(k-1\) * p.  mu = 1/p.) Tj
+ET
+0.82 0.85 0.9 RG
+0.98 0.98 0.99 rg
+314 630 274 88 re
+B
+0.1 0.14 0.2 RG
+0.1 0.14 0.2 rg
+314 700 274 18 re
+B
+BT
+/F2 8.5 Tf
+1 1 1 rg
+322 705 Td
+(UNIT 6: SAMPLING DISTRIBUTIONS) Tj
+ET
+BT
+/F2 7.5 Tf
+0.05 0.05 0.1 rg
+322 688 Td
+(" Central Limit Theorem \(CLT\):) Tj
+ET
+BT
+/F1 7.5 Tf
+0.15 0.15 0.2 rg
+322 677 Td
+(  If n >= 30, sample mean distribution is approx. normal regardless of shape.) Tj
+ET
+BT
+/F2 7.5 Tf
+0.05 0.05 0.1 rg
+322 666 Td
+(" Proportions:  mu_p_hat = p,  sigma_p_hat = sqrt\(p\(1-p\)/n\).) Tj
+ET
+BT
+/F2 7.5 Tf
+0.05 0.05 0.1 rg
+322 655 Td
+(" Means:        mu_x_bar = mu, sigma_x_bar = sigma / sqrt\(n\).) Tj
+ET
+0.82 0.85 0.9 RG
+0.98 0.98 0.99 rg
+314 506 274 114 re
+B
+0.1 0.14 0.2 RG
+0.1 0.14 0.2 rg
+314 602 274 18 re
+B
+BT
+/F2 8.5 Tf
+1 1 1 rg
+322 607 Td
+(UNIT 7: INFERENCE FOR PROPORTIONS) Tj
+ET
+BT
+/F2 7.5 Tf
+0.05 0.05 0.1 rg
+322 590 Td
+(" 1-Sample z-Interval & Test:) Tj
+ET
+BT
+/F1 7.5 Tf
+0.15 0.15 0.2 rg
+322 579 Td
+(  CI = p_hat +/- z* * sqrt\(p_hat*\(1 - p_hat\)/n\).   z = \(p_hat - p0\) / sqrt\(p0\(1-p0\)/n\).) Tj
+ET
+BT
+/F2 7.5 Tf
+0.05 0.05 0.1 rg
+322 568 Td
+(" 2-Sample z-Test \(Pooled Proportion\):) Tj
+ET
+BT
+/F1 7.5 Tf
+0.15 0.15 0.2 rg
+322 557 Td
+(  p_c = \(x1 + x2\)/\(n1 + n2\).   SE_pooled = sqrt\(p_c\(1-p_c\)\(1/n1 + 1/n2\)\).) Tj
+ET
+BT
+/F2 7.5 Tf
+0.05 0.05 0.1 rg
+322 546 Td
+(" Conditions:) Tj
+ET
+BT
+/F1 7.5 Tf
+0.15 0.15 0.2 rg
+322 535 Td
+(  Random, 10% condition \(n < 0.10N\), Large Counts: np >= 10, n\(1-p\) >= 10.) Tj
+ET
+0.82 0.85 0.9 RG
+0.98 0.98 0.99 rg
+314 382 274 114 re
+B
+0.1 0.14 0.2 RG
+0.1 0.14 0.2 rg
+314 478 274 18 re
+B
+BT
+/F2 8.5 Tf
+1 1 1 rg
+322 483 Td
+(UNIT 8: INFERENCE FOR MEANS) Tj
+ET
+BT
+/F2 7.5 Tf
+0.05 0.05 0.1 rg
+322 466 Td
+(" When to Use t vs. z:) Tj
+ET
+BT
+/F1 7.5 Tf
+0.15 0.15 0.2 rg
+322 455 Td
+(  Use t when population sigma is unknown \(almost always in real life!\). df = n - 1.) Tj
+ET
+BT
+/F2 7.5 Tf
+0.05 0.05 0.1 rg
+322 444 Td
+(" 1-Sample t-Interval & Test:) Tj
+ET
+BT
+/F1 7.5 Tf
+0.15 0.15 0.2 rg
+322 433 Td
+(  CI = x_bar +/- t* * \(s / sqrt\(n\)\).   t = \(x_bar - mu0\) / \(s / sqrt\(n\)\).) Tj
+ET
+BT
+/F2 7.5 Tf
+0.05 0.05 0.1 rg
+322 422 Td
+(" Conditions for Means:) Tj
+ET
+BT
+/F1 7.5 Tf
+0.15 0.15 0.2 rg
+322 411 Td
+(  Random, 10% rule, Normal population or n >= 30 \(CLT\) or no strong skew/outliers.) Tj
+ET
+0.82 0.85 0.9 RG
+0.98 0.98 0.99 rg
+314 264 274 108 re
+B
+0.1 0.14 0.2 RG
+0.1 0.14 0.2 rg
+314 354 274 18 re
+B
+BT
+/F2 8.5 Tf
+1 1 1 rg
+322 359 Td
+(UNIT 9: CHI-SQUARE & SLOPE INFERENCE) Tj
+ET
+BT
+/F2 7.5 Tf
+0.05 0.05 0.1 rg
+322 342 Td
+(" Chi-Square Test Statistic:) Tj
+ET
+BT
+/F1 7.5 Tf
+0.15 0.15 0.2 rg
+322 331 Td
+(  chi≤ = sum[\(Observed - Expected\)≤ / Expected].  Expected = \(Row * Col\) / Total.) Tj
+ET
+BT
+/F2 7.5 Tf
+0.05 0.05 0.1 rg
+322 320 Td
+(" Tests & Degrees of Freedom:) Tj
+ET
+BT
+/F1 7.5 Tf
+0.15 0.15 0.2 rg
+322 309 Td
+(  Goodness of Fit \(df = k - 1\)  |  Independence/Homogeneity: \(r - 1\)\(c - 1\).) Tj
+ET
+BT
+/F2 7.5 Tf
+0.05 0.05 0.1 rg
+322 298 Td
+(" Regression Slope t-Test:) Tj
+ET
+BT
+/F1 7.5 Tf
+0.15 0.15 0.2 rg
+322 287 Td
+(  t = \(b - 0\) / SE_b   with  df = n - 2.) Tj
+ET
+0.82 0.85 0.9 RG
+0.98 0.98 0.99 rg
+314 148 274 106 re
+B
+0.1 0.14 0.2 RG
+0.1 0.14 0.2 rg
+314 236 274 18 re
+B
+BT
+/F2 8.5 Tf
+1 1 1 rg
+322 241 Td
+(MUST-KNOW AP STATS EXAM TIPS) Tj
+ET
+BT
+/F2 7.5 Tf
+0.05 0.05 0.1 rg
+322 224 Td
+(1. ALWAYS Write in Context:) Tj
+ET
+BT
+/F1 7.5 Tf
+0.15 0.15 0.2 rg
+322 213 Td
+(   Never say "the slope is 0.5". Say: "For each +1 mpg, car price drops $500.") Tj
+ET
+BT
+/F2 7.5 Tf
+0.05 0.05 0.1 rg
+322 202 Td
+(2. State Hypotheses with Parameters:) Tj
+ET
+BT
+/F1 7.5 Tf
+0.15 0.15 0.2 rg
+322 191 Td
+(   H0: mu = 10 \(never H0: x_bar = 10\). Define mu in context.) Tj
+ET
+BT
+/F2 7.5 Tf
+0.05 0.05 0.1 rg
+322 180 Td
+(3. Check ALL Conditions Explicitly:) Tj
+ET
+BT
+/F1 7.5 Tf
+0.15 0.15 0.2 rg
+322 169 Td
+(   Show actual numbers: 40*\(0.3\) = 12 >= 10 and 40*\(0.7\) = 28 >= 10.) Tj
+ET
+0 0.83 0.67 RG
+0.07 0.1 0.15 rg
+24 20 564 24 re
+B
+BT
+/F2 8 Tf
+0 0.83 0.67 rg
+36 27 Td
+(Free AP Stats Interactive Tools & Chart Generators: https://www.dotplotmaker.com) Tj
+ET
+BT
+/F1 8 Tf
+0.7 0.75 0.8 rg
+440 27 Td
+(Page 1 of 1 ∑ 2026 Edition) Tj
+ET
+endstream
+endobj
+xref
+0 8
+0000000000 65535 f 
+0000000019 00000 n 
+0000000068 00000 n 
+0000000125 00000 n 
+0000000271 00000 n 
+0000000341 00000 n 
+0000000416 00000 n 
+0000000494 00000 n 
+trailer
+<< /Size 8 /Root 1 0 R >>
+startxref
+9050
+%%EOF

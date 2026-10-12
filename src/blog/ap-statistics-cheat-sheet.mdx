@@ -1,0 +1,505 @@
+---
+title: "AP Statistics Cheat Sheet (Formulas + PDF)"
+h1: "AP Statistics Cheat Sheet"
+description: "Free AP Stats cheat sheet: all key formulas by unit, free printable PDF, and interactive tools to practice every concept."
+image: "/og-image.png"
+date: 2026-10-12
+author: "Dot Plot Maker® Team"
+category: "Statistics"
+---
+
+Preparing for the AP Statistics exam requires mastering more than just mechanical calculations—it demands knowing which formula to use, verifying every mathematical condition, and communicating your conclusions clearly in context. 
+
+While the College Board provides an official formula sheet during the exam, that reference sheet leaves out critical decision rules, condition checks, residual formulas, and distribution interpretations. This definitive **AP Statistics Cheat Sheet** bridges the gap across all **9 official College Board units**.
+
+<div class="glass-card" style="padding: 1.75rem; border: 1px solid var(--color-primary); border-radius: 16px; margin: 2rem 0; background: rgba(0, 212, 170, 0.04); display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; flex-wrap: wrap;">
+  <div style="flex: 1; min-width: 260px;">
+    <span class="badge" style="margin-bottom: 0.5rem;">Free Printable Reference</span>
+    <h3 style="margin: 0.25rem 0 0.5rem; font-size: 1.35rem; color: var(--color-text-primary); font-weight: 800;">
+      Download the 1-Page AP Stats Cheat Sheet (PDF)
+    </h3>
+    <p style="margin: 0; color: var(--color-text-secondary); font-size: 0.92rem; line-height: 1.5;">
+      Get our ultra-compact, high-resolution one-page printable study guide. Includes all 9 units, formulas, inference conditions, and calculator shortcuts. 100% free with no email required.
+    </p>
+  </div>
+  <div>
+    <a href="/downloads/ap-statistics-cheat-sheet.pdf" download="AP-Statistics-Cheat-Sheet.pdf" class="btn-primary" style="padding: 0.8rem 1.75rem; font-size: 0.95rem; white-space: nowrap;">
+      <span>Download Free PDF (Letter) ↓</span>
+    </a>
+  </div>
+</div>
+
+---
+
+## Unit 1: One-Variable Data (Exploring Distributions)
+
+Unit 1 lays the bedrock for the entire course: describing distributions, calculating summary statistics, and identifying potential anomalies.
+
+### 1. Describing Quantitative Distributions: The SOCS Framework
+When an AP exam free-response question (FRQ) asks you to "describe" or "compare" distributions, you must address all four components **in context**:
+- **S — Shape**: Is the distribution symmetric, skewed right (tail stretches toward higher numbers), skewed left (tail stretches toward lower numbers), uniform, or bimodal?
+- **O — Outliers**: Are there any unusually distant values? State their approximate values or calculate them formally.
+- **C — Center**: State the median (resistant) for skewed data, or the arithmetic mean for symmetric data.
+- **S — Spread**: State the interquartile range (`IQR = Q3 - Q1`) for skewed data, or standard deviation (`s`) for symmetric data.
+
+### 2. Five-Number Summary & Quartiles
+- **Five-Number Summary**: `Minimum, Q1 (25th percentile), Median (50th percentile), Q3 (75th percentile), Maximum`
+- **Interquartile Range**: `IQR = Q3 - Q1` (the middle 50% of the data)
+
+### 3. Tukey's 1.5×IQR Outlier Fences
+- **Lower Inner Fence**: `Lower Fence = Q1 - (1.5 × IQR)`
+- **Upper Inner Fence**: `Upper Fence = Q3 + (1.5 × IQR)`
+- Any observation falling strictly below the Lower Fence (`x < Lower Fence`) or strictly above the Upper Fence (`x > Upper Fence`) is flagged as an outlier. Read our complete [outlier detection guide](/blog/outlier-dot-plot-maker/) for step-by-step worked examples.
+
+### 4. Mean vs. Median & Skewness
+- **Symmetric Distribution**: `Mean ≈ Median`
+- **Right-Skewed Distribution**: `Mean > Median` (the mean is pulled toward the long right tail)
+- **Left-Skewed Distribution**: `Mean < Median` (the mean is pulled toward the long left tail)
+- **Standard Deviation (`s`)**: Measures typical distance of data points from the mean. Like the mean, it is non-resistant and sensitive to outliers.
+
+### Practice Unit 1 with Free Interactive Tools:
+- Build individual data points on our [Dot Plot Maker](/)
+- Group continuous data into intervals with our [Histogram Maker](/histogram-maker/)
+- Visualize quartiles and fences on our [Box Plot Maker](/box-plot-maker/)
+- Display raw values cleanly with our [Stem-and-Leaf Plot Maker](/stem-and-leaf-plot-maker/)
+- Learn the key differences in our [Dot Plot vs Histogram guide](/dot-plot-vs-histogram/)
+- Need to build charts in spreadsheets? Check out [How to Make a Histogram in Excel](/blog/how-to-make-a-histogram-in-excel/)
+
+---
+
+## Unit 2: Two-Variable Data & Linear Regression
+
+Unit 2 explores bivariate quantitative relationships, scatterplots, correlation, and least-squares regression lines (LSRL).
+
+### 1. Correlation Coefficient (`r`)
+- Measures the **strength and direction** of a linear relationship between two quantitative variables.
+- Bound between `-1` and `+1` (`-1 ≤ r ≤ 1`).
+- `r > 0` indicates a positive linear association; `r < 0` indicates a negative linear association.
+- `r = 0` indicates no linear association (a strong non-linear curved relationship can still have `r ≈ 0`).
+- Switching x and y does not change `r`. Changing units of measurement does not change `r`.
+
+### 2. Least-Squares Regression Line (LSRL)
+The line that minimizes the sum of squared vertical residuals:
+`y_hat = a + bx`
+
+Where:
+- `y_hat` is the **predicted value** of the response variable (always write the hat symbol on the AP exam!).
+- `b` is the **slope**: `b = r × (sy / sx)`
+  *(Slope Interpretation: For each additional 1-unit increase in x, the predicted y changes by b units in context).*
+- `a` is the **y-intercept**: `a = y_bar - b × x_bar`
+  *(Intercept Interpretation: When x is 0 units, the predicted y is a units in context).*
+
+### 3. Residuals & Residual Plots
+- **Residual Formula**:
+  `Residual = Actual - Predicted = y - y_hat`
+  *(Mnemonic: "AP" — Actual minus Predicted).*
+- **Residual Plot Interpretation**: A linear model is appropriate if the residual plot shows a **random scatter of points** with no discernible curve or fan-shaped pattern.
+
+### 4. Coefficient of Determination (`r²`)
+- `r²` represents the **proportion of variation in the response variable (y) that is explained by the linear relationship with the explanatory variable (x)**.
+- Example: If `r = 0.8`, then `r² = 0.64`. "64% of the variation in car prices is explained by the linear model with mileage."
+
+---
+
+## Unit 3: Collecting Data (Sampling & Experiments)
+
+Unit 3 tests your understanding of data collection integrity. On FRQs, precision in statistical vocabulary is strictly graded.
+
+### 1. Sampling Methods
+- **Simple Random Sample (SRS)**: Every possible group of size `n` has an equal probability of being selected.
+- **Stratified Random Sample**: Population is divided into homogeneous groups (strata) based on a characteristic (e.g., grade level), and an SRS is chosen from *each* stratum. Guarantees representation across subgroups.
+- **Cluster Sample**: Population is divided into heterogeneous, naturally occurring groups (clusters) that each resemble the population (e.g., homerooms). Entire clusters are randomly selected, and *all* individuals in chosen clusters are measured.
+- **Systematic Sample**: Select every `k`-th individual after a random starting point.
+
+### 2. Observational Studies vs. Experiments
+- **Observational Study**: Researchers observe without imposing treatments. Can establish **association/correlation**, but **never causation** due to potential confounding variables.
+- **Experiment**: Researchers deliberately impose treatments on experimental units. A well-designed randomized experiment is the **only method that can establish cause-and-effect**.
+
+### 3. The Four Principles of Experimental Design
+1. **Comparison**: Use two or more treatments (including a control group) to prevent confounding.
+2. **Random Assignment**: Randomly assign subjects to treatments to balance out unmeasured confounding variables across groups.
+3. **Control**: Keep extraneous variables constant between treatment groups.
+4. **Replication**: Use enough experimental units in each treatment group to distinguish genuine effects from chance variation.
+
+### 4. Common Biases
+- **Undercoverage**: Some groups of the population are left out of the sampling frame.
+- **Nonresponse Bias**: Selected individuals cannot be contacted or refuse to participate.
+- **Voluntary Response Bias**: Individuals choose themselves by responding to an open broadcast or survey (attracts strong, extreme opinions).
+- **Response Bias**: Inaccurate answers caused by leading question wording, interviewer appearance, or self-reporting embarrassment.
+
+---
+
+<div class="ad-unit" aria-label="Advertisement">
+  <span class="ad-label">Advertisement</span>
+  <div class="ad-box">
+    <span style="font-size: 0.85rem; color: var(--color-text-muted);">Publication-Grade Statistical Visualization Tools</span>
+  </div>
+</div>
+
+---
+
+## Unit 4: Probability Rules & Foundations
+
+Probability problems on the AP exam reward careful notation and Venn diagram / tree diagram sketching.
+
+### 1. Fundamental Rules
+- **Complement Rule**: `P(A^c) = 1 - P(A)`
+- **General Addition Rule (Any two events)**: `P(A or B) = P(A) + P(B) - P(A and B)`
+- **Mutually Exclusive (Disjoint) Events**: Events that cannot happen at the same time (`P(A and B) = 0`):
+  `P(A or B) = P(A) + P(B)`
+  *(Important: If two events with positive probabilities are mutually exclusive, they CANNOT be independent!)*
+
+### 2. Conditional Probability & Independence
+- **Conditional Probability Formula**: `P(A | B) = P(A and B) / P(B)`
+- **General Multiplication Rule**: `P(A and B) = P(A) × P(B | A) = P(B) × P(A | B)`
+- **Testing for Statistical Independence**: Events A and B are independent if and only if:
+  `P(A | B) = P(A)` or `P(B | A) = P(B)` or `P(A and B) = P(A) × P(B)`
+
+---
+
+## Unit 5: Random Variables & Probability Distributions
+
+Unit 5 bridges theoretical probability with sample distributions through discrete random variables, binomial models, and geometric models.
+
+### 1. Discrete Random Variables
+- **Mean (Expected Value)**: `mu_X = E(X) = sum[x_i × P(x_i)]`
+- **Variance & Standard Deviation**:
+  `Var(X) = sigma_X² = sum[(x_i - mu_X)² × P(x_i)]`
+  `sigma_X = sqrt(Var(X))`
+
+### 2. Linear Transformations & Combinations of Random Variables
+If `Y = a + bX`:
+- `mu_Y = a + b × mu_X`
+- `sigma_Y = |b| × sigma_X`
+- `sigma_Y² = b² × sigma_X²`
+
+If combining two independent random variables (`X + Y` or `X - Y`):
+- `mu_(X + Y) = mu_X + mu_Y` and `mu_(X - Y) = mu_X - mu_Y`
+- `sigma_(X + Y)² = sigma_X² + sigma_Y²`
+- `sigma_(X - Y)² = sigma_X² + sigma_Y²` *(variances ALWAYS add, even when subtracting random variables!)*
+- `sigma_(X ± Y) = sqrt(sigma_X² + sigma_Y²)`
+
+### 3. Binomial Distribution: `B(n, p)`
+Requires the **BINS** conditions:
+- **B** — Binary outcomes (Success or Failure).
+- **I** — Independent trials.
+- **N** — Number of trials `n` is fixed in advance.
+- **S** — Same probability of success `p` on each trial.
+
+**Formulas**:
+- `P(X = k) = (n choose k) × p^k × (1 - p)^(n - k)`
+- `mu_X = n × p`
+- `sigma_X = sqrt(n × p × (1 - p))`
+
+### 4. Geometric Distribution: `Geom(p)`
+Counts the number of trials `Y` until the **first success** occurs:
+- `P(Y = k) = (1 - p)^(k - 1) × p`
+- `mu_Y = 1 / p`
+- `sigma_Y = sqrt(1 - p) / p`
+
+---
+
+## Unit 6: Sampling Distributions & Central Limit Theorem
+
+Understanding the difference between a population distribution, a sample distribution, and a **sampling distribution** is the central conceptual bridge in statistics.
+
+### 1. Sampling Distribution of a Sample Proportion (`p_hat`)
+- **Mean**: `mu_p_hat = p` (an unbiased estimator of the population proportion).
+- **Standard Deviation**:
+  `sigma_p_hat = sqrt((p × (1 - p)) / n)`
+  *(Requires the 10% condition: `n < 0.10N` so trials are effectively independent).*
+- **Normality Condition (Large Counts)**: If `n × p ≥ 10` and `n × (1 - p) ≥ 10`, the sampling distribution of `p_hat` is approximately normal.
+
+### 2. Sampling Distribution of a Sample Mean (`x_bar`)
+- **Mean**: `mu_x_bar = mu` (an unbiased estimator of the population mean).
+- **Standard Deviation**:
+  `sigma_x_bar = sigma / sqrt(n)`
+  *(Requires the 10% condition: `n < 0.10N`).*
+
+### 3. The Central Limit Theorem (CLT)
+> **The CLT states**: As sample size `n` increases, the sampling distribution of the sample mean (`x_bar`) approaches a normal distribution, **regardless of the shape of the underlying population distribution**, provided `n ≥ 30`.
+
+*(Common AP Mistake: The CLT does NOT say the population becomes normal, nor does it say the sample data becomes normal. Only the distribution of ALL POSSIBLE sample means becomes normal!)*
+
+---
+
+## Unit 7: Inference for Categorical Data (Proportions)
+
+Inference involves two complementary procedures: estimating parameters using **confidence intervals** and evaluating claims using **significance tests**.
+
+### 1. General Structure of a Confidence Interval
+`Confidence Interval = Point Estimate ± (Critical Value) × (Standard Error)`
+
+### 2. One-Sample `z`-Interval for a Proportion (`p`)
+`CI = p_hat ± z* × sqrt((p_hat × (1 - p_hat)) / n)`
+*(Common critical values: 90% confidence → `z* = 1.645`; 95% confidence → `z* = 1.960`; 99% confidence → `z* = 2.576`).*
+
+### 3. One-Sample `z`-Test for a Proportion
+`z = (p_hat - p0) / sqrt((p0 × (1 - p0)) / n)`
+*(Notice: The denominator uses the hypothesized proportion `p0`, NOT `p_hat`, because we assume H0 is true).*
+
+### 4. Two-Sample `z`-Test for Difference in Proportions (`p1 - p2`)
+- **Pooled (Combined) Proportion**:
+  `p_c = (x1 + x2) / (n1 + n2)`
+- **Test Statistic**:
+  `z = ((p_hat1 - p_hat2) - 0) / sqrt(p_c × (1 - p_c) × (1/n1 + 1/n2))`
+
+### Mandatory Inference Conditions for Proportions:
+1. **Random**: Data collected via random sampling or random assignment.
+2. **10% Condition**: `n < 0.10N` (only required when sampling without replacement).
+3. **Large Counts Condition**:
+   - For intervals: `n × p_hat ≥ 10` and `n × (1 - p_hat) ≥ 10`.
+   - For 1-sample tests: `n × p0 ≥ 10` and `n × (1 - p0) ≥ 10`.
+   - For 2-sample tests: Verify for both samples!
+
+---
+
+## Unit 8: Inference for Quantitative Data (Means)
+
+When analyzing numerical averages, we almost never know the true population standard deviation `sigma`. Consequently, we replace `sigma` with the sample standard deviation `s` and transition from the normal `z`-distribution to Student's `t`-distribution.
+
+### 1. When to Use `t` vs. `z`
+- Use `z` for **proportions** (`z`-tests / `z`-intervals).
+- Use `t` for **means** whenever the population standard deviation `sigma` is unknown (which is 99% of all real-world inference problems).
+- Student's `t`-distribution is symmetric and bell-shaped with heavier tails than the normal curve. As degrees of freedom (`df = n - 1`) increase, `t` converges toward `z`.
+
+### 2. One-Sample `t`-Interval for a Mean (`mu`)
+`CI = x_bar ± t* × (s / sqrt(n)),  df = n - 1`
+
+### 3. One-Sample `t`-Test for a Mean
+`t = (x_bar - mu0) / (s / sqrt(n)),  df = n - 1`
+
+### 4. Paired `t`-Procedures (Matched Pairs)
+- When data consists of paired observations from the same subject (e.g., Before vs. After, Left vs. Right), compute the single column of differences: `d_i = x1_i - x2_i`.
+- Treat the differences as a **single sample**:
+  `t = (x_bar_d - 0) / (s_d / sqrt(n)),  df = n - 1`
+
+### 5. Two-Sample `t`-Procedures (Independent Groups)
+`t = ((x_bar1 - x_bar2) - 0) / sqrt((s1² / n1) + (s2² / n2))`
+*(Degrees of freedom: Use calculator software for Welch-Satterthwaite df, or use conservative `df = min(n1 - 1, n2 - 1)` by hand).*
+
+### Mandatory Inference Conditions for Means:
+1. **Random**: Random sample or randomized experiment.
+2. **10% Condition**: `n < 0.10N` when sampling without replacement.
+3. **Normal / Large Sample Condition**:
+   - Population distribution is stated to be normal, OR
+   - Sample size is large (`n ≥ 30`) by the Central Limit Theorem, OR
+   - For small samples (`n < 30`), a graph of the sample data (dot plot, box plot, or stemplot) shows **no strong skewness and no outliers**.
+
+---
+
+## Unit 9: Chi-Square & Regression Slope Inference
+
+Unit 9 encompasses testing distributions of categorical counts and running inference on least-squares regression lines.
+
+### 1. The Chi-Square (`chi²`) Test Statistic
+`chi² = sum[ (Observed - Expected)² / Expected ]`
+
+### 2. The Three Chi-Square Tests
+1. **Goodness of Fit Test**: Tests whether a single categorical variable matches a hypothesized theoretical distribution across `k` categories (`df = k - 1`).
+2. **Test for Homogeneity**: Tests whether the distribution of a categorical variable is identical across two or more independent populations or treatment groups (`df = (rows - 1) × (cols - 1)`).
+3. **Test for Independence**: Tests whether two categorical variables measured on a single population are associated or independent (`df = (rows - 1) × (cols - 1)`).
+
+**Expected Count Formula for Two-Way Tables**:
+`Expected = (Row Total × Column Total) / Table Grand Total`
+
+*(Condition: All individual expected counts must be at least 5).*
+
+### 3. Inference for Regression Slope (`beta`)
+Tests whether there is a statistically significant linear relationship between two quantitative variables (`H0: beta = 0` vs. `Ha: beta ≠ 0`):
+- `t = (b - 0) / SE_b,  df = n - 2`
+- `Confidence Interval = b ± t* × SE_b`
+
+**Conditions for Regression Inference (LINER)**:
+- **L — Linear**: Scatterplot shows a linear pattern; residual plot shows random scatter.
+- **I — Independent**: Observations are independent (10% rule if sampling).
+- **N — Normal Residuals**: Histogram or dot plot of residuals shows no severe skewness or outliers.
+- **E — Equal Variance**: Residual plot shows a roughly constant vertical band of spread.
+- **R — Random**: Data gathered through random sampling or randomized assignment.
+
+---
+
+## Top AP Statistics Exam Tips (Guaranteed Score Boosters)
+
+1. **Always State Your Context**:
+   Never write "the mean is 12" or "there is a strong positive correlation." Write: "The mean *daily commute time* for teachers is 12 *minutes*," or "There is a strong, positive, linear relationship between *engine horsepower* and *highway fuel consumption*." Graders will dock points for naked numbers without context.
+2. **Hypotheses MUST Use Population Parameters**:
+   Always write `H0: mu = 50` or `H0: p = 0.40`. **Never use sample statistics** like `H0: x_bar = 50` or `H0: p_hat = 0.40`. We already know the sample values—hypotheses are tests about the unknown population!
+3. **Show Your Condition Calculations Explicitly**:
+   Do not just write "Large counts condition passes." Write the math: `np0 = 50 × 0.3 = 15 ≥ 10` and `n(1 - p0) = 50 × 0.7 = 35 ≥ 10`, so the sampling distribution is approximately normal.
+4. **Interpret Confidence Intervals Correctly**:
+   Use the standard template: "We are [95%] confident that the true [parameter in context] lies between [lower bound] and [upper bound]." Never say "there is a 95% probability that the parameter is inside the interval"—the true parameter is fixed, not random!
+5. **Interpret P-Values Correctly**:
+   "Assuming the null hypothesis is true, there is a [p-value] probability of obtaining a sample statistic as extreme as or more extreme than the observed statistic purely by chance."
+
+---
+
+## Best AP Statistics Prep Books (Recommended Study Guides)
+
+If you are aiming for a 5 on exam day, pairing our interactive visualizers with a dedicated review book is the most reliable strategy. Here are our top two recommended prep books:
+
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin: 2rem 0;">
+  <div class="glass-card" style="padding: 1.5rem; border: 1px solid var(--color-border); border-radius: 14px; background: rgba(255, 255, 255, 0.03);">
+    <span class="badge" style="margin-bottom: 0.5rem; background: rgba(77, 150, 255, 0.1); color: #4d96ff; border-color: rgba(77, 150, 255, 0.25);">Top Comprehensive Pick</span>
+    <h3 style="font-size: 1.25rem; font-weight: 700; margin: 0.25rem 0 0.5rem; color: var(--color-text-primary);">
+      Barron's AP Statistics Premium
+    </h3>
+    <p style="font-size: 0.9rem; color: var(--color-text-secondary); line-height: 1.6; margin-bottom: 1.25rem;">
+      Written by Martin Sternstein, Ph.D., this remains the gold standard for high-scoring students. It offers in-depth conceptual explanations, thorough TI-84 calculator guides, and 6 full-length practice tests that match or exceed the difficulty of official College Board questions.
+    </p>
+    <a href="https://www.amazon.com/dp/1506287413?tag=dotplotmaker-20" target="_blank" rel="noopener sponsored" class="btn-primary" style="width: 100%; justify-content: center; font-size: 0.9rem;">
+      <span>Check Price on Amazon →</span>
+    </a>
+  </div>
+
+  <div class="glass-card" style="padding: 1.5rem; border: 1px solid var(--color-border); border-radius: 14px; background: rgba(255, 255, 255, 0.03);">
+    <span class="badge" style="margin-bottom: 0.5rem; background: rgba(139, 92, 246, 0.1); color: var(--color-accent); border-color: rgba(139, 92, 246, 0.25);">Best for Fast Review</span>
+    <h3 style="font-size: 1.25rem; font-weight: 700; margin: 0.25rem 0 0.5rem; color: var(--color-text-primary);">
+      Princeton Review AP Statistics Premium Prep
+    </h3>
+    <p style="font-size: 0.9rem; color: var(--color-text-secondary); line-height: 1.6; margin-bottom: 1.25rem;">
+      Ideal for targeted review in the final 4–6 weeks before the exam. Features concise chapter summaries, high-yield drill questions, pacing strategies, and 5 full-length practice exams designed to sharpen your test-taking speed and timing.
+    </p>
+    <a href="https://www.amazon.com/dp/0593516952?tag=dotplotmaker-20" target="_blank" rel="noopener sponsored" class="btn-secondary" style="width: 100%; justify-content: center; font-size: 0.9rem;">
+      <span>Check Price on Amazon →</span>
+    </a>
+  </div>
+</div>
+
+---
+
+## Frequently Asked Questions
+
+### 1. Does the College Board give you a formula sheet on the AP Statistics exam?
+Yes. Every student receives the official College Board AP Statistics Formula Sheet and Probability Tables during both Section I (Multiple Choice) and Section II (Free Response). However, the official sheet does NOT include condition checks (like the 10% rule or Large Counts), residual interpretations, or SOCS templates. You must memorize these concepts or use this cheat sheet to internalize them before exam day.
+
+### 2. How do you describe a quantitative distribution on the AP exam?
+Whenever an AP question asks you to describe or compare distributions, you must address **SOCS**: **Shape** (skewed right/left, symmetric, bimodal), **Outliers** (flag extreme values), **Center** (report median for skewed data, mean for symmetric data), and **Spread** (report IQR for skewed data, standard deviation for symmetric data). You must include the context of the data (units and variable name) to receive full credit.
+
+### 3. What is the 1.5×IQR rule and do I need to memorize it?
+The 1.5×IQR rule is the official College Board standard for identifying outliers. An observation is an outlier if it falls below the lower fence (`Q1 - 1.5 × IQR`) or above the upper fence (`Q3 + 1.5 × IQR`), where `IQR = Q3 - Q1`. This formula is NOT provided on the official College Board reference sheet, so you must memorize it.
+
+### 4. When should you use a t-test versus a z-test?
+Use **z-tests and z-intervals** for categorical **proportions** (`p` or `p1 - p2`). Use **t-tests and t-intervals** for quantitative **means** (`mu` or `mu1 - mu2`) whenever the population standard deviation (`sigma`) is unknown. In practice, `sigma` is almost never known in real-world studies, making the `t`-procedure the standard for means.
+
+### 5. What conditions must be checked before running statistical inference?
+For almost all AP inference procedures, you must verify three fundamental conditions:
+1. **Random**: Data produced through a random sample or randomized experiment.
+2. **10% Condition**: Sample size `n < 0.10N` when sampling without replacement to ensure independence.
+3. **Normality / Sample Size**: For proportions, check the Large Counts condition (`n × p ≥ 10` and `n × (1 - p) ≥ 10`). For means, verify that `n ≥ 30` (Central Limit Theorem) or that the sample data displays no strong skewness or outliers.
+
+### 6. How is the AP Statistics exam scored?
+The AP Statistics exam consists of two 90-minute sections:
+- **Section I (50% of composite score)**: 40 multiple-choice questions.
+- **Section II (50% of composite score)**: 6 free-response questions (5 short FRQs and 1 Investigative Task).
+Raw scores are combined into a composite score out of 100 and converted into the final AP grade (1 to 5). Historically, scoring approximately 70% or higher earns a score of 5.
+
+### 7. Where can I practice creating statistical charts interactively?
+You can practice creating, customizing, and inspecting all key AP Statistics charts directly on DotPlotMaker.com. Try our [Dot Plot Maker](/), [Histogram Maker](/histogram-maker/), [Box Plot Maker](/box-plot-maker/), [Stem-and-Leaf Plot Maker](/stem-and-leaf-plot-maker/), and [Interactive Outlier Calculator](/blog/outlier-dot-plot-maker/).
+
+### 8. Is the printable AP Statistics Cheat Sheet PDF really free?
+Yes. Our one-page high-resolution PDF download is 100% free with no email gate, subscription, or software installation required. You can print it out for test review, homework, or binders directly from the download box at the top of this article.
+
+---
+
+<div class="ad-unit" aria-label="Advertisement" style="margin-top: 3.5rem;">
+  <span class="ad-label">Advertisement</span>
+  <div class="ad-box">
+    <span style="font-size: 0.85rem; color: var(--color-text-muted);">Publication-Grade Statistical Visualizations</span>
+  </div>
+</div>
+
+<script type="application/ld+json" set:html={JSON.stringify({
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Article",
+      "headline": "AP Statistics Cheat Sheet (Formulas + PDF)",
+      "description": "Free AP Stats cheat sheet: all key formulas by unit, free printable PDF, and interactive tools to practice every concept.",
+      "image": "https://www.dotplotmaker.com/og-image.png",
+      "datePublished": "2026-10-12T00:00:00.000Z",
+      "author": {
+        "@type": "Person",
+        "name": "Dot Plot Maker® Team"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Dot Plot Maker®",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://www.dotplotmaker.com/favicon.svg"
+        }
+      },
+      "mainEntityOfPage": "https://www.dotplotmaker.com/blog/ap-statistics-cheat-sheet/"
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Does the College Board give you a formula sheet on the AP Statistics exam?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. Students receive the official College Board formula sheet during both sections of the exam. However, it does not include inference condition checks, residual formulas, or SOCS templates."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do you describe a quantitative distribution on the AP exam?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Describe the distribution using SOCS: Shape, Outliers, Center, and Spread. Always state your findings in context with units and variable names."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is the 1.5×IQR rule and do I need to memorize it?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The 1.5×IQR rule identifies outliers as points below Q1 - 1.5*IQR or above Q3 + 1.5*IQR. This formula is not on the official reference sheet and must be memorized."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "When should you use a t-test versus a z-test?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Use z-tests for categorical proportions. Use t-tests for quantitative means whenever the population standard deviation is unknown (which is standard practice)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What conditions must be checked before running statistical inference?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Always check the Random condition, the 10% condition (n < 0.10N), and the Normality/Large Sample condition (Large Counts for proportions, CLT or no skew/outliers for means)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How is the AP Statistics exam scored?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Section I is 40 multiple-choice questions (50%), and Section II is 6 free-response questions (50%). Combined raw scores are converted into composite grades from 1 to 5."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Where can I practice creating statistical charts interactively?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Practice creating dot plots, histograms, box plots, stem-and-leaf plots, and outlier calculations for free on DotPlotMaker.com."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is the printable AP Statistics Cheat Sheet PDF really free?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. The one-page high-resolution printable PDF is completely free to download directly without an email gate or registration."
+          }
+        }
+      ]
+    }
+  ]
+})} />
