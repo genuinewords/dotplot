@@ -123,20 +123,8 @@ const breadcrumbSchema = {
 
   <article class="page-content article-container">
     
-    <!-- Hero / Header -->
-    <header class="article-hero animate-fade-in-up" style="opacity: 0;">
-      <div style="display: flex; align-items: center; justify-content: center; gap: 0.75rem; margin-bottom: 1.25rem;">
-        <span class="badge">Data Visualization Guide</span>
-        <span style="color: var(--color-text-muted); font-size: 0.88rem;">Updated October 2026</span>
-      </div>
-      <h1 class="article-title">Dot Plot vs Histogram: What's the Difference?</h1>
-      <p class="article-subtitle">
-        Choosing between a dot plot and a histogram comes down to a fundamental trade-off: do you need to inspect every individual value, or do you need a scalable summary of your entire distribution? Here is everything you need to pick the right chart in seconds.
-      </p>
-    </header>
-
     <!-- ══════════════════════════════════════════════════════════════
-         SECTION 1: THE 30-SECOND ANSWER (HIGHLIGHTED SNIPPET BOX)
+         SECTION 1: THE 30-SECOND ANSWER (PROMINENT AT TOP)
          ══════════════════════════════════════════════════════════════ -->
     <section class="snippet-box" aria-label="Quick Summary">
       <div class="snippet-header">
@@ -150,6 +138,18 @@ const breadcrumbSchema = {
         Use a <strong>dot plot</strong> for small datasets (under 100 points) where every exact value, duplicate count, and individual observation matters. Use a <strong>histogram</strong> for larger continuous datasets where interval bins group numbers to keep the overall distribution shape readable. The fundamental trade-off is precision versus scalability: dot plots preserve every data point, while histograms summarize large volumes of data cleanly.
       </p>
     </section>
+
+    <!-- Hero / Header -->
+    <header class="article-hero animate-fade-in-up" style="opacity: 0;">
+      <div style="display: flex; align-items: center; justify-content: center; gap: 0.75rem; margin-bottom: 1.25rem;">
+        <span class="badge">Data Visualization Guide</span>
+        <span style="color: var(--color-text-muted); font-size: 0.88rem;">Updated October 2026</span>
+      </div>
+      <h1 class="article-title">Dot Plot vs Histogram: What's the Difference?</h1>
+      <p class="article-subtitle">
+        Choosing between a dot plot and a histogram comes down to a fundamental trade-off: do you need to inspect every individual value, or do you need a scalable summary of your entire distribution? Here is everything you need to pick the right chart in seconds.
+      </p>
+    </header>
 
     <!-- Main Prose Body -->
     <div class="article-body">
@@ -283,7 +283,7 @@ const breadcrumbSchema = {
       </div>
 
       <!-- ══════════════════════════════════════════════════════════════
-           SECTION 4: THE SAME DATA, BOTH WAYS (SIDE-BY-SIDE VISUAL)
+           SECTION 4: THE SAME DATA, BOTH WAYS (SIDE-BY-SIDE EXPERIMENT)
            ══════════════════════════════════════════════════════════════ -->
       <section id="the-same-data" style="margin-top: 4rem;">
         <h2 class="content-h2">The Same Data, Both Ways: A Side-by-Side Experiment</h2>
@@ -589,7 +589,7 @@ const breadcrumbSchema = {
     border: 1px solid var(--color-primary);
     border-radius: 12px;
     padding: 1.5rem;
-    margin: 2rem 0 3rem;
+    margin: 0 0 2.5rem;
     box-shadow: 0 12px 32px rgba(0, 212, 170, 0.08);
   }
   .snippet-header {
@@ -598,14 +598,14 @@ const breadcrumbSchema = {
     gap: 0.5rem;
     color: var(--color-primary);
     font-weight: 700;
-    font-size: 0.95rem;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
     margin-bottom: 0.75rem;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 0.05em;
   }
   .snippet-content {
-    color: var(--color-text-primary);
     font-size: 1.05rem;
+    color: var(--color-text-primary);
     line-height: 1.7;
     margin: 0;
   }
@@ -613,37 +613,38 @@ const breadcrumbSchema = {
   /* Comparison Table */
   .table-wrapper {
     overflow-x: auto;
-    background: var(--color-bg-card);
-    border: 1px solid var(--color-border);
     border-radius: 12px;
-    padding: 0.5rem;
+    border: 1px solid var(--color-border);
+    background: var(--color-bg-card);
   }
   .comparison-table {
     width: 100%;
     border-collapse: collapse;
-    font-size: 0.95rem;
     text-align: left;
+    font-size: 0.95rem;
+  }
+  .comparison-table th, 
+  .comparison-table td {
+    padding: 1.1rem 1.25rem;
+    border-bottom: 1px solid var(--color-border);
   }
   .comparison-table th {
-    padding: 1rem;
-    border-bottom: 2px solid var(--color-border);
-    font-size: 1rem;
+    background: rgba(255, 255, 255, 0.03);
+    font-weight: 700;
   }
-  .comparison-table td {
-    padding: 0.95rem 1rem;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-    color: var(--color-text-secondary);
-    line-height: 1.6;
-  }
-  .comparison-table tr:last-child td {
+  .comparison-table tbody tr:last-child td {
     border-bottom: none;
   }
+  .comparison-table tbody tr:hover {
+    background: rgba(255, 255, 255, 0.02);
+  }
 
-  /* Decision Guide Grid */
+  /* Decision Guide */
   .decision-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 1.25rem;
+    margin-top: 1.5rem;
   }
   .decision-card {
     background: var(--color-bg-card);
@@ -657,7 +658,7 @@ const breadcrumbSchema = {
   }
   .decision-card:hover {
     transform: translateY(-2px);
-    border-color: var(--color-border-hover);
+    border-color: var(--color-primary);
   }
   .decision-tag {
     font-size: 0.75rem;
@@ -667,32 +668,36 @@ const breadcrumbSchema = {
     padding: 0.25rem 0.6rem;
     border-radius: 6px;
     display: inline-block;
-    width: fit-content;
+    align-self: flex-start;
     margin-bottom: 0.75rem;
   }
   .decision-title {
     font-size: 1.15rem;
+    font-weight: 700;
     color: var(--color-text-primary);
     margin: 0 0 0.5rem;
   }
   .decision-desc {
-    color: var(--color-text-secondary);
     font-size: 0.9rem;
+    color: var(--color-text-secondary);
     line-height: 1.6;
     margin-bottom: 1.25rem;
-    flex-grow: 1;
+    flex: 1;
   }
   .decision-action {
-    border-top: 1px solid var(--color-border);
-    padding-top: 0.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
     font-size: 0.85rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--color-border);
+  }
+  .decision-action span {
     color: var(--color-text-muted);
   }
   .decision-link {
-    display: block;
-    margin-top: 0.25rem;
-    font-weight: 700;
     color: var(--color-primary);
+    font-weight: 600;
     text-decoration: none;
   }
   .decision-link:hover {

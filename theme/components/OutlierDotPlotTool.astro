@@ -1,231 +1,1078 @@
 ---
 ---
 
-<div id="outlier-tool" class="out-wrapper">
-  <style is:inline>
-    .out-wrapper {
-      --bg: #0a0f14; --bg-elevated: #111920; --fg: #e8eef4; --muted: #6b7d8f;
-      --accent: #00d4aa; --card: #151d26; --border: #243040;
-      --purple: #8b5cf6; --red: #ff6b6b; --orange: #f59e0b;
-      font-family: 'Inter', system-ui, sans-serif;
-      background: var(--bg); color: var(--fg); position: relative; overflow: hidden;
-      border-radius: 16px; margin: 2rem auto; max-width: 900px; padding: 2rem;
-      box-shadow: 0 20px 40px -12px rgba(0,212,170,0.1), 0 0 0 1px rgba(255,255,255,0.07);
-    }
-    .out-wrapper * { box-sizing: border-box; }
-    .out-wrapper .out-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem; flex-wrap: wrap; gap: 0.5rem; }
-    .out-wrapper .out-header h3 { font-size: 1.1rem; font-weight: 700; color: var(--accent); margin: 0; }
-    .out-wrapper .out-header span { font-size: 0.8rem; color: var(--muted); }
-    .out-wrapper .out-tabs { display: flex; gap: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap; }
-    .out-wrapper .out-tab {
-      padding: 0.55rem 1.1rem; border: 1px solid var(--border); border-radius: 10px;
-      background: var(--card); color: var(--muted); font-size: 0.82rem; font-weight: 500;
-      cursor: pointer; transition: all 0.2s;
-    }
-    .out-wrapper .out-tab:hover { border-color: var(--accent); color: var(--fg); }
-    .out-wrapper .out-tab.active { background: rgba(0,212,170,0.15); border-color: var(--accent); color: var(--accent); }
-    .out-wrapper .out-input-row { display: flex; gap: 0.75rem; margin-bottom: 1.25rem; flex-wrap: wrap; }
-    .out-wrapper .out-input {
-      flex: 1; min-width: 200px; background: var(--card); border: 1px solid var(--border);
-      border-radius: 10px; padding: 0.75rem 1rem; color: var(--fg); font-size: 0.88rem;
-      outline: none; transition: border-color 0.2s; font-family: 'IBM Plex Mono', monospace;
-    }
-    .out-wrapper .out-input:focus { border-color: var(--accent); }
-    .out-wrapper .out-input::placeholder { color: var(--muted); }
-    .out-wrapper .out-btn { padding: 0.7rem 1.4rem; border: none; border-radius: 10px; font-weight: 600; font-size: 0.88rem; cursor: pointer; transition: all 0.2s; }
-    .out-wrapper .out-btn-primary { background: linear-gradient(135deg, var(--accent), #00b894); color: #0a0f14; }
-    .out-wrapper .out-btn-primary:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(0,212,170,0.3); }
-    .out-wrapper .out-btn-secondary { background: var(--card); color: var(--fg); border: 1px solid var(--border); }
-    .out-wrapper .out-btn-secondary:hover { border-color: var(--accent); }
-    .out-wrapper .out-chart-area {
-      background: var(--bg-elevated); border: 1px solid var(--border); border-radius: 12px;
-      padding: 1.5rem; margin-bottom: 1.25rem; min-height: 280px;
-      display: flex; align-items: center; justify-content: center;
-    }
-    .out-wrapper .out-chart-area svg { width: 100%; max-height: 320px; }
-    .out-wrapper .out-fence-info {
-      background: var(--card); border: 1px solid var(--border); border-radius: 10px;
-      padding: 1rem 1.25rem; margin-bottom: 1rem; display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 0.5rem;
-    }
-    .out-wrapper .out-fence-item { font-size: 0.8rem; }
-    .out-wrapper .out-fence-label { color: var(--muted); font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.04em; }
-    .out-wrapper .out-fence-value { font-weight: 700; font-size: 0.95rem; }
-    .out-wrapper .out-fence-value.accent { color: var(--accent); }
-    .out-wrapper .out-fence-value.purple { color: var(--purple); }
-    .out-wrapper .out-fence-value.red { color: var(--red); }
-    .out-wrapper .out-outliers-list {
-      background: var(--card); border: 1px solid rgba(255,107,107,0.3); border-radius: 10px;
-      padding: 1rem 1.25rem; margin-bottom: 1rem;
-    }
-    .out-wrapper .out-outliers-title { font-size: 0.85rem; font-weight: 700; color: var(--red); margin-bottom: 0.4rem; }
-    .out-wrapper .out-outliers-desc { font-size: 0.82rem; color: var(--muted); line-height: 1.5; }
-    @media (max-width: 600px) {
-      .out-wrapper { padding: 1.25rem; }
-      .out-wrapper .out-fence-info { grid-template-columns: repeat(2, 1fr); }
-    }
-  </style>
+<div id="outlier-calculator-widget" class="outlier-calc-container">
+  <div class="calc-card">
+    <!-- Header -->
+    <div class="calc-header">
+      <div class="calc-title-group">
+        <span class="calc-badge">Free Interactive Tool</span>
+        <h2 class="calc-title">Interactive Outlier Calculator</h2>
+        <p class="calc-subtitle">
+          Detect outliers in seconds using Tukey’s 1.5×IQR rule, extreme 3×IQR rule, or standard Z-scores. 100% client-side with instant formula breakdown.
+        </p>
+      </div>
+      <div class="calc-presets">
+        <span class="preset-label">Quick Presets:</span>
+        <button type="button" class="preset-btn" data-preset="exam">Exam Scores</button>
+        <button type="button" class="preset-btn" data-preset="housing">House Prices ($K)</button>
+        <button type="button" class="preset-btn" data-preset="lab">Lab Sensor (mg/L)</button>
+        <button type="button" class="preset-btn preset-clear" id="calc-clear-btn">Clear</button>
+      </div>
+    </div>
 
-  <div class="out-header">
-    <h3>Outlier Detection Dot Plot</h3>
-    <span>Auto-detect outliers using the IQR method</span>
+    <!-- Input Section -->
+    <div class="calc-input-section">
+      <div class="calc-input-header">
+        <label for="outlier-raw-input" class="input-label">
+          Paste Raw Numbers <span class="input-hint">(comma, space, or newline separated)</span>
+        </label>
+        <span id="calc-count-tag" class="count-tag">0 numbers</span>
+      </div>
+      <textarea
+        id="outlier-raw-input"
+        class="calc-textarea"
+        rows="4"
+        placeholder="e.g. 45, 68, 72, 74, 76, 78, 80, 82, 84, 85, 88, 91, 93, 98, 12, 100"
+        aria-label="Enter numbers separated by commas, spaces, or lines"
+      ></textarea>
+    </div>
+
+    <!-- Method Selection Controls -->
+    <div class="calc-controls">
+      <div class="method-selector-group">
+        <span class="control-label">Detection Method:</span>
+        <div class="method-toggles" role="radiogroup" aria-label="Outlier detection method">
+          <button type="button" class="method-btn active" data-method="iqr15" role="radio" aria-checked="true">
+            <strong>1.5×IQR (Tukey Standard)</strong>
+            <span>Inner fences (Q1 − 1.5·IQR, Q3 + 1.5·IQR)</span>
+          </button>
+          <button type="button" class="method-btn" data-method="iqr30" role="radio" aria-checked="false">
+            <strong>3.0×IQR (Extreme Only)</strong>
+            <span>Outer fences (Q1 − 3.0·IQR, Q3 + 3.0·IQR)</span>
+          </button>
+          <button type="button" class="method-btn" data-method="zscore" role="radio" aria-checked="false">
+            <strong>Z-Score (|z| &gt; 3)</strong>
+            <span>Standardized normal deviations (|z| &gt; 2 suspicious)</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Alert / Validation Msg -->
+    <div id="calc-alert" class="calc-alert" style="display: none;"></div>
+
+    <!-- Results Section (Visible when valid data is present) -->
+    <div id="calc-results" class="calc-results" style="display: none;">
+      <!-- Key Metric Tiles -->
+      <div class="metrics-grid">
+        <div class="metric-card">
+          <span class="metric-label">Sample Size (n)</span>
+          <span class="metric-val" id="metric-n">-</span>
+          <span class="metric-sub" id="metric-mean-std">Mean: - | SD: -</span>
+        </div>
+        <div class="metric-card">
+          <span class="metric-label">Quartiles (Type 7)</span>
+          <span class="metric-val" id="metric-q-summary">-</span>
+          <span class="metric-sub" id="metric-median">Median: -</span>
+        </div>
+        <div class="metric-card">
+          <span class="metric-label">Interquartile Range (IQR)</span>
+          <span class="metric-val accent" id="metric-iqr">-</span>
+          <span class="metric-sub" id="metric-iqr-calc">Q3 − Q1</span>
+        </div>
+        <div class="metric-card">
+          <span class="metric-label">Detection Thresholds</span>
+          <span class="metric-val" id="metric-fences-summary">-</span>
+          <span class="metric-sub" id="metric-fences-detail">-</span>
+        </div>
+      </div>
+
+      <!-- Outlier Summary Banner -->
+      <div id="outlier-summary-banner" class="summary-banner">
+        <div class="banner-icon-col">
+          <span id="banner-status-badge" class="badge">Results</span>
+        </div>
+        <div class="banner-text-col">
+          <h3 id="banner-status-headline" class="banner-headline">0 Outliers Detected</h3>
+          <p id="banner-status-desc" class="banner-desc">Analyzing distribution boundaries...</p>
+        </div>
+        <div class="banner-actions">
+          <button type="button" class="btn-action-sm" id="btn-copy-outliers">Copy Outliers</button>
+          <button type="button" class="btn-action-sm" id="btn-copy-summary">Copy Summary</button>
+        </div>
+      </div>
+
+      <!-- Visual Strip / Distribution Plot -->
+      <div class="visual-panel">
+        <div class="visual-header">
+          <span class="visual-title">Visual Distribution &amp; Boundary Map</span>
+          <div class="visual-legend">
+            <span class="legend-item"><span class="dot dot-normal"></span> Normal</span>
+            <span class="legend-item"><span class="dot dot-mild"></span> Mild Outlier</span>
+            <span class="legend-item"><span class="dot dot-extreme"></span> Extreme Outlier</span>
+            <span class="legend-item"><span class="fence-line-sample"></span> Fence Boundary</span>
+          </div>
+        </div>
+        <div class="visual-chart-container" id="visual-chart-container">
+          <svg id="visual-chart-svg" viewBox="0 0 860 170" xmlns="http://www.w3.org/2000/svg" aria-label="Visual distribution strip chart"></svg>
+        </div>
+      </div>
+
+      <!-- Detailed Values Table -->
+      <div class="table-panel">
+        <div class="table-header">
+          <div class="table-title-group">
+            <span class="table-title">Observation Classification Table</span>
+            <span class="table-subtitle">Individual data points evaluated against active criteria</span>
+          </div>
+          <div class="table-filter-group">
+            <button type="button" class="filter-chip active" data-filter="all">All (<span id="count-all">0</span>)</button>
+            <button type="button" class="filter-chip" data-filter="outliers">Outliers (<span id="count-outliers">0</span>)</button>
+            <button type="button" class="filter-chip" data-filter="normal">Normal (<span id="count-normal">0</span>)</button>
+          </div>
+        </div>
+        <div class="table-responsive">
+          <table class="data-table" id="outlier-data-table">
+            <thead>
+              <tr>
+                <th style="width: 70px;">Rank</th>
+                <th style="width: 140px;">Value (x)</th>
+                <th style="width: 130px;">Z-Score</th>
+                <th style="width: 160px;">Distance from Median</th>
+                <th>Classification</th>
+              </tr>
+            </thead>
+            <tbody id="outlier-table-body">
+              <!-- Dynamically populated rows -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
   </div>
-
-  <div class="out-tabs">
-    <button class="out-tab active" data-set="housing">Housing Prices</button>
-    <button class="out-tab" data-set="test">Test Scores</button>
-    <button class="out-tab" data-set="custom">Custom Data</button>
-  </div>
-
-  <div class="out-input-row" id="out-custom-row" style="display:none;">
-    <input type="text" class="out-input" id="out-custom-data" placeholder="Enter comma-separated numbers" />
-    <button class="out-btn out-btn-primary" id="out-custom-go">Detect</button>
-  </div>
-
-  <div class="out-chart-area" id="out-chart"></div>
-
-  <div class="out-fence-info" id="out-fences" style="display:none;"></div>
-
-  <div class="out-outliers-list" id="out-outliers" style="display:none;"></div>
 </div>
 
+<style is:inline>
+  .outlier-calc-container {
+    max-width: 1040px;
+    margin: 1.5rem auto 3rem;
+    font-family: var(--font-sans, "Inter", system-ui, sans-serif);
+    text-align: left;
+  }
+  .outlier-calc-container * {
+    box-sizing: border-box;
+  }
+  .calc-card {
+    background: #0d131a;
+    border: 1px solid var(--color-border, rgba(255, 255, 255, 0.1));
+    border-radius: 16px;
+    padding: 2rem;
+    box-shadow: 0 12px 40px -10px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(0, 212, 170, 0.1);
+  }
+  .calc-header {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    margin-bottom: 1.75rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--color-border, rgba(255, 255, 255, 0.08));
+  }
+  .calc-badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    background: rgba(0, 212, 170, 0.12);
+    border: 1px solid rgba(0, 212, 170, 0.25);
+    color: var(--color-primary, #00d4aa);
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.5rem;
+  }
+  .calc-title {
+    font-size: 1.75rem;
+    font-weight: 800;
+    margin: 0 0 0.5rem;
+    color: var(--color-text-primary, #f0f0f5);
+    background: linear-gradient(135deg, #ffffff, var(--color-primary, #00d4aa));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .calc-subtitle {
+    margin: 0;
+    font-size: 0.95rem;
+    color: var(--color-text-secondary, #a0a0b8);
+    line-height: 1.6;
+    max-width: 780px;
+  }
+  .calc-presets {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-top: 0.5rem;
+  }
+  .preset-label {
+    font-size: 0.82rem;
+    color: var(--color-text-muted, #6b6b8a);
+    font-weight: 600;
+    margin-right: 0.25rem;
+  }
+  .preset-btn {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--color-text-secondary, #a0a0b8);
+    padding: 0.35rem 0.75rem;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .preset-btn:hover {
+    background: rgba(0, 212, 170, 0.1);
+    border-color: var(--color-primary, #00d4aa);
+    color: var(--color-primary, #00d4aa);
+    transform: translateY(-1px);
+  }
+  .preset-clear {
+    background: rgba(255, 107, 107, 0.08);
+    border-color: rgba(255, 107, 107, 0.2);
+    color: #ff6b6b;
+  }
+  .preset-clear:hover {
+    background: rgba(255, 107, 107, 0.18);
+    border-color: #ff6b6b;
+    color: #ffffff;
+  }
+  .calc-input-section {
+    margin-bottom: 1.5rem;
+  }
+  .calc-input-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+  }
+  .input-label {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--color-text-primary, #f0f0f5);
+  }
+  .input-hint {
+    font-size: 0.8rem;
+    font-weight: 400;
+    color: var(--color-text-muted, #6b6b8a);
+  }
+  .count-tag {
+    font-family: var(--font-mono, monospace);
+    font-size: 0.8rem;
+    color: var(--color-primary, #00d4aa);
+    background: rgba(0, 212, 170, 0.1);
+    padding: 0.2rem 0.5rem;
+    border-radius: 6px;
+  }
+  .calc-textarea {
+    width: 100%;
+    background: #111922;
+    border: 1px solid var(--color-border, rgba(255, 255, 255, 0.12));
+    border-radius: 10px;
+    padding: 0.85rem 1rem;
+    color: var(--color-text-primary, #f0f0f5);
+    font-family: var(--font-mono, monospace);
+    font-size: 0.9rem;
+    line-height: 1.6;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    resize: vertical;
+  }
+  .calc-textarea:focus {
+    border-color: var(--color-primary, #00d4aa);
+    box-shadow: 0 0 0 3px rgba(0, 212, 170, 0.15);
+  }
+  .calc-controls {
+    margin-bottom: 1.5rem;
+  }
+  .control-label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--color-text-primary, #f0f0f5);
+    margin-bottom: 0.6rem;
+  }
+  .method-toggles {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 0.75rem;
+  }
+  .method-btn {
+    background: #141d27;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 10px;
+    padding: 0.85rem 1rem;
+    text-align: left;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+  .method-btn strong {
+    font-size: 0.9rem;
+    color: var(--color-text-primary, #f0f0f5);
+    transition: color 0.2s;
+  }
+  .method-btn span {
+    font-size: 0.75rem;
+    color: var(--color-text-muted, #6b6b8a);
+    line-height: 1.35;
+  }
+  .method-btn:hover {
+    border-color: rgba(0, 212, 170, 0.4);
+    background: #182330;
+  }
+  .method-btn.active {
+    background: rgba(0, 212, 170, 0.12);
+    border-color: var(--color-primary, #00d4aa);
+    box-shadow: 0 0 15px rgba(0, 212, 170, 0.15);
+  }
+  .method-btn.active strong {
+    color: var(--color-primary, #00d4aa);
+  }
+  .calc-alert {
+    padding: 1rem 1.25rem;
+    border-radius: 10px;
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.25);
+    color: #ff8080;
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+  }
+  .calc-results {
+    margin-top: 1.5rem;
+    animation: fadeIn 0.3s ease;
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 0.85rem;
+    margin-bottom: 1.5rem;
+  }
+  .metric-card {
+    background: #111922;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    padding: 1rem 1.15rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+  .metric-label {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-text-muted, #6b6b8a);
+    font-weight: 700;
+  }
+  .metric-val {
+    font-size: 1.35rem;
+    font-weight: 800;
+    color: var(--color-text-primary, #f0f0f5);
+    font-family: var(--font-mono, monospace);
+  }
+  .metric-val.accent {
+    color: var(--color-primary, #00d4aa);
+  }
+  .metric-sub {
+    font-size: 0.78rem;
+    color: var(--color-text-secondary, #a0a0b8);
+    line-height: 1.4;
+  }
+  .summary-banner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.25rem;
+    padding: 1.25rem 1.5rem;
+    border-radius: 12px;
+    background: #141d27;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+  }
+  .summary-banner.has-outliers {
+    border-color: rgba(255, 107, 107, 0.3);
+    background: rgba(255, 107, 107, 0.05);
+  }
+  .summary-banner.clean {
+    border-color: rgba(16, 185, 129, 0.3);
+    background: rgba(16, 185, 129, 0.05);
+  }
+  .banner-icon-col .badge {
+    font-size: 0.78rem;
+    font-weight: 700;
+  }
+  .banner-text-col {
+    flex: 1;
+    min-width: 240px;
+  }
+  .banner-headline {
+    font-size: 1.2rem;
+    font-weight: 800;
+    margin: 0 0 0.25rem;
+    color: var(--color-text-primary, #f0f0f5);
+  }
+  .banner-desc {
+    margin: 0;
+    font-size: 0.88rem;
+    color: var(--color-text-secondary, #a0a0b8);
+  }
+  .banner-actions {
+    display: flex;
+    gap: 0.5rem;
+  }
+  .btn-action-sm {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: var(--color-text-primary, #f0f0f5);
+    padding: 0.45rem 0.85rem;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .btn-action-sm:hover {
+    background: rgba(0, 212, 170, 0.15);
+    border-color: var(--color-primary, #00d4aa);
+    color: var(--color-primary, #00d4aa);
+  }
+  .visual-panel {
+    background: #111922;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+  .visual-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  .visual-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--color-text-primary, #f0f0f5);
+  }
+  .visual-legend {
+    display: flex;
+    gap: 0.85rem;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .legend-item {
+    font-size: 0.78rem;
+    color: var(--color-text-secondary, #a0a0b8);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+  }
+  .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    display: inline-block;
+  }
+  .dot-normal { background: #00d4aa; }
+  .dot-mild { background: #f59e0b; }
+  .dot-extreme { background: #ff6b6b; }
+  .fence-line-sample {
+    width: 14px;
+    height: 0;
+    border-top: 2px dashed #a78bfa;
+    display: inline-block;
+  }
+  .visual-chart-container {
+    width: 100%;
+    overflow-x: auto;
+  }
+  .visual-chart-container svg {
+    width: 100%;
+    min-width: 600px;
+    display: block;
+  }
+  .table-panel {
+    background: #111922;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    padding: 1.25rem 1.5rem;
+  }
+  .table-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+  .table-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--color-text-primary, #f0f0f5);
+    display: block;
+  }
+  .table-subtitle {
+    font-size: 0.8rem;
+    color: var(--color-text-muted, #6b6b8a);
+  }
+  .table-filter-group {
+    display: flex;
+    gap: 0.4rem;
+  }
+  .filter-chip {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--color-text-secondary, #a0a0b8);
+    padding: 0.3rem 0.65rem;
+    border-radius: 6px;
+    font-size: 0.78rem;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .filter-chip.active {
+    background: rgba(0, 212, 170, 0.15);
+    border-color: var(--color-primary, #00d4aa);
+    color: var(--color-primary, #00d4aa);
+    font-weight: 600;
+  }
+  .table-responsive {
+    overflow-x: auto;
+  }
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.88rem;
+    text-align: left;
+  }
+  .data-table th {
+    background: rgba(255, 255, 255, 0.04);
+    color: var(--color-text-muted, #6b6b8a);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 0.75rem 0.85rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  }
+  .data-table td {
+    padding: 0.7rem 0.85rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    color: var(--color-text-secondary, #a0a0b8);
+  }
+  .data-table tr:hover td {
+    background: rgba(255, 255, 255, 0.02);
+  }
+  .badge-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.2rem 0.6rem;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+  }
+  .badge-status.normal {
+    background: rgba(16, 185, 129, 0.12);
+    color: #10b981;
+    border: 1px solid rgba(16, 185, 129, 0.25);
+  }
+  .badge-status.mild {
+    background: rgba(245, 158, 11, 0.12);
+    color: #f59e0b;
+    border: 1px solid rgba(245, 158, 11, 0.25);
+  }
+  .badge-status.extreme {
+    background: rgba(239, 68, 68, 0.15);
+    color: #ef4444;
+    border: 1px solid rgba(239, 68, 68, 0.3);
+  }
+  @media (max-width: 768px) {
+    .calc-card { padding: 1.25rem; }
+    .calc-title { font-size: 1.4rem; }
+    .method-toggles { grid-template-columns: 1fr; }
+    .metrics-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+
 <script>
-  const presets: Record<string, { data: number[]; unit: string; context: string }> = {
-    housing: {
-      data: [180,195,210,220,225,230,240,250,260,270,275,280,290,300,310,320,330,350,375,420,850],
-      unit: "$K",
-      context: "Home prices in a suburban neighborhood. Most homes cluster around $250-350K, but a luxury mansion at $850K is flagged as an outlier."
-    },
-    test: {
-      data: [42,55,60,62,65,67,68,70,71,72,73,74,75,76,78,80,82,85,88,12],
-      unit: "pts",
-      context: "Student test scores. One student scored 12 (likely absent or misunderstood), flagged as an outlier below the lower fence."
-    }
+  // Presets
+  const PRESETS: Record<string, number[]> = {
+    exam: [45, 68, 72, 74, 76, 78, 80, 82, 84, 85, 88, 91, 93, 98, 12, 100],
+    housing: [180, 195, 210, 220, 225, 230, 240, 250, 260, 270, 275, 280, 290, 300, 310, 320, 330, 350, 375, 420, 850],
+    lab: [91.2, 92.4, 93.1, 93.5, 94.0, 94.2, 94.5, 94.8, 95.0, 95.2, 95.4, 95.8, 96.1, 98.9, 78.5]
   };
 
-  function quartile(sorted: number[], q: number) {
-    const pos = (sorted.length - 1) * q;
-    const base = Math.floor(pos);
-    const rest = pos - base;
-    return sorted[base + 1] !== undefined ? sorted[base] + rest * (sorted[base + 1] - sorted[base]) : sorted[base];
-  }
+  let activeMethod = 'iqr15'; // 'iqr15' | 'iqr30' | 'zscore'
+  let activeFilter = 'all';  // 'all' | 'outliers' | 'normal'
+  let cachedRecords: any[] = [];
+  let cachedStats: any = null;
 
-  function detect(data: number[], unit: string, context: string) {
-    if (data.length < 5) return;
-    const sorted = [...data].sort((a, b) => a - b);
-    const q1 = quartile(sorted, 0.25);
-    const q3 = quartile(sorted, 0.75);
-    const iqr = q3 - q1;
-    const lowerFence = q1 - 1.5 * iqr;
-    const upperFence = q3 + 1.5 * iqr;
-    const outliers = sorted.filter(v => v < lowerFence || v > upperFence);
-    const whiskerLow = sorted.find(v => v >= lowerFence) ?? sorted[0];
-    const whiskerHigh = [...sorted].reverse().find(v => v <= upperFence) ?? sorted[sorted.length - 1];
+  function initOutlierCalculator() {
+    const textarea = document.getElementById('outlier-raw-input') as HTMLTextAreaElement | null;
+    const countTag = document.getElementById('calc-count-tag');
+    const alertEl = document.getElementById('calc-alert');
+    const resultsContainer = document.getElementById('calc-results');
+    const clearBtn = document.getElementById('calc-clear-btn');
+    const presetBtns = document.querySelectorAll('.preset-btn[data-preset]');
+    const methodBtns = document.querySelectorAll('.method-btn');
+    const filterChips = document.querySelectorAll('.filter-chip');
+    const copyOutliersBtn = document.getElementById('btn-copy-outliers');
+    const copySummaryBtn = document.getElementById('btn-copy-summary');
 
-    const min = sorted[0], max = sorted[sorted.length - 1];
-    const range = max - min || 1;
+    if (!textarea) return;
 
-    const W = 860, H = 300, pad = { t: 35, r: 30, b: 45, l: 55 };
-    const cw = W - pad.l - pad.r, ch = H - pad.t - pad.b;
-    const sx = (v: number) => pad.l + ((v - min) / range) * cw;
-    const baseY = H - pad.b;
-
-    let svg = `<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">`;
-
-    for (let i = 0; i <= 8; i++) {
-      const v = min + (range * i) / 8;
-      const x = sx(v);
-      svg += `<line x1="${x}" y1="${pad.t}" x2="${x}" y2="${baseY}" stroke="#243040" stroke-width="1"/>`;
-      svg += `<text x="${x}" y="${baseY+20}" text-anchor="middle" fill="#6b7d8f" font-size="10">${Math.round(v)}</text>`;
+    // Load default preset on startup
+    if (!textarea.value.trim()) {
+      textarea.value = PRESETS.exam.join(', ');
+      recompute();
     }
 
-    // Fence zones
-    if (lowerFence > min) {
-      const x1 = sx(min), x2 = sx(Math.min(lowerFence, max));
-      svg += `<rect x="${x1}" y="${pad.t}" width="${x2-x1}" height="${baseY-pad.t}" fill="rgba(255,107,107,0.06)"/>`;
-      svg += `<line x1="${sx(lowerFence)}" y1="${pad.t}" x2="${sx(lowerFence)}" y2="${baseY}" stroke="#ff6b6b" stroke-width="1" stroke-dasharray="4,4" opacity="0.5"/>`;
-      svg += `<text x="${sx(lowerFence)}" y="${pad.t-4}" text-anchor="middle" fill="#ff6b6b" font-size="8">Lower fence</text>`;
-    }
-    if (upperFence < max) {
-      const x1 = sx(Math.max(upperFence, min)), x2 = sx(max);
-      svg += `<rect x="${x1}" y="${pad.t}" width="${x2-x1}" height="${baseY-pad.t}" fill="rgba(255,107,107,0.06)"/>`;
-      svg += `<line x1="${sx(upperFence)}" y1="${pad.t}" x2="${sx(upperFence)}" y2="${baseY}" stroke="#ff6b6b" stroke-width="1" stroke-dasharray="4,4" opacity="0.5"/>`;
-      svg += `<text x="${sx(upperFence)}" y="${pad.t-4}" text-anchor="middle" fill="#ff6b6b" font-size="8">Upper fence</text>`;
-    }
-
-    const freq: Record<string,number> = {};
-    sorted.forEach(v => { const k=String(v); freq[k]=(freq[k]||0)+1; });
-    const maxF = Math.max(...Object.values(freq));
-    const ds = Math.min(14, ch/(maxF+2));
-    const fT: Record<string,number> = {};
-
-    sorted.forEach(v => {
-      const k = String(v); fT[k] = (fT[k]||0)+1;
-      const si = fT[k]!-1;
-      const isOut = outliers.includes(v);
-      const cx = sx(v), cy = baseY - si*ds - 10;
-      if (isOut) {
-        svg += `<circle cx="${cx}" cy="${cy}" r="7" fill="none" stroke="#ff6b6b" stroke-width="2" opacity="0.4"/>`;
-        svg += `<circle cx="${cx}" cy="${cy}" r="5.5" fill="#ff6b6b" opacity="0.85"/>`;
-      } else {
-        svg += `<circle cx="${cx}" cy="${cy}" r="5" fill="#00d4aa" opacity="0.6"/>`;
-      }
+    // Input event listener
+    textarea.addEventListener('input', () => {
+      recompute();
     });
 
-    svg += `<text x="${pad.l+cw/2}" y="${baseY+38}" text-anchor="middle" fill="#6b7d8f" font-size="10">${unit}</text>`;
-    svg += `</svg>`;
-    (document.getElementById("out-chart") as HTMLElement).innerHTML = svg;
-
-    const f = (v: number) => v < 10 ? v.toFixed(2) : v < 100 ? v.toFixed(1) : Math.round(v).toString();
-    const fences = document.getElementById("out-fences") as HTMLElement;
-    fences.innerHTML = `
-      <div class="out-fence-item"><div class="out-fence-label">Q1</div><div class="out-fence-value purple">${f(q1)}</div></div>
-      <div class="out-fence-item"><div class="out-fence-label">Q3</div><div class="out-fence-value purple">${f(q3)}</div></div>
-      <div class="out-fence-item"><div class="out-fence-label">IQR</div><div class="out-fence-value">${f(iqr)}</div></div>
-      <div class="out-fence-item"><div class="out-fence-label">1.5× IQR</div><div class="out-fence-value">${f(1.5*iqr)}</div></div>
-      <div class="out-fence-item"><div class="out-fence-label">Lower Fence</div><div class="out-fence-value red">${f(lowerFence)}</div></div>
-      <div class="out-fence-item"><div class="out-fence-label">Upper Fence</div><div class="out-fence-value red">${f(upperFence)}</div></div>
-      <div class="out-fence-item"><div class="out-fence-label">Whisker Low</div><div class="out-fence-value accent">${f(whiskerLow)}</div></div>
-      <div class="out-fence-item"><div class="out-fence-label">Whisker High</div><div class="out-fence-value accent">${f(whiskerHigh)}</div></div>
-    `;
-    fences.style.display = "grid";
-
-    const outEl = document.getElementById("out-outliers") as HTMLElement;
-    if (outliers.length > 0) {
-      outEl.innerHTML = `
-        <div class="out-outliers-title">${outliers.length} Outlier${outliers.length > 1 ? "s" : ""} Detected</div>
-        <div class="out-outliers-desc">
-          Values <strong>${outliers.map(f).join(", ")} ${unit}</strong> fall beyond the 1.5× IQR fences and are highlighted in red on the plot.<br/><br/>
-          ${context}
-        </div>`;
-    } else {
-      outEl.innerHTML = `
-        <div class="out-outliers-title" style="color:var(--accent);">No Outliers Detected</div>
-        <div class="out-outliers-desc">All values fall within the 1.5× IQR fences. The data appears to have no extreme values.<br/><br/>${context}</div>`;
+    // Clear event
+    if (clearBtn) {
+      clearBtn.addEventListener('click', () => {
+        textarea.value = '';
+        recompute();
+      });
     }
-    outEl.style.display = "block";
+
+    // Presets
+    presetBtns.forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const target = e.currentTarget as HTMLElement;
+        const pKey = target.dataset.preset;
+        if (pKey && PRESETS[pKey]) {
+          textarea.value = PRESETS[pKey].join(', ');
+          recompute();
+        }
+      });
+    });
+
+    // Method Toggles
+    methodBtns.forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const target = e.currentTarget as HTMLElement;
+        const method = target.dataset.method;
+        if (!method) return;
+        activeMethod = method;
+        methodBtns.forEach(b => {
+          b.classList.remove('active');
+          b.setAttribute('aria-checked', 'false');
+        });
+        target.classList.add('active');
+        target.setAttribute('aria-checked', 'true');
+        recompute();
+      });
+    });
+
+    // Filter Chips
+    filterChips.forEach(chip => {
+      chip.addEventListener('click', (e) => {
+        const target = e.currentTarget as HTMLElement;
+        const filter = target.dataset.filter;
+        if (!filter) return;
+        activeFilter = filter;
+        filterChips.forEach(c => c.classList.remove('active'));
+        target.classList.add('active');
+        renderTableRows();
+      });
+    });
+
+    // Copy Outliers
+    if (copyOutliersBtn) {
+      copyOutliersBtn.addEventListener('click', () => {
+        const outliers = cachedRecords.filter(r => r.status !== 'normal').map(r => r.val);
+        const text = outliers.length ? outliers.join(', ') : 'None';
+        navigator.clipboard.writeText(text).then(() => {
+          const original = copyOutliersBtn.textContent;
+          copyOutliersBtn.textContent = 'Copied!';
+          setTimeout(() => { copyOutliersBtn.textContent = original; }, 1600);
+        });
+      });
+    }
+
+    // Copy Summary
+    if (copySummaryBtn) {
+      copySummaryBtn.addEventListener('click', () => {
+        if (!cachedStats) return;
+        const s = cachedStats;
+        const text = `Outlier Analysis (${s.methodLabel}):\n` +
+          `- Sample size: ${s.n}\n` +
+          `- Mean: ${s.mean.toFixed(2)}, Std Dev: ${s.std.toFixed(2)}\n` +
+          `- Q1: ${s.q1.toFixed(2)}, Median: ${s.median.toFixed(2)}, Q3: ${s.q3.toFixed(2)}\n` +
+          `- IQR: ${s.iqr.toFixed(2)}\n` +
+          `- Lower Threshold: ${s.lowerCutoff.toFixed(2)}, Upper Threshold: ${s.upperCutoff.toFixed(2)}\n` +
+          `- Outliers Found: ${s.outlierCount} (${s.outlierValues.join(', ') || 'None'})`;
+        navigator.clipboard.writeText(text).then(() => {
+          const original = copySummaryBtn.textContent;
+          copySummaryBtn.textContent = 'Copied!';
+          setTimeout(() => { copySummaryBtn.textContent = original; }, 1600);
+        });
+      });
+    }
+
+    function parseNumbers(raw: string): number[] {
+      return raw
+        .split(/[\s,\t\n\r]+/)
+        .map(s => s.trim())
+        .filter(s => s !== '' && !isNaN(Number(s)))
+        .map(Number);
+    }
+
+    // Type 7 linear interpolation (Excel QUARTILE.INC / R default)
+    function calcPercentile(sorted: number[], p: number): number {
+      const n = sorted.length;
+      if (n === 0) return 0;
+      const index = (n - 1) * p;
+      const i = Math.floor(index);
+      const f = index - i;
+      if (i + 1 < n) {
+        return (1 - f) * sorted[i] + f * sorted[i + 1];
+      }
+      return sorted[i];
+    }
+
+    function recompute() {
+      const nums = parseNumbers(textarea.value);
+      if (countTag) countTag.textContent = `${nums.length} numbers`;
+
+      if (nums.length < 4) {
+        if (alertEl) {
+          alertEl.textContent = 'Please enter at least 4 numbers to reliably compute quartiles and boundaries.';
+          alertEl.style.display = 'block';
+        }
+        if (resultsContainer) resultsContainer.style.display = 'none';
+        return;
+      }
+
+      if (alertEl) alertEl.style.display = 'none';
+      if (resultsContainer) resultsContainer.style.display = 'block';
+
+      const n = nums.length;
+      const sorted = [...nums].sort((a, b) => a - b);
+      const sum = sorted.reduce((acc, v) => acc + v, 0);
+      const mean = sum / n;
+      const variance = sorted.reduce((acc, v) => acc + Math.pow(v - mean, 2), 0) / (n - 1);
+      const std = Math.sqrt(variance);
+
+      const q1 = calcPercentile(sorted, 0.25);
+      const median = calcPercentile(sorted, 0.5);
+      const q3 = calcPercentile(sorted, 0.75);
+      const iqr = q3 - q1;
+
+      const innerLower = q1 - 1.5 * iqr;
+      const innerUpper = q3 + 1.5 * iqr;
+      const outerLower = q1 - 3.0 * iqr;
+      const outerUpper = q3 + 3.0 * iqr;
+
+      const zLower = mean - 3.0 * std;
+      const zUpper = mean + 3.0 * std;
+      const zSuspiciousLower = mean - 2.0 * std;
+      const zSuspiciousUpper = mean + 2.0 * std;
+
+      let lowerCutoff = innerLower;
+      let upperCutoff = innerUpper;
+      let methodLabel = '1.5×IQR Rule';
+
+      if (activeMethod === 'iqr30') {
+        lowerCutoff = outerLower;
+        upperCutoff = outerUpper;
+        methodLabel = '3.0×IQR Rule';
+      } else if (activeMethod === 'zscore') {
+        lowerCutoff = zLower;
+        upperCutoff = zUpper;
+        methodLabel = 'Z-Score Rule (|z| > 3)';
+      }
+
+      // Classify each observation
+      const records = sorted.map((val, idx) => {
+        const z = std > 0 ? (val - mean) / std : 0;
+        const distFromMedian = val - median;
+        let status: 'normal' | 'mild' | 'extreme' = 'normal';
+        let statusText = 'Normal';
+
+        if (activeMethod === 'iqr15') {
+          if (val < outerLower || val > outerUpper) {
+            status = 'extreme';
+            statusText = 'Extreme Outlier';
+          } else if (val < innerLower || val > innerUpper) {
+            status = 'mild';
+            statusText = 'Mild Outlier';
+          } else {
+            status = 'normal';
+            statusText = 'Normal';
+          }
+        } else if (activeMethod === 'iqr30') {
+          if (val < outerLower || val > outerUpper) {
+            status = 'extreme';
+            statusText = 'Extreme Outlier';
+          } else if (val < innerLower || val > innerUpper) {
+            status = 'mild';
+            statusText = 'Mild (Within 3×IQR)';
+          } else {
+            status = 'normal';
+            statusText = 'Normal';
+          }
+        } else {
+          // Z-score method
+          if (Math.abs(z) > 3) {
+            status = 'extreme';
+            statusText = 'Extreme Outlier (|z| > 3)';
+          } else if (Math.abs(z) > 2) {
+            status = 'mild';
+            statusText = 'Suspicious (|z| > 2)';
+          } else {
+            status = 'normal';
+            statusText = 'Normal (|z| ≤ 2)';
+          }
+        }
+
+        return {
+          rank: idx + 1,
+          val,
+          z,
+          distFromMedian,
+          status,
+          statusText
+        };
+      });
+
+      cachedRecords = records;
+      const outlierRecords = records.filter(r => r.status !== 'normal');
+      const mildCount = records.filter(r => r.status === 'mild').length;
+      const extremeCount = records.filter(r => r.status === 'extreme').length;
+
+      cachedStats = {
+        n,
+        mean,
+        std,
+        q1,
+        median,
+        q3,
+        iqr,
+        lowerCutoff,
+        upperCutoff,
+        innerLower,
+        innerUpper,
+        outerLower,
+        outerUpper,
+        methodLabel,
+        outlierCount: outlierRecords.length,
+        outlierValues: outlierRecords.map(r => r.val)
+      };
+
+      // Update Tiles
+      const metricN = document.getElementById('metric-n');
+      const metricMeanStd = document.getElementById('metric-mean-std');
+      const metricQSummary = document.getElementById('metric-q-summary');
+      const metricMedian = document.getElementById('metric-median');
+      const metricIqr = document.getElementById('metric-iqr');
+      const metricIqrCalc = document.getElementById('metric-iqr-calc');
+      const metricFencesSummary = document.getElementById('metric-fences-summary');
+      const metricFencesDetail = document.getElementById('metric-fences-detail');
+
+      if (metricN) metricN.textContent = `${n}`;
+      if (metricMeanStd) metricMeanStd.textContent = `Mean: ${mean.toFixed(2)} | SD: ${std.toFixed(2)}`;
+      if (metricQSummary) metricQSummary.textContent = `Q1: ${q1.toFixed(2)} | Q3: ${q3.toFixed(2)}`;
+      if (metricMedian) metricMedian.textContent = `Median (Q2): ${median.toFixed(2)}`;
+      if (metricIqr) metricIqr.textContent = `${iqr.toFixed(2)}`;
+      if (metricIqrCalc) metricIqrCalc.textContent = `${q3.toFixed(2)} − ${q1.toFixed(2)}`;
+
+      if (metricFencesSummary) {
+        metricFencesSummary.textContent = `[${lowerCutoff.toFixed(1)}, ${upperCutoff.toFixed(1)}]`;
+      }
+      if (metricFencesDetail) {
+        if (activeMethod === 'iqr15') {
+          metricFencesDetail.textContent = `Inner: ${innerLower.toFixed(1)} to ${innerUpper.toFixed(1)} | Outer: ${outerLower.toFixed(1)} to ${outerUpper.toFixed(1)}`;
+        } else if (activeMethod === 'iqr30') {
+          metricFencesDetail.textContent = `Outer fences: ${outerLower.toFixed(1)} to ${outerUpper.toFixed(1)}`;
+        } else {
+          metricFencesDetail.textContent = `±3 SD: ${zLower.toFixed(1)} to ${zUpper.toFixed(1)} (±2 SD: ${zSuspiciousLower.toFixed(1)} to ${zSuspiciousUpper.toFixed(1)})`;
+        }
+      }
+
+      // Update Banner
+      const banner = document.getElementById('outlier-summary-banner');
+      const bannerBadge = document.getElementById('banner-status-badge');
+      const bannerHeadline = document.getElementById('banner-status-headline');
+      const bannerDesc = document.getElementById('banner-status-desc');
+
+      if (banner && bannerBadge && bannerHeadline && bannerDesc) {
+        banner.classList.remove('has-outliers', 'clean');
+        if (outlierRecords.length > 0) {
+          banner.classList.add('has-outliers');
+          bannerBadge.textContent = 'Outliers Found';
+          bannerBadge.style.color = '#ff6b6b';
+          bannerBadge.style.borderColor = 'rgba(255,107,107,0.3)';
+          bannerHeadline.textContent = `${outlierRecords.length} Outlier${outlierRecords.length === 1 ? '' : 's'} Identified (${extremeCount} Extreme, ${mildCount} Mild)`;
+          bannerDesc.textContent = `Values outside active thresholds: ${outlierRecords.map(r => r.val).join(', ')}`;
+        } else {
+          banner.classList.add('clean');
+          bannerBadge.textContent = 'Clean Dataset';
+          bannerBadge.style.color = '#10b981';
+          bannerBadge.style.borderColor = 'rgba(16,185,129,0.3)';
+          bannerHeadline.textContent = '0 Outliers Detected';
+          bannerDesc.textContent = `All ${n} observations fall safely within normal boundary thresholds.`;
+        }
+      }
+
+      // Update Filter counts
+      const countAll = document.getElementById('count-all');
+      const countOutliers = document.getElementById('count-outliers');
+      const countNormal = document.getElementById('count-normal');
+      if (countAll) countAll.textContent = `${n}`;
+      if (countOutliers) countOutliers.textContent = `${outlierRecords.length}`;
+      if (countNormal) countNormal.textContent = `${n - outlierRecords.length}`;
+
+      renderVisualChart(sorted, records, lowerCutoff, upperCutoff, innerLower, innerUpper);
+      renderTableRows();
+    }
+
+    function renderVisualChart(sorted: number[], records: any[], lowerCutoff: number, upperCutoff: number, innerLower: number, innerUpper: number) {
+      const svg = document.getElementById('visual-chart-svg');
+      if (!svg) return;
+
+      const minVal = Math.min(sorted[0], lowerCutoff);
+      const maxVal = Math.max(sorted[sorted.length - 1], upperCutoff);
+      const dataSpan = (maxVal - minVal) || 1;
+      const padMargin = dataSpan * 0.08;
+      const plotMin = minVal - padMargin;
+      const plotMax = maxVal + padMargin;
+      const plotSpan = plotMax - plotMin;
+
+      const W = 860;
+      const H = 170;
+      const pad = { left: 45, right: 45, top: 25, bottom: 45 };
+      const cw = W - pad.left - pad.right;
+      const axisY = H - pad.bottom;
+
+      const scaleX = (val: number) => pad.left + ((val - plotMin) / plotSpan) * cw;
+
+      let html = '';
+
+      // Shaded normal zone
+      const normX1 = Math.max(pad.left, scaleX(lowerCutoff));
+      const normX2 = Math.min(W - pad.right, scaleX(upperCutoff));
+      const normWidth = Math.max(0, normX2 - normX1);
+
+      html += `<rect x="${normX1}" y="${pad.top}" width="${normWidth}" height="${axisY - pad.top}" fill="rgba(0, 212, 170, 0.05)" rx="4"/>`;
+
+      // Axis line
+      html += `<line x1="${pad.left}" y1="${axisY}" x2="${W - pad.right}" y2="${axisY}" stroke="#243040" stroke-width="2"/>`;
+
+      // Axis ticks (6 ticks)
+      for (let i = 0; i <= 6; i++) {
+        const tickVal = plotMin + (plotSpan * i) / 6;
+        const tx = scaleX(tickVal);
+        html += `<line x1="${tx}" y1="${axisY}" x2="${tx}" y2="${axisY + 6}" stroke="#3b4d61" stroke-width="1.5"/>`;
+        html += `<text x="${tx}" y="${axisY + 20}" fill="#6b7d8f" font-size="10" font-family="Inter, sans-serif" text-anchor="middle">${Math.round(tickVal * 10) / 10}</text>`;
+      }
+
+      // Lower fence line
+      if (lowerCutoff >= plotMin && lowerCutoff <= plotMax) {
+        const lx = scaleX(lowerCutoff);
+        html += `<line x1="${lx}" y1="${pad.top}" x2="${lx}" y2="${axisY}" stroke="#a78bfa" stroke-width="1.8" stroke-dasharray="4,4"/>`;
+        html += `<text x="${lx}" y="${pad.top - 6}" fill="#a78bfa" font-size="9" font-weight="600" font-family="Inter, sans-serif" text-anchor="middle">Lower Fence (${lowerCutoff.toFixed(1)})</text>`;
+      }
+
+      // Upper fence line
+      if (upperCutoff >= plotMin && upperCutoff <= plotMax) {
+        const ux = scaleX(upperCutoff);
+        html += `<line x1="${ux}" y1="${pad.top}" x2="${ux}" y2="${axisY}" stroke="#a78bfa" stroke-width="1.8" stroke-dasharray="4,4"/>`;
+        html += `<text x="${ux}" y="${pad.top - 6}" fill="#a78bfa" font-size="9" font-weight="600" font-family="Inter, sans-serif" text-anchor="middle">Upper Fence (${upperCutoff.toFixed(1)})</text>`;
+      }
+
+      // Plot data points with stacking to prevent excessive overlap
+      const bins: Record<number, number> = {};
+      const bucketSize = plotSpan / 65;
+
+      records.forEach(rec => {
+        const b = Math.round(rec.val / bucketSize);
+        bins[b] = (bins[b] || 0) + 1;
+        const stackIndex = bins[b];
+        const cx = scaleX(rec.val);
+        const cy = axisY - 10 - (stackIndex - 1) * 12;
+
+        let dotFill = '#00d4aa';
+        let strokeColor = '#008f72';
+        if (rec.status === 'mild') {
+          dotFill = '#f59e0b';
+          strokeColor = '#b45309';
+        } else if (rec.status === 'extreme') {
+          dotFill = '#ff6b6b';
+          strokeColor = '#dc2626';
+        }
+
+        html += `<circle cx="${cx}" cy="${cy}" r="5.5" fill="${dotFill}" stroke="${strokeColor}" stroke-width="1.5">
+          <title>Value: ${rec.val} (${rec.statusText})</title>
+        </circle>`;
+      });
+
+      svg.innerHTML = html;
+    }
+
+    function renderTableRows() {
+      const tbody = document.getElementById('outlier-table-body');
+      if (!tbody) return;
+
+      let filtered = cachedRecords;
+      if (activeFilter === 'outliers') {
+        filtered = cachedRecords.filter(r => r.status !== 'normal');
+      } else if (activeFilter === 'normal') {
+        filtered = cachedRecords.filter(r => r.status === 'normal');
+      }
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="5" style="text-align: center; padding: 2rem; color: #6b7d8f;">No observations match the selected filter.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = filtered.map(r => {
+        let badgeClass = 'normal';
+        if (r.status === 'mild') badgeClass = 'mild';
+        if (r.status === 'extreme') badgeClass = 'extreme';
+
+        return `
+          <tr>
+            <td style="font-family: var(--font-mono, monospace); color: #6b7d8f;">#${r.rank}</td>
+            <td style="font-family: var(--font-mono, monospace); font-weight: 700; color: #f0f0f5;">${r.val}</td>
+            <td style="font-family: var(--font-mono, monospace); color: ${Math.abs(r.z) > 2 ? '#f59e0b' : '#a0a0b8'};">${r.z > 0 ? '+' : ''}${r.z.toFixed(2)}</td>
+            <td style="font-family: var(--font-mono, monospace); color: #a0a0b8;">${r.distFromMedian > 0 ? '+' : ''}${r.distFromMedian.toFixed(2)}</td>
+            <td><span class="badge-status ${badgeClass}">${r.statusText}</span></td>
+          </tr>
+        `;
+      }).join('');
+    }
   }
 
-  document.querySelectorAll(".out-tab").forEach(tab => {
-    tab.addEventListener("click", () => {
-      const key = tab.getAttribute("data-set") || "housing";
-      document.querySelectorAll(".out-tab").forEach(t => t.classList.toggle("active", t === tab));
-      const customRow = document.getElementById("out-custom-row") as HTMLElement;
-      if (key === "custom") {
-        customRow.style.display = "flex";
-      } else {
-        customRow.style.display = "none";
-        const p = presets[key];
-        detect(p.data, p.unit, p.context);
-      }
-    });
-  });
-
-  document.getElementById("out-custom-go")?.addEventListener("click", () => {
-    const raw = (document.getElementById("out-custom-data") as HTMLInputElement).value;
-    const data = raw.split(/[,\s]+/).map(Number).filter(n => !isNaN(n));
-    detect(data, "units", "Custom dataset — outlier detection uses the 1.5× IQR rule.");
-  });
-
-  detect(presets.housing.data, presets.housing.unit, presets.housing.context);
+  // Initialize on load and Astro page transitions
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initOutlierCalculator);
+  } else {
+    initOutlierCalculator();
+  }
+  document.addEventListener('astro:page-load', initOutlierCalculator);
 </script>

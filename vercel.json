@@ -57,6 +57,16 @@
       "source": "/outlier-dot-plot-maker/",
       "destination": "/blog/outlier-dot-plot-maker/",
       "permanent": true
+    },
+    {
+      "source": "/blog/dot-plot-vs-histogram",
+      "destination": "/dot-plot-vs-histogram/",
+      "permanent": true
+    },
+    {
+      "source": "/blog/dot-plot-vs-histogram/",
+      "destination": "/dot-plot-vs-histogram/",
+      "permanent": true
     }
   ]
 }
