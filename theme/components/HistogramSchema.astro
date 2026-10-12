@@ -1,0 +1,85 @@
+---
+import siteConfig from "@src/config/site.json";
+
+interface Props {
+  faqs: { question: string; answer: string }[];
+}
+
+const { faqs } = Astro.props;
+
+const softwareAppSchema = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  name: "Free Histogram Maker",
+  applicationCategory: "WebApplication",
+  operatingSystem: "Web",
+  url: `${siteConfig.siteUrl}/histogram-maker/`,
+  description: "Free online histogram maker with interactive bin controls, live preview, normal curve overlay, and instant high-res PNG, SVG, and PDF exports.",
+  offers: {
+    "@type": "Offer",
+    price: "0",
+    priceCurrency: "USD",
+    description: "100% free to use — no signup required",
+  },
+  featureList: [
+    "Interactive histogram bin count and bin width controls",
+    "Auto bin rules: Sturges, Freedman-Diaconis, Scott's, and Square-root",
+    "Real-time chart rendering in under 3 seconds",
+    "Normal distribution curve overlay and mean/median reference lines",
+    "Export high-resolution PNG, scalable vector SVG, and PDF",
+    "Copy image directly to clipboard",
+    "Automatic descriptive statistics and frequency distribution table",
+    "100% client-side data privacy — no data leaves your browser",
+  ].join("\n"),
+  screenshot: `${siteConfig.siteUrl}${siteConfig.metaImage}`,
+  author: {
+    "@type": "Organization",
+    name: siteConfig.legalName,
+    url: siteConfig.siteUrl,
+  },
+};
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqs.map((faq) => ({
+    "@type": "Question",
+    name: faq.question,
+    acceptedAnswer: {
+      "@type": "Answer",
+      text: faq.answer,
+    },
+  })),
+};
+
+const howToSchema = {
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  name: "How to Make a Histogram Online in 3 Steps",
+  description: "Create a publication-ready histogram online in three simple steps: enter your data, configure bins, and customize your chart for export.",
+  step: [
+    {
+      "@type": "HowToStep",
+      name: "Step 1: Enter or Upload Your Data",
+      text: "Paste your raw numerical data separated by commas, spaces, or line breaks, or upload a CSV file directly into the browser. You can also test with one-click presets.",
+      url: `${siteConfig.siteUrl}/histogram-maker/#step-1`,
+    },
+    {
+      "@type": "HowToStep",
+      name: "Step 2: Choose Your Bins and Algorithm",
+      text: "Select an automated binning rule such as Sturges, Freedman-Diaconis, Scott's, or Square-root, or drag the interactive slider to adjust the bin count in real time.",
+      url: `${siteConfig.siteUrl}/histogram-maker/#step-2`,
+    },
+    {
+      "@type": "HowToStep",
+      name: "Step 3: Customize Styling and Export",
+      text: "Adjust bar colors, toggle frequency labels, overlay normal curves or mean/median lines, and download your finalized chart as a high-resolution PNG, vector SVG, or PDF.",
+      url: `${siteConfig.siteUrl}/histogram-maker/#step-3`,
+    },
+  ],
+};
+---
+
+<script is:inline type="application/ld+json" set:html={JSON.stringify(softwareAppSchema)} />
+<script is:inline type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+<script is:inline type="application/ld+json" set:html={JSON.stringify(howToSchema)} />

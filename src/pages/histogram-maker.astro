@@ -1,0 +1,586 @@
+---
+import BaseLayout from "@theme/layouts/BaseLayout.astro";
+import HistogramTool from "@theme/components/HistogramTool.astro";
+import HistogramSchema from "@theme/components/HistogramSchema.astro";
+import { defaultLocale } from "@src/i18n/config";
+
+const locale = defaultLocale;
+
+const pageTitle = "Free Histogram Maker — Create Histograms Online";
+const pageDescription = "Make a histogram in seconds. Paste data or upload CSV, control bins, customize colors, and export PNG/SVG/PDF — free, no signup.";
+
+const faqs = [
+  {
+    question: "What is a histogram?",
+    answer: "A histogram is a data visualization that graphs the distribution of continuous numerical data by grouping observations into adjacent, non-overlapping intervals called bins. The height of each bar represents the frequency (count) of values falling within that interval."
+  },
+  {
+    question: "How many bins should a histogram have?",
+    answer: "Most histograms work best with between 5 and 20 bins depending on sample size. Standard formulas like Sturges' rule work well for smaller datasets, while the Freedman–Diaconis rule dynamically chooses bin widths that prevent outliers from distorting the shape."
+  },
+  {
+    question: "What is bin width, and how is it calculated?",
+    answer: "Bin width is the numerical span covered by each interval on the horizontal axis. It is calculated by dividing your dataset's total range (maximum value minus minimum value) by the chosen number of bins."
+  },
+  {
+    question: "What is the difference between a histogram and a bar chart?",
+    answer: "Histograms display continuous numerical data along a continuous scale with touching bars, representing a frequency distribution. Bar charts display discrete categorical variables with gaps between bars to emphasize separate categories."
+  },
+  {
+    question: "How does a histogram compare to a dot plot?",
+    answer: "Histograms aggregate large datasets into binned frequency blocks, making overall distributional shape and density easy to see. Dot plots keep every individual data point visible, making them ideal for small datasets under 100 observations."
+  },
+  {
+    question: "How do I identify outliers on a histogram?",
+    answer: "Outliers appear as isolated, solitary bars separated from the primary cluster of data by empty bins or wide gaps. You can toggle the mean and median reference lines to see how extreme values pull the center."
+  },
+  {
+    question: "What does skewness mean in a histogram?",
+    answer: "Skewness measures the asymmetry of your data distribution. A right-skewed histogram has a long tail trailing to higher values on the right, while a left-skewed histogram has a tail extending to lower values on the left."
+  },
+  {
+    question: "What does a bimodal histogram indicate?",
+    answer: "A bimodal histogram features two distinct peaks separated by a trough. This pattern strongly suggests that the dataset contains two different subgroups or combined populations, such as daytime vs. nighttime traffic."
+  },
+  {
+    question: "Is this histogram maker completely free?",
+    answer: "Yes, the tool is 100% free with no sign-up, no subscriptions, and no watermarks on exported charts. You can generate unlimited charts and export high-resolution assets immediately."
+  },
+  {
+    question: "Can I upload Excel or CSV data?",
+    answer: "Yes. You can drag and drop any CSV or comma/tab-separated file directly into the tool, or simply copy and paste cells from Microsoft Excel or Google Sheets into the paste tab."
+  },
+  {
+    question: "What file formats can I export from this histogram maker?",
+    answer: "You can download your histogram as a high-resolution PNG image, a scalable vector graphic (SVG) for lossless resizing, or a printable PDF document, as well as copy the image straight to your clipboard."
+  },
+  {
+    question: "Is my data kept private when using this tool?",
+    answer: "Yes, 100% of the data calculation and chart rendering occurs client-side inside your browser. No data, uploaded files, or numbers are ever transmitted to or stored on any remote server."
+  },
+  {
+    question: "How do I make a histogram in Excel compared to this online tool?",
+    answer: "In Excel, you must highlight your data, navigate to Insert > Charts > Histogram, and manually configure bin formatting menus. Our online tool automates optimal binning with interactive sliders and live instant re-renders with zero setup."
+  },
+  {
+    question: "Can I use these histograms in academic research papers and publications?",
+    answer: "Yes. The exported SVG and high-DPI PNG vector formats satisfy the publication resolution requirements for academic journals, theses, slide decks, and corporate reports."
+  },
+  {
+    question: "What is the normal curve overlay and when should I use it?",
+    answer: "The normal curve overlay fits a theoretical Gaussian bell curve based on your sample's mean and standard deviation directly over your bars. It allows you to immediately evaluate whether your sample data follows a normal distribution."
+  }
+];
+---
+
+<BaseLayout locale={locale} title={pageTitle} description={pageDescription}>
+  <HistogramSchema faqs={faqs} slot="head" />
+
+  <div class="page-content">
+    <!-- Hero Section -->
+    <div class="hero animate-fade-in-up" style="opacity: 0;">
+      <span class="badge">Free Online Tool</span>
+      <h1 class="hero-title">Free Histogram Maker — Create Histograms Online</h1>
+      <p class="hero-subtitle">
+        Make a publication-ready histogram in seconds. Paste raw data or upload a CSV spreadsheet, dynamically fine-tune bin counts with instant live previews, customize colors, and export high-resolution PNG, SVG, or PDF graphics — completely free, with no signup required.
+      </p>
+      <div class="hero-cta">
+        <a href="#histogram-tool" class="btn-primary"><span>Generate Histogram</span></a>
+        <a href="/" class="btn-secondary"><span>Dot Plot Maker</span></a>
+      </div>
+    </div>
+
+    <!-- Histogram Tool Component -->
+    <section class="tool-section" style="margin-bottom: 4rem;">
+      <HistogramTool locale={locale} />
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════════════
+         HOW TO MAKE A HISTOGRAM IN 3 STEPS
+         ══════════════════════════════════════════════════════════════ -->
+    <section class="section" id="how-it-works" style="margin-top: 2rem;">
+      <div style="text-align: center; margin-bottom: 3rem;">
+        <h2 class="section-title">How to Make a Histogram Online in 3 Simple Steps</h2>
+        <p class="section-subtitle" style="max-width: 650px; margin: 0 auto; color: var(--color-text-secondary); font-size: 1.1rem; line-height: 1.6;">
+          Transforming unstructured numerical data into a polished, professional distribution diagram takes just a few clicks.
+        </p>
+      </div>
+
+      <div class="steps-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem;">
+        <!-- Step 1 -->
+        <div id="step-1" class="step-card glass-card animate-fade-in-up" style="animation-delay: 0.1s; opacity: 0; padding: 2rem; position: relative;">
+          <div class="step-number" style="position: absolute; top: -12px; left: -12px; width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, var(--color-primary), var(--color-primary-light)); color: #0a0a1a; font-weight: 700; font-size: 0.9rem; display: flex; align-items: center; justify-content: center;">1</div>
+          <div class="step-icon" style="width: 48px; height: 48px; border-radius: 10px; background: rgba(0, 212, 170, 0.1); color: var(--color-primary); display: flex; align-items: center; justify-content: center; margin: 0 auto 1.25rem;" aria-hidden="true">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+              <line x1="16" y1="13" x2="8" y2="13"></line>
+              <line x1="16" y1="17" x2="8" y2="17"></line>
+            </svg>
+          </div>
+          <h3 class="step-title" style="font-size: 1.25rem; font-weight: 700; margin-bottom: 0.75rem;">Step 1: Enter or Upload Your Data</h3>
+          <p class="step-desc" style="color: var(--color-text-secondary); font-size: 0.93rem; line-height: 1.6;">
+            Paste values separated by commas, spaces, or line breaks into the input box. You can also upload a standard CSV or tab-separated spreadsheet file, or click one of our curated sample datasets (exam scores, heights, or response times) to start instantly.
+          </p>
+        </div>
+
+        <!-- Step 2 -->
+        <div id="step-2" class="step-card glass-card animate-fade-in-up" style="animation-delay: 0.25s; opacity: 0; padding: 2rem; position: relative;">
+          <div class="step-number" style="position: absolute; top: -12px; left: -12px; width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, var(--color-primary), var(--color-primary-light)); color: #0a0a1a; font-weight: 700; font-size: 0.9rem; display: flex; align-items: center; justify-content: center;">2</div>
+          <div class="step-icon" style="width: 48px; height: 48px; border-radius: 10px; background: rgba(0, 212, 170, 0.1); color: var(--color-primary); display: flex; align-items: center; justify-content: center; margin: 0 auto 1.25rem;" aria-hidden="true">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="2" y="3" width="20" height="18" rx="2"></rect>
+              <line x1="9" y1="8" x2="9" y2="16"></line>
+              <line x1="15" y1="8" x2="15" y2="16"></line>
+              <line x1="6" y1="12" x2="18" y2="12"></line>
+            </svg>
+          </div>
+          <h3 class="step-title" style="font-size: 1.25rem; font-weight: 700; margin-bottom: 0.75rem;">Step 2: Choose Bins & Algorithm</h3>
+          <p class="step-desc" style="color: var(--color-text-secondary); font-size: 0.93rem; line-height: 1.6;">
+            Select an automated binning rule — Sturges, Freedman–Diaconis, Scott's, or Square-root — or grab the interactive bin slider to dial in the exact granularity you need. Watch the chart update live in real time with informative captions below the plot.
+          </p>
+        </div>
+
+        <!-- Step 3 -->
+        <div id="step-3" class="step-card glass-card animate-fade-in-up" style="animation-delay: 0.4s; opacity: 0; padding: 2rem; position: relative;">
+          <div class="step-number" style="position: absolute; top: -12px; left: -12px; width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, var(--color-primary), var(--color-primary-light)); color: #0a0a1a; font-weight: 700; font-size: 0.9rem; display: flex; align-items: center; justify-content: center;">3</div>
+          <div class="step-icon" style="width: 48px; height: 48px; border-radius: 10px; background: rgba(0, 212, 170, 0.1); color: var(--color-primary); display: flex; align-items: center; justify-content: center; margin: 0 auto 1.25rem;" aria-hidden="true">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="7 10 12 15 17 10"></polyline>
+              <line x1="12" y1="15" x2="12" y2="3"></line>
+            </svg>
+          </div>
+          <h3 class="step-title" style="font-size: 1.25rem; font-weight: 700; margin-bottom: 0.75rem;">Step 3: Customize & Export Graphics</h3>
+          <p class="step-desc" style="color: var(--color-text-secondary); font-size: 0.93rem; line-height: 1.6;">
+            Personalize your palette, toggle normal distribution curves or mean/median indicators, switch between vertical columns and horizontal bars, and download clean vector SVG, crisp PNG, or publication-ready PDF files.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════════════
+         SECTION 1: CHOOSING THE RIGHT NUMBER OF BINS
+         ══════════════════════════════════════════════════════════════ -->
+    <section class="topical-section" style="margin-top: 4rem;">
+      <div class="topical-container">
+        <h2 class="section-title">Choosing the Right Number of Bins: The Science of Binning</h2>
+        <p class="topical-intro">
+          The number of bins you select is the single most critical decision when constructing a histogram. Plotting the exact same 100 data points with 4 bins produces an entirely different visual narrative than plotting them with 25 bins. Understanding how bin width shapes perception ensures your visualization conveys honest truth rather than statistical noise.
+        </p>
+
+        <div class="topical-grid topical-grid-4">
+          <!-- Rule 1: Square-root -->
+          <div class="topical-card topical-card-accent">
+            <div class="topical-card-badge" style="display: inline-block; font-size: 0.75rem; text-transform: uppercase; font-weight: 700; color: var(--color-primary); margin-bottom: 0.5rem;">Quickest Standard</div>
+            <h3>Square-Root Rule</h3>
+            <p><strong>Formula:</strong> <code>k = ⌈√n⌉</code></p>
+            <p style="margin-top: 0.5rem;">
+              The Square-root rule is the simplest and most accessible formula. If your sample contains 64 observations, you build 8 bins; if you have 100 observations, you build 10 bins. It provides a fast, intuitive starting baseline commonly taught in introductory science classrooms.
+            </p>
+          </div>
+
+          <!-- Rule 2: Sturges -->
+          <div class="topical-card topical-card-purple">
+            <div class="topical-card-badge" style="display: inline-block; font-size: 0.75rem; text-transform: uppercase; font-weight: 700; color: var(--color-accent); margin-bottom: 0.5rem;">Small-to-Medium Data</div>
+            <h3>Sturges' Rule</h3>
+            <p><strong>Formula:</strong> <code>k = ⌈log₂(n) + 1⌉</code></p>
+            <p style="margin-top: 0.5rem;">
+              Derived under the assumption of an underlying normal distribution, Sturges' rule works exceptionally well for moderate sample sizes (between 30 and 200 data points). However, because it grows logarithmically, it tends to over-smooth massive datasets with thousands of points.
+            </p>
+          </div>
+
+          <!-- Rule 3: Freedman-Diaconis -->
+          <div class="topical-card topical-card-orange">
+            <div class="topical-card-badge" style="display: inline-block; font-size: 0.75rem; text-transform: uppercase; font-weight: 700; color: var(--color-warning); margin-bottom: 0.5rem;">Robust to Outliers</div>
+            <h3>Freedman–Diaconis Rule</h3>
+            <p><strong>Formula:</strong> <code>h = 2 · IQR · n^(-1/3)</code></p>
+            <p style="margin-top: 0.5rem;">
+              Instead of relying on sample variance, this rule utilizes the Interquartile Range (IQR = Q3 - Q1). By focusing on the middle 50% of your data, it prevents extreme rogue values and outliers from artificially stretching bin widths and flattening the central peak.
+            </p>
+          </div>
+
+          <!-- Rule 4: Scott -->
+          <div class="topical-card topical-card-teal">
+            <div class="topical-card-badge" style="display: inline-block; font-size: 0.75rem; text-transform: uppercase; font-weight: 700; color: #4d96ff; margin-bottom: 0.5rem;">Smooth & Normal</div>
+            <h3>Scott's Rule</h3>
+            <p><strong>Formula:</strong> <code>h = 3.49 · s · n^(-1/3)</code></p>
+            <p style="margin-top: 0.5rem;">
+              Scott's rule minimizes the mean squared error between the histogram's bar heights and the true theoretical probability density function. It is the gold standard for continuous data that approximately follows a bell curve and has low extreme variance.
+            </p>
+          </div>
+        </div>
+
+        <!-- Rule of Thumb Banner -->
+        <div class="topical-rule" style="margin-top: 2rem; background: var(--color-bg-card); border-left: 4px solid var(--color-primary); padding: 1.25rem 1.5rem; border-radius: 8px;">
+          <strong>Golden Rule of Thumb for Histograms:</strong> Too few bins over-aggregates your data and hides underlying multi-modal features, skewness, and natural gaps. Too many bins fragments your observations into tall and empty spires, creating visual noise and phantom peaks. Use our interactive slider to test adjacent bin counts until the authentic shape stabilizes.
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════════════
+         SECTION 2: HISTOGRAM VS BAR CHART
+         ══════════════════════════════════════════════════════════════ -->
+    <section class="topical-section" style="margin-top: 4rem;">
+      <div class="topical-container">
+        <h2 class="section-title">Histogram vs. Bar Chart: How to Spot the Difference</h2>
+        <p class="topical-intro">
+          While histograms and bar charts look deceptively similar at a casual glance, they convey fundamentally different mathematical concepts. Conflating the two is one of the most common mistakes in both business presentations and academic coursework.
+        </p>
+
+        <div class="topical-two-col" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-top: 2rem;">
+          <!-- Histogram Column -->
+          <div class="topical-col" style="background: var(--color-bg-card); border: 1px solid var(--color-border); border-radius: 12px; padding: 2rem;">
+            <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
+              <div style="width: 12px; height: 12px; border-radius: 50%; background: var(--color-primary);"></div>
+              <h3 style="margin: 0; font-size: 1.35rem; color: var(--color-text-primary);">Histograms</h3>
+            </div>
+            <ul class="topical-list" style="margin-top: 1rem; color: var(--color-text-secondary); line-height: 1.7;">
+              <li><strong>Data Nature:</strong> Quantitative, continuous numeric measurements (e.g. weights, response times, ages).</li>
+              <li><strong>Bar Spacing:</strong> Bars touch each other with no gaps to represent an unbroken, continuous numerical continuum.</li>
+              <li><strong>Horizontal Axis:</strong> Formatted as continuous intervals or bins; order is strictly numerical and cannot be rearranged.</li>
+              <li><strong>Width Meaning:</strong> The width represents the interval range; area under the bars reflects relative frequency.</li>
+              <li><strong>Primary Goal:</strong> To assess the underlying distribution shape, central tendency, variance, and spread.</li>
+            </ul>
+          </div>
+
+          <!-- Bar Chart Column -->
+          <div class="topical-col" style="background: var(--color-bg-card); border: 1px solid var(--color-border); border-radius: 12px; padding: 2rem;">
+            <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
+              <div style="width: 12px; height: 12px; border-radius: 50%; background: var(--color-accent);"></div>
+              <h3 style="margin: 0; font-size: 1.35rem; color: var(--color-text-primary);">Bar Charts</h3>
+            </div>
+            <ul class="topical-list" style="margin-top: 1rem; color: var(--color-text-secondary); line-height: 1.7;">
+              <li><strong>Data Nature:</strong> Qualitative or categorical variables (e.g. car brands, departments, countries).</li>
+              <li><strong>Bar Spacing:</strong> Bars are separated by distinct visual gaps to highlight discrete, separate categories.</li>
+              <li><strong>Horizontal Axis:</strong> Labels are discrete names or categories; order can be alphabetical, arbitrary, or sorted by value.</li>
+              <li><strong>Width Meaning:</strong> Bar width is strictly decorative and carries no mathematical meaning.</li>
+              <li><strong>Primary Goal:</strong> To compare individual group magnitudes or categorical totals against one another.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Comparison Table -->
+        <div style="overflow-x: auto; margin-top: 2.5rem; background: var(--color-bg-card); border: 1px solid var(--color-border); border-radius: 12px; padding: 1rem;">
+          <table style="width: 100%; border-collapse: collapse; font-size: 0.93rem; text-align: left;">
+            <thead>
+              <tr style="border-bottom: 1px solid var(--color-border); color: var(--color-text-primary);">
+                <th style="padding: 1rem;">Feature</th>
+                <th style="padding: 1rem; color: var(--color-primary);">Histogram</th>
+                <th style="padding: 1rem; color: var(--color-accent);">Bar Chart</th>
+              </tr>
+            </thead>
+            <tbody style="color: var(--color-text-secondary);">
+              <tr style="border-bottom: 1px solid rgba(255,255,255,0.04);">
+                <td style="padding: 0.85rem 1rem; font-weight: 600; color: var(--color-text-primary);">Variable Type</td>
+                <td style="padding: 0.85rem 1rem;">Continuous numeric scale</td>
+                <td style="padding: 0.85rem 1rem;">Categorical / Discrete groups</td>
+              </tr>
+              <tr style="border-bottom: 1px solid rgba(255,255,255,0.04);">
+                <td style="padding: 0.85rem 1rem; font-weight: 600; color: var(--color-text-primary);">Gaps Between Bars</td>
+                <td style="padding: 0.85rem 1rem;">None (unless a bin frequency is 0)</td>
+                <td style="padding: 0.85rem 1rem;">Always present</td>
+              </tr>
+              <tr style="border-bottom: 1px solid rgba(255,255,255,0.04);">
+                <td style="padding: 0.85rem 1rem; font-weight: 600; color: var(--color-text-primary);">Rearranging Columns</td>
+                <td style="padding: 0.85rem 1rem;">Impossible (governed by numerical order)</td>
+                <td style="padding: 0.85rem 1rem;">Permitted (can be sorted ascending/descending)</td>
+              </tr>
+              <tr>
+                <td style="padding: 0.85rem 1rem; font-weight: 600; color: var(--color-text-primary);">Best Companion Tool</td>
+                <td style="padding: 0.85rem 1rem;"><a href="/" style="color: var(--color-primary); text-decoration: underline;">Dot plot maker</a> for granular examination</td>
+                <td style="padding: 0.85rem 1rem;"><a href="/categorical-scatter-plot/" style="color: var(--color-accent); text-decoration: underline;">Categorical scatter plot</a></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════════════
+         SECTION 3: WHEN TO USE A HISTOGRAM (AND WHEN NOT TO)
+         ══════════════════════════════════════════════════════════════ -->
+    <section class="topical-section" style="margin-top: 4rem;">
+      <div class="topical-container">
+        <h2 class="section-title">When to Use a Histogram (and When Not To)</h2>
+        <p class="topical-intro">
+          Knowing when to deploy a histogram — and when an alternative visualization offers better clarity — is an essential data literacy skill.
+        </p>
+
+        <div class="topical-two-col" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+          <!-- When to use -->
+          <div class="topical-col topical-col-good" style="background: var(--color-bg-card); border: 1px solid var(--color-border); border-radius: 12px; padding: 2rem;">
+            <h3 style="color: var(--color-primary); font-size: 1.3rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              When a Histogram is Best
+            </h3>
+            <ul class="topical-list" style="color: var(--color-text-secondary); line-height: 1.7;">
+              <li><strong>Large datasets (N &gt; 100):</strong> Histograms compress thousands of records into clean, digestible summaries without visual crowding.</li>
+              <li><strong>Diagnosing statistical skew:</strong> Instantly revealing whether customer checkout times, salaries, or call durations trail off to the right.</li>
+              <li><strong>Checking normality assumptions:</strong> Evaluating whether your sample meets the bell-curve requirements of t-tests, ANOVA, and regression.</li>
+              <li><strong>Detecting multimodal populations:</strong> Discovering two separate peaks where an analyst expected a single uniform cluster.</li>
+              <li><strong>Spotting structural gaps:</strong> Identifying intervals where zero transactions or measurements occurred.</li>
+            </ul>
+          </div>
+
+          <!-- When not to use -->
+          <div class="topical-col topical-col-limit" style="background: var(--color-bg-card); border: 1px solid var(--color-border); border-radius: 12px; padding: 2rem;">
+            <h3 style="color: #ff6b6b; font-size: 1.3rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>
+              When NOT to Use a Histogram
+            </h3>
+            <ul class="topical-list" style="color: var(--color-text-secondary); line-height: 1.7;">
+              <li><strong>Small datasets (N &lt; 50):</strong> Aggregating 20 data points into 6 bins conceals critical nuances. For small datasets, <a href="/" style="color: var(--color-primary); font-weight: 600; text-decoration: underline;">try our free dot plot maker</a> instead to view every single individual dot.</li>
+              <li><strong>Purely categorical data:</strong> When comparing sales by state or feedback ratings by department, use a bar chart or categorical scatter plot.</li>
+              <li><strong>Tracking changes over time:</strong> If temporal sequence matters (e.g. stock prices over 30 days), use a line graph or time series plot.</li>
+              <li><strong>Precise individual outlier inspection:</strong> Histograms group extreme observations into edge bins; check our <a href="/blog/outlier-dot-plot-maker/" style="color: var(--color-primary); text-decoration: underline;">outlier detection guide</a> for pinpointing specific extreme values.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════════════
+         SECTION 4: HOW TO READ A HISTOGRAM
+         ══════════════════════════════════════════════════════════════ -->
+    <section class="topical-section" style="margin-top: 4rem;">
+      <div class="topical-container">
+        <h2 class="section-title">How to Read a Histogram: Shapes, Centers, and Spreads</h2>
+        <p class="topical-intro">
+          Reading a histogram is an exercise in pattern recognition. A statistician evaluates four key characteristics: shape, center, spread, and anomalies.
+        </p>
+
+        <div class="topical-grid topical-grid-3" style="margin-top: 2rem;">
+          <!-- Shape 1: Symmetric -->
+          <div class="topical-card topical-card-accent">
+            <h3>Symmetric / Bell-Shaped</h3>
+            <p style="color: var(--color-text-secondary); line-height: 1.6;">
+              Data clusters tightly around a central peak with both flanks tapering down at roughly equal rates. In a truly symmetric distribution, the sample mean, median, and mode coincide at the exact same midpoint.
+            </p>
+          </div>
+
+          <!-- Shape 2: Right Skew -->
+          <div class="topical-card topical-card-orange">
+            <h3>Right-Skewed (Positive Skew)</h3>
+            <p style="color: var(--color-text-secondary); line-height: 1.6;">
+              The highest peak sits on the left side of the chart, with a trailing tail of infrequent values stretching far to the right. Common in income distributions and software latency times; the mean is pulled higher than the median.
+            </p>
+          </div>
+
+          <!-- Shape 3: Left Skew -->
+          <div class="topical-card topical-card-purple">
+            <h3>Left-Skewed (Negative Skew)</h3>
+            <p style="color: var(--color-text-secondary); line-height: 1.6;">
+              The bulk of the data concentrates toward the right-hand side, with a long trailing tail pointing toward low values on the left. Characteristic of easy college exam scores or retirement age distributions.
+            </p>
+          </div>
+
+          <!-- Shape 4: Bimodal -->
+          <div class="topical-card topical-card-teal">
+            <h3>Bimodal Distribution</h3>
+            <p style="color: var(--color-text-secondary); line-height: 1.6;">
+              Two distinct elevated peaks separated by a dip in the center. This indicates the mixing of two overlapping subgroups, such as combined heights of adult men and women or rush-hour morning and evening commute speeds.
+            </p>
+          </div>
+
+          <!-- Shape 5: Uniform -->
+          <div class="topical-card">
+            <h3>Uniform Distribution</h3>
+            <p style="color: var(--color-text-secondary); line-height: 1.6;">
+              All bins possess roughly the same height across the entire measured range. A hallmark of truly random uniform processes, such as rolling a fair six-sided die thousands of times.
+            </p>
+          </div>
+
+          <!-- Center, Spread & Outliers -->
+          <div class="topical-card topical-card-red">
+            <h3>Center, Spread & Outliers</h3>
+            <p style="color: var(--color-text-secondary); line-height: 1.6;">
+              Always inspect the spread (standard deviation or IQR) to understand variability. Isolated bars separated by empty space signal extreme outliers. Explore our <a href="/blog/statistics-dot-plot-visualizer/" style="color: var(--color-primary); text-decoration: underline;">statistics visualizer guide</a> for deep mathematical breakdowns.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════════════
+         SECTION 5: HISTOGRAMS IN STATISTICS EDUCATION
+         ══════════════════════════════════════════════════════════════ -->
+    <section class="topical-section" style="margin-top: 4rem;">
+      <div class="topical-container">
+        <h2 class="section-title">Histograms in Statistics Education & Curriculums</h2>
+        <p class="topical-intro">
+          From middle school math to graduate econometric modeling, histograms serve as the cornerstone visualization for introducing probability density and statistical inference.
+        </p>
+
+        <div class="topical-grid topical-grid-3" style="margin-top: 2rem;">
+          <!-- K-12 / Common Core -->
+          <div class="topical-card">
+            <div class="topical-card-badge" style="color: var(--color-primary); font-weight: 700; text-transform: uppercase; font-size: 0.75rem; margin-bottom: 0.5rem;">Grade School</div>
+            <h3>K-12 & Common Core Standards</h3>
+            <p style="color: var(--color-text-secondary); line-height: 1.6;">
+              Standard <strong>CCSS.MATH.CONTENT.6.SP.B.4</strong> requires sixth-grade students to display numerical data in plots on a number line, including dot plots, histograms, and box plots. Our browser-based tool allows students to experiment directly without wrestling with complicated spreadsheet software.
+            </p>
+          </div>
+
+          <!-- AP Statistics -->
+          <div class="topical-card">
+            <div class="topical-card-badge" style="color: var(--color-accent); font-weight: 700; text-transform: uppercase; font-size: 0.75rem; margin-bottom: 0.5rem;">Advanced Placement</div>
+            <h3>AP Statistics Curriculum</h3>
+            <p style="color: var(--color-text-secondary); line-height: 1.6;">
+              Unit 1 of the AP Statistics syllabus focuses on exploring one-variable data. Students are required to describe distributions using the <strong>SOCS</strong> acronym (Shape, Outliers, Center, and Spread). Being able to adjust bin counts live reinforces how bin choices affect shape interpretation on exam questions.
+            </p>
+          </div>
+
+          <!-- College & Research -->
+          <div class="topical-card">
+            <div class="topical-card-badge" style="color: #4d96ff; font-weight: 700; text-transform: uppercase; font-size: 0.75rem; margin-bottom: 0.5rem;">Higher Education</div>
+            <h3>College & Research Applications</h3>
+            <p style="color: var(--color-text-secondary); line-height: 1.6;">
+              In introductory university statistics and empirical research, exploratory data analysis begins with histogram checks. Evaluating residual normality before conducting ordinary least squares (OLS) regression prevents biased inferences and invalid p-values.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════════════
+         SECTION 6: FREQUENTLY ASKED QUESTIONS (15 FAQS)
+         ══════════════════════════════════════════════════════════════ -->
+    <section class="section" id="faq" style="margin-top: 4rem;">
+      <div style="text-align: center; margin-bottom: 3rem;">
+        <h2 class="section-title">Frequently Asked Questions</h2>
+        <p class="section-subtitle" style="max-width: 600px; margin: 0 auto; color: var(--color-text-secondary); font-size: 1.05rem;">
+          Everything you need to know about creating, interpreting, and exporting histograms online.
+        </p>
+      </div>
+
+      <div class="faq-list" style="max-width: 820px; margin: 0 auto; display: flex; flex-direction: column; gap: 0.85rem;">
+        {faqs.map((faq) => (
+          <details class="faq-item" style="background: var(--color-bg-card); border: 1px solid var(--color-border); border-radius: 10px; padding: 1.25rem 1.5rem; transition: border-color 0.2s ease;">
+            <summary style="font-weight: 600; font-size: 1.05rem; cursor: pointer; color: var(--color-text-primary); list-style: none; display: flex; justify-content: space-between; align-items: center;">
+              <span>{faq.question}</span>
+              <span style="color: var(--color-primary); font-size: 1.2rem; line-height: 1;">+</span>
+            </summary>
+            <div class="faq-answer" style="margin-top: 0.85rem; color: var(--color-text-secondary); font-size: 0.95rem; line-height: 1.7; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 0.75rem;">
+              <p>{faq.answer}</p>
+            </div>
+          </details>
+        ))}
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════════════
+         FINAL CTA
+         ══════════════════════════════════════════════════════════════ -->
+    <div class="final-cta" style="text-align: center; margin: 5rem 0 3rem; padding: 3rem 1.5rem; background: radial-gradient(ellipse at center, rgba(0, 212, 170, 0.08) 0%, transparent 70%); border-radius: 16px; border: 1px solid var(--color-border);">
+      <h2 style="font-size: 2.2rem; font-weight: 800; margin-bottom: 1rem; background: linear-gradient(135deg, var(--color-text-primary), var(--color-primary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+        Ready to Visualize Your Data Distribution?
+      </h2>
+      <p style="color: var(--color-text-secondary); max-width: 600px; margin: 0 auto 2rem; font-size: 1.1rem; line-height: 1.6;">
+        Jump back to the top of the page to paste your dataset, test our statistical bin rules, and download publication-ready vector charts.
+      </p>
+      <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+        <a href="#histogram-tool" class="btn-primary" style="padding: 0.85rem 2rem; font-size: 1rem;"><span>Build Your Histogram</span></a>
+        <a href="/" class="btn-secondary" style="padding: 0.85rem 2rem; font-size: 1rem; background: transparent; border: 1px solid var(--color-border); color: var(--color-text-primary);"><span>Small datasets? Try Dot Plot Maker</span></a>
+      </div>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .hero {
+    text-align: center;
+    padding: 3rem 0 2rem;
+  }
+  .hero-title {
+    font-size: 3rem;
+    font-weight: 900;
+    line-height: 1.15;
+    margin: 1rem 0;
+    background: linear-gradient(135deg, var(--color-text-primary) 30%, var(--color-primary) 70%, var(--color-accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .hero-subtitle {
+    font-size: 1.2rem;
+    color: var(--color-text-secondary);
+    max-width: 760px;
+    margin: 0 auto 2rem;
+    line-height: 1.6;
+  }
+  .hero-cta {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+  }
+
+  .topical-section {
+    padding: 2.5rem 0;
+  }
+  .topical-container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .topical-intro {
+    text-align: center;
+    max-width: 800px;
+    margin: 0.75rem auto 2.5rem;
+    color: var(--color-text-secondary);
+    font-size: 1.1rem;
+    line-height: 1.7;
+  }
+  .topical-grid {
+    display: grid;
+    gap: 1.5rem;
+  }
+  .topical-grid-4 {
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  }
+  .topical-grid-3 {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  }
+  .topical-card {
+    background: var(--color-bg-card);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 1.75rem;
+    transition: transform 0.2s ease, border-color 0.2s ease;
+  }
+  .topical-card:hover {
+    transform: translateY(-3px);
+    border-color: var(--color-border-hover);
+  }
+  .topical-card-accent {
+    border-top: 3px solid var(--color-primary);
+  }
+  .topical-card-purple {
+    border-top: 3px solid var(--color-accent);
+  }
+  .topical-card-orange {
+    border-top: 3px solid var(--color-warning);
+  }
+  .topical-card-teal {
+    border-top: 3px solid #4d96ff;
+  }
+  .topical-card-red {
+    border-top: 3px solid var(--color-error);
+  }
+
+  .faq-item[open] summary span:last-child {
+    transform: rotate(45deg);
+  }
+  .faq-item summary span:last-child {
+    transition: transform 0.2s ease;
+  }
+
+  @media (max-width: 768px) {
+    .hero-title {
+      font-size: 2.2rem;
+    }
+    .hero-subtitle {
+      font-size: 1.05rem;
+    }
+  }
+</style>

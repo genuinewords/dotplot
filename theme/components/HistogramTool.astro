@@ -1,0 +1,1742 @@
+---
+import { type Locale, defaultLocale } from "@src/i18n/config";
+import "@fontsource-variable/space-grotesk";
+import ibmPlexMono400Url from "@fontsource/ibm-plex-mono/files/ibm-plex-mono-latin-400-normal.woff2?url";
+import ibmPlexMono500Url from "@fontsource/ibm-plex-mono/files/ibm-plex-mono-latin-500-normal.woff2?url";
+
+interface Props {
+  locale?: Locale;
+}
+
+const { locale = defaultLocale } = Astro.props;
+---
+
+<section id="histogram-tool" class="dotplot-wrapper hist-wrapper">
+  <span id="ibm-plex-mono-urls-hist" data-w400={ibmPlexMono400Url} data-w500={ibmPlexMono500Url} style="display:none" aria-hidden="true"></span>
+  
+  <style is:inline>
+    .hist-wrapper {
+      --bg: #0a0f14;
+      --bg-elevated: #111920;
+      --fg: #e8eef4;
+      --muted: #6b7d8f;
+      --accent: #00d4aa;
+      --accent-dim: rgba(0, 212, 170, 0.15);
+      --card: #151d26;
+      --border: #243040;
+      --danger: #ff6b6b;
+      
+      font-family: 'Space Grotesk', sans-serif;
+      background: var(--bg);
+      color: var(--fg);
+      position: relative;
+      overflow: hidden;
+      border-radius: 16px;
+      margin: 0 auto;
+      max-width: 1200px;
+      padding: 2.5rem;
+      box-shadow: 0 30px 60px -12px rgba(0, 212, 170, 0.15), 0 0 0 1px rgba(255,255,255,0.1);
+    }
+
+    .hist-wrapper * {
+      box-sizing: border-box;
+    }
+
+    .hist-wrapper .font-mono {
+      font-family: 'IBM Plex Mono', monospace;
+    }
+
+    /* Background atmosphere */
+    .hist-wrapper .bg-atmosphere {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      background: 
+        radial-gradient(ellipse 80% 50% at 20% 10%, rgba(0, 212, 170, 0.08) 0%, transparent 50%),
+        radial-gradient(ellipse 60% 40% at 80% 90%, rgba(139, 92, 246, 0.06) 0%, transparent 50%),
+        linear-gradient(180deg, var(--bg) 0%, #0d1318 100%);
+    }
+
+    .hist-wrapper .grid-pattern {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0.03;
+      background-image: 
+        linear-gradient(var(--muted) 1px, transparent 1px),
+        linear-gradient(90deg, var(--muted) 1px, transparent 1px);
+      background-size: 40px 40px;
+    }
+
+    /* Custom scrollbar */
+    .hist-wrapper ::-webkit-scrollbar { width: 8px; height: 8px; }
+    .hist-wrapper ::-webkit-scrollbar-track { background: var(--bg-elevated); }
+    .hist-wrapper ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+    .hist-wrapper ::-webkit-scrollbar-thumb:hover { background: var(--muted); }
+
+    /* Focus states */
+    .hist-wrapper *:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+    /* Inputs */
+    .hist-wrapper .input-field {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      color: var(--fg);
+      padding: 0.75rem 1rem;
+      border-radius: 8px;
+      transition: all 0.2s ease;
+      width: 100%;
+    }
+    .hist-wrapper .input-field:hover { border-color: var(--muted); }
+    .hist-wrapper .input-field:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-dim);
+    }
+
+    /* Buttons */
+    .hist-wrapper .btn-primary {
+      background: var(--accent);
+      color: var(--bg);
+      font-weight: 600;
+      padding: 0.7rem 1.25rem;
+      border-radius: 8px;
+      transition: all 0.2s ease;
+      border: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      font-size: 0.9rem;
+    }
+    .hist-wrapper .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0, 212, 170, 0.3);
+    }
+    .hist-wrapper .btn-primary:active { transform: translateY(0); }
+
+    .hist-wrapper .btn-secondary {
+      background: transparent;
+      color: var(--fg);
+      font-weight: 500;
+      padding: 0.7rem 1.25rem;
+      border-radius: 8px;
+      transition: all 0.2s ease;
+      border: 1px solid var(--border);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      font-size: 0.9rem;
+    }
+    .hist-wrapper .btn-secondary:hover {
+      border-color: var(--muted);
+      background: var(--card);
+    }
+
+    .hist-wrapper .btn-sm {
+      padding: 0.4rem 0.75rem;
+      font-size: 0.8rem;
+      border-radius: 6px;
+    }
+
+    /* Card styles */
+    .hist-wrapper .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem;
+    }
+
+    /* Canvas container */
+    .hist-wrapper .canvas-container {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Range slider */
+    .hist-wrapper input[type="range"] {
+      -webkit-appearance: none;
+      appearance: none;
+      background: var(--border);
+      height: 6px;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+    .hist-wrapper input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 18px;
+      height: 18px;
+      background: var(--accent);
+      border-radius: 50%;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+    .hist-wrapper input[type="range"]::-webkit-slider-thumb:hover { transform: scale(1.2); }
+
+    /* Color picker wrapper */
+    .hist-wrapper .color-picker-wrapper {
+      position: relative;
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 2px solid var(--border);
+      cursor: pointer;
+      transition: border-color 0.2s ease;
+      flex-shrink: 0;
+    }
+    .hist-wrapper .color-picker-wrapper:hover { border-color: var(--muted); }
+    .hist-wrapper .color-picker-wrapper input {
+      position: absolute;
+      inset: -4px;
+      width: calc(100% + 8px);
+      height: calc(100% + 8px);
+      cursor: pointer;
+      border: none;
+      background: none;
+    }
+
+    /* Tabs */
+    .hist-wrapper .tab-btn {
+      padding: 0.5rem 0.9rem;
+      border-radius: 6px;
+      font-weight: 500;
+      color: var(--muted);
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-size: 0.85rem;
+    }
+    .hist-wrapper .tab-btn:hover { color: var(--fg); }
+    .hist-wrapper .tab-btn.active { background: var(--accent-dim); color: var(--accent); }
+
+    /* Dropdown select */
+    .hist-wrapper select.input-field {
+      appearance: none;
+      background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236b7d8f' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+      background-repeat: no-repeat;
+      background-position: right 0.75rem center;
+      background-size: 1rem;
+      padding-right: 2.25rem;
+      cursor: pointer;
+    }
+
+    /* Toggle switch */
+    .hist-wrapper .toggle-btn {
+      width: 44px;
+      height: 24px;
+      border-radius: 9999px;
+      transition: background-color 0.2s ease;
+      background: var(--border);
+      border: none;
+      cursor: pointer;
+      position: relative;
+      padding: 2px;
+      flex-shrink: 0;
+    }
+    .hist-wrapper .toggle-btn.active {
+      background: var(--accent);
+    }
+    .hist-wrapper .toggle-knob {
+      width: 20px;
+      height: 20px;
+      border-radius: 9999px;
+      background: #ffffff;
+      transition: transform 0.2s ease;
+      transform: translateX(0);
+    }
+    .hist-wrapper .toggle-btn.active .toggle-knob {
+      transform: translateX(20px);
+    }
+
+    /* Tooltip */
+    .hist-wrapper .tooltip {
+      position: absolute;
+      background: #19232e;
+      border: 1px solid var(--border);
+      padding: 0.6rem 0.85rem;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      pointer-events: none;
+      opacity: 0;
+      transform: translateY(5px);
+      transition: opacity 0.15s ease, transform 0.15s ease;
+      white-space: nowrap;
+      z-index: 100;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+    }
+    .hist-wrapper .tooltip.visible { opacity: 1; transform: translateY(0); }
+
+    /* Drop area */
+    .hist-wrapper .file-dropzone {
+      border: 2px dashed var(--border);
+      border-radius: 10px;
+      padding: 1.5rem 1rem;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      background: rgba(255,255,255,0.01);
+    }
+    .hist-wrapper .file-dropzone:hover,
+    .hist-wrapper .file-dropzone.dragover {
+      border-color: var(--accent);
+      background: var(--accent-dim);
+    }
+
+    /* Toast notification */
+    .hist-toast {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      background: #111920;
+      border: 1px solid var(--accent);
+      color: var(--accent);
+      padding: 0.75rem 1.25rem;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      box-shadow: 0 10px 30px rgba(0, 212, 170, 0.2);
+      z-index: 9999;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: all 0.25s ease;
+      pointer-events: none;
+    }
+    .hist-toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 768px) {
+      .hist-wrapper {
+        padding: 1.25rem;
+      }
+      .hist-export-bar {
+        position: static !important;
+        margin-bottom: 0.75rem;
+        flex-wrap: wrap;
+      }
+    }
+  </style>
+
+  <div class="bg-atmosphere"></div>
+  <div class="grid-pattern"></div>
+
+  <div class="relative z-10 w-full max-w-7xl mx-auto">
+    <!-- Component top bar -->
+    <div class="flex flex-wrap items-center justify-between gap-3 mb-6 pb-4 border-b" style="border-color: var(--border);">
+      <div class="flex items-center gap-2">
+        <span class="inline-block w-2.5 h-2.5 rounded-full" style="background: var(--accent);"></span>
+        <span class="text-xs font-semibold tracking-wider uppercase" style="color: var(--accent);">Interactive Histogram Engine</span>
+        <span class="text-xs px-2 py-0.5 rounded" style="background: rgba(255,255,255,0.05); color: var(--muted);">100% Client-Side</span>
+      </div>
+      <div class="flex items-center gap-2">
+        <span class="text-xs" style="color: var(--muted);">Presets:</span>
+        <button type="button" class="btn-secondary btn-sm" onclick="histLoadPreset('exams')">Exam Scores</button>
+        <button type="button" class="btn-secondary btn-sm" onclick="histLoadPreset('heights')">Heights</button>
+        <button type="button" class="btn-secondary btn-sm" onclick="histLoadPreset('response')">Response Times</button>
+      </div>
+    </div>
+
+    <!-- Main Grid: Left Controls (1 col) + Right Chart & Data (2 cols) -->
+    <div class="grid lg:grid-cols-3 gap-6">
+      
+      <!-- Left Panel: Data & Bin Controls -->
+      <div class="lg:col-span-1 space-y-6">
+        
+        <!-- Data Input Card -->
+        <div class="card text-left">
+          <div class="flex items-center justify-between mb-4">
+            <h2 class="font-semibold text-base" style="color: var(--fg);">Data Input</h2>
+            <div class="flex gap-1">
+              <button type="button" class="tab-btn active" data-tab="paste" onclick="switchHistTab('paste')">Paste</button>
+              <button type="button" class="tab-btn" data-tab="manual" onclick="switchHistTab('manual')">Grid</button>
+              <button type="button" class="tab-btn" data-tab="upload" onclick="switchHistTab('upload')">CSV File</button>
+            </div>
+          </div>
+
+          <!-- Paste Tab -->
+          <div id="hist-tab-paste">
+            <label for="hist-paste-input" class="block text-xs mb-2" style="color: var(--muted);">
+              Paste numbers (separated by comma, space, or newline):
+            </label>
+            <textarea 
+              id="hist-paste-input"
+              class="input-field font-mono text-xs resize-none"
+              rows="6"
+              placeholder="72, 75, 78, 82, 85, 88, 90, 92..."
+            ></textarea>
+            <div class="flex gap-2 mt-3">
+              <button type="button" onclick="histParseDataFromPaste()" class="btn-primary w-full">
+                Render Histogram
+              </button>
+              <button type="button" onclick="histClearData()" class="btn-secondary" title="Clear data">
+                Clear
+              </button>
+            </div>
+          </div>
+
+          <!-- Manual / Grid Tab -->
+          <div id="hist-tab-manual" class="hidden">
+            <label for="hist-manual-input" class="block text-xs mb-2" style="color: var(--muted);">
+              Manual entry / comma-separated values:
+            </label>
+            <input 
+              type="text" 
+              id="hist-manual-input" 
+              class="input-field font-mono text-xs mb-3" 
+              placeholder="e.g. 10, 15, 20, 25, 30"
+            />
+            <div class="flex items-center justify-between text-xs mb-2" style="color: var(--muted);">
+              <span>Sample Points Editor:</span>
+              <span id="hist-manual-count">0 items</span>
+            </div>
+            <div id="hist-manual-tags" class="flex flex-wrap gap-1 max-h-36 overflow-y-auto p-2 rounded mb-3" style="background: var(--bg); border: 1px solid var(--border);">
+              <!-- Rendered data points with quick remove -->
+            </div>
+            <button type="button" onclick="histAddManualValues()" class="btn-primary w-full">
+              Update Values
+            </button>
+          </div>
+
+          <!-- File Upload Tab -->
+          <div id="hist-tab-upload" class="hidden">
+            <div 
+              id="hist-dropzone" 
+              class="file-dropzone"
+              onclick="document.getElementById('hist-file-input').click()"
+            >
+              <svg class="mx-auto mb-2" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="color: var(--accent);">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="17 8 12 3 7 8"></polyline>
+                <line x1="12" y1="3" x2="12" y2="15"></line>
+              </svg>
+              <p class="text-xs font-medium mb-1" style="color: var(--fg);">Click to upload or drag & drop</p>
+              <p class="text-xs" style="color: var(--muted);">CSV, TSV, or spreadsheet data file</p>
+            </div>
+            <input 
+              type="file" 
+              id="hist-file-input" 
+              accept=".csv,.txt,.tsv,.tsv,.tab" 
+              class="hidden" 
+              onchange="histHandleFileUpload(event)"
+            />
+            <div id="hist-upload-status" class="text-xs mt-2 text-center" style="color: var(--accent);"></div>
+          </div>
+        </div>
+
+        <!-- Bin Controls Card (The core feature) -->
+        <div class="card text-left">
+          <div class="flex items-center justify-between mb-4">
+            <h2 class="font-semibold text-base" style="color: var(--fg);">Bin Controls</h2>
+            <span class="text-xs font-mono px-2 py-0.5 rounded" style="background: var(--accent-dim); color: var(--accent);">Key Feature</span>
+          </div>
+
+          <!-- Mode Selector -->
+          <div class="mb-4">
+            <label for="hist-bin-mode" class="block text-xs mb-1.5" style="color: var(--muted);">Calculation Mode</label>
+            <select id="hist-bin-mode" class="input-field text-sm" onchange="histChangeBinMode(this.value)">
+              <option value="auto">Auto (Statistical Rules)</option>
+              <option value="count">Fixed Number of Bins</option>
+              <option value="width">Custom Bin Width</option>
+            </select>
+          </div>
+
+          <!-- Auto Rule Dropdown -->
+          <div id="hist-auto-rule-container" class="mb-4">
+            <label for="hist-auto-rule" class="block text-xs mb-1.5" style="color: var(--muted);">Auto Rule Algorithm</label>
+            <select id="hist-auto-rule" class="input-field text-sm" onchange="histChangeAutoRule(this.value)">
+              <option value="sturges">Sturges' Rule (Small-to-medium data)</option>
+              <option value="fd">Freedman–Diaconis (Robust to outliers / IQR)</option>
+              <option value="scott">Scott's Rule (Variance & smooth data)</option>
+              <option value="sqrt">Square-Root Rule (Fast standard)</option>
+            </select>
+          </div>
+
+          <!-- Interactive Slider for Bin Count -->
+          <div class="mb-4">
+            <div class="flex items-center justify-between text-xs mb-1.5">
+              <label for="hist-bin-slider" style="color: var(--muted);">Number of Bins</label>
+              <span id="hist-bin-slider-val" class="font-mono font-semibold" style="color: var(--accent);">10</span>
+            </div>
+            <input 
+              type="range" 
+              id="hist-bin-slider" 
+              min="2" 
+              max="40" 
+              value="10" 
+              class="w-full"
+              oninput="histOnSliderInput(this.value)"
+            />
+            <div class="flex justify-between text-2xs mt-1 font-mono" style="color: var(--muted); font-size: 0.7rem;">
+              <span>2 (Coarse)</span>
+              <span>20</span>
+              <span>40 (Granular)</span>
+            </div>
+          </div>
+
+          <!-- Custom Bin Width Input (shown in Width mode) -->
+          <div id="hist-bin-width-container" class="mb-4 hidden">
+            <label for="hist-bin-width-input" class="block text-xs mb-1.5" style="color: var(--muted);">Bin Width Size</label>
+            <div class="flex items-center gap-2">
+              <input 
+                type="number" 
+                id="hist-bin-width-input" 
+                step="any" 
+                min="0.001" 
+                class="input-field font-mono text-sm" 
+                placeholder="e.g. 5"
+                oninput="histOnWidthInput(this.value)"
+              />
+              <button type="button" class="btn-secondary btn-sm" onclick="histApplyBinWidth()">Apply</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Customization Card -->
+        <div class="card text-left">
+          <h2 class="font-semibold text-base mb-4" style="color: var(--fg);">Chart Customization</h2>
+          
+          <div class="space-y-4">
+            <!-- Colors & Opacity -->
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label for="hist-bar-color" class="block text-xs mb-1.5" style="color: var(--muted);">Bar Fill</label>
+                <div class="flex items-center gap-2">
+                  <div class="color-picker-wrapper">
+                    <input type="color" id="hist-bar-color" value="#00d4aa" onchange="histUpdatePlot()">
+                  </div>
+                  <span id="hist-bar-color-hex" class="font-mono text-xs" style="color: var(--muted);">#00d4aa</span>
+                </div>
+              </div>
+              <div>
+                <label for="hist-edge-color" class="block text-xs mb-1.5" style="color: var(--muted);">Bar Edge</label>
+                <div class="flex items-center gap-2">
+                  <div class="color-picker-wrapper">
+                    <input type="color" id="hist-edge-color" value="#111920" onchange="histUpdatePlot()">
+                  </div>
+                  <span id="hist-edge-color-hex" class="font-mono text-xs" style="color: var(--muted);">#111920</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Opacity -->
+            <div>
+              <div class="flex items-center justify-between text-xs mb-1.5">
+                <label for="hist-opacity" style="color: var(--muted);">Bar Opacity</label>
+                <span id="hist-opacity-val" class="font-mono" style="color: var(--accent);">0.85</span>
+              </div>
+              <input 
+                type="range" 
+                id="hist-opacity" 
+                min="0.1" 
+                max="1.0" 
+                step="0.05" 
+                value="0.85" 
+                class="w-full"
+                oninput="histOnOpacityInput(this.value)"
+              />
+            </div>
+
+            <!-- Orientation -->
+            <div class="flex items-center justify-between pt-1">
+              <span class="text-xs" style="color: var(--muted);">Orientation</span>
+              <div class="flex gap-1 p-0.5 rounded" style="background: var(--bg); border: 1px solid var(--border);">
+                <button 
+                  type="button" 
+                  id="hist-orient-vert" 
+                  class="tab-btn active text-xs px-2.5 py-1" 
+                  onclick="histSetOrientation('vertical')"
+                >Vertical</button>
+                <button 
+                  type="button" 
+                  id="hist-orient-horiz" 
+                  class="tab-btn text-xs px-2.5 py-1" 
+                  onclick="histSetOrientation('horizontal')"
+                >Horizontal</button>
+              </div>
+            </div>
+
+            <!-- Titles & Labels -->
+            <div class="space-y-2 pt-1 border-t" style="border-color: var(--border);">
+              <div>
+                <label for="hist-chart-title" class="block text-xs mb-1" style="color: var(--muted);">Chart Title</label>
+                <input type="text" id="hist-chart-title" class="input-field text-xs py-1.5" value="Data Distribution Histogram" oninput="histUpdatePlot()">
+              </div>
+              <div class="grid grid-cols-2 gap-2">
+                <div>
+                  <label for="hist-x-label" class="block text-xs mb-1" style="color: var(--muted);">X-Axis Label</label>
+                  <input type="text" id="hist-x-label" class="input-field text-xs py-1.5" value="Value Range" oninput="histUpdatePlot()">
+                </div>
+                <div>
+                  <label for="hist-y-label" class="block text-xs mb-1" style="color: var(--muted);">Y-Axis Label</label>
+                  <input type="text" id="hist-y-label" class="input-field text-xs py-1.5" value="Frequency" oninput="histUpdatePlot()">
+                </div>
+              </div>
+            </div>
+
+            <!-- Toggles -->
+            <div class="space-y-2.5 pt-2 border-t" style="border-color: var(--border);">
+              <div class="flex items-center justify-between">
+                <span class="text-xs" style="color: var(--muted);">Gridlines</span>
+                <button type="button" id="hist-toggle-grid" class="toggle-btn active" onclick="histToggleFeature('grid')" aria-label="Toggle Gridlines">
+                  <div class="toggle-knob"></div>
+                </button>
+              </div>
+              <div class="flex items-center justify-between">
+                <span class="text-xs" style="color: var(--muted);">Frequency Labels on Bars</span>
+                <button type="button" id="hist-toggle-labels" class="toggle-btn active" onclick="histToggleFeature('labels')" aria-label="Toggle Bar Labels">
+                  <div class="toggle-knob"></div>
+                </button>
+              </div>
+              <div class="flex items-center justify-between">
+                <span class="text-xs" style="color: var(--muted);">Normal Curve Overlay</span>
+                <button type="button" id="hist-toggle-curve" class="toggle-btn" onclick="histToggleFeature('curve')" aria-label="Toggle Normal Curve">
+                  <div class="toggle-knob"></div>
+                </button>
+              </div>
+              <div class="flex items-center justify-between">
+                <span class="text-xs" style="color: var(--muted);">Mean & Median Reference Lines</span>
+                <button type="button" id="hist-toggle-lines" class="toggle-btn" onclick="histToggleFeature('lines')" aria-label="Toggle Mean & Median Lines">
+                  <div class="toggle-knob"></div>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Right Panel: Chart Visualizer & Frequency Table -->
+      <div class="lg:col-span-2 space-y-6">
+        
+        <!-- Canvas Visualizer Card -->
+        <div class="canvas-container relative" style="min-height: 500px;">
+          <!-- Export Action Bar -->
+          <div class="hist-export-bar absolute top-4 right-4 z-10 flex items-center gap-2">
+            <button type="button" onclick="histCopyImageToClipboard()" class="btn-secondary btn-sm" title="Copy high-res image to clipboard">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+              </svg>
+              <span>Copy</span>
+            </button>
+            <button type="button" onclick="histExportPNG()" class="btn-primary btn-sm" title="Download High-Resolution PNG">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                <polyline points="21 15 16 10 5 21"></polyline>
+              </svg>
+              <span>PNG</span>
+            </button>
+            <button type="button" onclick="histExportSVG()" class="btn-secondary btn-sm" title="Download Scalable Vector SVG">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="7 10 12 15 17 10"></polyline>
+                <line x1="12" y1="15" x2="12" y2="3"></line>
+              </svg>
+              <span>SVG</span>
+            </button>
+            <button type="button" onclick="histExportPDF()" class="btn-secondary btn-sm" title="Download Printable PDF">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                <polyline points="14 2 14 8 20 8"></polyline>
+                <line x1="16" y1="13" x2="8" y2="13"></line>
+                <line x1="16" y1="17" x2="8" y2="17"></line>
+              </svg>
+              <span>PDF</span>
+            </button>
+          </div>
+
+          <!-- HTML5 Canvas -->
+          <canvas id="hist-canvas" style="display: block; width: 100%; height: 500px;"></canvas>
+          
+          <!-- Interactive Tooltip -->
+          <div id="hist-tooltip" class="tooltip text-left"></div>
+
+          <!-- Chart Active Setting Caption -->
+          <div id="hist-chart-caption" class="p-3 text-center text-xs font-mono border-t" style="border-color: var(--border); background: var(--card); color: var(--muted);">
+            <!-- Live setting caption e.g. "12 bins · width 5.20 · Sturges' rule" -->
+            10 bins · width 4.40 · Sturges' rule
+          </div>
+        </div>
+
+        <!-- Descriptive Statistics Cards -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+          <div class="card text-center py-3 px-2">
+            <div class="text-xs mb-1" style="color: var(--muted);">Sample Size (N)</div>
+            <div id="hist-stat-n" class="text-xl font-bold font-mono" style="color: var(--accent);">0</div>
+          </div>
+          <div class="card text-center py-3 px-2">
+            <div class="text-xs mb-1" style="color: var(--muted);">Mean (x̄)</div>
+            <div id="hist-stat-mean" class="text-xl font-bold font-mono" style="color: var(--fg);">0</div>
+          </div>
+          <div class="card text-center py-3 px-2">
+            <div class="text-xs mb-1" style="color: var(--muted);">Median (x̃)</div>
+            <div id="hist-stat-median" class="text-xl font-bold font-mono" style="color: var(--fg);">0</div>
+          </div>
+          <div class="card text-center py-3 px-2">
+            <div class="text-xs mb-1" style="color: var(--muted);">Std Dev (s)</div>
+            <div id="hist-stat-std" class="text-xl font-bold font-mono" style="color: var(--fg);">0</div>
+          </div>
+        </div>
+
+        <!-- Frequency Table Card -->
+        <div class="card text-left">
+          <div class="flex items-center justify-between mb-3">
+            <h2 class="font-semibold text-base" style="color: var(--fg);">Frequency Distribution Table</h2>
+            <span class="text-xs font-mono" style="color: var(--muted);" id="hist-table-summary">0 bins</span>
+          </div>
+          <div class="overflow-x-auto max-h-72">
+            <table class="w-full text-xs">
+              <thead>
+                <tr style="color: var(--muted); border-bottom: 1px solid var(--border);">
+                  <th class="text-left py-2 px-3">Bin Range</th>
+                  <th class="text-left py-2 px-3">Frequency</th>
+                  <th class="text-left py-2 px-3">Relative Frequency</th>
+                  <th class="text-left py-2 px-3">Proportion Bar</th>
+                </tr>
+              </thead>
+              <tbody id="hist-frequency-body" style="color: var(--fg);">
+                <!-- Dynamic Frequency Rows -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Element -->
+  <div id="hist-toast" class="hist-toast" aria-live="polite">Image copied to clipboard!</div>
+
+  <script is:inline>
+    (function() {
+      // Font loader
+      var fontUrls = document.getElementById('ibm-plex-mono-urls-hist');
+      if (fontUrls) {
+        var w400 = fontUrls.dataset.w400;
+        var w500 = fontUrls.dataset.w500;
+        if (w400 && document.fonts) new FontFace('IBM Plex Mono', 'url(' + w400 + ')', { weight: '400', display: 'swap' }).load().then(function(f) { document.fonts.add(f); }).catch(function(){});
+        if (w500 && document.fonts) new FontFace('IBM Plex Mono', 'url(' + w500 + ')', { weight: '500', display: 'swap' }).load().then(function(f) { document.fonts.add(f); }).catch(function(){});
+      }
+    })();
+
+    // Presets definition
+    const HIST_PRESETS = {
+      exams: [54, 58, 62, 65, 67, 68, 70, 71, 72, 73, 74, 75, 75, 76, 77, 77, 78, 78, 79, 80, 80, 81, 81, 82, 82, 82, 83, 84, 84, 85, 85, 86, 86, 87, 88, 88, 89, 90, 91, 91, 92, 93, 94, 95, 96, 98],
+      heights: [156, 158, 160, 162, 163, 164, 165, 166, 167, 167, 168, 168, 169, 170, 170, 171, 171, 172, 172, 172, 173, 173, 174, 174, 175, 175, 176, 176, 177, 178, 178, 179, 180, 181, 182, 183, 185, 187, 191],
+      response: [115, 122, 128, 134, 139, 142, 145, 150, 155, 158, 162, 168, 174, 180, 185, 192, 204, 215, 228, 240, 255, 275, 305, 340, 390, 450, 530, 640, 780]
+    };
+
+    // State
+    const histState = {
+      data: [...HIST_PRESETS.exams],
+      binMode: 'auto', // 'auto' | 'count' | 'width'
+      autoRule: 'sturges', // 'sturges' | 'fd' | 'scott' | 'sqrt'
+      binCount: 10,
+      binWidth: null,
+      orientation: 'vertical', // 'vertical' | 'horizontal'
+      barColor: '#00d4aa',
+      edgeColor: '#111920',
+      opacity: 0.85,
+      showGrid: true,
+      showLabels: true,
+      showCurve: false,
+      showLines: false,
+      title: 'Data Distribution Histogram',
+      xLabel: 'Value Range',
+      yLabel: 'Frequency',
+      calculatedBins: [],
+      calculatedStats: {},
+      barElements: []
+    };
+
+    const canvas = document.getElementById('hist-canvas');
+    const ctx = canvas ? canvas.getContext('2d') : null;
+    const tooltip = document.getElementById('hist-tooltip');
+
+    // Tab switching
+    window.switchHistTab = function(tab) {
+      document.querySelectorAll('#histogram-tool .tab-btn').forEach(btn => {
+        if (btn.dataset.tab) btn.classList.toggle('active', btn.dataset.tab === tab);
+      });
+      document.getElementById('hist-tab-paste').classList.toggle('hidden', tab !== 'paste');
+      document.getElementById('hist-tab-manual').classList.toggle('hidden', tab !== 'manual');
+      document.getElementById('hist-tab-upload').classList.toggle('hidden', tab !== 'upload');
+    };
+
+    // Preset loading
+    window.histLoadPreset = function(name) {
+      const presetData = HIST_PRESETS[name];
+      if (!presetData) return;
+      histState.data = [...presetData];
+      document.getElementById('hist-paste-input').value = histState.data.join(', ');
+      document.getElementById('hist-manual-input').value = histState.data.join(', ');
+      if (name === 'exams') {
+        document.getElementById('hist-chart-title').value = 'Exam Scores Distribution';
+        document.getElementById('hist-x-label').value = 'Test Score (%)';
+      } else if (name === 'heights') {
+        document.getElementById('hist-chart-title').value = 'Adult Heights Distribution';
+        document.getElementById('hist-x-label').value = 'Height (cm)';
+      } else if (name === 'response') {
+        document.getElementById('hist-chart-title').value = 'Web API Response Times';
+        document.getElementById('hist-x-label').value = 'Latency (ms)';
+      }
+      histUpdateManualTags();
+      histRecalculateBins();
+      histUpdatePlot();
+      histShowToast('Loaded ' + name + ' dataset');
+    };
+
+    // Parsing
+    function histParseRawString(str) {
+      if (!str) return [];
+      const tokens = str.split(/[\s,;\t\r\n]+/);
+      const nums = [];
+      for (let i = 0; i < tokens.length; i++) {
+        const t = tokens[i].trim();
+        if (t === '') continue;
+        const n = Number(t);
+        if (!isNaN(n) && isFinite(n)) nums.push(n);
+      }
+      return nums;
+    }
+
+    window.histParseDataFromPaste = function() {
+      const text = document.getElementById('hist-paste-input').value;
+      const parsed = histParseRawString(text);
+      if (parsed.length < 2) {
+        alert('Please enter at least 2 numeric values.');
+        return;
+      }
+      histState.data = parsed;
+      histUpdateManualTags();
+      histRecalculateBins();
+      histUpdatePlot();
+      histShowToast('Parsed ' + parsed.length + ' data points');
+    };
+
+    window.histClearData = function() {
+      histState.data = [];
+      document.getElementById('hist-paste-input').value = '';
+      document.getElementById('hist-manual-input').value = '';
+      histUpdateManualTags();
+      histRecalculateBins();
+      histUpdatePlot();
+    };
+
+    window.histAddManualValues = function() {
+      const text = document.getElementById('hist-manual-input').value;
+      const parsed = histParseRawString(text);
+      if (parsed.length > 0) {
+        histState.data = parsed;
+        document.getElementById('hist-paste-input').value = histState.data.join(', ');
+        histUpdateManualTags();
+        histRecalculateBins();
+        histUpdatePlot();
+        histShowToast('Updated ' + parsed.length + ' points');
+      }
+    };
+
+    function histUpdateManualTags() {
+      const container = document.getElementById('hist-manual-tags');
+      const countEl = document.getElementById('hist-manual-count');
+      if (!container || !countEl) return;
+      countEl.textContent = histState.data.length + ' points';
+      if (histState.data.length === 0) {
+        container.innerHTML = '<span class="text-xs" style="color: var(--muted);">No data points yet</span>';
+        return;
+      }
+      const preview = histState.data.slice(0, 50);
+      container.innerHTML = preview.map((val, idx) => `
+        <span class="inline-flex items-center gap-1 px-1.5 py-0.5 rounded font-mono text-2xs" style="background: var(--card); border: 1px solid var(--border);">
+          ${val}
+          <button type="button" onclick="histRemovePoint(${idx})" style="color: var(--danger); font-size: 10px; cursor: pointer;">&times;</button>
+        </span>
+      `).join('') + (histState.data.length > 50 ? `<span class="text-2xs" style="color: var(--muted);">+${histState.data.length - 50} more</span>` : '');
+    }
+
+    window.histRemovePoint = function(idx) {
+      histState.data.splice(idx, 1);
+      document.getElementById('hist-paste-input').value = histState.data.join(', ');
+      document.getElementById('hist-manual-input').value = histState.data.join(', ');
+      histUpdateManualTags();
+      histRecalculateBins();
+      histUpdatePlot();
+    };
+
+    // File upload
+    window.histHandleFileUpload = function(e) {
+      const file = e.target.files && e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(evt) {
+        const content = evt.target.result;
+        const parsed = histParseRawString(content);
+        if (parsed.length >= 2) {
+          histState.data = parsed;
+          document.getElementById('hist-paste-input').value = histState.data.slice(0, 200).join(', ') + (histState.data.length > 200 ? '...' : '');
+          document.getElementById('hist-manual-input').value = histState.data.slice(0, 200).join(', ');
+          document.getElementById('hist-upload-status').textContent = '✓ Successfully loaded ' + file.name + ' (' + parsed.length + ' values)';
+          histUpdateManualTags();
+          histRecalculateBins();
+          histUpdatePlot();
+          histShowToast('Loaded ' + file.name);
+        } else {
+          document.getElementById('hist-upload-status').textContent = 'Could not parse numbers from file.';
+        }
+      };
+      reader.readAsText(file);
+    };
+
+    // Drag and drop for dropzone
+    const dropzone = document.getElementById('hist-dropzone');
+    if (dropzone) {
+      ['dragenter', 'dragover'].forEach(name => {
+        dropzone.addEventListener(name, (e) => { e.preventDefault(); dropzone.classList.add('dragover'); });
+      });
+      ['dragleave', 'drop'].forEach(name => {
+        dropzone.addEventListener(name, (e) => { e.preventDefault(); dropzone.classList.remove('dragover'); });
+      });
+      dropzone.addEventListener('drop', (e) => {
+        const dt = e.dataTransfer;
+        if (dt && dt.files && dt.files.length) {
+          histHandleFileUpload({ target: { files: dt.files } });
+        }
+      });
+    }
+
+    // Bin Mode Changes
+    window.histChangeBinMode = function(mode) {
+      histState.binMode = mode;
+      document.getElementById('hist-auto-rule-container').classList.toggle('hidden', mode !== 'auto');
+      document.getElementById('hist-bin-width-container').classList.toggle('hidden', mode !== 'width');
+      histRecalculateBins();
+      histUpdatePlot();
+    };
+
+    window.histChangeAutoRule = function(rule) {
+      histState.autoRule = rule;
+      histRecalculateBins();
+      histUpdatePlot();
+    };
+
+    window.histOnSliderInput = function(val) {
+      histState.binCount = parseInt(val, 10);
+      document.getElementById('hist-bin-slider-val').textContent = val;
+      if (histState.binMode === 'auto') {
+        // If slider is touched while in auto, seamlessly switch to fixed bin count
+        histState.binMode = 'count';
+        document.getElementById('hist-bin-mode').value = 'count';
+        document.getElementById('hist-auto-rule-container').classList.add('hidden');
+        document.getElementById('hist-bin-width-container').classList.add('hidden');
+      }
+      histRecalculateBins(false);
+      histUpdatePlot();
+    };
+
+    window.histOnWidthInput = function(val) {
+      const w = parseFloat(val);
+      if (!isNaN(w) && w > 0) {
+        histState.binWidth = w;
+        histRecalculateBins();
+        histUpdatePlot();
+      }
+    };
+
+    window.histApplyBinWidth = function() {
+      const val = document.getElementById('hist-bin-width-input').value;
+      histOnWidthInput(val);
+    };
+
+    // Customization callbacks
+    window.histOnOpacityInput = function(val) {
+      histState.opacity = parseFloat(val);
+      document.getElementById('hist-opacity-val').textContent = val;
+      histUpdatePlot();
+    };
+
+    window.histSetOrientation = function(orient) {
+      histState.orientation = orient;
+      document.getElementById('hist-orient-vert').classList.toggle('active', orient === 'vertical');
+      document.getElementById('hist-orient-horiz').classList.toggle('active', orient === 'horizontal');
+      histUpdatePlot();
+    };
+
+    window.histToggleFeature = function(feature) {
+      if (feature === 'grid') {
+        histState.showGrid = !histState.showGrid;
+        document.getElementById('hist-toggle-grid').classList.toggle('active', histState.showGrid);
+      } else if (feature === 'labels') {
+        histState.showLabels = !histState.showLabels;
+        document.getElementById('hist-toggle-labels').classList.toggle('active', histState.showLabels);
+      } else if (feature === 'curve') {
+        histState.showCurve = !histState.showCurve;
+        document.getElementById('hist-toggle-curve').classList.toggle('active', histState.showCurve);
+      } else if (feature === 'lines') {
+        histState.showLines = !histState.showLines;
+        document.getElementById('hist-toggle-lines').classList.toggle('active', histState.showLines);
+      }
+      histUpdatePlot();
+    };
+
+    // Math & Statistics
+    function histComputeStats(data) {
+      const n = data.length;
+      if (n === 0) return { n: 0, min: 0, max: 0, range: 0, mean: 0, median: 0, std: 0, q1: 0, q3: 0, iqr: 0 };
+      const sorted = [...data].sort((a, b) => a - b);
+      const min = sorted[0];
+      const max = sorted[n - 1];
+      const range = max - min;
+      const sum = sorted.reduce((a, b) => a + b, 0);
+      const mean = sum / n;
+      
+      // Median
+      const mid = Math.floor(n / 2);
+      const median = (n % 2 !== 0) ? sorted[mid] : (sorted[mid - 1] + sorted[mid]) / 2;
+
+      // Sample variance & std dev
+      let variance = 0;
+      if (n > 1) {
+        variance = sorted.reduce((acc, val) => acc + Math.pow(val - mean, 2), 0) / (n - 1);
+      }
+      const std = Math.sqrt(variance);
+
+      // Quartiles for IQR
+      function getPercentile(p) {
+        const idx = p * (n - 1);
+        const lower = Math.floor(idx);
+        const frac = idx - lower;
+        if (lower + 1 < n) return sorted[lower] + frac * (sorted[lower + 1] - sorted[lower]);
+        return sorted[lower];
+      }
+      const q1 = getPercentile(0.25);
+      const q3 = getPercentile(0.75);
+      const iqr = q3 - q1;
+
+      return { n, min, max, range, mean, median, std, q1, q3, iqr, sorted };
+    }
+
+    // Bin calculations
+    function histRecalculateBins(syncSlider = true) {
+      const data = histState.data;
+      const stats = histComputeStats(data);
+      histState.calculatedStats = stats;
+
+      if (stats.n < 2) {
+        histState.calculatedBins = [];
+        return;
+      }
+
+      let k = histState.binCount;
+      const n = stats.n;
+      const range = stats.range === 0 ? 1 : stats.range;
+
+      if (histState.binMode === 'auto') {
+        if (histState.autoRule === 'sturges') {
+          // Sturges' Rule: k = ceil(log2(n) + 1)
+          k = Math.ceil(Math.log2(n) + 1);
+        } else if (histState.autoRule === 'sqrt') {
+          // Square-root rule: k = ceil(sqrt(n))
+          k = Math.ceil(Math.sqrt(n));
+        } else if (histState.autoRule === 'fd') {
+          // Freedman-Diaconis: width = 2 * IQR / (n^(1/3))
+          const iqr = stats.iqr;
+          if (iqr > 0) {
+            const h = 2 * iqr * Math.pow(n, -1/3);
+            k = Math.ceil(range / h);
+          } else {
+            k = Math.ceil(Math.log2(n) + 1);
+          }
+        } else if (histState.autoRule === 'scott') {
+          // Scott's rule: width = 3.49 * s / (n^(1/3))
+          const s = stats.std;
+          if (s > 0) {
+            const h = 3.49 * s * Math.pow(n, -1/3);
+            k = Math.ceil(range / h);
+          } else {
+            k = Math.ceil(Math.log2(n) + 1);
+          }
+        }
+      } else if (histState.binMode === 'width') {
+        const w = histState.binWidth || (range / 10);
+        k = Math.max(2, Math.ceil(range / w));
+      }
+
+      // Clamp k to reasonable bounds [2, 50]
+      k = Math.max(2, Math.min(50, Math.round(k)));
+      histState.binCount = k;
+
+      if (syncSlider) {
+        const slider = document.getElementById('hist-bin-slider');
+        if (slider) slider.value = k;
+        const sliderVal = document.getElementById('hist-bin-slider-val');
+        if (sliderVal) sliderVal.textContent = k;
+      }
+
+      // Calculate bin width and intervals
+      const binWidth = range / k;
+      histState.binWidth = binWidth;
+      const widthInput = document.getElementById('hist-bin-width-input');
+      if (widthInput && document.activeElement !== widthInput) {
+        widthInput.value = binWidth.toFixed(2);
+      }
+
+      const bins = [];
+      const minVal = stats.min;
+      for (let i = 0; i < k; i++) {
+        const start = minVal + i * binWidth;
+        const end = (i === k - 1) ? stats.max : minVal + (i + 1) * binWidth;
+        bins.push({
+          index: i + 1,
+          start: start,
+          end: end,
+          mid: (start + end) / 2,
+          count: 0,
+          proportion: 0
+        });
+      }
+
+      // Count occurrences into bins
+      data.forEach(val => {
+        let placed = false;
+        for (let i = 0; i < k; i++) {
+          const isLast = (i === k - 1);
+          if (isLast ? (val >= bins[i].start && val <= bins[i].end) : (val >= bins[i].start && val < bins[i].end)) {
+            bins[i].count++;
+            placed = true;
+            break;
+          }
+        }
+        if (!placed) {
+          if (val <= bins[0].start) bins[0].count++;
+          else if (val >= bins[k - 1].end) bins[k - 1].count++;
+        }
+      });
+
+      bins.forEach(b => {
+        b.proportion = n > 0 ? (b.count / n) : 0;
+      });
+
+      histState.calculatedBins = bins;
+      histUpdateCaption(k, binWidth);
+      histUpdateStatsDOM(stats);
+      histUpdateFrequencyTableDOM(bins, n);
+    }
+
+    // Active setting caption
+    function histUpdateCaption(k, width) {
+      const captionEl = document.getElementById('hist-chart-caption');
+      if (!captionEl) return;
+      let ruleText = "Fixed Bins";
+      if (histState.binMode === 'auto') {
+        if (histState.autoRule === 'sturges') ruleText = "Sturges' rule";
+        else if (histState.autoRule === 'fd') ruleText = "Freedman–Diaconis rule";
+        else if (histState.autoRule === 'scott') ruleText = "Scott's rule";
+        else if (histState.autoRule === 'sqrt') ruleText = "Square-root rule";
+      } else if (histState.binMode === 'width') {
+        ruleText = "Custom Width";
+      }
+      captionEl.textContent = `${k} bins · width ${width.toFixed(2)} · ${ruleText}`;
+    }
+
+    // Update stats cards
+    function histUpdateStatsDOM(stats) {
+      document.getElementById('hist-stat-n').textContent = stats.n;
+      document.getElementById('hist-stat-mean').textContent = stats.n > 0 ? stats.mean.toFixed(2) : '0';
+      document.getElementById('hist-stat-median').textContent = stats.n > 0 ? stats.median.toFixed(2) : '0';
+      document.getElementById('hist-stat-std').textContent = stats.n > 0 ? stats.std.toFixed(2) : '0';
+    }
+
+    // Update Frequency Table
+    function histUpdateFrequencyTableDOM(bins, n) {
+      const tbody = document.getElementById('hist-frequency-body');
+      const summary = document.getElementById('hist-table-summary');
+      if (!tbody) return;
+      if (summary) summary.textContent = `${bins.length} intervals (N = ${n})`;
+
+      if (bins.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="4" class="py-3 px-3 text-center" style="color: var(--muted);">No data available</td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = bins.map(b => {
+        const pct = (b.proportion * 100).toFixed(1);
+        const rangeStr = `[${b.start.toFixed(2)}, ${b.end.toFixed(2)}${b.index === bins.length ? ']' : ')'}`;
+        return `
+          <tr style="border-bottom: 1px solid rgba(255,255,255,0.04);">
+            <td class="py-2 px-3 font-mono" style="color: var(--accent);">${rangeStr}</td>
+            <td class="py-2 px-3 font-mono font-semibold">${b.count}</td>
+            <td class="py-2 px-3 font-mono">${pct}%</td>
+            <td class="py-2 px-3">
+              <div class="flex items-center gap-2">
+                <div class="h-2 rounded" style="width: ${Math.max(2, b.proportion * 120)}px; background: var(--accent); opacity: 0.7;"></div>
+              </div>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    // Helper: adjust opacity for hex color
+    function histAdjustColorOpacity(hex, opacity) {
+      hex = hex.replace('#', '');
+      if (hex.length === 3) hex = hex.split('').map(c => c + c).join('');
+      const r = parseInt(hex.substring(0, 2), 16) || 0;
+      const g = parseInt(hex.substring(2, 4), 16) || 0;
+      const b = parseInt(hex.substring(4, 6), 16) || 0;
+      return `rgba(${r}, ${g}, ${b}, ${opacity})`;
+    }
+
+    // Render Histogram on Canvas
+    window.histUpdatePlot = function() {
+      if (!canvas || !ctx) return;
+      const dpr = window.devicePixelRatio || 1;
+      const rect = canvas.getBoundingClientRect();
+      const w = rect.width;
+      const h = Math.max(480, rect.height || 500);
+
+      if (canvas.width !== w * dpr || canvas.height !== h * dpr) {
+        canvas.width = w * dpr;
+        canvas.height = h * dpr;
+      }
+      ctx.resetTransform ? ctx.resetTransform() : ctx.setTransform(1, 0, 0, 1, 0, 0);
+      ctx.scale(dpr, dpr);
+
+      // Background
+      ctx.fillStyle = '#111920';
+      ctx.fillRect(0, 0, w, h);
+
+      const bins = histState.calculatedBins;
+      const stats = histState.calculatedStats;
+      if (!bins || bins.length === 0 || stats.n < 2) {
+        ctx.fillStyle = '#6b7d8f';
+        ctx.font = '14px "Space Grotesk", sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('Please add data points to render histogram', w / 2, h / 2);
+        return;
+      }
+
+      // Title & Labels read from DOM
+      histState.title = document.getElementById('hist-chart-title').value || 'Histogram';
+      histState.xLabel = document.getElementById('hist-x-label').value || 'Values';
+      histState.yLabel = document.getElementById('hist-y-label').value || 'Frequency';
+      histState.barColor = document.getElementById('hist-bar-color').value || '#00d4aa';
+      histState.edgeColor = document.getElementById('hist-edge-color').value || '#111920';
+
+      document.getElementById('hist-bar-color-hex').textContent = histState.barColor;
+      document.getElementById('hist-edge-color-hex').textContent = histState.edgeColor;
+
+      const padding = { top: 60, right: 40, bottom: 65, left: 65 };
+      const plotWidth = w - padding.left - padding.right;
+      const plotHeight = h - padding.top - padding.bottom;
+
+      const maxCount = Math.max(...bins.map(b => b.count), 1);
+      // Nice max for Y axis
+      const yAxisMax = Math.ceil(maxCount * 1.15);
+
+      histState.barElements = [];
+
+      const isVertical = histState.orientation === 'vertical';
+
+      // Draw Gridlines
+      if (histState.showGrid) {
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.05)';
+        ctx.lineWidth = 1;
+        const gridSteps = 5;
+        for (let i = 0; i <= gridSteps; i++) {
+          if (isVertical) {
+            const y = padding.top + plotHeight - (i / gridSteps) * plotHeight;
+            ctx.beginPath();
+            ctx.moveTo(padding.left, y);
+            ctx.lineTo(padding.left + plotWidth, y);
+            ctx.stroke();
+          } else {
+            const x = padding.left + (i / gridSteps) * plotWidth;
+            ctx.beginPath();
+            ctx.moveTo(x, padding.top);
+            ctx.lineTo(x, padding.top + plotHeight);
+            ctx.stroke();
+          }
+        }
+      }
+
+      // Draw Axes
+      ctx.strokeStyle = 'rgba(107, 125, 143, 0.4)';
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      // Y axis
+      ctx.moveTo(padding.left, padding.top);
+      ctx.lineTo(padding.left, padding.top + plotHeight);
+      // X axis
+      ctx.lineTo(padding.left + plotWidth, padding.top + plotHeight);
+      ctx.stroke();
+
+      // Axis Ticks & Numbers
+      ctx.font = '11px "IBM Plex Mono", monospace';
+      ctx.fillStyle = '#6b7d8f';
+
+      if (isVertical) {
+        // Y-axis ticks (Counts)
+        ctx.textAlign = 'right';
+        ctx.textBaseline = 'middle';
+        const yTicks = 5;
+        for (let i = 0; i <= yTicks; i++) {
+          const val = Math.round((i / yTicks) * yAxisMax);
+          const y = padding.top + plotHeight - (i / yTicks) * plotHeight;
+          ctx.fillText(val.toString(), padding.left - 10, y);
+        }
+
+        // X-axis ticks (Interval limits)
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'top';
+        const numXBins = bins.length;
+        const step = numXBins > 15 ? Math.ceil(numXBins / 8) : (numXBins > 8 ? 2 : 1);
+        for (let i = 0; i <= numXBins; i += step) {
+          const xVal = (i === numXBins) ? bins[numXBins - 1].end : bins[i].start;
+          const x = padding.left + (i / numXBins) * plotWidth;
+          ctx.fillText(xVal.toFixed(1), x, padding.top + plotHeight + 10);
+        }
+      } else {
+        // Horizontal: X-axis is count, Y-axis is intervals
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'top';
+        const xTicks = 5;
+        for (let i = 0; i <= xTicks; i++) {
+          const val = Math.round((i / xTicks) * yAxisMax);
+          const x = padding.left + (i / xTicks) * plotWidth;
+          ctx.fillText(val.toString(), x, padding.top + plotHeight + 8);
+        }
+
+        ctx.textAlign = 'right';
+        ctx.textBaseline = 'middle';
+        const numYBins = bins.length;
+        const step = numYBins > 15 ? Math.ceil(numYBins / 8) : (numYBins > 8 ? 2 : 1);
+        for (let i = 0; i <= numYBins; i += step) {
+          const yVal = (i === numYBins) ? bins[numYBins - 1].end : bins[i].start;
+          const y = padding.top + plotHeight - (i / numYBins) * plotHeight;
+          ctx.fillText(yVal.toFixed(1), padding.left - 8, y);
+        }
+      }
+
+      // Draw Bars
+      const fillColor = histAdjustColorOpacity(histState.barColor, histState.opacity);
+      const strokeColor = histState.edgeColor;
+
+      bins.forEach((bin, idx) => {
+        let x, y, barW, barH;
+
+        if (isVertical) {
+          barW = plotWidth / bins.length;
+          x = padding.left + idx * barW;
+          barH = (bin.count / yAxisMax) * plotHeight;
+          y = padding.top + plotHeight - barH;
+
+          ctx.fillStyle = fillColor;
+          ctx.fillRect(x, y, barW, barH);
+          ctx.strokeStyle = strokeColor;
+          ctx.lineWidth = 1.2;
+          ctx.strokeRect(x, y, barW, barH);
+
+          // Frequency label on top of bar
+          if (histState.showLabels && bin.count > 0) {
+            ctx.fillStyle = '#e8eef4';
+            ctx.font = '11px "IBM Plex Mono", monospace';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'bottom';
+            ctx.fillText(bin.count.toString(), x + barW / 2, y - 4);
+          }
+
+          histState.barElements.push({
+            x, y, w: barW, h: barH, bin: bin
+          });
+        } else {
+          barH = plotHeight / bins.length;
+          y = padding.top + plotHeight - (idx + 1) * barH;
+          barW = (bin.count / yAxisMax) * plotWidth;
+          x = padding.left;
+
+          ctx.fillStyle = fillColor;
+          ctx.fillRect(x, y, barW, barH);
+          ctx.strokeStyle = strokeColor;
+          ctx.lineWidth = 1.2;
+          ctx.strokeRect(x, y, barW, barH);
+
+          if (histState.showLabels && bin.count > 0) {
+            ctx.fillStyle = '#e8eef4';
+            ctx.font = '11px "IBM Plex Mono", monospace';
+            ctx.textAlign = 'left';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(bin.count.toString(), x + barW + 5, y + barH / 2);
+          }
+
+          histState.barElements.push({
+            x, y, w: barW, h: barH, bin: bin
+          });
+        }
+      });
+
+      // Normal Curve Overlay
+      if (histState.showCurve && stats.std > 0) {
+        ctx.save();
+        ctx.strokeStyle = '#ffd93d';
+        ctx.lineWidth = 2.5;
+        ctx.beginPath();
+
+        const n = stats.n;
+        const mean = stats.mean;
+        const std = stats.std;
+        const binW = histState.binWidth;
+        const minVal = stats.min;
+        const maxVal = stats.max;
+
+        if (isVertical) {
+          const totalPoints = 120;
+          for (let p = 0; p <= totalPoints; p++) {
+            const currentXVal = minVal + (p / totalPoints) * (maxVal - minVal);
+            // Normal PDF: (1 / (s * sqrt(2pi))) * exp(-0.5 * ((x-m)/s)^2)
+            const pdf = (1 / (std * Math.sqrt(2 * Math.PI))) * Math.exp(-0.5 * Math.pow((currentXVal - mean) / std, 2));
+            // Expected count at this value = pdf * n * binWidth
+            const expectedCount = pdf * n * binW;
+            const xPixel = padding.left + ((currentXVal - minVal) / (maxVal - minVal)) * plotWidth;
+            const yPixel = padding.top + plotHeight - (expectedCount / yAxisMax) * plotHeight;
+
+            if (p === 0) ctx.moveTo(xPixel, yPixel);
+            else ctx.lineTo(xPixel, yPixel);
+          }
+        } else {
+          const totalPoints = 120;
+          for (let p = 0; p <= totalPoints; p++) {
+            const currentVal = minVal + (p / totalPoints) * (maxVal - minVal);
+            const pdf = (1 / (std * Math.sqrt(2 * Math.PI))) * Math.exp(-0.5 * Math.pow((currentVal - mean) / std, 2));
+            const expectedCount = pdf * n * binW;
+            const yPixel = padding.top + plotHeight - ((currentVal - minVal) / (maxVal - minVal)) * plotHeight;
+            const xPixel = padding.left + (expectedCount / yAxisMax) * plotWidth;
+
+            if (p === 0) ctx.moveTo(xPixel, yPixel);
+            else ctx.lineTo(xPixel, yPixel);
+          }
+        }
+        ctx.stroke();
+        ctx.restore();
+      }
+
+      // Mean & Median Reference Lines
+      if (histState.showLines && stats.n > 0) {
+        ctx.save();
+        const minVal = stats.min;
+        const maxVal = stats.max;
+        const range = maxVal - minVal;
+
+        if (isVertical && range > 0) {
+          // Mean line
+          const meanX = padding.left + ((stats.mean - minVal) / range) * plotWidth;
+          ctx.strokeStyle = '#4d96ff';
+          ctx.setLineDash([5, 4]);
+          ctx.lineWidth = 2;
+          ctx.beginPath();
+          ctx.moveTo(meanX, padding.top);
+          ctx.lineTo(meanX, padding.top + plotHeight);
+          ctx.stroke();
+
+          // Mean tag
+          ctx.fillStyle = '#4d96ff';
+          ctx.font = '10px "IBM Plex Mono", monospace';
+          ctx.textAlign = 'center';
+          ctx.fillText(`Mean: ${stats.mean.toFixed(1)}`, meanX, padding.top - 12);
+
+          // Median line
+          const medX = padding.left + ((stats.median - minVal) / range) * plotWidth;
+          ctx.strokeStyle = '#ff6b9d';
+          ctx.setLineDash([3, 3]);
+          ctx.lineWidth = 2;
+          ctx.beginPath();
+          ctx.moveTo(medX, padding.top);
+          ctx.lineTo(medX, padding.top + plotHeight);
+          ctx.stroke();
+
+          // Median tag
+          ctx.fillStyle = '#ff6b9d';
+          ctx.fillText(`Med: ${stats.median.toFixed(1)}`, medX, padding.top - 24);
+        } else if (!isVertical && range > 0) {
+          const meanY = padding.top + plotHeight - ((stats.mean - minVal) / range) * plotHeight;
+          ctx.strokeStyle = '#4d96ff';
+          ctx.setLineDash([5, 4]);
+          ctx.lineWidth = 2;
+          ctx.beginPath();
+          ctx.moveTo(padding.left, meanY);
+          ctx.lineTo(padding.left + plotWidth, meanY);
+          ctx.stroke();
+
+          const medY = padding.top + plotHeight - ((stats.median - minVal) / range) * plotHeight;
+          ctx.strokeStyle = '#ff6b9d';
+          ctx.setLineDash([3, 3]);
+          ctx.lineWidth = 2;
+          ctx.beginPath();
+          ctx.moveTo(padding.left, medY);
+          ctx.lineTo(padding.left + plotWidth, medY);
+          ctx.stroke();
+        }
+        ctx.restore();
+      }
+
+      // Title & Labels
+      ctx.fillStyle = '#e8eef4';
+      ctx.font = 'bold 15px "Space Grotesk", sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText(histState.title, w / 2, 28);
+
+      // Axis Titles
+      ctx.font = '12px "Space Grotesk", sans-serif';
+      ctx.fillStyle = '#a0a0b8';
+      // X label
+      ctx.textAlign = 'center';
+      ctx.fillText(isVertical ? histState.xLabel : histState.yLabel, padding.left + plotWidth / 2, h - 16);
+
+      // Y label
+      ctx.save();
+      ctx.translate(18, padding.top + plotHeight / 2);
+      ctx.rotate(-Math.PI / 2);
+      ctx.textAlign = 'center';
+      ctx.fillText(isVertical ? histState.yLabel : histState.xLabel, 0, 0);
+      ctx.restore();
+    };
+
+    // Tooltip interaction
+    function histHandleMouseMove(e) {
+      if (!canvas || !tooltip) return;
+      const rect = canvas.getBoundingClientRect();
+      const mouseX = e.clientX - rect.left;
+      const mouseY = e.clientY - rect.top;
+
+      let found = null;
+      for (let i = 0; i < histState.barElements.length; i++) {
+        const item = histState.barElements[i];
+        if (mouseX >= item.x && mouseX <= item.x + item.w && mouseY >= item.y && mouseY <= item.y + item.h) {
+          found = item;
+          break;
+        }
+      }
+
+      if (found) {
+        const b = found.bin;
+        const pct = (b.proportion * 100).toFixed(1);
+        tooltip.innerHTML = `
+          <div style="font-weight: 600; color: var(--accent); margin-bottom: 2px;">Bin #${b.index}</div>
+          <div style="color: #e8eef4;">Range: [${b.start.toFixed(2)}, ${b.end.toFixed(2)}${b.index === histState.calculatedBins.length ? ']' : ')'}</div>
+          <div style="color: #a0a0b8;">Count: <strong style="color: #fff;">${b.count}</strong> (${pct}%)</div>
+        `;
+        let left = mouseX + 15;
+        let top = mouseY - 15;
+        if (left + 160 > rect.width) left = mouseX - 160;
+        if (top < 10) top = 10;
+        tooltip.style.left = left + 'px';
+        tooltip.style.top = top + 'px';
+        tooltip.classList.add('visible');
+      } else {
+        tooltip.classList.remove('visible');
+      }
+    }
+
+    if (canvas) {
+      canvas.addEventListener('mousemove', histHandleMouseMove);
+      canvas.addEventListener('mouseleave', () => {
+        if (tooltip) tooltip.classList.remove('visible');
+      });
+    }
+
+    // EXPORTS
+    window.histExportPNG = function() {
+      if (!canvas) return;
+      const link = document.createElement('a');
+      link.download = 'histogram.png';
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+      histShowToast('Downloaded PNG chart');
+    };
+
+    window.histExportSVG = function() {
+      if (!canvas) return;
+      const rect = canvas.getBoundingClientRect();
+      const w = Math.round(rect.width);
+      const h = Math.round(rect.height || 500);
+      const bins = histState.calculatedBins;
+      const stats = histState.calculatedStats;
+
+      if (!bins || bins.length === 0) return;
+
+      const padding = { top: 60, right: 40, bottom: 65, left: 65 };
+      const plotWidth = w - padding.left - padding.right;
+      const plotHeight = h - padding.top - padding.bottom;
+      const maxCount = Math.max(...bins.map(b => b.count), 1);
+      const yAxisMax = Math.ceil(maxCount * 1.15);
+      const isVertical = histState.orientation === 'vertical';
+
+      let svgContent = `<?xml version="1.0" encoding="UTF-8"?>\n`;
+      svgContent += `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}">\n`;
+      svgContent += `  <style>\n    text { font-family: 'Space Grotesk', system-ui, sans-serif; }\n    .mono { font-family: 'IBM Plex Mono', monospace; }\n  </style>\n`;
+      svgContent += `  <rect width="${w}" height="${h}" fill="#111920"/>\n`;
+
+      // Title
+      svgContent += `  <text x="${w / 2}" y="28" fill="#e8eef4" font-size="16" font-weight="bold" text-anchor="middle">${histEscapeXML(histState.title)}</text>\n`;
+
+      // Bars
+      bins.forEach((bin, idx) => {
+        let bx, by, bw, bh;
+        if (isVertical) {
+          bw = plotWidth / bins.length;
+          bx = padding.left + idx * bw;
+          bh = (bin.count / yAxisMax) * plotHeight;
+          by = padding.top + plotHeight - bh;
+        } else {
+          bh = plotHeight / bins.length;
+          by = padding.top + plotHeight - (idx + 1) * bh;
+          bw = (bin.count / yAxisMax) * plotWidth;
+          bx = padding.left;
+        }
+
+        svgContent += `  <rect x="${bx.toFixed(1)}" y="${by.toFixed(1)}" width="${bw.toFixed(1)}" height="${bh.toFixed(1)}" fill="${histState.barColor}" opacity="${histState.opacity}" stroke="${histState.edgeColor}" stroke-width="1.2"/>\n`;
+
+        if (histState.showLabels && bin.count > 0) {
+          if (isVertical) {
+            svgContent += `  <text x="${(bx + bw / 2).toFixed(1)}" y="${(by - 5).toFixed(1)}" fill="#e8eef4" font-size="11" class="mono" text-anchor="middle">${bin.count}</text>\n`;
+          } else {
+            svgContent += `  <text x="${(bx + bw + 6).toFixed(1)}" y="${(by + bh / 2 + 4).toFixed(1)}" fill="#e8eef4" font-size="11" class="mono">${bin.count}</text>\n`;
+          }
+        }
+      });
+
+      // Axis lines
+      svgContent += `  <line x1="${padding.left}" y1="${padding.top}" x2="${padding.left}" y2="${padding.top + plotHeight}" stroke="#6b7d8f" stroke-width="1.5"/>\n`;
+      svgContent += `  <line x1="${padding.left}" y1="${padding.top + plotHeight}" x2="${padding.left + plotWidth}" y2="${padding.top + plotHeight}" stroke="#6b7d8f" stroke-width="1.5"/>\n`;
+
+      // Labels
+      svgContent += `  <text x="${padding.left + plotWidth / 2}" y="${h - 18}" fill="#a0a0b8" font-size="12" text-anchor="middle">${histEscapeXML(isVertical ? histState.xLabel : histState.yLabel)}</text>\n`;
+
+      svgContent += `</svg>`;
+
+      const blob = new Blob([svgContent], { type: 'image/svg+xml;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'histogram.svg';
+      link.click();
+      URL.revokeObjectURL(url);
+      histShowToast('Downloaded SVG vector chart');
+    };
+
+    function histEscapeXML(str) {
+      return (str || '').replace(/[<>&'"]/g, c => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;', "'": '&apos;', '"': '&quot;' })[c]);
+    }
+
+    // Client-side PDF export (A4 Landscape with metadata & image)
+    window.histExportPDF = function() {
+      if (!canvas) return;
+      const dataUrl = canvas.toDataURL('image/jpeg', 0.95);
+      
+      // Clean HTML print window approach or client-side PDF document blob
+      const printWin = window.open('', '_blank');
+      if (printWin) {
+        printWin.document.write(`
+          <!DOCTYPE html>
+          <html>
+            <head>
+              <title>${histEscapeXML(histState.title)} - DotPlotMaker.com</title>
+              <style>
+                @page { size: landscape; margin: 1cm; }
+                body { font-family: system-ui, sans-serif; background: #fff; color: #111; margin: 0; padding: 20px; }
+                h1 { font-size: 20px; margin-bottom: 4px; }
+                p.caption { color: #555; font-size: 13px; margin-top: 0; margin-bottom: 16px; font-family: monospace; }
+                img { max-width: 100%; border: 1px solid #ccc; border-radius: 6px; }
+                .footer { margin-top: 16px; font-size: 11px; color: #777; border-top: 1px solid #eee; padding-top: 8px; }
+              </style>
+            </head>
+            <body>
+              <h1>${histEscapeXML(histState.title)}</h1>
+              <p class="caption">${document.getElementById('hist-chart-caption').textContent}</p>
+              <img src="${dataUrl}" alt="Histogram Chart" />
+              <div class="footer">Generated free at DotPlotMaker.com/histogram-maker/ · Client-side privacy guaranteed</div>
+              <script>
+                window.onload = function() { window.print(); };
+              <\/script>
+            </body>
+          </html>
+        `);
+        printWin.document.close();
+        histShowToast('Opened PDF print dialog');
+      } else {
+        // Fallback: direct download as PNG
+        histExportPNG();
+      }
+    };
+
+    // Copy to clipboard
+    window.histCopyImageToClipboard = async function() {
+      if (!canvas) return;
+      try {
+        canvas.toBlob(async function(blob) {
+          if (!blob) return;
+          if (navigator.clipboard && window.ClipboardItem) {
+            await navigator.clipboard.write([
+              new ClipboardItem({ 'image/png': blob })
+            ]);
+            histShowToast('Copied chart to clipboard!');
+          } else {
+            histExportPNG();
+          }
+        }, 'image/png');
+      } catch (err) {
+        histExportPNG();
+      }
+    };
+
+    // Friendly Toast
+    function histShowToast(msg) {
+      const toast = document.getElementById('hist-toast');
+      if (!toast) return;
+      toast.textContent = msg;
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 2400);
+    }
+
+    // Debounce resize
+    function histDebounce(fn, delay) {
+      let t;
+      return function(...args) {
+        clearTimeout(t);
+        t = setTimeout(() => fn(...args), delay);
+      };
+    }
+
+    window.addEventListener('resize', histDebounce(() => {
+      histUpdatePlot();
+    }, 150));
+
+    // Initialization
+    function histInit() {
+      document.getElementById('hist-paste-input').value = histState.data.join(', ');
+      document.getElementById('hist-manual-input').value = histState.data.join(', ');
+      histUpdateManualTags();
+      histRecalculateBins();
+      histUpdatePlot();
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', histInit);
+    } else {
+      setTimeout(histInit, 50);
+    }
+  </script>
+</section>
