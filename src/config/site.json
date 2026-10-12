@@ -3,7 +3,7 @@
   "siteName": "Dot Plot Maker®",
   "legalName": "DotPlotMaker.com",
   "contactEmail": "contact@dotplotmaker.com",
-  "contactPhone": "+1 (415) 555-0191",
+  "contactPhone": "",
   "author": "Dot Plot Maker® Team",
   "metaImage": "/og-image.png",
   "metaImageWidth": 1200,
@@ -27,11 +27,13 @@
     { "label": "nav.histogram", "href": "/histogram-maker/" },
     { "label": "nav.boxPlot", "href": "/box-plot-maker/" },
     { "label": "nav.stemLeaf", "href": "/stem-and-leaf-plot-maker/" },
+    { "label": "nav.worksheets", "href": "/worksheets/" },
     { "label": "nav.blog", "href": "/blog/" },
     { "label": "nav.about", "href": "/about-us/" },
     { "label": "nav.contact", "href": "/contact-us/" }
   ],
   "footerNav": [
+    { "label": "nav.worksheets", "href": "/worksheets/" },
     { "label": "nav.about", "href": "/about-us/" },
     { "label": "nav.contact", "href": "/contact-us/" },
     { "label": "nav.blog", "href": "/blog/" },

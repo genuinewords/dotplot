@@ -1,0 +1,219 @@
+---
+import BaseLayout from "@theme/layouts/BaseLayout.astro";
+import WorksheetGenerator from "@theme/components/WorksheetGenerator.astro";
+import { defaultLocale } from "@src/i18n/config";
+
+const locale = defaultLocale;
+
+const title = "Stem and Leaf Worksheet Generator (Free + Keys)";
+const description = "Free printable stem and leaf plot worksheets with answer keys. Generate unlimited practice sets or check your plots with our online maker.";
+
+const faqs = [
+  {
+    q: "Are these stem-and-leaf plot worksheets free to print and copy for class?",
+    a: "Yes. All stem-and-leaf worksheets generated on this site are 100% free with no registration or email gate required for student handouts. You can click 'Print / Save as PDF' anytime."
+  },
+  {
+    q: "What concepts and grade levels do these stem-and-leaf worksheets cover?",
+    a: "Our generator spans Grade 6 introductory stem-and-leaf diagrams with keys and centers (CCSS.MATH.CONTENT.6.SP.B.4 & 6.SP.B.5), Grades 7–8 back-to-back comparative stemplots (CCSS 7.SP.A.3), and High School / AP Statistics split-stem and decimal plots (CCSS HSS-ID.A.1)."
+  },
+  {
+    q: "Do the answer keys include the completed stem-and-leaf diagrams?",
+    a: "Yes! Every question has a live-computed answer key that displays the complete ordered stem-and-leaf table with the correct key format, alongside exact calculated values for the median, mode, range, and quartiles."
+  },
+  {
+    q: "Can I regenerate the exact same worksheet for make-up exams or tutoring?",
+    a: "Yes. Every handout has a 6-digit seed number printed on the page. Simply enter that seed number into the 'Worksheet Seed #' box to regenerate the identical questions, numbers, and answer keys."
+  },
+  {
+    q: "How do I save the generated worksheet as a PDF file?",
+    a: "Click 'Print / Save as PDF'. Our print stylesheet automatically removes headers, ads, and interactive buttons, formatting the handout neatly for US Letter (8.5×11 in) or A4 paper."
+  },
+  {
+    q: "Can students test and verify their stem-and-leaf plots interactively?",
+    a: "Yes! Students can paste their worksheet data into our free online Stem-and-Leaf Plot Maker to see instant live rendering, toggle split stems, and check their work in real time."
+  }
+];
+
+const schemaData = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Article",
+      "headline": title,
+      "description": description,
+      "image": "https://www.dotplotmaker.com/og-image.png",
+      "datePublished": "2026-10-12T00:00:00.000Z",
+      "author": {
+        "@type": "Person",
+        "name": "Dot Plot Maker® Team"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Dot Plot Maker®",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://www.dotplotmaker.com/favicon.svg"
+        }
+      },
+      "mainEntityOfPage": "https://www.dotplotmaker.com/worksheets/stem-and-leaf-worksheet/"
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": faqs.map(item => ({
+        "@type": "Question",
+        "name": item.q,
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": item.a
+        }
+      }))
+    }
+  ]
+};
+---
+
+<BaseLayout locale={locale} title={title} description={description}>
+  <script type="application/ld+json" set:html={JSON.stringify(schemaData)} slot="head" />
+
+  <div class="page-content">
+    <!-- Breadcrumb & Back Link -->
+    <div style="margin-bottom: 1.5rem;">
+      <a href="/worksheets/" class="nav-link" style="font-size: 0.9rem; color: var(--color-primary); display: inline-flex; align-items: center; gap: 0.4rem;">
+        ← Back to All Statistics Worksheets
+      </a>
+    </div>
+
+    <!-- Page Hero -->
+    <header class="page-header animate-fade-in-up" style="opacity: 0; margin-bottom: 2.5rem;">
+      <span class="badge" style="margin-bottom: 0.5rem;">Printable Generator</span>
+      <h1 style="font-size: 2.5rem; font-weight: 800; margin-bottom: 0.75rem; background: linear-gradient(135deg, var(--color-text-primary), var(--color-primary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+        Stem and Leaf Plot Worksheet Generator
+      </h1>
+      <p style="max-width: 720px; color: var(--color-text-secondary); font-size: 1.15rem; line-height: 1.6;">
+        Generate unlimited custom <strong>stem and leaf plot worksheets</strong> with live-computed answer keys. Practice organizing discrete data into stems and ordered leaves, writing accurate keys, and calculating medians, modes, and ranges.
+      </p>
+    </header>
+
+    <!-- Generator Component (Above the fold) -->
+    <WorksheetGenerator
+      topic="stem-and-leaf"
+      title="Generate Stem and Leaf Plot Practice Sets"
+      toolUrl="/stem-and-leaf-plot-maker/"
+      toolName="Stem-and-Leaf Maker"
+    />
+
+    <!-- Mid-Page Ad Unit -->
+    <div class="ad-unit" aria-label="Advertisement" style="margin: 3.5rem auto; text-align: center;">
+      <span class="ad-label" style="font-size: 0.75rem; color: var(--color-text-muted); text-transform: uppercase;">Advertisement</span>
+      <div class="ad-box" style="background: rgba(255, 255, 255, 0.02); border: 1px dashed var(--color-border); border-radius: 12px; padding: 1.25rem; margin-top: 0.5rem;">
+        <span style="font-size: 0.85rem; color: var(--color-text-muted);">Interactive Statistical Learning Tools</span>
+      </div>
+    </div>
+
+    <!-- Static SEO Content (Renders without JS) -->
+    <div class="static-seo-content prose" style="max-width: 860px; margin: 3rem auto 0;">
+      <h2>What This Stem-and-Leaf Worksheet Covers</h2>
+      <p>
+        A stem-and-leaf plot (or stemplot) displays quantitative data by splitting each data value into a "stem" (the leading digit or digits) and a "leaf" (the final trailing digit). Unlike histograms, stemplots preserve every original data value while still demonstrating overall shape:
+      </p>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem; margin: 2rem 0;">
+        <div class="glass-card" style="padding: 1.5rem; border-radius: 12px;">
+          <h3 style="font-size: 1.15rem; margin-top: 0; color: #ec4899;">Constructing Ordered Stemplots</h3>
+          <p style="font-size: 0.9rem; line-height: 1.5; margin-bottom: 0.5rem;">
+            Aligns with <strong>CCSS.MATH.CONTENT.6.SP.B.4</strong>. Students extract stems and leaves, arrange leaf values in strict ascending numerical order across rows, and align digits into clean columns.
+          </p>
+        </div>
+
+        <div class="glass-card" style="padding: 1.5rem; border-radius: 12px;">
+          <h3 style="font-size: 1.15rem; margin-top: 0; color: var(--color-primary);">Creating Keys with Units</h3>
+          <p style="font-size: 0.9rem; line-height: 1.5; margin-bottom: 0.5rem;">
+            Aligns with <strong>CCSS.MATH.CONTENT.6.SP.B.5</strong>. Students provide an unambiguous key (e.g., <code>Key: 3 | 5 = 35 miles per hour</code>) to establish place value for integer or decimal interpretations.
+          </p>
+        </div>
+
+        <div class="glass-card" style="padding: 1.5rem; border-radius: 12px;">
+          <h3 style="font-size: 1.15rem; margin-top: 0; color: #10b981;">Back-to-Back Comparisons</h3>
+          <p style="font-size: 0.9rem; line-height: 1.5; margin-bottom: 0.5rem;">
+            Aligns with <strong>CCSS.MATH.CONTENT.7.SP.A.3</strong> and High School standards. Students compare two independent groups sharing a central stem column, analyzing differences in medians, spreads, and cluster modality.
+          </p>
+        </div>
+      </div>
+
+      <h2>Example Question &amp; Worked Solution</h2>
+      <p>
+        Here is an authentic sample question demonstrating stemplot construction and summary calculations:
+      </p>
+
+      <div class="glass-card" style="padding: 1.75rem; border-radius: 14px; margin: 1.5rem 0; border: 1px solid var(--color-border);">
+        <h4 style="font-size: 1.05rem; font-weight: 700; margin-top: 0; color: var(--color-text-primary);">
+          Problem Context: Typing Speeds (Words per Minute) for 14 Students
+        </h4>
+        <div style="background: rgba(255, 255, 255, 0.05); padding: 0.75rem 1rem; border-radius: 8px; font-family: var(--font-mono); font-size: 0.95rem; margin: 0.75rem 0;">
+          Raw Data: 28, 32, 35, 35, 38, 41, 44, 46, 47, 49, 52, 55, 58, 62
+        </div>
+        <p style="font-size: 0.92rem; line-height: 1.6; margin-bottom: 1rem;">
+          <strong>Student Task:</strong> Construct an ordered stem-and-leaf plot with an accurate key. Then determine the median, mode, and range of the typing speeds.
+        </p>
+
+        <div style="border-top: 1px dashed var(--color-border); padding-top: 1rem;">
+          <h5 style="color: var(--color-primary); margin: 0 0 0.5rem; font-size: 0.95rem; text-transform: uppercase;">Worked Solution:</h5>
+          <div style="font-family: var(--font-mono); font-size: 0.92rem; margin: 0.75rem 0; line-height: 1.6;">
+            <div>Stem | Leaf</div>
+            <div>&nbsp;&nbsp;2&nbsp;|&nbsp;8</div>
+            <div>&nbsp;&nbsp;3&nbsp;|&nbsp;2&nbsp;&nbsp;5&nbsp;&nbsp;5&nbsp;&nbsp;8</div>
+            <div>&nbsp;&nbsp;4&nbsp;|&nbsp;1&nbsp;&nbsp;4&nbsp;&nbsp;6&nbsp;&nbsp;7&nbsp;&nbsp;9</div>
+            <div>&nbsp;&nbsp;5&nbsp;|&nbsp;2&nbsp;&nbsp;5&nbsp;&nbsp;8</div>
+            <div>&nbsp;&nbsp;6&nbsp;|&nbsp;2</div>
+            <div style="margin-top: 0.4rem; font-style: italic; color: var(--color-text-secondary);">Key: 3 | 2 = 32 words per minute</div>
+          </div>
+          <ul style="font-size: 0.9rem; line-height: 1.7; margin: 0; padding-left: 1.2rem;">
+            <li><strong>Median (Middle of 14 numbers):</strong> Average of 7th and 8th values: (44 + 46) / 2 = <strong>45 wpm</strong></li>
+            <li><strong>Mode:</strong> 35 appears twice → Mode = <strong>35 wpm</strong></li>
+            <li><strong>Range:</strong> 62 - 28 = <strong>34 wpm</strong></li>
+            <li><strong>Distribution Shape:</strong> Unimodal and approximately symmetric centered in the 40s.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Check Your Work CTA Card -->
+      <h2>Check Your Work Interactively</h2>
+      <div class="glass-card" style="padding: 1.75rem; border: 1px solid var(--color-primary); border-radius: 16px; margin: 2rem 0; background: rgba(0, 212, 170, 0.04); display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; flex-wrap: wrap;">
+        <div style="flex: 1; min-width: 260px;">
+          <span class="badge" style="margin-bottom: 0.5rem;">Interactive Tool</span>
+          <h3 style="margin: 0.25rem 0 0.5rem; font-size: 1.3rem; color: var(--color-text-primary); font-weight: 800;">
+            Verify Your Plot in Our Free Stem-and-Leaf Maker
+          </h3>
+          <p style="margin: 0; color: var(--color-text-secondary); font-size: 0.92rem; line-height: 1.5;">
+            Paste any worksheet dataset directly into our interactive online tool to instantly format stems and leaves, toggle split-stem views, and check your calculations.
+          </p>
+        </div>
+        <div>
+          <a href="/stem-and-leaf-plot-maker/" class="btn-primary" style="white-space: nowrap;">
+            <span>Open Stem-and-Leaf Maker →</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- FAQ Section -->
+      <h2>Frequently Asked Questions</h2>
+      <div style="display: flex; flex-direction: column; gap: 1rem; margin-top: 1.5rem;">
+        {faqs.map(item => (
+          <details class="faq-item">
+            <summary>{item.q}</summary>
+            <div class="faq-answer">{item.a}</div>
+          </details>
+        ))}
+      </div>
+    </div>
+
+    <!-- Bottom Display Ad -->
+    <div class="ad-unit" aria-label="Advertisement" style="margin-top: 4rem; text-align: center;">
+      <span class="ad-label" style="font-size: 0.75rem; color: var(--color-text-muted); text-transform: uppercase;">Advertisement</span>
+      <div class="ad-box" style="background: rgba(255, 255, 255, 0.02); border: 1px dashed var(--color-border); border-radius: 12px; padding: 1.25rem; margin-top: 0.5rem;">
+        <span style="font-size: 0.85rem; color: var(--color-text-muted);">Publication-Grade Statistical Visualizations</span>
+      </div>
+    </div>
+  </div>
+</BaseLayout>

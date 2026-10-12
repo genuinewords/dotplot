@@ -15,7 +15,8 @@
     "catScatter": "Categorical Scatter",
     "histogram": "Histogram Maker",
     "boxPlot": "Box Plot Maker",
-    "stemLeaf": "Stem-and-Leaf Maker"
+    "stemLeaf": "Stem-and-Leaf Maker",
+    "worksheets": "Worksheets"
   },
   "footer": {
     "description": "Free online dot plot maker tool. Create, customize, and download beautiful dot plots for your data analysis, research papers, and presentations.",

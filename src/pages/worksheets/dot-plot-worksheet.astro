@@ -1,0 +1,235 @@
+---
+import BaseLayout from "@theme/layouts/BaseLayout.astro";
+import WorksheetGenerator from "@theme/components/WorksheetGenerator.astro";
+import { defaultLocale } from "@src/i18n/config";
+
+const locale = defaultLocale;
+
+const title = "Dot Plot Worksheet Generator (Free + Answer Key)";
+const description = "Free printable dot plot worksheets with answer keys. Generate unlimited unique practice sets — or check your plot with our interactive tool.";
+
+const faqs = [
+  {
+    q: "Are these dot plot worksheets free to print and copy for classrooms?",
+    a: "Yes. All dot plot worksheets generated on this page are 100% free to print, distribute, and save as PDF files for school classrooms, home study, and tutoring sessions without any email signup."
+  },
+  {
+    q: "What grade levels and curriculum standards do these dot plot worksheets cover?",
+    a: "Our generator supports three distinct grade tiers: Grade 6 (Common Core CCSS.MATH.CONTENT.6.SP.B.4 & 6.SP.B.5 for plotting and centers), Grades 7–8 (CCSS 7.SP.A.1–3 for distribution shape, spread, and comparative dot plots), and AP Statistics (Units 1 & 2 for SOCS descriptions and Tukey 1.5×IQR outlier fences)."
+  },
+  {
+    q: "Do the answer keys provide the correct visual dot plots or only numbers?",
+    a: "The answer key generates both! When unlocked, each solution displays the complete correctly plotted dot plot alongside exact calculated values for the mean, median, mode, range, quartiles (Q1/Q3), IQR, and outlier status."
+  },
+  {
+    q: "How can I regenerate the exact same dot plot worksheet later?",
+    a: "Every worksheet has a 6-digit seed number printed at the top right. Entering that exact seed into the 'Worksheet Seed #' box will reproduce the identical questions, data points, and answers on any device."
+  },
+  {
+    q: "How do I save the generated worksheet as a PDF file?",
+    a: "Click the 'Print / Save as PDF' button. In your browser's print dialog, select 'Save as PDF' from the destination dropdown. Our print stylesheet automatically removes headers, ads, and web elements, formatting the handout neatly for US Letter or A4 paper."
+  },
+  {
+    q: "Can students test their plots interactively online?",
+    a: "Yes! Students can copy or enter their worksheet values directly into our free online Dot Plot Maker to see interactive animations, adjust dot colors, and verify their distribution shape in real time."
+  }
+];
+
+const schemaData = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Article",
+      "headline": title,
+      "description": description,
+      "image": "https://www.dotplotmaker.com/og-image.png",
+      "datePublished": "2026-10-12T00:00:00.000Z",
+      "author": {
+        "@type": "Person",
+        "name": "Dot Plot Maker® Team"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Dot Plot Maker®",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://www.dotplotmaker.com/favicon.svg"
+        }
+      },
+      "mainEntityOfPage": "https://www.dotplotmaker.com/worksheets/dot-plot-worksheet/"
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": faqs.map(item => ({
+        "@type": "Question",
+        "name": item.q,
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": item.a
+        }
+      }))
+    }
+  ]
+};
+---
+
+<BaseLayout locale={locale} title={title} description={description}>
+  <script type="application/ld+json" set:html={JSON.stringify(schemaData)} slot="head" />
+
+  <div class="page-content">
+    <!-- Breadcrumb & Back Link -->
+    <div style="margin-bottom: 1.5rem;">
+      <a href="/worksheets/" class="nav-link" style="font-size: 0.9rem; color: var(--color-primary); display: inline-flex; align-items: center; gap: 0.4rem;">
+        ← Back to All Statistics Worksheets
+      </a>
+    </div>
+
+    <!-- Page Hero -->
+    <header class="page-header animate-fade-in-up" style="opacity: 0; margin-bottom: 2.5rem;">
+      <span class="badge" style="margin-bottom: 0.5rem;">Printable Generator</span>
+      <h1 style="font-size: 2.5rem; font-weight: 800; margin-bottom: 0.75rem; background: linear-gradient(135deg, var(--color-text-primary), var(--color-primary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+        Dot Plot Worksheet Generator
+      </h1>
+      <p style="max-width: 720px; color: var(--color-text-secondary); font-size: 1.15rem; line-height: 1.6;">
+        Generate unlimited custom <strong>dot plot worksheets</strong> (also known as <strong>line plot worksheets</strong>) with matching answer keys in seconds. Choose from Grade 6 foundational plotting, middle school comparative distributions, or advanced AP Statistics outlier and SOCS analysis.
+      </p>
+    </header>
+
+    <!-- Generator Component (Above the fold) -->
+    <WorksheetGenerator
+      topic="dot-plot"
+      title="Generate Dot Plot & Line Plot Practice Sets"
+      toolUrl="/"
+      toolName="Dot Plot Maker"
+    />
+
+    <!-- Mid-Page Ad Unit -->
+    <div class="ad-unit" aria-label="Advertisement" style="margin: 3.5rem auto; text-align: center;">
+      <span class="ad-label" style="font-size: 0.75rem; color: var(--color-text-muted); text-transform: uppercase;">Advertisement</span>
+      <div class="ad-box" style="background: rgba(255, 255, 255, 0.02); border: 1px dashed var(--color-border); border-radius: 12px; padding: 1.25rem; margin-top: 0.5rem;">
+        <span style="font-size: 0.85rem; color: var(--color-text-muted);">Interactive Statistical Learning Tools</span>
+      </div>
+    </div>
+
+    <!-- Static SEO Content (Renders without JS) -->
+    <div class="static-seo-content prose" style="max-width: 860px; margin: 3rem auto 0;">
+      <h2>What This Dot Plot Worksheet Covers</h2>
+      <p>
+        A dot plot (or line plot) displays discrete numerical observations as stacked circles along an axis line. Our generator adapts both data magnitude and mathematical questions based on curriculum grade level:
+      </p>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem; margin: 2rem 0;">
+        <div class="glass-card" style="padding: 1.5rem; border-radius: 12px;">
+          <h3 style="font-size: 1.15rem; margin-top: 0; color: var(--color-primary);">Grade 6 (Basics &amp; Centers)</h3>
+          <p style="font-size: 0.9rem; line-height: 1.5; margin-bottom: 0.5rem;">
+            Aligns with <strong>CCSS.MATH.CONTENT.6.SP.B.4</strong> and <strong>6.SP.B.5</strong>. Students place data points on a labeled horizontal number line, determine sample sizes, and compute basic descriptive summaries:
+          </p>
+          <ul style="font-size: 0.88rem; padding-left: 1.2rem;">
+            <li>Plotting raw integer frequencies</li>
+            <li>Calculating Arithmetic Mean</li>
+            <li>Finding the Median and Mode</li>
+            <li>Evaluating the Range (Max - Min)</li>
+          </ul>
+        </div>
+
+        <div class="glass-card" style="padding: 1.5rem; border-radius: 12px;">
+          <h3 style="font-size: 1.15rem; margin-top: 0; color: var(--color-accent);">Grades 7–8 (Spread &amp; Comparisons)</h3>
+          <p style="font-size: 0.9rem; line-height: 1.5; margin-bottom: 0.5rem;">
+            Aligns with <strong>CCSS.MATH.CONTENT.7.SP.A.1–3</strong>. Students examine variability and compare two independent datasets on parallel number lines:
+          </p>
+          <ul style="font-size: 0.88rem; padding-left: 1.2rem;">
+            <li>Distribution shape (symmetric vs skewed)</li>
+            <li>Interquartile Range (IQR = Q3 - Q1)</li>
+            <li>Choosing between mean and median</li>
+            <li>Comparative spread between groups</li>
+          </ul>
+        </div>
+
+        <div class="glass-card" style="padding: 1.5rem; border-radius: 12px;">
+          <h3 style="font-size: 1.15rem; margin-top: 0; color: #10b981;">AP Statistics (SOCS &amp; Outliers)</h3>
+          <p style="font-size: 0.9rem; line-height: 1.5; margin-bottom: 0.5rem;">
+            Aligns with College Board AP Statistics Unit 1. Students provide rigorous written analysis and test mathematical outlier fences:
+          </p>
+          <ul style="font-size: 0.88rem; padding-left: 1.2rem;">
+            <li>Full SOCS: Shape, Outliers, Center, Spread</li>
+            <li>Lower Fence = Q1 - 1.5 × IQR</li>
+            <li>Upper Fence = Q3 + 1.5 × IQR</li>
+            <li>Formal outlier identification</li>
+          </ul>
+        </div>
+      </div>
+
+      <p>
+        For datasets larger than 50 observations, review our <a href="/dot-plot-vs-histogram/">dot plot vs histogram guide</a> to determine when grouping into continuous intervals becomes superior. To explore advanced boundary testing, explore our <a href="/blog/outlier-dot-plot-maker/">interactive outlier guide</a>.
+      </p>
+
+      <h2>Example Question &amp; Worked Solution</h2>
+      <p>
+        Here is an authentic sample question generated by our engine, complete with the student task and full answer key:
+      </p>
+
+      <div class="glass-card" style="padding: 1.75rem; border-radius: 14px; margin: 1.5rem 0; border: 1px solid var(--color-border);">
+        <h4 style="font-size: 1.05rem; font-weight: 700; margin-top: 0; color: var(--color-text-primary);">
+          Problem Context: Number of Books Read by 10 Students in Summer
+        </h4>
+        <div style="background: rgba(255, 255, 255, 0.05); padding: 0.75rem 1rem; border-radius: 8px; font-family: var(--font-mono); font-size: 0.95rem; margin: 0.75rem 0;">
+          Data: 2, 4, 4, 5, 5, 5, 7, 8, 9, 12
+        </div>
+        <p style="font-size: 0.92rem; line-height: 1.6; margin-bottom: 1rem;">
+          <strong>Student Task:</strong> Construct a dot plot on an axis from 0 to 14. Then calculate the mean, median, mode, range, and check if 12 is an outlier using Tukey's 1.5×IQR rule.
+        </p>
+
+        <div style="border-top: 1px dashed var(--color-border); padding-top: 1rem;">
+          <h5 style="color: var(--color-primary); margin: 0 0 0.5rem; font-size: 0.95rem; text-transform: uppercase;">Worked Solution:</h5>
+          <ul style="font-size: 0.9rem; line-height: 1.7; margin: 0; padding-left: 1.2rem;">
+            <li><strong>Mean:</strong> (2 + 4 + 4 + 5 + 5 + 5 + 7 + 8 + 9 + 12) / 10 = 61 / 10 = <strong>6.1 books</strong></li>
+            <li><strong>Median:</strong> Middle two values are 5 and 5 → Median = <strong>5 books</strong></li>
+            <li><strong>Mode:</strong> 5 appears 3 times → Mode = <strong>5 books</strong></li>
+            <li><strong>Range:</strong> 12 - 2 = <strong>10 books</strong></li>
+            <li><strong>Quartiles &amp; IQR:</strong> Q1 = 4, Q3 = 8 → IQR = 8 - 4 = <strong>4 books</strong></li>
+            <li><strong>Tukey Fences:</strong> Lower Fence = 4 - 1.5(4) = -2; Upper Fence = 8 + 1.5(4) = 14</li>
+            <li><strong>Outlier Check:</strong> Since all values fall within [-2, 14], there are <strong>no outliers</strong>.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Check Your Work CTA Card -->
+      <h2>Check Your Work Interactively</h2>
+      <div class="glass-card" style="padding: 1.75rem; border: 1px solid var(--color-primary); border-radius: 16px; margin: 2rem 0; background: rgba(0, 212, 170, 0.04); display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; flex-wrap: wrap;">
+        <div style="flex: 1; min-width: 260px;">
+          <span class="badge" style="margin-bottom: 0.5rem;">Interactive Tool</span>
+          <h3 style="margin: 0.25rem 0 0.5rem; font-size: 1.3rem; color: var(--color-text-primary); font-weight: 800;">
+            Plot the Same Data in Our Free Dot Plot Maker
+          </h3>
+          <p style="margin: 0; color: var(--color-text-secondary); font-size: 0.92rem; line-height: 1.5;">
+            Paste any worksheet numbers into our browser tool to check your hand-drawn charts, inspect stack heights, customize series colors, and export high-resolution SVG graphics.
+          </p>
+        </div>
+        <div>
+          <a href="/" class="btn-primary" style="white-space: nowrap;">
+            <span>Open Dot Plot Maker →</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- FAQ Section -->
+      <h2>Frequently Asked Questions</h2>
+      <div style="display: flex; flex-direction: column; gap: 1rem; margin-top: 1.5rem;">
+        {faqs.map(item => (
+          <details class="faq-item">
+            <summary>{item.q}</summary>
+            <div class="faq-answer">{item.a}</div>
+          </details>
+        ))}
+      </div>
+    </div>
+
+    <!-- Bottom Display Ad -->
+    <div class="ad-unit" aria-label="Advertisement" style="margin-top: 4rem; text-align: center;">
+      <span class="ad-label" style="font-size: 0.75rem; color: var(--color-text-muted); text-transform: uppercase;">Advertisement</span>
+      <div class="ad-box" style="background: rgba(255, 255, 255, 0.02); border: 1px dashed var(--color-border); border-radius: 12px; padding: 1.25rem; margin-top: 0.5rem;">
+        <span style="font-size: 0.85rem; color: var(--color-text-muted);">Publication-Grade Statistical Visualizations</span>
+      </div>
+    </div>
+  </div>
+</BaseLayout>

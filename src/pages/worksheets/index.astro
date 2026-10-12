@@ -1,0 +1,249 @@
+---
+import BaseLayout from "@theme/layouts/BaseLayout.astro";
+import { defaultLocale } from "@src/i18n/config";
+
+const locale = defaultLocale;
+
+const title = "Free Statistics Worksheets (Printable + Answer Keys)";
+const description = "Free printable statistics worksheets with live-computed answer keys. Unlimited dot plot, histogram, box plot, and stem-and-leaf practice sets.";
+
+const worksheetCards = [
+  {
+    topic: "Dot Plot Worksheet",
+    slug: "/worksheets/dot-plot-worksheet/",
+    subtitle: "Also covers Line Plots & Frequency Counts",
+    grades: "Grade 6 • Grade 7–8 • AP Statistics",
+    ccss: "CCSS 6.SP.4, 6.SP.5, 7.SP.3, HSS-ID.A.1",
+    desc: "Practice reading, plotting, and analyzing numerical dot plots. Covers mean, median, mode, range, shape, parallel comparisons, and AP Statistics SOCS with Tukey 1.5×IQR fences.",
+    badge: "Most Popular",
+    color: "#00d4aa",
+    icon: `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="6" cy="18" r="2" fill="currentColor"/><circle cx="12" cy="18" r="2" fill="currentColor"/><circle cx="12" cy="13" r="2" fill="currentColor"/><circle cx="18" cy="18" r="2" fill="currentColor"/><circle cx="18" cy="13" r="2" fill="currentColor"/><circle cx="18" cy="8" r="2" fill="currentColor"/><line x1="2" y1="21" x2="22" y2="21" stroke-width="2"/></svg>`
+  },
+  {
+    topic: "Histogram Worksheet",
+    slug: "/worksheets/histogram-worksheet/",
+    subtitle: "Frequency Distributions & Continuous Data",
+    grades: "Grade 6 • Grade 7–8 • AP Statistics",
+    ccss: "CCSS 6.SP.4, 6.SP.5, HSS-ID.A.1, HSS-ID.A.2",
+    desc: "Generate custom interval practice sets. Students calculate equal bin widths, fill in frequency tables, draw histograms, identify modal intervals, and evaluate skewness.",
+    badge: "Classroom Essential",
+    color: "#3b82f6",
+    icon: `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="12" width="4" height="9" fill="currentColor" opacity="0.3"/><rect x="8" y="6" width="4" height="15" fill="currentColor" opacity="0.3"/><rect x="13" y="10" width="4" height="11" fill="currentColor" opacity="0.3"/><rect x="18" y="15" width="4" height="6" fill="currentColor" opacity="0.3"/><line x1="2" y1="21" x2="22" y2="21"/></svg>`
+  },
+  {
+    topic: "Box Plot Worksheet",
+    slug: "/worksheets/box-plot-worksheet/",
+    subtitle: "Five-Number Summary & Tukey Fences",
+    grades: "Grade 6 • Grade 7–8 • AP Statistics",
+    ccss: "CCSS 6.SP.4, HSS-ID.A.1, HSS-ID.A.2, HSS-ID.A.3",
+    desc: "Master box and whisker plots. Students order datasets to find Min, Q1, Median, Q3, Max, calculate IQR and Range, identify outliers with 1.5×IQR rules, and draw modified plots.",
+    badge: "High Yield",
+    color: "#8b5cf6",
+    icon: `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="7" y2="12"/><line x1="17" y1="12" x2="21" y2="12"/><rect x="7" y="6" width="10" height="12" rx="1" fill="currentColor" opacity="0.2"/><line x1="12" y1="6" x2="12" y2="18" stroke-width="2"/><line x1="3" y1="9" x2="3" y2="15"/><line x1="21" y1="9" x2="21" y2="15"/></svg>`
+  },
+  {
+    topic: "Stem-and-Leaf Worksheet",
+    slug: "/worksheets/stem-and-leaf-worksheet/",
+    subtitle: "Stemplots & Back-to-Back Comparisons",
+    grades: "Grade 6 • Grade 7–8 • AP Statistics",
+    ccss: "CCSS 6.SP.4, 6.SP.5, 7.SP.3",
+    desc: "Organize two-digit data into structured stems and leaves. Practice writing accurate keys with units, calculating medians, finding modes, and comparing back-to-back distributions.",
+    badge: "Foundational",
+    color: "#ec4899",
+    icon: `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="9" y1="4" x2="9" y2="20" stroke-width="2.5"/><text x="4" y="9" font-size="6" font-family="monospace" fill="currentColor" font-weight="bold">2</text><text x="4" y="17" font-size="6" font-family="monospace" fill="currentColor" font-weight="bold">3</text><text x="12" y="9" font-size="6" font-family="monospace" fill="currentColor">1 4 8</text><text x="12" y="17" font-size="6" font-family="monospace" fill="currentColor">0 2 5</text></svg>`
+  }
+];
+
+const faqs = [
+  {
+    q: "Are these statistics worksheets completely free to print and use in class?",
+    a: "Yes. All student worksheets generated on DotPlotMaker.com are 100% free with no registration, software installation, or email gate. Teachers and students can generate unlimited worksheets and click 'Print / Save as PDF' for a clean, ad-free classroom handout."
+  },
+  {
+    q: "How do the worksheet seeds work for classroom assignments?",
+    a: "Every worksheet is produced using a deterministic pseudo-random number generator (mulberry32) keyed to a 6-digit seed number. If you enter the same seed on any computer or tablet, it will generate the exact same questions, numbers, and answer keys. Teachers can save a seed to reprint identical assignments or give different seeds to different student groups."
+  },
+  {
+    q: "Can students check their hand-drawn plots interactively?",
+    a: "Yes! Each worksheet topic connects directly to our suite of free online visualization tools. Students can plug their numbers into our Dot Plot Maker, Histogram Maker, Box Plot Maker, or Stem-and-Leaf Maker to see real-time interactive diagrams and verify their hand-drawn work."
+  },
+  {
+    q: "Which educational standards do these worksheets align with?",
+    a: "Our worksheets align directly with the Common Core State Standards for Mathematics (CCSS.MATH.CONTENT.6.SP.B.4, 6.SP.B.5, 7.SP.A.1–4, and High School HSS-ID.A.1–3) as well as the official College Board AP Statistics course curriculum (Units 1 and 2)."
+  }
+];
+
+// Schema
+const schemaData = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "ItemList",
+      "name": "Free Statistics Worksheets",
+      "description": description,
+      "itemListElement": worksheetCards.map((card, idx) => ({
+        "@type": "ListItem",
+        "position": idx + 1,
+        "name": card.topic,
+        "url": `https://www.dotplotmaker.com${card.slug}`
+      }))
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": faqs.map(item => ({
+        "@type": "Question",
+        "name": item.q,
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": item.a
+        }
+      }))
+    }
+  ]
+};
+---
+
+<BaseLayout locale={locale} title={title} description={description}>
+  <script type="application/ld+json" set:html={JSON.stringify(schemaData)} slot="head" />
+
+  <div class="page-content">
+    <!-- Hub Hero -->
+    <header class="page-header animate-fade-in-up" style="opacity: 0; text-align: center; margin-bottom: 3.5rem;">
+      <span class="badge" style="margin-bottom: 0.75rem;">Classroom &amp; Teacher Hub</span>
+      <h1 style="font-size: 2.75rem; font-weight: 800; margin-bottom: 1rem; background: linear-gradient(135deg, var(--color-text-primary), var(--color-primary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+        Free Statistics Worksheets
+      </h1>
+      <p style="max-width: 720px; margin: 0 auto; color: var(--color-text-secondary); font-size: 1.15rem; line-height: 1.6;">
+        Unlimited free printable statistics worksheets with live-computed answer keys. Generate tailored practice sets across Grade 6, Grades 7–8, and AP Statistics with custom seeded datasets and clean printer-ready layouts.
+      </p>
+    </header>
+
+    <!-- 4 Worksheet Cards Grid -->
+    <section class="worksheets-grid-section" style="margin-bottom: 4.5rem;">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.75rem;">
+        {worksheetCards.map(card => (
+          <div class="glass-card worksheet-hub-card animate-fade-in-up" style="opacity: 0; padding: 2rem; display: flex; flex-direction: column; justify-content: space-between; border: 1px solid var(--color-border); border-radius: 16px; position: relative; overflow: hidden;">
+            <div>
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem;">
+                <div style={`width: 48px; height: 48px; border-radius: 12px; background: ${card.color}18; color: ${card.color}; display: flex; align-items: center; justify-content: center;`} set:html={card.icon} />
+                <span class="badge" style={`background: ${card.color}15; color: ${card.color}; border-color: ${card.color}33; font-size: 0.75rem;`}>{card.badge}</span>
+              </div>
+              <h2 style="font-size: 1.35rem; font-weight: 700; color: var(--color-text-primary); margin: 0 0 0.25rem;">
+                <a href={card.slug} style="color: inherit; text-decoration: none;">{card.topic}</a>
+              </h2>
+              <div style="font-size: 0.85rem; font-weight: 600; color: var(--color-primary); margin-bottom: 0.75rem;">
+                {card.grades}
+              </div>
+              <p style="font-size: 0.92rem; color: var(--color-text-secondary); line-height: 1.5; margin-bottom: 1rem;">
+                {card.desc}
+              </p>
+              <div style="font-size: 0.78rem; font-family: var(--font-mono); color: var(--color-text-muted); margin-bottom: 1.5rem;">
+                Standards: {card.ccss}
+              </div>
+            </div>
+            <a href={card.slug} class="btn-primary" style="width: 100%; justify-content: center; font-size: 0.92rem;">
+              <span>Open Generator &amp; Print →</span>
+            </a>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- Mid-Page Ad Unit -->
+    <div class="ad-unit" aria-label="Advertisement" style="margin: 3rem auto; text-align: center;">
+      <span class="ad-label" style="font-size: 0.75rem; color: var(--color-text-muted); text-transform: uppercase;">Advertisement</span>
+      <div class="ad-box" style="background: rgba(255, 255, 255, 0.02); border: 1px dashed var(--color-border); border-radius: 12px; padding: 1.25rem; margin-top: 0.5rem;">
+        <span style="font-size: 0.85rem; color: var(--color-text-muted);">Classroom-Ready Educational Statistics Tools</span>
+      </div>
+    </div>
+
+    <!-- How the Generator Works Section -->
+    <section class="section" style="padding: 3rem 0; border-top: 1px solid var(--color-border);">
+      <div style="text-align: center; margin-bottom: 3rem;">
+        <h2 class="section-title">How the Worksheet Generator Works</h2>
+        <p class="section-subtitle" style="max-width: 650px; margin: 0 auto; color: var(--color-text-secondary);">
+          Engineered to give teachers and students limitless practice without ever repeating the exact same problem numbers.
+        </p>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.75rem;">
+        <div class="glass-card" style="padding: 2rem; border-radius: 14px;">
+          <div style="font-size: 2rem; font-weight: 800; color: var(--color-primary); margin-bottom: 0.75rem;">01</div>
+          <h3 style="font-size: 1.2rem; font-weight: 700; color: var(--color-text-primary); margin-bottom: 0.5rem;">Choose Grade &amp; Length</h3>
+          <p style="font-size: 0.92rem; color: var(--color-text-secondary); line-height: 1.6;">
+            Select from <strong>Grade 6</strong> (reading plots, basic mean/median/mode), <strong>Grade 7–8</strong> (shape, spread, comparative plots), or <strong>AP Statistics</strong> (formal SOCS, 1.5×IQR fences, outliers). Pick 5, 10, or 15 questions per handout.
+          </p>
+        </div>
+
+        <div class="glass-card" style="padding: 2rem; border-radius: 14px;">
+          <div style="font-size: 2rem; font-weight: 800; color: var(--color-accent); margin-bottom: 0.75rem;">02</div>
+          <h3 style="font-size: 1.2rem; font-weight: 700; color: var(--color-text-primary); margin-bottom: 0.5rem;">Deterministic Seeded Datasets</h3>
+          <p style="font-size: 0.92rem; color: var(--color-text-secondary); line-height: 1.6;">
+            Every assignment is driven by a unique 6-digit seed. Enter any seed number to generate or replicate the exact same worksheet across periods or school years, ensuring 100% consistent classroom review copies.
+          </p>
+        </div>
+
+        <div class="glass-card" style="padding: 2rem; border-radius: 14px;">
+          <div style="font-size: 2rem; font-weight: 800; color: #10b981; margin-bottom: 0.75rem;">03</div>
+          <h3 style="font-size: 1.2rem; font-weight: 700; color: var(--color-text-primary); margin-bottom: 0.5rem;">Clean Printing &amp; Live Keys</h3>
+          <p style="font-size: 0.92rem; color: var(--color-text-secondary); line-height: 1.6;">
+            Click <strong>Print / Save as PDF</strong> for a high-contrast monochrome layout formatted to fit standard US Letter and A4 printer paper. Toggle the live answer key for fully solved graphs and exact decimal solutions.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- For Teachers Section -->
+    <section class="section" style="padding: 3rem 0; border-top: 1px solid var(--color-border);">
+      <div style="max-width: 800px; margin: 0 auto; text-align: center;">
+        <span class="badge" style="margin-bottom: 0.75rem;">Teacher Friendly</span>
+        <h2 class="section-title">Built for Math Teachers &amp; Classrooms</h2>
+        <p style="color: var(--color-text-secondary); font-size: 1.05rem; line-height: 1.7; margin-bottom: 2rem;">
+          Traditional PDF worksheet websites give you static, recycled scans from the 1990s. DotPlotMaker.com dynamically compiles fresh, randomized data sets on the fly with authentic student-ready answer spaces:
+        </p>
+      </div>
+
+      <div class="glass-card" style="max-width: 860px; margin: 0 auto; padding: 2.25rem; border-radius: 16px;">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem;">
+          <div>
+            <h4 style="font-weight: 700; color: var(--color-text-primary); margin-bottom: 0.4rem;">✓ Zero Prep Time</h4>
+            <p style="font-size: 0.9rem; color: var(--color-text-secondary); line-height: 1.5;">Generate sub plans, warm-ups, homework, and test review packets in less than 5 seconds.</p>
+          </div>
+          <div>
+            <h4 style="font-weight: 700; color: var(--color-text-primary); margin-bottom: 0.4rem;">✓ Live Verified Solutions</h4>
+            <p style="font-size: 0.9rem; color: var(--color-text-secondary); line-height: 1.5;">Every answer key is calculated mathematically from the active seed with full SVG visual plots.</p>
+          </div>
+          <div>
+            <h4 style="font-weight: 700; color: var(--color-text-primary); margin-bottom: 0.4rem;">✓ Clean Monochrome Print</h4>
+            <p style="font-size: 0.9rem; color: var(--color-text-secondary); line-height: 1.5;">Our custom print stylesheets eliminate colors, banners, and margins to preserve school printer toner.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="section" style="padding: 3rem 0; border-top: 1px solid var(--color-border);">
+      <div style="text-align: center; margin-bottom: 2.5rem;">
+        <h2 class="section-title">Frequently Asked Questions</h2>
+        <p class="section-subtitle" style="max-width: 600px; margin: 0 auto;">Everything you need to know about our printable worksheet generator.</p>
+      </div>
+
+      <div style="max-width: 800px; margin: 0 auto; display: flex; flex-direction: column; gap: 1rem;">
+        {faqs.map(item => (
+          <details class="faq-item">
+            <summary>{item.q}</summary>
+            <div class="faq-answer">{item.a}</div>
+          </details>
+        ))}
+      </div>
+    </section>
+
+    <!-- Bottom Display Ad -->
+    <div class="ad-unit" aria-label="Advertisement" style="margin-top: 3.5rem; text-align: center;">
+      <span class="ad-label" style="font-size: 0.75rem; color: var(--color-text-muted); text-transform: uppercase;">Advertisement</span>
+      <div class="ad-box" style="background: rgba(255, 255, 255, 0.02); border: 1px dashed var(--color-border); border-radius: 12px; padding: 1.25rem; margin-top: 0.5rem;">
+        <span style="font-size: 0.85rem; color: var(--color-text-muted);">Publication-Grade Statistical Visualizations</span>
+      </div>
+    </div>
+  </div>
+</BaseLayout>

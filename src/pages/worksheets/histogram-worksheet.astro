@@ -1,0 +1,229 @@
+---
+import BaseLayout from "@theme/layouts/BaseLayout.astro";
+import WorksheetGenerator from "@theme/components/WorksheetGenerator.astro";
+import { defaultLocale } from "@src/i18n/config";
+
+const locale = defaultLocale;
+
+const title = "Histogram Worksheet Generator (Free + Answer Key)";
+const description = "Free printable histogram worksheets with answer keys. Generate unlimited custom practice sets — or check your bins with our interactive tool.";
+
+const faqs = [
+  {
+    q: "Are these histogram worksheets free to download and print?",
+    a: "Yes. All histogram worksheets generated on this site are 100% free with no registration or email gate required for student handouts. You can click 'Print / Save as PDF' anytime."
+  },
+  {
+    q: "What grade levels and math topics do these histogram worksheets cover?",
+    a: "Our generator targets Grade 6 (frequency tables, equal bin widths, drawing bars), Grades 7–8 (identifying distribution shape, modal classes, mean vs median), and AP Statistics (skewness effects, interval notation, continuous distribution summaries)."
+  },
+  {
+    q: "Do the answer keys include complete drawn histograms?",
+    a: "Yes! Every generated question has a corresponding live-computed answer key that renders the exact histogram graphic with correctly scaled bars, frequencies, bin ranges, and numerical statistics."
+  },
+  {
+    q: "How can I regenerate the same histogram worksheet for another class?",
+    a: "Note the 6-digit seed number printed on the worksheet. Simply enter that seed into the 'Worksheet Seed #' field and click 'Generate Worksheet' to reproduce the exact identical assignment and answer key."
+  },
+  {
+    q: "How do I format the printed page to fit standard paper?",
+    a: "Click 'Print / Save as PDF'. Our built-in print CSS automatically eliminates all screen navigation, ads, and background colors, ensuring crisp black-and-white output tailored for standard US Letter (8.5×11 in) and A4 pages."
+  },
+  {
+    q: "Can students test their histogram bins interactively online?",
+    a: "Yes! Students can paste their worksheet data into our free online Histogram Maker to test different bin counts (Sturges, Scott's, Freedman–Diaconis) and compare how bin widths alter visual distribution shape."
+  }
+];
+
+const schemaData = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Article",
+      "headline": title,
+      "description": description,
+      "image": "https://www.dotplotmaker.com/og-image.png",
+      "datePublished": "2026-10-12T00:00:00.000Z",
+      "author": {
+        "@type": "Person",
+        "name": "Dot Plot Maker® Team"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Dot Plot Maker®",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://www.dotplotmaker.com/favicon.svg"
+        }
+      },
+      "mainEntityOfPage": "https://www.dotplotmaker.com/worksheets/histogram-worksheet/"
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": faqs.map(item => ({
+        "@type": "Question",
+        "name": item.q,
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": item.a
+        }
+      }))
+    }
+  ]
+};
+---
+
+<BaseLayout locale={locale} title={title} description={description}>
+  <script type="application/ld+json" set:html={JSON.stringify(schemaData)} slot="head" />
+
+  <div class="page-content">
+    <!-- Breadcrumb & Back Link -->
+    <div style="margin-bottom: 1.5rem;">
+      <a href="/worksheets/" class="nav-link" style="font-size: 0.9rem; color: var(--color-primary); display: inline-flex; align-items: center; gap: 0.4rem;">
+        ← Back to All Statistics Worksheets
+      </a>
+    </div>
+
+    <!-- Page Hero -->
+    <header class="page-header animate-fade-in-up" style="opacity: 0; margin-bottom: 2.5rem;">
+      <span class="badge" style="margin-bottom: 0.5rem;">Printable Generator</span>
+      <h1 style="font-size: 2.5rem; font-weight: 800; margin-bottom: 0.75rem; background: linear-gradient(135deg, var(--color-text-primary), var(--color-primary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+        Histogram Worksheet Generator
+      </h1>
+      <p style="max-width: 720px; color: var(--color-text-secondary); font-size: 1.15rem; line-height: 1.6;">
+        Create unlimited, classroom-ready <strong>histogram worksheets</strong> with custom intervals and live-computed answer keys. Perfect for teaching frequency tables, equal binning, distribution shape, and modal classes.
+      </p>
+    </header>
+
+    <!-- Generator Component (Above the fold) -->
+    <WorksheetGenerator
+      topic="histogram"
+      title="Generate Histogram & Frequency Distribution Worksheets"
+      toolUrl="/histogram-maker/"
+      toolName="Histogram Maker"
+    />
+
+    <!-- Mid-Page Ad Unit -->
+    <div class="ad-unit" aria-label="Advertisement" style="margin: 3.5rem auto; text-align: center;">
+      <span class="ad-label" style="font-size: 0.75rem; color: var(--color-text-muted); text-transform: uppercase;">Advertisement</span>
+      <div class="ad-box" style="background: rgba(255, 255, 255, 0.02); border: 1px dashed var(--color-border); border-radius: 12px; padding: 1.25rem; margin-top: 0.5rem;">
+        <span style="font-size: 0.85rem; color: var(--color-text-muted);">Interactive Statistical Learning Tools</span>
+      </div>
+    </div>
+
+    <!-- Static SEO Content (Renders without JS) -->
+    <div class="static-seo-content prose" style="max-width: 860px; margin: 3rem auto 0;">
+      <h2>What This Histogram Worksheet Covers</h2>
+      <p>
+        Histograms group continuous numerical data into consecutive, non-overlapping intervals (bins). Our worksheet generator structures real-world data problems to strengthen core statistical standards:
+      </p>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem; margin: 2rem 0;">
+        <div class="glass-card" style="padding: 1.5rem; border-radius: 12px;">
+          <h3 style="font-size: 1.15rem; margin-top: 0; color: #3b82f6;">Frequency Tables &amp; Binning</h3>
+          <p style="font-size: 0.9rem; line-height: 1.5; margin-bottom: 0.5rem;">
+            Aligns with <strong>CCSS.MATH.CONTENT.6.SP.B.4</strong>. Students calculate the full range of the dataset, determine equal interval widths, tally frequencies into table rows, and transfer frequencies onto coordinate axes.
+          </p>
+        </div>
+
+        <div class="glass-card" style="padding: 1.5rem; border-radius: 12px;">
+          <h3 style="font-size: 1.15rem; margin-top: 0; color: var(--color-accent);">Distribution Shape &amp; Modality</h3>
+          <p style="font-size: 0.9rem; line-height: 1.5; margin-bottom: 0.5rem;">
+            Aligns with <strong>CCSS.MATH.CONTENT.6.SP.B.5</strong> and <strong>HSS-ID.A.2</strong>. Students identify modal classes (the highest frequency peak), evaluate skewness (symmetric, right-skewed, or left-skewed), and explain why bars must touch.
+          </p>
+        </div>
+
+        <div class="glass-card" style="padding: 1.5rem; border-radius: 12px;">
+          <h3 style="font-size: 1.15rem; margin-top: 0; color: #10b981;">Mean vs. Median Analysis</h3>
+          <p style="font-size: 0.9rem; line-height: 1.5; margin-bottom: 0.5rem;">
+            Aligns with AP Statistics Unit 1. Students evaluate how extreme right-tail or left-tail bins pull the arithmetic mean away from the median, cementing why the median is the resistant measure of center.
+          </p>
+        </div>
+      </div>
+
+      <p>
+        For smaller sample sizes (N &lt; 30), histograms can obscure individual numbers. Compare this behavior in our <a href="/dot-plot-vs-histogram/">dot plot vs histogram guide</a> to see when dot plots preserve raw observations better.
+      </p>
+
+      <h2>Example Question &amp; Worked Solution</h2>
+      <p>
+        Here is a sample problem demonstrating the frequency table breakdown and completed histogram analysis:
+      </p>
+
+      <div class="glass-card" style="padding: 1.75rem; border-radius: 14px; margin: 1.5rem 0; border: 1px solid var(--color-border);">
+        <h4 style="font-size: 1.05rem; font-weight: 700; margin-top: 0; color: var(--color-text-primary);">
+          Problem Context: Math Quiz Scores (Out of 50 Points) for 16 Students
+        </h4>
+        <div style="background: rgba(255, 255, 255, 0.05); padding: 0.75rem 1rem; border-radius: 8px; font-family: var(--font-mono); font-size: 0.95rem; margin: 0.75rem 0;">
+          Data: 14, 18, 22, 25, 27, 28, 31, 33, 34, 34, 38, 41, 42, 44, 46, 49
+        </div>
+        <p style="font-size: 0.92rem; line-height: 1.6; margin-bottom: 1rem;">
+          <strong>Student Task:</strong> Group the data into 5 equal bins of width 8 starting at 10 (10–17, 18–25, 26–33, 34–41, 42–49). Complete the frequency table, construct the histogram, and identify the modal bin.
+        </p>
+
+        <div style="border-top: 1px dashed var(--color-border); padding-top: 1rem;">
+          <h5 style="color: var(--color-primary); margin: 0 0 0.5rem; font-size: 0.95rem; text-transform: uppercase;">Worked Solution:</h5>
+          <table style="width: 100%; border-collapse: collapse; margin-bottom: 1rem; font-size: 0.88rem;">
+            <thead>
+              <tr style="border-bottom: 1px solid var(--color-border); text-align: left;">
+                <th style="padding: 6px;">Interval (Score)</th>
+                <th style="padding: 6px;">Tally</th>
+                <th style="padding: 6px;">Frequency</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td style="padding: 6px;">10 – 17</td><td style="padding: 6px;">|</td><td style="padding: 6px;">1</td></tr>
+              <tr><td style="padding: 6px;">18 – 25</td><td style="padding: 6px;">|||</td><td style="padding: 6px;">3</td></tr>
+              <tr><td style="padding: 6px;">26 – 33</td><td style="padding: 6px;">||||</td><td style="padding: 6px;">4</td></tr>
+              <tr><td style="padding: 6px;">34 – 41</td><td style="padding: 6px;">||||</td><td style="padding: 6px;">4</td></tr>
+              <tr><td style="padding: 6px;">42 – 49</td><td style="padding: 6px;">||||</td><td style="padding: 6px;">4</td></tr>
+            </tbody>
+          </table>
+          <ul style="font-size: 0.9rem; line-height: 1.7; margin: 0; padding-left: 1.2rem;">
+            <li><strong>Total Observations (N):</strong> 1 + 3 + 4 + 4 + 4 = 16 students</li>
+            <li><strong>Modal Intervals:</strong> A three-way plateau across 26–33, 34–41, and 42–49 (Frequency = 4 each)</li>
+            <li><strong>Distribution Shape:</strong> Slightly skewed left due to the single lower outlier score of 14.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Check Your Work CTA Card -->
+      <h2>Check Your Work Interactively</h2>
+      <div class="glass-card" style="padding: 1.75rem; border: 1px solid var(--color-primary); border-radius: 16px; margin: 2rem 0; background: rgba(0, 212, 170, 0.04); display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; flex-wrap: wrap;">
+        <div style="flex: 1; min-width: 260px;">
+          <span class="badge" style="margin-bottom: 0.5rem;">Interactive Tool</span>
+          <h3 style="margin: 0.25rem 0 0.5rem; font-size: 1.3rem; color: var(--color-text-primary); font-weight: 800;">
+            Verify Your Bins in Our Free Histogram Maker
+          </h3>
+          <p style="margin: 0; color: var(--color-text-secondary); font-size: 0.92rem; line-height: 1.5;">
+            Paste any worksheet dataset directly into our online tool to test different bin widths, verify frequencies, and inspect automated statistical algorithms.
+          </p>
+        </div>
+        <div>
+          <a href="/histogram-maker/" class="btn-primary" style="white-space: nowrap;">
+            <span>Open Histogram Maker →</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- FAQ Section -->
+      <h2>Frequently Asked Questions</h2>
+      <div style="display: flex; flex-direction: column; gap: 1rem; margin-top: 1.5rem;">
+        {faqs.map(item => (
+          <details class="faq-item">
+            <summary>{item.q}</summary>
+            <div class="faq-answer">{item.a}</div>
+          </details>
+        ))}
+      </div>
+    </div>
+
+    <!-- Bottom Display Ad -->
+    <div class="ad-unit" aria-label="Advertisement" style="margin-top: 4rem; text-align: center;">
+      <span class="ad-label" style="font-size: 0.75rem; color: var(--color-text-muted); text-transform: uppercase;">Advertisement</span>
+      <div class="ad-box" style="background: rgba(255, 255, 255, 0.02); border: 1px dashed var(--color-border); border-radius: 12px; padding: 1.25rem; margin-top: 0.5rem;">
+        <span style="font-size: 0.85rem; color: var(--color-text-muted);">Publication-Grade Statistical Visualizations</span>
+      </div>
+    </div>
+  </div>
+</BaseLayout>
