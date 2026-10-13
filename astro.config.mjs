@@ -9,11 +9,6 @@ export default defineConfig({
   trailingSlash: "always",
   output: "static",
   adapter: vercel(),
-  redirects: {
-    "/dot-plot-vs-histogram": "/blog/dot-plot-vs-histogram/",
-    "/about-us": "/about/",
-    "/contact-us": "/contact/",
-  },
   integrations: [mdx(), sitemap()],
   build: {
     inlineStylesheets: "always",
