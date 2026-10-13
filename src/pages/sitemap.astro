@@ -1,7 +1,7 @@
 ---
 import BaseLayout from "@theme/layouts/BaseLayout.astro";
-import { defaultLocale, locales, localeNames } from "@src/i18n/config";
-import { t, getLocaleHomeUrl } from "@src/i18n/utils";
+import { defaultLocale } from "@src/i18n/config";
+import { t } from "@src/i18n/utils";
 import { getCollection } from "astro:content";
 import siteConfig from "@src/config/site.json";
 
@@ -27,20 +27,6 @@ const staticPages = [
   { label: "Box Plot Worksheet", href: "/worksheets/box-plot-worksheet/" },
   { label: "Stem-and-Leaf Worksheet", href: "/worksheets/stem-and-leaf-worksheet/" },
 ];
-
-// Locale homes
-const localeLinks = locales.map((loc) => ({
-  label: localeNames[loc],
-  href: getLocaleHomeUrl(loc),
-}));
-
-// Localized professional tool pages
-const localeProLinks = locales
-  .filter((l) => l !== defaultLocale)
-  .map((loc) => ({
-    label: localeNames[loc],
-    href: `/${loc}/professional-dot-plot-tool/`,
-  }));
 
 // Blog posts
 let blogLinks: { label: string; href: string }[] = [];
@@ -71,28 +57,6 @@ try {
           ))}
         </ul>
       </section>
-
-      <!-- Locale Homes -->
-      <section class="sitemap-section">
-        <h2>{t(locale, "common.switchLanguage")}</h2>
-        <ul class="sitemap-list sitemap-grid">
-          {localeLinks.map((link) => (
-            <li><a href={link.href}>{link.label}</a></li>
-          ))}
-        </ul>
-      </section>
-
-      <!-- Localized Professional Tool Pages -->
-      {localeProLinks.length > 0 && (
-        <section class="sitemap-section">
-          <h2>{t(locale, "nav.pro")} — {t(locale, "common.switchLanguage")}</h2>
-          <ul class="sitemap-list sitemap-grid">
-            {localeProLinks.map((link) => (
-              <li><a href={link.href}>{link.label}</a></li>
-            ))}
-          </ul>
-        </section>
-      )}
 
       <!-- Blog Posts -->
       {blogLinks.length > 0 && (

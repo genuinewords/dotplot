@@ -15,11 +15,22 @@ const oldBlogPaths = [
   path.join(distDir, "contact-us"),
 ];
 
+// Clean any leftover locale output folders
+const foreignLocales = [
+  "hi", "es", "ru", "fr", "de", "it", "pt",
+  "bn", "ja", "ko", "ms", "pl", "id", "ar", "bg", "tr", "sv"
+];
+
+for (const loc of foreignLocales) {
+  oldBlogPaths.push(path.join(staticDir, loc));
+  oldBlogPaths.push(path.join(distDir, loc));
+}
+
 for (const p of oldBlogPaths) {
   if (fs.existsSync(p)) {
     try {
       fs.rmSync(p, { recursive: true, force: true });
-      console.log(`Deleted static directory to prevent duplicate content: ${p}`);
+      console.log(`Deleted static directory to prevent duplicate content / locale pages: ${p}`);
     } catch (e) {
       console.warn(`Could not remove ${p}:`, e.message);
     }

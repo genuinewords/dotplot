@@ -1,7 +1,6 @@
 ---
 import { type Locale, defaultLocale } from "@src/i18n/config";
 import { t, getLocaleHomeUrl } from "@src/i18n/utils";
-import LanguageSwitcher from "./LanguageSwitcher.astro";
 import siteConfig from "@src/config/site.json";
 
 interface Props {
@@ -82,11 +81,6 @@ const hasSocials = Object.values(siteConfig.social).some(Boolean);
         </nav>
       </div>
 
-      <!-- Language Column -->
-      <div class="footer-lang-col">
-        <p class="footer-heading">{t(locale, "common.switchLanguage")}</p>
-        <LanguageSwitcher locale={locale} />
-      </div>
     </div>
 
     <!-- Copyright -->
@@ -107,7 +101,7 @@ const hasSocials = Object.values(siteConfig.social).some(Boolean);
   }
   .footer-grid {
     display: grid;
-    grid-template-columns: 2fr 1fr 1fr;
+    grid-template-columns: 2fr 1fr;
     gap: 3rem;
     margin-bottom: 3rem;
   }
