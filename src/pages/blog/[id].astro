@@ -78,6 +78,7 @@ const breadcrumbSchema = {
   description={post.data.description}
   canonicalUrl={canonicalUrl}
   ogType="article"
+  exactTitle={post.data.exactTitle}
 >
   <Fragment slot="head">
     <script type="application/ld+json" set:html={JSON.stringify(articleSchema)} />

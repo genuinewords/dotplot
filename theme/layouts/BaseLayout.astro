@@ -16,6 +16,7 @@ interface Props {
   canonicalUrl?: string;
   ogType?: string;
   pageType?: "about" | "contact" | null;
+  exactTitle?: boolean;
 }
 
 const {
@@ -23,6 +24,7 @@ const {
   canonicalUrl = Astro.url.href,
   ogType = "website",
   pageType = null,
+  exactTitle = false,
 } = Astro.props;
 
 const title = Astro.props.title || t(locale, "site.title");
@@ -30,7 +32,7 @@ const description = Astro.props.description || t(locale, "site.description");
 
 const dir = isRtl(locale) ? "rtl" : "ltr";
 const ogLocale = ogLocaleMap[locale] || "en_US";
-const fullTitle = title.includes(siteConfig.siteName) ? title : `${title} | ${siteConfig.siteName}`;
+const fullTitle = exactTitle || title.includes(siteConfig.siteName) ? title : `${title} | ${siteConfig.siteName}`;
 const siteOrigin = new URL(siteConfig.siteUrl).origin;
 
 function normalizeCanonicalUrl(urlValue: string): string {
