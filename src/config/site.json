@@ -14,10 +14,10 @@
     "yandex": "193e5df072497e69"
   },
   "social": {
-    "facebook": "#",
-    "twitter": "#",
-    "linkedin": "#",
-    "pinterest": "#"
+    "facebook": "",
+    "twitter": "",
+    "linkedin": "",
+    "pinterest": ""
   },
   "headerNav": [
     { "label": "nav.home", "href": "/" },

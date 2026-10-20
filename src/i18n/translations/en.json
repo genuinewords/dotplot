@@ -19,8 +19,21 @@
     "worksheets": "Worksheets"
   },
   "footer": {
-    "description": "Free online dot plot maker tool. Create, customize, and download beautiful dot plots for your data analysis, research papers, and presentations.",
-    "copyright": "All rights reserved."
+    "description": "Free, browser-based statistics visualization suite and printable classroom worksheet generator. Create publication-ready charts with complete client-side data privacy.",
+    "copyright": "All rights reserved.",
+    "toolsHeading": "Statistical Tools",
+    "eduHeading": "Education & Worksheets",
+    "trustHeading": "Trust & Compliance",
+    "privacyBadge": "100% In-Browser Privacy Guarantee",
+    "privacyBannerDesc": "All chart renders and distribution metrics execute locally inside your browser. No numerical data or uploaded spreadsheets are ever transmitted to or stored on our servers.",
+    "trustNoLogin": "No Registration Required",
+    "trustFreeClassrooms": "Free for Classrooms",
+    "trustAdSense": "Google AdSense Compliant",
+    "statusOnline": "All Tools Online & Operational",
+    "cookiePolicy": "Cookie Policy",
+    "adDisclosure": "Advertising Disclosures",
+    "backToTop": "Back to top",
+    "disclaimer": "Dot Plot Maker® is an independent educational math and statistics platform. Visualizations adhere to established mathematical standards including Tukey 1.5×IQR outlier detection and Freedman-Diaconis/Sturges binning algorithms. Advertisements served via Google AdSense comply strictly with Google Publisher Policies."
   },
   "home": {
     "title": "Free Dot Plot Maker — Create Charts Online",

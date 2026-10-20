@@ -109,7 +109,7 @@ const resolvedCanonicalUrl = normalizeCanonicalUrl(canonicalUrl);
         url: `${siteConfig.siteUrl}/favicon.svg`,
       },
       description: t("en", "site.description"),
-      sameAs: Object.values(siteConfig.social).filter(Boolean),
+      sameAs: Object.values(siteConfig.social).filter((url) => typeof url === "string" && url.startsWith("http")),
     })} />
 
     <!-- SiteNavigationElement Schema -->
