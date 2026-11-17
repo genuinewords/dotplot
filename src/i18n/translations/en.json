@@ -60,13 +60,13 @@
     "howStep3Desc": "Review real-time summary statistics (Mean, Median, Standard Deviation, and Frequency Table), then download your chart as a vector SVG or crisp PNG image.",
     "chartTitle": "Why Dot Plot Maker® dot plots are best used for clear comparisons",
     "chartSubtitle": "Dot plots help readers understand data fast because every point stays visible. They are ideal when you want exact values, cleaner comparisons than bars, and easy-to-spot patterns like clusters, gaps, and outliers.",
-    "chartWhen": "Our dot plots are best used for",
+    "chartWhen": "Core Statistical Applications of Dot Plots",
     "chartWhenItems": [
-      "Comparing categories side by side while keeping exact values visible",
-      "Finding clusters, outliers, and gaps in small to medium datasets",
-      "Showing before-vs-after or group-vs-group differences without chart clutter",
-      "Presenting survey, classroom, KPI, or research results in a reader-friendly format",
-      "Exporting publication-ready visuals quickly for reports and slides"
+      "Continuous distribution analysis for small-to-moderate sample sizes (N ≤ 100) without binning artifacts",
+      "Direct visualization of raw data clusters, structural density gaps, and isolated empirical outliers",
+      "Preserving individual data points to prevent summary-statistic distortions and modality masking",
+      "Multivariate subgroup comparisons and pre- vs. post-treatment outcome assessments",
+      "High-precision vector graphic exports (SVG) engineered for peer-reviewed academic manuscripts and executive reports"
     ],
     "chartVs": "Why Dot Plots Over Other Charts",
     "chartVsItems": [
