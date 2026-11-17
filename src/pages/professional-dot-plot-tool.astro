@@ -10,18 +10,18 @@ const locale = "en" as Locale;
 ---
 <BaseLayout locale={locale} title={t(locale, "pro.title")} description={t(locale, "pro.description")} exactTitle={true}>
   <Fragment slot="head">
-    <meta name="keywords" content="professional dot plot maker, BI-grade dot plot maker, dot plot maker high-resolution export, dot plot maker for IEEE standards, dot plot maker with Excel upload, csv excel import dot plot, svg vector export dot plot" />
+    <meta name="keywords" content="Cleveland dot plot maker, multi-series dot plot, Excel CSV dot plot tool, academic chart generator, high-resolution SVG export, categorical dot plot" />
   </Fragment>
 
   <div class="page-content" style="padding: 2rem 1rem; max-width: 1200px; margin: 0 auto; min-height: 80vh;">
     
     <header style="text-align: center; margin-bottom: 2.5rem; margin-top: 2rem;">
-      <span class="badge" style="margin-bottom: 1.25rem;">Professional Edition</span>
-      <h1 class="section-title" style="font-size: 3.5rem; margin-bottom: 1rem; font-weight: 800; background: linear-gradient(135deg, var(--color-text-primary), var(--color-primary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
-        Advanced Dot Plot Tool for Professionals
+      <span class="badge" style="margin-bottom: 1.25rem;">Cleveland & Multi-Series Studio</span>
+      <h1 class="section-title" style="font-size: 3rem; margin-bottom: 1rem; font-weight: 800; background: linear-gradient(135deg, var(--color-text-primary), var(--color-primary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+        Professional Cleveland Dot Plot Studio
       </h1>
-      <p style="color: var(--color-text-secondary); max-width: 800px; margin: 0 auto; font-size: 1.25rem; line-height: 1.6;">
-        The professional BI-grade dot plot maker engineered for precision data publication. Import CSV & Excel spreadsheets, export high-resolution SVG vectors, and dynamically configure every visual detail for IEEE-standard charts.
+      <p style="color: var(--color-text-secondary); max-width: 820px; margin: 0 auto; font-size: 1.2rem; line-height: 1.6;">
+        Build publication-ready Cleveland dot plots, dumbbell charts, and multi-series comparisons directly in your browser. Import spreadsheet data, map categorical variables against numerical scales, configure styling, and export clean vector graphics.
       </p>
     </header>
 
@@ -29,87 +29,136 @@ const locale = "en" as Locale;
     <div style="background: var(--color-bg-card); border: 1px solid var(--color-border); border-radius: 16px; overflow: hidden; margin-bottom: 4rem; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);">
       <ProDotPlotTool locale={locale} />
     </div>
-    
+
     <!-- ══════════════════════════════════════════════════════ -->
-    <!-- SECTION 1: CSV & Excel Import                        -->
+    <!-- SECTION: 5-Step Operational Workflow Guide              -->
     <!-- ══════════════════════════════════════════════════════ -->
-    <section class="pro-feature-section" id="csv-excel-import">
-      <div class="pro-feature-inner">
-        <div class="pro-feature-icon-wrap">
-          <div class="pro-feature-icon">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-              <polyline points="14 2 14 8 20 8"></polyline>
-              <line x1="16" y1="13" x2="8" y2="13"></line>
-              <line x1="16" y1="17" x2="8" y2="17"></line>
-              <polyline points="10 9 9 9 8 9"></polyline>
-            </svg>
-          </div>
-          <span class="pro-feature-badge">Data Import</span>
-        </div>
-        <div class="pro-feature-content">
-          <h2 class="pro-feature-heading">CSV & Excel File Import</h2>
-          <p class="pro-feature-description">
-            The <strong>dot plot maker with Excel upload</strong> capability handles complex multivariate datasets effortlessly. Drag and drop <code>.csv</code> or <code>.xlsx</code> files directly into the editor—the built-in SheetJS parser accurately maps every column and row, preserving your data structure for instant chart rendering.
+    <section class="pro-workflow-section" id="pro-workflow">
+      <div class="section-badge-wrap">
+        <span class="pro-feature-badge">Workflow Guide</span>
+      </div>
+      <h2 class="section-title" style="text-align: center; font-size: 2.25rem; margin-bottom: 0.75rem;">How to Construct a Cleveland Dot Plot in 5 Steps</h2>
+      <p style="text-align: center; color: var(--color-text-secondary); max-width: 780px; margin: 0 auto 3rem; font-size: 1.1rem; line-height: 1.6;">
+        The Cleveland dot plot represents categorical rows along a vertical axis and plots continuous numerical markers along a horizontal baseline. Follow these straightforward steps to generate your chart:
+      </p>
+
+      <div class="workflow-steps-grid">
+        <div class="workflow-step-card">
+          <div class="step-number">1</div>
+          <h3>Input or Upload Data</h3>
+          <p>
+            Paste tab-delimited values directly into the editable spreadsheet or upload an existing <code>.csv</code> or <code>.xlsx</code> file using the <strong>Open File</strong> button. The integrated SheetJS engine parses columns client-side without sending data to any external server.
           </p>
-          <ul class="pro-feature-benefits">
-            <li>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-              <span>Direct <strong>.CSV and .XLSX parsing</strong> using the SheetJS engine for flawless data fidelity</span>
-            </li>
-            <li>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-              <span>Copy-paste from <strong>Microsoft Excel</strong> or <strong>Google Sheets</strong>—auto-detected instantly</span>
-            </li>
-            <li>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-              <span>Handles <strong>massive multivariate datasets</strong> with zero performance lag or page freezes</span>
-            </li>
-            <li>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-              <span><strong>100% client-side processing</strong>—your proprietary data never leaves your browser</span>
-            </li>
-          </ul>
+        </div>
+
+        <div class="workflow-step-card">
+          <div class="step-number">2</div>
+          <h3>Map Axes & Data Binding</h3>
+          <p>
+            Use the <strong>Binding</strong> tab to set your Category column (rendered along the vertical Y-axis) and select one or more Value series (plotted horizontally). Switch between <em>Row</em> and <em>Column</em> orientation depending on whether your dataset is formatted in wide or tall structure.
+          </p>
+        </div>
+
+        <div class="workflow-step-card">
+          <div class="step-number">3</div>
+          <h3>Evaluate Cleveland Markers</h3>
+          <p>
+            When visualizing multiple series for each category (such as baseline vs. post-intervention or target vs. actual), each category row renders distinct colored points. The connecting line span indicates the magnitude of difference between observations.
+          </p>
+        </div>
+
+        <div class="workflow-step-card">
+          <div class="step-number">4</div>
+          <h3>Fine-Tune Formatting & Marks</h3>
+          <p>
+            Navigate to the <strong>Styling</strong> and <strong>Formatting</strong> panels to adjust dot point diameter, toggle numerical grid lines, show direct value labels on data points, customize category labels, and select a color palette that aligns with your document guidelines.
+          </p>
+        </div>
+
+        <div class="workflow-step-card" style="grid-column: span 2;">
+          <div class="step-number">5</div>
+          <h3>Export High-Definition Vector or Raster Graphics</h3>
+          <p>
+            Click <strong>Export SVG</strong> to download crisp vector graphics ideal for LaTeX manuscripts, Microsoft Word, Adobe Illustrator, or academic print layouts. Alternatively, select <strong>Export PNG (2x)</strong> for high-density 144 DPI raster images suitable for slide decks, web presentations, and executive summaries.
+          </p>
         </div>
       </div>
     </section>
 
     <!-- ══════════════════════════════════════════════════════ -->
-    <!-- SECTION 2: SVG Vector Export                          -->
+    <!-- SECTION: Statistical Deep Dive — Cleveland Dot Plots vs Horizontal Bar Charts -->
     <!-- ══════════════════════════════════════════════════════ -->
-    <section class="pro-feature-section" id="svg-vector-export">
+    <section class="pro-feature-section" id="cleveland-vs-barchart" style="margin-top: 4rem;">
+      <div class="pro-feature-inner">
+        <div class="pro-feature-icon-wrap">
+          <div class="pro-feature-icon">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <line x1="18" y1="20" x2="18" y2="10"></line>
+              <line x1="12" y1="20" x2="12" y2="4"></line>
+              <line x1="6" y1="20" x2="6" y2="14"></line>
+            </svg>
+          </div>
+          <span class="pro-feature-badge">Data Visualization Theory</span>
+        </div>
+        <div class="pro-feature-content">
+          <h2 class="pro-feature-heading">Why Cleveland Dot Plots Outperform Bar Charts</h2>
+          <p class="pro-feature-description">
+            Pioneered by statistician William S. Cleveland in 1984, the Cleveland dot plot was developed to address human perceptual limitations when decoding graphical data. According to Cleveland and McGill's seminal research on graphical perception, humans judge positions along a common scale with substantially greater visual accuracy than areas, angles, or bar lengths.
+          </p>
+          <div class="comparison-dual-box">
+            <div class="comparison-card">
+              <h4 style="color: var(--color-primary); margin-bottom: 0.5rem; font-size: 1.1rem;">Cleveland Dot Plot Strengths</h4>
+              <ul style="list-style: disc; padding-left: 1.25rem; color: var(--color-text-secondary); line-height: 1.7; font-size: 0.95rem;">
+                <li><strong>Higher data-to-ink ratio:</strong> Minimizes ink by replacing bulky colored rectangular blocks with precise geometric points, keeping attention focused on exact measurements.</li>
+                <li><strong>Flexible baseline origin:</strong> Unlike bar charts—which mislead readers if the baseline doesn't start at absolute zero—dot plots represent values as positional points, allowing narrow dynamic axis ranges without distorting proportional perception.</li>
+                <li><strong>Multi-series clarity:</strong> Facilitates plotting multiple observations per category row (e.g., 2024 vs. 2025 values) on a single horizontal grid line without cluttered clustered bars.</li>
+              </ul>
+            </div>
+            <div class="comparison-card">
+              <h4 style="color: var(--color-text-secondary); margin-bottom: 0.5rem; font-size: 1.1rem;">Common Bar Chart Drawbacks</h4>
+              <ul style="list-style: disc; padding-left: 1.25rem; color: var(--color-text-secondary); line-height: 1.7; font-size: 0.95rem;">
+                <li><strong>Heavy visual clutter:</strong> Clustered bar charts require substantial filled area, leading to visual exhaustion when comparing more than two series across 10+ categories.</li>
+                <li><strong>Zero-baseline constraint:</strong> Truncating the axis on a bar chart creates false visual exaggeration because the viewer unconsciously evaluates bar height rather than endpoint position.</li>
+                <li><strong>Label crowding:</strong> Vertical bar charts frequently force rotated or truncated category names; horizontal dot plots provide natural left-to-right reading flow for long category labels.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════ -->
+    <!-- SECTION: Interpretation & Diagnostic Guide              -->
+    <!-- ══════════════════════════════════════════════════════ -->
+    <section class="pro-feature-section" id="interpretation-guide">
       <div class="pro-feature-inner reverse">
         <div class="pro-feature-icon-wrap">
           <div class="pro-feature-icon accent">
             <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-              <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-              <circle cx="8.5" cy="8.5" r="1.5"></circle>
-              <polyline points="21 15 16 10 5 21"></polyline>
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="8" x2="12" y2="12"></line>
+              <line x1="12" y1="16" x2="12.01" y2="16"></line>
             </svg>
           </div>
-          <span class="pro-feature-badge accent">Vector Export</span>
+          <span class="pro-feature-badge accent">Diagnostic Guide</span>
         </div>
         <div class="pro-feature-content">
-          <h2 class="pro-feature-heading">SVG Vector & High-Resolution Export</h2>
+          <h2 class="pro-feature-heading">Reading Spreads, Gaps & Range Connectors</h2>
           <p class="pro-feature-description">
-            Stop submitting blurry PNG charts to journals. Our <strong>dot plot maker high-resolution export</strong> generates infinitely scalable SVG vector graphics, providing publication-grade output for the <strong>dot plot maker for IEEE standards</strong> and every other academic or corporate format.
+            When examining a multi-series Cleveland dot plot or dumbbell chart, the configuration of marks provides immediate statistical insights:
           </p>
           <ul class="pro-feature-benefits">
             <li>
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-              <span><strong>Direct-to-SVG vector output</strong> with crisp edges at any display resolution</span>
+              <span><strong>Horizontal Span (Range Connector):</strong> The distance between two points on the same row directly reveals the magnitude of change, disparity, or delta between conditions (e.g., gender wage gap, pre- vs. post-test score).</span>
             </li>
             <li>
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-              <span><strong>2x pixel-ratio PNG</strong> for crystal-clear raster exports when needed</span>
+              <span><strong>Directional Ordering:</strong> Sorting categories by value (ascending or descending) rather than arbitrary alphabetical order dramatically accelerates discovery of top performers and negative anomalies.</span>
             </li>
             <li>
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-              <span>Designed for <strong>IEEE, APA, and academic publishing pipelines</strong></span>
-            </li>
-            <li>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-              <span>Import directly into <strong>Figma, Illustrator, or InDesign</strong> for further design work</span>
+              <span><strong>Clustering & Outliers:</strong> Multiple categories grouping tightly around a specific numerical range highlight system norms, while isolated rows pulling far to the right or left denote critical outliers.</span>
             </li>
           </ul>
         </div>
@@ -117,95 +166,100 @@ const locale = "en" as Locale;
     </section>
 
     <!-- ══════════════════════════════════════════════════════ -->
-    <!-- SECTION 3: Dynamic Configuration                     -->
+    <!-- SECTION: Best Practices & Practical Limitations         -->
     <!-- ══════════════════════════════════════════════════════ -->
-    <section class="pro-feature-section" id="dynamic-configuration">
+    <section class="pro-feature-section" id="limitations-best-practices">
       <div class="pro-feature-inner">
         <div class="pro-feature-icon-wrap">
           <div class="pro-feature-icon">
             <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-              <circle cx="12" cy="12" r="3"></circle>
-              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+              <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+              <line x1="12" y1="9" x2="12" y2="13"></line>
+              <line x1="12" y1="17" x2="12.01" y2="17"></line>
             </svg>
           </div>
-          <span class="pro-feature-badge">Configuration</span>
+          <span class="pro-feature-badge">Practical Guidelines</span>
         </div>
         <div class="pro-feature-content">
-          <h2 class="pro-feature-heading">Dynamic Configuration & Styling</h2>
+          <h2 class="pro-feature-heading">When to Use Cleveland Dot Plots (and When Not To)</h2>
           <p class="pro-feature-description">
-            As a <strong>professional dot plot maker</strong>, every visual parameter is exposed for granular control. Toggle axes, resize data marks, switch data orientations, and apply corporate brand palettes—all in real-time with zero page reloads.
+            Selecting the right visualization depends on your dataset structure and communication objective. Keep these design guidelines in mind:
           </p>
-          <ul class="pro-feature-benefits">
-            <li>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-              <span><strong>Binding, Formatting & Styling tabs</strong> for organized, granular control</span>
-            </li>
-            <li>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-              <span><strong>Row vs Column data modes</strong> supporting both long and wide dataset formats</span>
-            </li>
-            <li>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-              <span><strong>Toggle visibility</strong> of legends, grid lines, data labels, and axes individually</span>
-            </li>
-            <li>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-              <span><strong>Multi-panel layout modes</strong>—view data, styles, or preview in isolation</span>
-            </li>
-          </ul>
+          <div class="comparison-dual-box">
+            <div class="comparison-card">
+              <h4 style="color: var(--color-primary); margin-bottom: 0.5rem; font-size: 1.1rem;">Ideal Use Cases</h4>
+              <ul style="list-style: disc; padding-left: 1.25rem; color: var(--color-text-secondary); line-height: 1.7; font-size: 0.95rem;">
+                <li>Comparing 5 to 40 distinct categorical items across 1 to 4 metric series.</li>
+                <li>Displaying datasets with lengthy category labels (e.g., country names, scientific terms, survey questions).</li>
+                <li>Visualizing differences where relative change matters and baseline zero is not required.</li>
+                <li>Creating concise figures for academic papers, thesis dissertations, and technical reports.</li>
+              </ul>
+            </div>
+            <div class="comparison-card">
+              <h4 style="color: #f59e0b; margin-bottom: 0.5rem; font-size: 1.1rem;">When to Choose Other Tools</h4>
+              <ul style="list-style: disc; padding-left: 1.25rem; color: var(--color-text-secondary); line-height: 1.7; font-size: 0.95rem;">
+                <li><strong>Univariate frequency counts:</strong> If you have a single list of numbers and want to observe frequency stacks on a continuous number line, use our <a href="/" style="color: var(--color-primary); text-decoration: underline;">Basic Univariate Dot Plot Maker</a>.</li>
+                <li><strong>Distribution shape of continuous groups:</strong> To examine five-number summaries, quartiles, and medians, use the <a href="/box-plot-maker/" style="color: var(--color-primary); text-decoration: underline;">Box Plot Maker</a>.</li>
+                <li><strong>Large continuous datasets (n &gt; 1,000):</strong> Use the <a href="/histogram-maker/" style="color: var(--color-primary); text-decoration: underline;">Histogram Maker</a> to bin large continuous observations into frequency intervals.</li>
+                <li><strong>More than 60 categories:</strong> Categorical dot plots become vertically crowded; consider grouping categories or utilizing paginated tables.</li>
+              </ul>
+            </div>
+          </div>
         </div>
       </div>
     </section>
 
     <!-- ══════════════════════════════════════════════════════ -->
-    <!-- Keyword Benefits Grid                                -->
+    <!-- Core Technical Capabilities Grid                       -->
     <!-- ══════════════════════════════════════════════════════ -->
-    <section class="pro-keywords-section" id="pro-benefits">
-      <h2 class="section-title" style="text-align: center; font-size: 2.5rem; margin-bottom: 0.5rem;">Why Professionals Choose Dot Plot Maker Pro</h2>
-      <p style="text-align: center; color: var(--color-text-secondary); max-width: 700px; margin: 0 auto 3.5rem; font-size: 1.1rem;">A BI-grade dot plot maker built for researchers, analysts, and data teams who demand publication-quality output.</p>
+    <section class="pro-keywords-section" id="pro-capabilities">
+      <h2 class="section-title" style="text-align: center; font-size: 2.25rem; margin-bottom: 0.5rem;">Key Technical Capabilities</h2>
+      <p style="text-align: center; color: var(--color-text-secondary); max-width: 700px; margin: 0 auto 3.5rem; font-size: 1.1rem;">
+        Engineered with privacy-first client-side web technologies for seamless data rendering and vector production.
+      </p>
       
       <div class="pro-keywords-grid">
         <div class="pro-keyword-card">
           <div class="keyword-icon">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 20V10M18 20V4M6 20v-4"></path></svg>
-          </div>
-          <h3>Professional Dot Plot Maker</h3>
-          <p>Enterprise-grade charting engine with precise data binding, multi-series support, and Cleveland dot plot range indicators.</p>
-        </div>
-        <div class="pro-keyword-card">
-          <div class="keyword-icon accent">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path></svg>
-          </div>
-          <h3>BI-Grade Dot Plot Maker</h3>
-          <p>Business intelligence-level visualization with multi-panel layouts, dynamic column mapping, and real-time data reactivity.</p>
-        </div>
-        <div class="pro-keyword-card">
-          <div class="keyword-icon">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-          </div>
-          <h3>High-Resolution Export</h3>
-          <p>2x pixel-ratio PNG and direct SVG vector exports ensure your dot plots look razor-sharp in every medium—print, web, or PDF.</p>
-        </div>
-        <div class="pro-keyword-card">
-          <div class="keyword-icon accent">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
-          </div>
-          <h3>IEEE Standards Ready</h3>
-          <p>Publication-grade SVG outputs compatible with IEEE, APA, and major academic journal formatting requirements out of the box.</p>
-        </div>
-        <div class="pro-keyword-card">
-          <div class="keyword-icon">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
           </div>
-          <h3>Excel Upload Support</h3>
-          <p>Native .XLSX and .CSV file parsing powered by SheetJS—upload entire workbooks and visualize complex datasets in seconds.</p>
+          <h3>Spreadsheet Parsing (CSV/XLSX)</h3>
+          <p>Native in-browser spreadsheet parser powered by SheetJS. Directly import workbooks, preview tabular data, and edit values in real time.</p>
+        </div>
+        <div class="pro-keyword-card">
+          <div class="keyword-icon accent">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 20V10M18 20V4M6 20v-4"></path></svg>
+          </div>
+          <h3>Dynamic Axis & Series Mapping</h3>
+          <p>Easily bind arbitrary columns as categorical Y-axes or numerical X-value series. Toggle between wide-table and long-table orientations seamlessly.</p>
+        </div>
+        <div class="pro-keyword-card">
+          <div class="keyword-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+          </div>
+          <h3>Clean Vector (SVG) & 2x PNG Export</h3>
+          <p>Export resolution-independent vector graphics with exact styling for academic papers and book chapters, or download high-density 2x PNG images.</p>
+        </div>
+        <div class="pro-keyword-card">
+          <div class="keyword-icon accent">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+          </div>
+          <h3>Granular Visual Customization</h3>
+          <p>Customize dot diameter, color schemes, data label positioning, numerical grid lines, axis orientation, and title formatting to match brand guidelines.</p>
+        </div>
+        <div class="pro-keyword-card">
+          <div class="keyword-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path></svg>
+          </div>
+          <h3>Multi-Series Dumbbell Mode</h3>
+          <p>Render multiple parallel series per row connected by range lines to illustrate shifts across survey cohorts, time intervals, or experimental treatments.</p>
         </div>
         <div class="pro-keyword-card">
           <div class="keyword-icon accent">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
           </div>
           <h3>100% Client-Side Privacy</h3>
-          <p>Zero data uploads. Your proprietary spreadsheets are processed entirely in your browser sandbox—guaranteed secure by design.</p>
+          <p>Zero data leaves your machine. Calculations, spreadsheet parsing, and canvas/vector rendering take place entirely within your local browser sandbox.</p>
         </div>
       </div>
     </section>
@@ -216,16 +270,89 @@ const locale = "en" as Locale;
     <!-- FAQ -->
     <ProFAQ locale={locale} />
 
-    <!-- Reciprocal Link SEO Block -->
-    <div class="final-cta" style="text-align: center; margin-top: 2rem; padding: 2rem 1rem;">
-      <a href="/" class="btn-primary cta-btn" style="padding: 1rem 2rem; font-size: 1.1rem;"><span>Try Basic Dot Plot Maker®</span></a>
-    </div>
+    <!-- Related Educational & Tool Links -->
+    <section class="related-tools-section" style="margin-top: 5rem; padding: 3rem 2rem; background: var(--color-bg-card); border: 1px solid var(--color-border); border-radius: 16px; text-align: center;">
+      <h3 style="font-size: 1.8rem; margin-bottom: 1rem; color: var(--color-text-primary);">Explore Complementary Statistical Tools</h3>
+      <p style="color: var(--color-text-secondary); max-width: 700px; margin: 0 auto 2rem; font-size: 1.05rem; line-height: 1.6;">
+        Depending on whether you are plotting single continuous distributions, grouped samples, or classroom exercises, explore our dedicated chart generators:
+      </p>
+      <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+        <a href="/" class="btn-tool-link">Univariate Dot Plot Maker</a>
+        <a href="/categorical-scatter-plot/" class="btn-tool-link">Categorical Scatter Plot (Strip Plot)</a>
+        <a href="/box-plot-maker/" class="btn-tool-link">Box Plot Maker</a>
+        <a href="/histogram-maker/" class="btn-tool-link">Histogram Maker</a>
+        <a href="/stem-and-leaf-plot-maker/" class="btn-tool-link">Stem-and-Leaf Plot Maker</a>
+        <a href="/worksheets/" class="btn-tool-link">Printable Worksheets</a>
+      </div>
+    </section>
 
   </div>
 </BaseLayout>
 
 <style>
-  /* ── Pro Feature Sections ── */
+  /* ── Pro Workflow & Feature Sections ── */
+  .pro-workflow-section {
+    margin: 5rem 0 3rem;
+  }
+  .section-badge-wrap {
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+  .workflow-steps-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .workflow-step-card {
+    background: var(--color-bg-card);
+    border: 1px solid var(--color-border);
+    border-radius: 14px;
+    padding: 2rem;
+    position: relative;
+    transition: all 0.3s ease;
+  }
+  .workflow-step-card:hover {
+    border-color: var(--color-primary);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 212, 170, 0.08);
+  }
+  .step-number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    background: rgba(0, 212, 170, 0.12);
+    border: 1px solid rgba(0, 212, 170, 0.25);
+    color: var(--color-primary);
+    font-weight: 800;
+    font-size: 1.1rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+  }
+  .workflow-step-card h3 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 0.6rem;
+    color: var(--color-text-primary);
+  }
+  .workflow-step-card p {
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: var(--color-text-secondary);
+    margin: 0;
+  }
+  .workflow-step-card code {
+    font-family: var(--font-mono);
+    background: rgba(0, 212, 170, 0.08);
+    color: var(--color-primary);
+    padding: 0.15rem 0.4rem;
+    border-radius: 4px;
+    font-size: 0.9em;
+  }
+
   .pro-feature-section {
     margin-bottom: 4rem;
     padding: 0;
@@ -278,15 +405,8 @@ const locale = "en" as Locale;
     border-color: rgba(139, 92, 246, 0.2);
     color: var(--color-accent);
   }
-  .pro-feature-inner:hover .pro-feature-icon {
-    transform: scale(1.05);
-    box-shadow: 0 4px 16px rgba(0, 212, 170, 0.15);
-  }
-  .pro-feature-inner.reverse:hover .pro-feature-icon {
-    box-shadow: 0 4px 16px rgba(139, 92, 246, 0.15);
-  }
   .pro-feature-badge {
-    font-size: 0.7rem;
+    font-size: 0.75rem;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.08em;
@@ -320,16 +440,21 @@ const locale = "en" as Locale;
     line-height: 1.8;
     margin-bottom: 1.5rem;
   }
-  .pro-feature-description code {
-    font-family: var(--font-mono);
-    background: rgba(0, 212, 170, 0.1);
-    padding: 0.15em 0.4em;
-    border-radius: 4px;
-    font-size: 0.9em;
-    color: var(--color-primary);
-  }
   .pro-feature-description strong {
     color: var(--color-text-primary);
+  }
+
+  .comparison-dual-box {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+  }
+  .comparison-card {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 1.5rem;
   }
 
   .pro-feature-benefits {
@@ -411,28 +536,37 @@ const locale = "en" as Locale;
     margin: 0;
   }
 
-  /* ── CTA ── */
-  .cta-btn {
+  /* ── Related Tool Links ── */
+  .btn-tool-link {
     display: inline-block;
-    padding: 1rem 2.5rem;
-    font-size: 1.1rem;
+    padding: 0.75rem 1.25rem;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    color: var(--color-text-primary);
+    font-size: 0.95rem;
     font-weight: 600;
     text-decoration: none;
-    border-radius: 8px;
-    background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
-    color: #ffffff;
     transition: all 0.2s ease;
-    box-shadow: 0 8px 24px rgba(0, 212, 170, 0.22);
   }
-  .cta-btn:hover {
+  .btn-tool-link:hover {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
     transform: translateY(-2px);
-    box-shadow: 0 10px 28px rgba(139, 92, 246, 0.22);
-    background: linear-gradient(135deg, var(--color-accent), var(--color-primary));
-    color: #ffffff !important;
+    box-shadow: 0 4px 12px rgba(0, 212, 170, 0.1);
   }
 
   /* ── Responsive ── */
   @media (max-width: 768px) {
+    .workflow-steps-grid {
+      grid-template-columns: 1fr;
+    }
+    .workflow-step-card[style*="grid-column: span 2;"] {
+      grid-column: span 1 !important;
+    }
+    .comparison-dual-box {
+      grid-template-columns: 1fr;
+    }
     .pro-feature-inner,
     .pro-feature-inner.reverse {
       flex-direction: column;
@@ -447,9 +581,6 @@ const locale = "en" as Locale;
     }
     .pro-keywords-grid {
       grid-template-columns: 1fr;
-    }
-    .final-cta {
-      padding: 2rem 1rem !important;
     }
   }
   @media (min-width: 769px) and (max-width: 1024px) {

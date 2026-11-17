@@ -12,7 +12,7 @@ const { locale = defaultLocale } = Astro.props;
   <div class="pro-tool-container">
     <div class="pro-tool-header">
       <div class="window-controls"><span></span><span></span><span></span></div>
-      <div class="window-title">DotPlotMaker Pro Server</div>
+      <div class="window-title">DotPlotMaker Cleveland Dot Plot Studio</div>
     </div>
     <div class="pro-tool-grid">
     <!-- LEFT: Spreadsheet -->
@@ -21,7 +21,7 @@ const { locale = defaultLocale } = Astro.props;
         <span style="font-size: 13px; font-weight: 600; color: var(--text-dark);">Data Editor</span>
         <label class="btn-upload">
           Upload CSV/Excel
-          <input type="file" id="file-upload" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" />
+          <input type="file" id="file-upload" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" aria-label="Upload CSV or Excel spreadsheet" />
         </label>
       </div>
       <div class="spreadsheet-scroll-wrapper">
@@ -119,7 +119,7 @@ const { locale = defaultLocale } = Astro.props;
               <div class="dropdown-item" data-chart="line">Line Chart</div>
             </div>
           </div>
-          <button class="action-btn">Help</button>
+          <a href="#pro-workflow" class="action-btn" style="text-decoration: none; display: inline-flex; align-items: center;">Help</a>
         </div>
       </div>
 
@@ -241,7 +241,7 @@ const { locale = defaultLocale } = Astro.props;
              <div class="accordion-header">
                <span>Data Marks</span>
                <div class="right-icons">
-                 <button class="icon-btn active"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg></button>
+                 <button class="icon-btn active" aria-label="Toggle Data Marks"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg></button>
                  <svg class="chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
                </div>
              </div>
@@ -251,7 +251,7 @@ const { locale = defaultLocale } = Astro.props;
              <div class="accordion-header">
                <span>Data Labels</span>
                <div class="right-icons">
-                 <button class="icon-btn" id="toggle-labels"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg></button>
+                 <button class="icon-btn" id="toggle-labels" aria-label="Toggle Data Labels"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg></button>
                  <svg class="chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
                </div>
              </div>
@@ -264,7 +264,7 @@ const { locale = defaultLocale } = Astro.props;
              <div class="accordion-header">
                <span>Numerical Axis</span>
                <div class="right-icons">
-                 <button class="icon-btn active" id="toggle-grid"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg></button>
+                 <button class="icon-btn active" id="toggle-grid" aria-label="Toggle Numerical Gridlines"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg></button>
                  <svg class="chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
                </div>
              </div>
@@ -274,7 +274,7 @@ const { locale = defaultLocale } = Astro.props;
              <div class="accordion-header">
                <span>Categorical Axis</span>
                <div class="right-icons">
-                 <button class="icon-btn active"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg></button>
+                 <button class="icon-btn active" aria-label="Toggle Categorical Axis"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg></button>
                  <svg class="chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
                </div>
              </div>

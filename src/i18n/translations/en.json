@@ -36,11 +36,11 @@
     "disclaimer": "Dot Plot Maker® is an independent educational math and statistics platform. Visualizations adhere to established mathematical standards including Tukey 1.5×IQR outlier detection and Freedman-Diaconis/Sturges binning algorithms. Advertisements served via Google AdSense comply strictly with Google Publisher Policies."
   },
   "home": {
-    "title": "Free Dot Plot Maker — Create Charts Online",
-    "description": "Free dot plot maker with no signup required. Create interactive dot plot charts online. Export as SVG or PNG. Used by students, teachers & researchers.",
-    "badge": "Free Online Tool",
-    "h1": "Dot Plot Maker – Instant Beautiful Dot Plots",
-    "heroSubtitle": "Create dot plots in seconds. Paste simple data for an instant chart, or open the Advanced Tool for Excel uploads, large datasets, and publication-ready SVG exports — also free.",
+    "title": "Dot Plot Maker — Free Online Chart Tools & Statistical Visualizers",
+    "description": "Create instant dot plots online for free. Explore our suite of statistical visualizers including Cleveland dot plots, box plots, histograms, and classroom worksheets.",
+    "badge": "Free Online Statistical Suite",
+    "h1": "Dot Plot Maker — Free Online Statistical Visualization Suite",
+    "heroSubtitle": "Visualize distributions instantly with raw observation fidelity. Generate standard univariate dot plots below, or select from our dedicated specialized tools for Cleveland dot plots, box plots, histograms, and classroom worksheets.",
     "intro": "Transform your raw data into professional, publication-ready Cleveland dot plots. Simply paste your data, upload a spreadsheet, and customize your chart using our interactive BI-grade editor.",
     "toolTitle": "Pro Dot Plot Editor",
     "toolPlaceholder": "Load CSV, Excel, or enter data directly",
@@ -50,14 +50,14 @@
     "toolDotColor": "Series Coloring",
     "toolAxisLabel": "Axis Configuration",
     "toolChartTitle": "Chart Title",
-    "howTitle": "Steps to use our Dot Plot Maker® online",
-    "howSubtitle": "Build advanced data visualizations in three streamlined steps.",
-    "howStep1Title": "Input or Upload Data",
-    "howStep1Desc": "Type directly into our Excel-like grid, or instantly upload your existing CSV and Excel spreadsheets to populate the data matrix.",
-    "howStep2Title": "Bind & Customize",
-    "howStep2Desc": "Map your columns to the X and Y axes effortlessly. Use our professional styling tabs to toggle gridlines, customize legend behaviors, and format data markers.",
-    "howStep3Title": "Export Vector Graphics",
-    "howStep3Desc": "Download your finalized Cleveland dot plot as an infinitely scalable SVG or a high-DPI PNG, perfect for academic journals or corporate presentations.",
+    "howTitle": "How to Create an Instant Dot Plot in 3 Steps",
+    "howSubtitle": "Turn raw numbers into a clean frequency dot plot in seconds with zero configuration overhead.",
+    "howStep1Title": "1. Enter or Paste Numbers",
+    "howStep1Desc": "Type your numbers into the Manual tab separated by commas, or switch to the Paste tab to import a column of values straight from your spreadsheet.",
+    "howStep2Title": "2. Customize Marker Styles",
+    "howStep2Desc": "Adjust dot size and opacity, select custom palette colors, toggle background gridlines, and choose whether repeated values stack vertically or plot along the axis.",
+    "howStep3Title": "3. Inspect Stats & Export",
+    "howStep3Desc": "Review real-time summary statistics (Mean, Median, Standard Deviation, and Frequency Table), then download your chart as a vector SVG or crisp PNG image.",
     "chartTitle": "Why Dot Plot Maker® dot plots are best used for clear comparisons",
     "chartSubtitle": "Dot plots help readers understand data fast because every point stays visible. They are ideal when you want exact values, cleaner comparisons than bars, and easy-to-spot patterns like clusters, gaps, and outliers.",
     "chartWhen": "Our dot plots are best used for",
@@ -240,8 +240,8 @@
     ]
   },
   "pro": {
-    "title": "Free Dot Plot Maker: CSV Import & SVG Export",
-    "description": "Build publication-ready dot plots free. Import CSV/Excel, export SVG, customize everything — no signup needed."
+    "title": "Professional Dot Plot Maker — Online Cleveland & Multi-Series Plot Tool",
+    "description": "Create professional Cleveland dot plots and multi-series charts online. Import CSV or Excel files, map categories to continuous values, customize styling, and export SVG or 2x PNG graphics."
   },
   "common": {
     "readMore": "Read More",

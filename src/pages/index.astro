@@ -22,126 +22,242 @@ const locale = defaultLocale;
       <h1 class="hero-title">{t(locale, "home.h1")}</h1>
       <p class="hero-subtitle">{t(locale, "home.heroSubtitle")}</p>
       <div class="hero-cta">
-        <a href="#pro-dot-plot-tool" class="btn-primary"><span>Generate Dot Plot</span></a>
-        <a href="/professional-dot-plot-tool/" class="btn-secondary" target="_blank" rel="noopener noreferrer"><span>Open Advanced Tool</span></a>
-        <a href="/worksheets/dot-plot-worksheet/" class="btn-secondary" style="border-color: rgba(0, 212, 170, 0.4);"><span>Practice with a printable worksheet →</span></a>
+        <a href="#pro-dot-plot-tool" class="btn-primary"><span>Create Dot Plot Below</span></a>
+        <a href="#tool-catalog" class="btn-secondary"><span>Browse All 6 Tools</span></a>
+        <a href="/worksheets/" class="btn-secondary" style="border-color: rgba(139, 92, 246, 0.4);"><span>Free Classroom Worksheets →</span></a>
       </div>
     </div>
 
-    <!-- Advanced Dot Plot Tool Component -->
+    <!-- Interactive Univariate Dot Plot Tool Component -->
     <section class="tool-section">
+      <div class="tool-section-header">
+        <div class="tool-section-title-row">
+          <div class="tool-section-icon" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="6" cy="18" r="3"></circle>
+              <circle cx="6" cy="12" r="3"></circle>
+              <circle cx="12" cy="18" r="3"></circle>
+              <circle cx="18" cy="18" r="3"></circle>
+              <circle cx="18" cy="12" r="3"></circle>
+              <circle cx="18" cy="6" r="3"></circle>
+            </svg>
+          </div>
+          <h2 class="tool-section-title">Instant Univariate Dot Plot Maker</h2>
+        </div>
+        <p class="tool-section-subtitle">
+          Type or paste numbers to plot individual observations along a continuous scale with stacked frequencies and automated summary metrics.
+        </p>
+      </div>
+
       <AdvancedDotPlotTool locale={locale} />
     </section>
 
-    <InteractiveIllustrations />
-
-    <!-- What is a Dot Plot Maker®? -->
-    <section class="educational-section section" style="margin-top: 4rem;">
-      <div class="educational-container">
-        <h2 class="section-title edu-title">What is a Dot Plot Maker®?</h2>
-        <p class="educational-intro" style="text-align: center; max-width: 600px; margin: 0 auto 2.5rem; color: var(--color-text-secondary); font-size: 1.1rem; line-height: 1.6;">
-          Dot Plot Maker® provides a professional, highly customizable interactive environment for instantly visualizing your datasets in just a few clicks.
+    <!-- ══════════════════════════════════════════════════════════════
+         TOOL SELECTOR & SUITE DIRECTORY
+         ══════════════════════════════════════════════════════════════ -->
+    <section class="suite-directory-section section" id="tool-catalog">
+      <div style="text-align: center; max-width: 800px; margin: 0 auto 3rem;">
+        <span class="hub-kicker">Interactive Visualization Hub</span>
+        <h2 class="section-title">Choose the Right Visualization Tool for Your Data</h2>
+        <p class="section-subtitle">
+          Different statistical datasets require distinct visualization geometries. Use our interactive suite directory to find the optimal tool for your project.
         </p>
-        <ul class="educational-list">
-          <li>
-            <span class="edu-icon" aria-hidden="true">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
-            </span>
-            <div>
-              <strong>Instant Data Input:</strong> Manually enter data points seamlessly or instantly paste structured spreadsheet data directly into the tool for immediate rendering.
-            </div>
-          </li>
-          <li>
-            <span class="edu-icon" aria-hidden="true">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
-            </span>
-            <div>
-              <strong>Complete Style Control:</strong> Dynamically adjust dot sizes, customize tool opacities, toggle structural grid lines, and precisely map your base primary color hexes.
-            </div>
-          </li>
-          <li>
-            <span class="edu-icon" aria-hidden="true">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16c0 1.1.9 2 2 2h12a2 2 0 0 0 2-2V8l-6-6z"></path><path d="M14 3v5h5M16 13H8M16 17H8M10 9H8"></path></svg>
-            </span>
-            <div>
-              <strong>Live Data Table & Statistics:</strong> Automatically calculated descriptive statistics (Mean, Median, Standard Deviation) alongside a built-in frequency parsing matrix.
-            </div>
-          </li>
-          <li>
-            <span class="edu-icon" aria-hidden="true">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-            </span>
-            <div>
-              <strong>High-Quality Exports:</strong> Seamlessly download your generated visual as a crystal-clear scalable vector (SVG) or crisp high-resolution image format (PNG) for immediate publication.
-            </div>
-          </li>
-        </ul>
       </div>
-    </section>
 
-    <!-- How It Works -->
-    <HowItWorks locale={locale} />
+      <div class="suite-grid">
+        <!-- 1. Professional Dot Plot Tool -->
+        <article class="suite-card">
+          <div class="suite-card-badge">Multivariate & Spreadsheet</div>
+          <div class="suite-card-icon" style="background: rgba(0, 212, 170, 0.12); color: var(--color-primary);">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
+          </div>
+          <h3>Cleveland & Multi-Series Dot Plot</h3>
+          <p>Import CSV/XLSX workbooks with a built-in spreadsheet editor. Map categorical labels to the Y-axis and continuous variables to the X-axis with parallel series points and connector range lines.</p>
+          <ul class="suite-features">
+            <li>Excel (.xlsx) and CSV drag-and-drop</li>
+            <li>Row vs. Column data binding</li>
+            <li>ECharts engine with vector SVG export</li>
+          </ul>
+          <a href="/professional-dot-plot-tool/" class="suite-link">Open Cleveland Studio →</a>
+        </article>
 
-    <!-- Chart Info Section -->
-    <ChartSection locale={locale} />
+        <!-- 2. Categorical Scatter Plot -->
+        <article class="suite-card">
+          <div class="suite-card-badge">Bivariate Jitter</div>
+          <div class="suite-card-icon" style="background: rgba(139, 92, 246, 0.12); color: var(--color-accent);">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="6" cy="12" r="3"/><circle cx="12" cy="8" r="3"/><circle cx="18" cy="14" r="3"/><line x1="2" y1="20" x2="22" y2="20"/></svg>
+          </div>
+          <h3>Categorical Scatter Plot (Strip Plot)</h3>
+          <p>Plot individual observations across discrete categorical experimental groups with adjustable horizontal jitter, group colorization, mean dashed reference lines, and automated ANOVA-ready metrics.</p>
+          <ul class="suite-features">
+            <li>Controlled jitter eliminates overplotting</li>
+            <li>Multi-group treatment comparisons</li>
+            <li>Reveals bimodal clustering and sample sizes</li>
+          </ul>
+          <a href="/categorical-scatter-plot/" class="suite-link">Open Strip Plot Maker →</a>
+        </article>
 
-    <!-- Feature Grid -->
-    <section class="feature-grid-section animate-fade-in-up" style="opacity: 0; animation-delay: 0.3s; margin-top: 1rem;">
-      <div style="text-align: center; margin-bottom: 2.5rem;">
-        <h2 class="section-title">Why our Dot Plot Maker®?</h2>
-      </div>
-      <div class="feature-grid-container">
-        <div class="feature-card">
-          <div class="feature-icon">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+        <!-- 3. Box Plot Maker -->
+        <article class="suite-card">
+          <div class="suite-card-badge">Distribution Summary</div>
+          <div class="suite-card-icon" style="background: rgba(56, 189, 248, 0.12); color: #38bdf8;">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="6" width="18" height="12" rx="2"></rect><line x1="12" y1="6" x2="12" y2="18"></line><line x1="8" y1="6" x2="8" y2="18"></line><line x1="16" y1="6" x2="16" y2="18"></line></svg>
           </div>
-          <h3>Easy</h3>
-          <p>Dot Plot Maker® makes it incredibly easy to build a dot plot in seconds.</p>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+          <h3>Box Plot Maker (Box & Whisker)</h3>
+          <p>Generate five-number summaries (min, Q1, median, Q3, max) with automated Tukey 1.5×IQR outlier fences. Compare dozens of groups side-by-side with Excel copy-paste compatibility.</p>
+          <ul class="suite-features">
+            <li>Type 7 quantile interpolation (matches Excel & R)</li>
+            <li>Confidence notches and mean diamond markers</li>
+            <li>Automated outlier isolation</li>
+          </ul>
+          <a href="/box-plot-maker/" class="suite-link">Open Box Plot Maker →</a>
+        </article>
+
+        <!-- 4. Histogram Maker -->
+        <article class="suite-card">
+          <div class="suite-card-badge">Continuous Binned Density</div>
+          <div class="suite-card-icon" style="background: rgba(245, 158, 11, 0.12); color: #f59e0b;">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="10" width="4" height="10" rx="1"></rect><rect x="10" y="4" width="4" height="16" rx="1"></rect><rect x="17" y="13" width="4" height="7" rx="1"></rect></svg>
           </div>
-          <h3>Copy & Paste</h3>
-          <p>Instantly copy and paste your raw data directly into the Dot Plot Maker® spreadsheet.</p>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+          <h3>Histogram Maker</h3>
+          <p>Partition moderate to large continuous datasets into customizable frequency bins. Select automated binning algorithms (Freedman-Diaconis or Sturges) and overlay normal distribution curves.</p>
+          <ul class="suite-features">
+            <li>Ideal for large sample sizes (N > 100)</li>
+            <li>Custom bin widths and boundary controls</li>
+            <li>Cumulative frequency & normal curve overlay</li>
+          </ul>
+          <a href="/histogram-maker/" class="suite-link">Open Histogram Maker →</a>
+        </article>
+
+        <!-- 5. Stem-and-Leaf Plot Maker -->
+        <article class="suite-card">
+          <div class="suite-card-badge">Numerical Digits</div>
+          <div class="suite-card-icon" style="background: rgba(16, 185, 129, 0.12); color: #10b981;">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="2" x2="8" y2="22"></line><line x1="2" y1="7" x2="22" y2="7"></line><line x1="2" y1="12" x2="22" y2="12"></line><line x1="2" y1="17" x2="22" y2="17"></line></svg>
           </div>
-          <h3>Online</h3>
-          <p>Dot Plot Maker® is the sharpest way to build beautiful data visualizations completely online.</p>
-        </div>
+          <h3>Stem-and-Leaf Plot Maker</h3>
+          <p>Display raw numerical data where each observation is divided into a leading 'stem' and a trailing 'leaf'. Preserve exact digits while demonstrating frequency distribution shapes.</p>
+          <ul class="suite-features">
+            <li>Back-to-back comparison mode</li>
+            <li>Configurable stem multiplier scale</li>
+            <li>Classroom printable formatting</li>
+          </ul>
+          <a href="/stem-and-leaf-plot-maker/" class="suite-link">Open Stem-and-Leaf Maker →</a>
+        </article>
+
+        <!-- 6. Printable Worksheets & Answer Keys -->
+        <article class="suite-card">
+          <div class="suite-card-badge">Classroom & Teacher Resources</div>
+          <div class="suite-card-icon" style="background: rgba(239, 68, 68, 0.12); color: #ef4444;">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="9" y1="15" x2="15" y2="15"></line></svg>
+          </div>
+          <h3>Printable Practice Worksheets</h3>
+          <p>Generate customizable practice exercises with un-gated full answer keys for dot plots, box plots, histograms, and stem-and-leaf displays designed for Grade 6-12 and AP Statistics classrooms.</p>
+          <ul class="suite-features">
+            <li>100% free with instant answer key toggle</li>
+            <li>Printer-friendly black-and-white layouts</li>
+            <li>Randomized dataset generation</li>
+          </ul>
+          <a href="/worksheets/" class="suite-link">Browse Worksheets Hub →</a>
+        </article>
       </div>
     </section>
 
     <!-- ══════════════════════════════════════════════════════════════
-         TOPICAL AUTHORITY SECTIONS FOR SEO
+         DECISION MATRIX: HOW TO SELECT THE RIGHT TOOL
+         ══════════════════════════════════════════════════════════════ -->
+    <section class="section" id="chart-selection-guide">
+      <div class="matrix-card">
+        <h2 class="section-title" style="text-align: center; margin-bottom: 0.75rem;">Chart Selection Guide: How to Pick the Right Tool</h2>
+        <p class="section-subtitle" style="text-align: center; margin-bottom: 2.5rem;">
+          Match your dataset characteristics and analytical goals to the correct statistical visualizer:
+        </p>
+
+        <div class="matrix-table-wrap">
+          <table class="matrix-table">
+            <thead>
+              <tr>
+                <th>Your Data & Scenario</th>
+                <th>Recommended Chart</th>
+                <th>Why It Fits Best</th>
+                <th>Direct Link</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>1 Numerical Variable, Small to Medium Sample (N &le; 100)</strong></td>
+                <td>Univariate Dot Plot</td>
+                <td>Shows every single observation as a stacked dot along a continuous scale; calculates mean and median without binning artifacts.</td>
+                <td><a href="#pro-dot-plot-tool" class="matrix-link">Use Tool Above</a></td>
+              </tr>
+              <tr>
+                <td><strong>Categorical Labels vs. Multiple Numerical Metrics / Years</strong></td>
+                <td>Cleveland Dot Plot</td>
+                <td>Horizontal layout accommodates long category labels without rotation; compares parallel series with connector range lines.</td>
+                <td><a href="/professional-dot-plot-tool/" class="matrix-link">Cleveland Studio</a></td>
+              </tr>
+              <tr>
+                <td><strong>Discrete Treatment Groups vs. Continuous Measurements (n &le; 150/group)</strong></td>
+                <td>Categorical Scatter (Strip Plot)</td>
+                <td>Controlled horizontal jitter prevents point collisions; exposes bimodal subgroups and outliers without data reduction.</td>
+                <td><a href="/categorical-scatter-plot/" class="matrix-link">Strip Plot Maker</a></td>
+              </tr>
+              <tr>
+                <td><strong>Comparing Distributions Across 3+ Groups or Spotting Outliers</strong></td>
+                <td>Box & Whisker Plot</td>
+                <td>Five-number summary (Q1, median, Q3, whiskers) and Tukey 1.5×IQR fences compactly compare spreads without clutter.</td>
+                <td><a href="/box-plot-maker/" class="matrix-link">Box Plot Maker</a></td>
+              </tr>
+              <tr>
+                <td><strong>Large Continuous Datasets (N > 100 to Thousands)</strong></td>
+                <td>Frequency Histogram</td>
+                <td>Aggregates continuous observations into bins; reveals overall modality, skewness, and normal distribution fit.</td>
+                <td><a href="/histogram-maker/" class="matrix-link">Histogram Maker</a></td>
+              </tr>
+              <tr>
+                <td><strong>Introductory Statistics & Keeping Exact Number Digits</strong></td>
+                <td>Stem-and-Leaf Display</td>
+                <td>Splits values into stems and leaves, preserving original data digits while visualizing distribution shape.</td>
+                <td><a href="/stem-and-leaf-plot-maker/" class="matrix-link">Stem-and-Leaf Maker</a></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- Visual Showcase Component -->
+    <InteractiveIllustrations />
+
+    <!-- How It Works (Univariate workflow) -->
+    <HowItWorks locale={locale} />
+
+    <!-- Chart Info Section (When to use & Bar Chart comparison) -->
+    <ChartSection locale={locale} />
+
+    <!-- ══════════════════════════════════════════════════════════════
+         TOPICAL AUTHORITY & EDUCATIONAL CONTEXT
          ══════════════════════════════════════════════════════════════ -->
 
-    <!-- 1. Understanding Dot Plot Distribution -->
+    <!-- 1. The Value of Raw Observation Visualizations -->
     <section class="topical-section">
       <div class="topical-container">
-        <h2 class="section-title">Understanding Dot Plot Distribution</h2>
-        <p class="topical-intro">Distribution describes how data points spread across a range of values. Dot plots make distribution visible — every point gets its own mark, so the shape of your data is impossible to miss.</p>
+        <h2 class="section-title">The Value of Visualizing Individual Observations</h2>
+        <p class="topical-intro">
+          Standard summary graphics like bar charts frequently conceal critical distribution features. Dot plots preserve raw data transparency, ensuring every recorded measurement contributes visibly to the narrative.
+        </p>
         <div class="topical-grid">
           <div class="topical-card topical-card-accent">
-            <h3>What Distribution Means</h3>
-            <p>In statistics, <strong>distribution</strong> is the way values are arranged along a number line. It answers questions like: Where do most values fall? Are they concentrated in the center, or spread out evenly? Is there a long tail on one side?</p>
+            <h3>Preventing Summary Illusions</h3>
+            <p>Two groups can share the exact same mean and standard deviation while having completely different distribution shapes—one bell-shaped and the other split into two distinct clusters. Dot plots expose these realities instantly.</p>
           </div>
           <div class="topical-card topical-card-purple">
-            <h3>How Dot Plots Visualize It</h3>
-            <p>Unlike histograms that group data into bins, a dot plot places each value as an individual dot. Stacked dots reveal frequency at a glance — tall columns mean common values, flat stretches mean rare ones. The overall silhouette of the plot <em>is</em> the distribution.</p>
+            <h3>Unmistakable Outlier Detection</h3>
+            <p>Unlike summary bars that silently absorb extreme numbers into a skewed mean, dot plots position outliers visibly along the scale, making measurement errors or genuine anomalies immediate to spot.</p>
           </div>
           <div class="topical-card topical-card-orange">
-            <h3>Patterns to Look For</h3>
-            <ul class="topical-list">
-              <li><strong>Bell shape</strong> — symmetric cluster in the center (normal distribution)</li>
-              <li><strong>Right skew</strong> — most values on the left, tail stretching right (incomes, home prices)</li>
-              <li><strong>Left skew</strong> — most values on the right, tail stretching left (exam scores near 100)</li>
-              <li><strong>Bimodal</strong> — two separate peaks (two subgroups in the data)</li>
-              <li><strong>Uniform</strong> — dots spread evenly across the range (random integers)</li>
-            </ul>
+            <h3>Sample Size Transparency</h3>
+            <p>A bar chart looks identical whether it was constructed from 5 observations or 5,000. Dot plots convey sample size directly through point density, ensuring viewers grasp statistical confidence intuitively.</p>
           </div>
         </div>
       </div>
@@ -203,152 +319,45 @@ const locale = defaultLocale;
             </ul>
           </div>
           <div class="topical-col topical-col-limit">
-            <h3>Limitations</h3>
+            <h3>Limitations & Better Alternatives</h3>
             <ul class="topical-list">
-              <li><strong>Large datasets</strong> — over 200 points creates visual clutter; <a href="/histogram-maker/" style="color: var(--color-primary); text-decoration: underline;">use a histogram instead</a> or consider a <a href="/box-plot-maker/" style="color: var(--color-primary); text-decoration: underline;">box plot</a></li>
-              <li><strong>Continuous data with many unique values</strong> — dots overlap and become unreadable; try our <a href="/stem-and-leaf-plot-maker/" style="color: var(--color-primary); text-decoration: underline;">stem-and-leaf plot maker</a> to keep raw digits organized</li>
-              <li><strong>Comparing many groups</strong> — more than 3–4 groups on one plot gets confusing; use <a href="/box-plot-maker/" style="color: var(--color-primary); text-decoration: underline;">side-by-side box plots</a></li>
-              <li><strong>Precision requirements</strong> — exact values are shown, but subtle distribution differences are easier to see with density plots</li>
+              <li><strong>Large datasets (N > 200)</strong> — dots blur into indistinguishable stacks; <a href="/histogram-maker/">use a frequency histogram</a> instead</li>
+              <li><strong>Multi-group continuous comparisons</strong> — points overlap heavily; <a href="/categorical-scatter-plot/">use a categorical scatter plot with jitter</a></li>
+              <li><strong>High-dimensional summary needs</strong> — comparing 5+ groups across quartiles; <a href="/box-plot-maker/">use side-by-side box plots</a></li>
+              <li><strong>Multivariate spreadsheet data</strong> — plotting categories against metrics over years; <a href="/professional-dot-plot-tool/">use the Cleveland Dot Plot Studio</a></li>
             </ul>
             <div class="topical-rule">
-              <strong>Rule of thumb:</strong> If you can count the dots without losing track, a dot plot is the right choice. If the dots blur into a cloud, <a href="/histogram-maker/" style="color: var(--color-primary); text-decoration: underline;">use a histogram instead</a>.
-            </div>
-
-            <!-- CTA Button 2 -->
-            <div style="margin-top: 1.5rem;">
-              <a href="/professional-dot-plot-tool/" class="pro-text-link">
-                Not enough? Switch to Professional Dot Plot Tool
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-    <!-- 4. Types of Dot Plots -->
-    <section class="topical-section">
-      <div class="topical-container">
-        <h2 class="section-title">Types of Dot Plots</h2>
-        <p class="topical-intro">Not all dot plots look the same. Different variations serve different analytical needs. Here are the four main types you'll encounter.</p>
-        <div class="types-grid">
-          <div class="type-card type-card-teal">
-            <div class="type-card-visual">
-              <svg viewBox="0 0 240 80" width="100%">
-                <line x1="20" y1="70" x2="220" y2="70" stroke="currentColor" stroke-width="1.5" opacity="0.3"/>
-                <line x1="20" y1="70" x2="20" y2="75" stroke="currentColor" stroke-width="1" opacity="0.3"/>
-                <line x1="60" y1="70" x2="60" y2="75" stroke="currentColor" stroke-width="1" opacity="0.3"/>
-                <line x1="100" y1="70" x2="100" y2="75" stroke="currentColor" stroke-width="1" opacity="0.3"/>
-                <line x1="140" y1="70" x2="140" y2="75" stroke="currentColor" stroke-width="1" opacity="0.3"/>
-                <line x1="180" y1="70" x2="180" y2="75" stroke="currentColor" stroke-width="1" opacity="0.3"/>
-                <line x1="220" y1="70" x2="220" y2="75" stroke="currentColor" stroke-width="1" opacity="0.3"/>
-                <text x="20" y="79" text-anchor="middle" fill="currentColor" font-size="7" opacity="0.4">2</text>
-                <text x="60" y="79" text-anchor="middle" fill="currentColor" font-size="7" opacity="0.4">4</text>
-                <text x="100" y="79" text-anchor="middle" fill="currentColor" font-size="7" opacity="0.4">6</text>
-                <text x="140" y="79" text-anchor="middle" fill="currentColor" font-size="7" opacity="0.4">8</text>
-                <text x="180" y="79" text-anchor="middle" fill="currentColor" font-size="7" opacity="0.4">10</text>
-                <text x="220" y="79" text-anchor="middle" fill="currentColor" font-size="7" opacity="0.4">12</text>
-                <circle cx="40" cy="55" r="5.5" fill="#00d4aa" opacity="0.85"/>
-                <circle cx="80" cy="55" r="5.5" fill="#00d4aa" opacity="0.85"/>
-                <circle cx="80" cy="40" r="5.5" fill="#00d4aa" opacity="0.85"/>
-                <circle cx="120" cy="55" r="5.5" fill="#00d4aa" opacity="0.85"/>
-                <circle cx="160" cy="55" r="5.5" fill="#00d4aa" opacity="0.85"/>
-                <circle cx="160" cy="40" r="5.5" fill="#00d4aa" opacity="0.85"/>
-                <circle cx="160" cy="25" r="5.5" fill="#00d4aa" opacity="0.85"/>
-                <circle cx="200" cy="55" r="5.5" fill="#00d4aa" opacity="0.85"/>
-              </svg>
-            </div>
-            <div class="type-card-body">
-              <h3>Simple Dot Plot</h3>
-              <p>Each data point is a single dot above its value on a number line. Repeated values stack vertically. This is the default output of <a href="/">Dot Plot Maker®</a> and the best starting point for any dataset.</p>
-            </div>
-          </div>
-          <div class="type-card type-card-purple">
-            <div class="type-card-visual">
-              <svg viewBox="0 0 240 90" width="100%">
-                <line x1="20" y1="80" x2="220" y2="80" stroke="currentColor" stroke-width="1.5" opacity="0.3"/>
-                <text x="15" y="40" text-anchor="end" fill="#00d4aa" font-size="8" font-weight="600" opacity="0.7">A</text>
-                <text x="15" y="65" text-anchor="end" fill="#8b5cf6" font-size="8" font-weight="600" opacity="0.7">B</text>
-                <circle cx="50" cy="40" r="5.5" fill="#00d4aa" opacity="0.85"/>
-                <circle cx="80" cy="40" r="5.5" fill="#00d4aa" opacity="0.85"/>
-                <circle cx="110" cy="40" r="5.5" fill="#00d4aa" opacity="0.85"/>
-                <circle cx="140" cy="40" r="5.5" fill="#00d4aa" opacity="0.85"/>
-                <circle cx="170" cy="40" r="5.5" fill="#00d4aa" opacity="0.85"/>
-                <circle cx="60" cy="65" r="5.5" fill="#8b5cf6" opacity="0.85"/>
-                <circle cx="90" cy="65" r="5.5" fill="#8b5cf6" opacity="0.85"/>
-                <circle cx="120" cy="65" r="5.5" fill="#8b5cf6" opacity="0.85"/>
-                <circle cx="150" cy="65" r="5.5" fill="#8b5cf6" opacity="0.85"/>
-                <circle cx="180" cy="65" r="5.5" fill="#8b5cf6" opacity="0.85"/>
-              </svg>
-            </div>
-            <div class="type-card-body">
-              <h3>Grouped Dot Plot</h3>
-              <p>Multiple categories plotted on the same axis, each with its own color or row. Ideal for comparing distributions across groups — test scores by gender, sales by region. Try our <a href="/blog/compare-dot-plot-maker/">Compare Dot Plot Tool</a>.</p>
-            </div>
-          </div>
-          <div class="type-card type-card-amber">
-            <div class="type-card-visual">
-              <svg viewBox="0 0 240 80" width="100%">
-                <line x1="20" y1="70" x2="220" y2="70" stroke="currentColor" stroke-width="1.5" opacity="0.3"/>
-                <circle cx="50" cy="55" r="5.5" fill="#f59e0b" opacity="0.85"/>
-                <circle cx="90" cy="40" r="5.5" fill="#f59e0b" opacity="0.85"/>
-                <circle cx="130" cy="15" r="5.5" fill="#f59e0b" opacity="0.85"/>
-                <text x="130" y="10" text-anchor="middle" fill="#f59e0b" font-size="9" font-weight="700" opacity="0.8">5×</text>
-                <circle cx="170" cy="30" r="5.5" fill="#f59e0b" opacity="0.85"/>
-                <circle cx="200" cy="55" r="5.5" fill="#f59e0b" opacity="0.85"/>
-              </svg>
-            </div>
-            <div class="type-card-body">
-              <h3>Frequency Dot Plot</h3>
-              <p>Instead of stacking dots, the height of a dot column represents the count. Frequency labels replace tall stacks. Useful when exact frequency matters more than seeing every point. See <a href="/blog/statistics-dot-plot-visualizer/">our Statistics Visualizer</a>.</p>
-            </div>
-          </div>
-          <div class="type-card type-card-red">
-            <div class="type-card-visual">
-              <svg viewBox="0 0 240 90" width="100%">
-                <line x1="20" y1="80" x2="220" y2="80" stroke="currentColor" stroke-width="1.5" opacity="0.3"/>
-                <text x="15" y="30" text-anchor="end" fill="#00d4aa" font-size="8" font-weight="600" opacity="0.7">Pre</text>
-                <text x="15" y="60" text-anchor="end" fill="#ff6b6b" font-size="8" font-weight="600" opacity="0.7">Post</text>
-                <circle cx="60" cy="30" r="5.5" fill="#00d4aa" opacity="0.85"/>
-                <circle cx="85" cy="30" r="5.5" fill="#00d4aa" opacity="0.85"/>
-                <circle cx="110" cy="30" r="5.5" fill="#00d4aa" opacity="0.85"/>
-                <circle cx="135" cy="30" r="5.5" fill="#00d4aa" opacity="0.85"/>
-                <circle cx="160" cy="30" r="5.5" fill="#00d4aa" opacity="0.85"/>
-                <circle cx="50" cy="60" r="5.5" fill="#ff6b6b" opacity="0.85"/>
-                <circle cx="75" cy="60" r="5.5" fill="#ff6b6b" opacity="0.85"/>
-                <circle cx="100" cy="60" r="5.5" fill="#ff6b6b" opacity="0.85"/>
-                <circle cx="125" cy="60" r="5.5" fill="#ff6b6b" opacity="0.85"/>
-                <circle cx="150" cy="60" r="5.5" fill="#ff6b6b" opacity="0.85"/>
-                <circle cx="175" cy="60" r="5.5" fill="#ff6b6b" opacity="0.85"/>
-              </svg>
-            </div>
-            <div class="type-card-body">
-              <h3>Comparative Dot Plot</h3>
-              <p>Two or more datasets plotted in aligned rows sharing the same horizontal scale. The eye naturally compares centers, spreads, and outliers between groups. Perfect for A/B tests and <a href="/blog/outlier-dot-plot-maker/">outlier comparison</a>.</p>
+              <strong>Rule of thumb:</strong> If you can count the dots without losing track, a dot plot is the right choice. If dots overlap into a solid block, switch to a <a href="/histogram-maker/">histogram</a> or <a href="/box-plot-maker/">box plot</a>.
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- 5. Dot Plots in Statistics Education -->
-    <section class="topical-section">
+    <!-- Educational Articles & Blog Hub -->
+    <section class="topical-section" style="border-top: 1px solid var(--color-border); padding-top: 3.5rem;">
       <div class="topical-container">
-        <h2 class="section-title">Dot Plots in Statistics Education</h2>
-        <p class="topical-intro">Dot plots are one of the first chart types taught in statistics because they build intuition before introducing abstraction. Here's how they're used across education levels.</p>
+        <div style="text-align: center; margin-bottom: 2.5rem;">
+          <span class="hub-kicker">Curated Educational Guides</span>
+          <h2 class="section-title">Learn Data Visualization Fundamentals</h2>
+          <p class="section-subtitle">Deepen your statistical intuition with our in-depth guides and comparisons.</p>
+        </div>
+
         <div class="topical-grid topical-grid-3">
           <div class="topical-card">
-            <div class="topical-card-badge">Schools</div>
-            <h3>K-12 Classroom Use</h3>
-            <p>In middle and high school math, dot plots introduce students to data analysis without the complexity of histograms or box plots. Students can physically place dots on a number line, making the connection between raw data and visual representation tangible. Common Core standards (6.SP.B.4) explicitly include dot plots as a display method.</p>
+            <h3>What is a Dot Plot?</h3>
+            <p>A comprehensive introduction to univariate dot plots, history, number line scaling, and stacking mechanics.</p>
+            <p style="margin-top: 1rem;"><a href="/blog/what-is-a-dot-plot/">Read Guide →</a></p>
           </div>
           <div class="topical-card">
-            <div class="topical-card-badge">Exams</div>
-            <h3>Standardized Tests & AP Statistics</h3>
-            <p>Dot plots appear on AP Statistics exams, SAT math sections, and state assessments. Students must interpret clusters, identify outliers, and compare distributions presented as dot plots. Being able to <strong>create</strong> dot plots quickly — as our tool allows — reinforces the interpretation skills tests require.</p>
+            <h3>How to Read Dot Plots</h3>
+            <p>Step-by-step framework for diagnosing skewness, multimodal clusters, outliers, and variance in dot charts.</p>
+            <p style="margin-top: 1rem;"><a href="/blog/how-to-read-dot-plots/">Read Tutorial →</a></p>
           </div>
           <div class="topical-card">
-            <div class="topical-card-badge">Research</div>
-            <h3>Academic & Research Applications</h3>
-            <p>In research, dot plots serve as the first step of exploratory data analysis (EDA). Before fitting models or running hypothesis tests, statisticians plot their data. Dot plots are favored in small-sample studies (common in psychology, medicine, and ecology) where each observation matters and histograms would obscure individual values.</p>
+            <h3>Dot Plot vs. Histogram</h3>
+            <p>Detailed architectural comparison showing when to use discrete dots vs. binned continuous intervals.</p>
+            <p style="margin-top: 1rem;"><a href="/blog/dot-plot-vs-histogram/">Compare Charts →</a></p>
           </div>
         </div>
       </div>
@@ -360,14 +369,18 @@ const locale = defaultLocale;
     <!-- Final CTA -->
     <div class="final-cta">
       <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; flex-direction: column; align-items: center;">
-        <a href="#pro-dot-plot-tool" class="btn-primary cta-btn"><span>Build Your Dot Plot</span></a>
-        
-        <!-- CTA Button 3 -->
-        <a href="/professional-dot-plot-tool/" class="pro-final-link">
-          Working with big data? Try our professional version →
-        </a>
+        <h2 style="font-size: 1.8rem; font-weight: 800; color: var(--color-text-primary); margin-bottom: 0.5rem;">Ready to Visualize Your Data?</h2>
+        <p style="color: var(--color-text-secondary); max-width: 600px; margin: 0 auto 1.5rem;">Create publication-grade graphics in seconds without account registration or software downloads.</p>
+        <div style="display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center;">
+          <a href="#pro-dot-plot-tool" class="btn-primary cta-btn"><span>Use Free Dot Plot Maker</span></a>
+          <a href="/professional-dot-plot-tool/" class="btn-secondary" style="padding: 1rem 2rem; border-radius: 8px;"><span>Open Cleveland Dot Plot Studio</span></a>
+        </div>
       </div>
     </div>
+
+  </div>
+</BaseLayout>
+
 <style>
   /* ── Tool Section Wrapper ── */
   .tool-section {
@@ -411,30 +424,8 @@ const locale = defaultLocale;
     color: var(--color-text-secondary);
     font-size: 1.05rem;
     line-height: 1.6;
-    max-width: 500px;
+    max-width: 600px;
     margin: 0 auto 1.25rem;
-  }
-  .tool-section-badges {
-    display: flex;
-    justify-content: center;
-    gap: 0.75rem;
-    flex-wrap: wrap;
-  }
-  .tool-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.35rem;
-    font-size: 0.78rem;
-    font-weight: 600;
-    letter-spacing: 0.02em;
-    padding: 0.35rem 0.85rem;
-    border-radius: 8px;
-    background: rgba(0, 212, 170, 0.08);
-    border: 1px solid rgba(0, 212, 170, 0.2);
-    color: var(--color-primary);
-  }
-  .tool-badge svg {
-    opacity: 0.8;
   }
   .tool-section :global(.dotplot-wrapper) {
     border-radius: 20px;
@@ -445,43 +436,28 @@ const locale = defaultLocale;
       0 24px 80px -12px rgba(0, 212, 170, 0.12),
       inset 0 1px 0 rgba(255, 255, 255, 0.04);
   }
-  @media (max-width: 768px) {
-    .tool-section-title {
-      font-size: 1.5rem;
-    }
-    .tool-section-header {
-      margin-bottom: 1.25rem;
-    }
-  }
 
   .hero {
     text-align: center;
-    padding: 2.5rem 0 0.5rem;
+    padding: 2.5rem 0 1rem;
   }
   .hero-title {
     font-size: 3rem;
     font-weight: 900;
-    line-height: 1.1;
+    line-height: 1.15;
     margin: 1rem 0;
     background: linear-gradient(135deg, var(--color-text-primary) 30%, var(--color-primary) 70%, var(--color-accent));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    max-width: 700px;
+    max-width: 820px;
     margin-left: auto;
     margin-right: auto;
-  }
-  .hero-intro {
-    font-size: 1.15rem;
-    color: var(--color-text-secondary);
-    max-width: 600px;
-    margin: 0 auto;
-    line-height: 1.7;
   }
   .hero-subtitle {
     font-size: 1.15rem;
     color: var(--color-text-secondary);
-    max-width: 600px;
+    max-width: 760px;
     margin: 0.75rem auto 0;
     line-height: 1.7;
   }
@@ -492,146 +468,155 @@ const locale = defaultLocale;
     flex-wrap: wrap;
     margin-top: 1.75rem;
   }
-  @media (max-width: 768px) {
-    .hero-title {
-      font-size: 2rem;
-    }
-    .hero-intro, .hero-subtitle {
-      font-size: 1rem;
-    }
-    .hero-cta {
-      flex-direction: column;
-      align-items: center;
-    }
-    .feature-grid-container {
-      grid-template-columns: 1fr;
-      padding: 0 1rem;
-    }
-    .final-cta {
-      padding: 2rem 1rem;
-    }
-  }
 
-  .final-cta {
-    text-align: center;
-    padding: 4rem 1rem 2rem;
-  }
-  .cta-btn {
-    display: inline-block;
-    padding: 1rem 2.5rem;
-    font-size: 1.1rem;
-    font-weight: 600;
-    text-decoration: none;
-    border-radius: 8px;
-    background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
-    color: #ffffff;
-    transition: all 0.2s ease;
-    box-shadow: 0 8px 24px rgba(0, 212, 170, 0.22);
-  }
-  .cta-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 28px rgba(139, 92, 246, 0.22);
-    background: linear-gradient(135deg, var(--color-accent), var(--color-primary));
-    color: #ffffff !important;
-  }
-
-  .feature-grid-section {
+  /* ── Suite Directory Grid ── */
+  .suite-directory-section {
+    padding: 2rem 1rem 4rem;
     max-width: 1200px;
-    margin: 0 auto 5rem;
-    padding: 0 1rem;
-  }
-  .feature-grid-container {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2rem;
-  }
-  .feature-card {
-    background: var(--color-bg-card, #ffffff);
-    border: 1px solid var(--color-border);
-    border-radius: 12px;
-    padding: 2rem;
-    text-align: center;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
-    transition: transform 0.2s, box-shadow 0.2s;
-  }
-  .feature-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 30px rgba(0, 212, 170, 0.12);
-    border-color: rgba(0, 212, 170, 0.3);
-  }
-  .feature-icon {
-    width: 48px;
-    height: 48px;
-    margin: 0 auto 1.25rem;
-    background: rgba(0, 212, 170, 0.12);
-    color: var(--color-primary);
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .feature-card h3 {
-    font-size: 1.25rem;
-    font-weight: 700;
-    margin-bottom: 0.75rem;
-    color: var(--color-text-primary);
-  }
-  .feature-card p {
-    font-size: 1rem;
-    line-height: 1.6;
-    color: var(--color-text-secondary);
-    margin: 0;
-  }
-
-  .educational-section {
-    padding: 2rem 1rem 5rem;
-  }
-  .educational-container {
-    max-width: 860px;
     margin: 0 auto;
-    background: var(--color-bg-card, #ffffff);
+  }
+  .hub-kicker {
+    display: inline-block;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-primary);
+    margin-bottom: 0.5rem;
+  }
+  .suite-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 1.5rem;
+  }
+  .suite-card {
+    background: var(--color-bg-card);
     border: 1px solid var(--color-border);
-    border-radius: 12px;
-    padding: 3rem 2.5rem;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
-  }
-  .edu-title {
-    text-align: center;
-  }
-  .educational-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+    border-radius: 14px;
+    padding: 2rem 1.75rem;
     display: flex;
     flex-direction: column;
-    gap: 1.75rem;
+    transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
   }
-  .educational-list li {
+  .suite-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(0, 212, 170, 0.4);
+    box-shadow: 0 12px 32px rgba(0, 212, 170, 0.08);
+  }
+  .suite-card-badge {
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-primary);
+    background: rgba(0, 212, 170, 0.1);
+    padding: 0.25rem 0.6rem;
+    border-radius: 6px;
+    width: fit-content;
+    margin-bottom: 1rem;
+  }
+  .suite-card-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
     display: flex;
-    align-items: flex-start;
-    gap: 1.25rem;
-    font-size: 1.05rem;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.25rem;
+  }
+  .suite-card h3 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--color-text-primary);
+    margin: 0 0 0.75rem;
+  }
+  .suite-card p {
+    font-size: 0.93rem;
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+    margin: 0 0 1.25rem;
+    flex-grow: 1;
+  }
+  .suite-features {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+  .suite-features li {
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+  .suite-features li::before {
+    content: "•";
+    color: var(--color-primary);
+    font-weight: bold;
+  }
+  .suite-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.92rem;
+    font-weight: 600;
+    color: var(--color-primary);
+    text-decoration: none;
+    transition: color 0.2s ease, transform 0.2s ease;
+  }
+  .suite-link:hover {
+    color: #4dffdf;
+    transform: translateX(2px);
+  }
+
+  /* ── Selection Matrix Table ── */
+  .matrix-card {
+    background: var(--color-bg-card);
+    border: 1px solid var(--color-border);
+    border-radius: 16px;
+    padding: 3rem 2rem;
+    max-width: 1100px;
+    margin: 0 auto 4rem;
+  }
+  .matrix-table-wrap {
+    overflow-x: auto;
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+  }
+  .matrix-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.92rem;
+    text-align: left;
+  }
+  .matrix-table th {
+    background: var(--color-bg-card-hover);
+    color: var(--color-text-primary);
+    padding: 1rem 1.25rem;
+    font-weight: 700;
+    border-bottom: 1px solid var(--color-border);
+  }
+  .matrix-table td {
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid var(--color-border);
     color: var(--color-text-secondary);
     line-height: 1.6;
   }
-  .edu-icon {
-    width: 36px;
-    height: 36px;
-    border-radius: 10px;
-    border: 1px solid rgba(0, 212, 170, 0.3);
-    background: rgba(0, 212, 170, 0.12);
-    color: var(--color-primary);
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    margin-top: 2px;
+  .matrix-table tr:last-child td {
+    border-bottom: none;
   }
-  .educational-list strong {
-    color: var(--color-text-primary);
-    display: block;
-    margin-bottom: 0.2rem;
-    font-size: 1.1rem;
+  .matrix-link {
+    color: var(--color-primary);
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    white-space: nowrap;
+  }
+  .matrix-link:hover {
+    color: #4dffdf;
   }
 
   /* ── Topical Authority Sections ── */
@@ -777,153 +762,49 @@ const locale = defaultLocale;
   .topical-rule strong {
     color: var(--color-text-primary);
   }
-  .topical-card-badge {
-    display: inline-block;
-    font-size: 0.7rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    padding: 0.3rem 0.75rem;
-    border-radius: 6px;
-    background: rgba(0, 212, 170, 0.12);
-    color: var(--color-primary);
-    margin-bottom: 0.75rem;
+
+  .final-cta {
+    text-align: center;
+    padding: 4rem 1rem 2rem;
   }
-  .topical-mini-chart {
-    margin-top: 1rem;
-    display: flex;
-    justify-content: center;
+  .cta-btn {
+    display: inline-block;
+    padding: 1rem 2.5rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 8px;
+    background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+    color: #ffffff;
+    transition: all 0.2s ease;
+    box-shadow: 0 8px 24px rgba(0, 212, 170, 0.22);
+  }
+  .cta-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 28px rgba(139, 92, 246, 0.22);
+    background: linear-gradient(135deg, var(--color-accent), var(--color-primary));
+    color: #ffffff !important;
   }
 
-  /* ── Types of Dot Plots Section ── */
-  .types-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1.5rem;
-  }
-  .type-card {
-    background: var(--color-bg-card, #ffffff);
-    border: 1px solid var(--color-border);
-    border-radius: 14px;
-    overflow: hidden;
-    transition: transform 0.2s, box-shadow 0.2s;
-  }
-  .type-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
-  }
-  .type-card-visual {
-    padding: 1.25rem 1.5rem 0.5rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .type-card-teal .type-card-visual { background: rgba(0, 212, 170, 0.05); }
-  .type-card-purple .type-card-visual { background: rgba(139, 92, 246, 0.05); }
-  .type-card-amber .type-card-visual { background: rgba(245, 158, 11, 0.05); }
-  .type-card-red .type-card-visual { background: rgba(255, 107, 107, 0.05); }
-  .type-card-body {
-    padding: 1.25rem 1.5rem 1.5rem;
-  }
-  .type-card h3 {
-    font-size: 1.1rem;
-    font-weight: 700;
-    margin-bottom: 0.5rem;
-  }
-  .type-card-teal h3 { color: #00b894; }
-  .type-card-purple h3 { color: #7c3aed; }
-  .type-card-amber h3 { color: #d97706; }
-  .type-card-red h3 { color: #ef4444; }
-  .type-card p {
-    font-size: 0.92rem;
-    color: var(--color-text-secondary);
-    line-height: 1.65;
-    margin: 0;
-  }
-  .type-card p a {
-    color: var(--color-primary);
-    text-decoration: none;
-  }
-  .type-card p a:hover {
-    text-decoration: underline;
-  }
   @media (max-width: 768px) {
+    .hero-title {
+      font-size: 2.2rem;
+    }
+    .hero-subtitle {
+      font-size: 1rem;
+    }
+    .hero-cta {
+      flex-direction: column;
+      align-items: center;
+    }
     .topical-grid,
     .topical-grid-4,
     .topical-grid-3,
-    .topical-two-col,
-    .types-grid {
+    .topical-two-col {
       grid-template-columns: 1fr;
     }
-    .topical-section {
-      padding: 2rem 0.5rem;
-    }
-  }
-  /* ── Pro CTA Styles ── */
-  .pro-cta-text {
-    font-size: 1.15rem;
-    line-height: 1.6;
-    margin-bottom: 1.5rem;
-    font-weight: 600;
-    background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    display: inline-block;
-  }
-  .pro-cta-inline {
-    display: inline-flex;
-    align-items: center;
-    padding: 0.85rem 2rem;
-    background: linear-gradient(135deg, rgba(0, 212, 170, 0.1), rgba(139, 92, 246, 0.1));
-    border: 1px solid rgba(0, 212, 170, 0.3);
-    border-radius: 12px;
-    color: var(--color-text-primary);
-    font-weight: 700;
-    text-decoration: none;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    font-size: 1.05rem;
-  }
-  .pro-cta-inline:hover {
-    transform: translateY(-2px);
-    background: linear-gradient(135deg, rgba(0, 212, 170, 0.15), rgba(139, 92, 246, 0.15));
-    border-color: var(--color-primary);
-    box-shadow: 0 10px 25px -5px rgba(0, 212, 170, 0.2);
-  }
-  .pro-text-link {
-    display: inline-block;
-    color: var(--color-primary);
-    font-weight: 700;
-    text-decoration: none;
-    font-size: 0.95rem;
-    padding-bottom: 2px;
-    border-bottom: 2px solid rgba(0, 212, 170, 0.2);
-    transition: all 0.2s ease;
-  }
-  .pro-text-link:hover {
-    border-color: var(--color-primary);
-    color: var(--color-accent);
-  }
-  .pro-final-link {
-    margin-top: 1rem;
-    color: var(--color-text-secondary);
-    text-decoration: none;
-    font-size: 1rem;
-    font-weight: 600;
-    transition: color 0.2s ease;
-    border-bottom: 1px solid transparent;
-  }
-  .pro-final-link:hover {
-    color: var(--color-primary);
-    border-bottom-color: var(--color-primary);
-  }
-
-  @media (max-width: 768px) {
-    .pro-cta-inline {
-      width: 100%;
-      justify-content: center;
-      font-size: 0.95rem;
+    .matrix-card {
+      padding: 2rem 1rem;
     }
   }
 </style>
-
