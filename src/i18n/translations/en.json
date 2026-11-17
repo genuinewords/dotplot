@@ -36,10 +36,10 @@
     "disclaimer": "Dot Plot Maker® is an independent educational math and statistics platform. Visualizations adhere to established mathematical standards including Tukey 1.5×IQR outlier detection and Freedman-Diaconis/Sturges binning algorithms. Advertisements served via Google AdSense comply strictly with Google Publisher Policies."
   },
   "home": {
-    "title": "Dot Plot Maker — Free Online Chart Tools & Statistical Visualizers",
-    "description": "Create instant dot plots online for free. Explore our suite of statistical visualizers including Cleveland dot plots, box plots, histograms, and classroom worksheets.",
+    "title": "Free Dot Plot Maker — Create Charts Online | Dot Plot Maker®",
+    "description": "Create free dot plots online in seconds — no sign-up. Paste your data and export as SVG or PNG. Also try histogram, box plot and stem-and-leaf makers.",
     "badge": "Free Online Statistical Suite",
-    "h1": "Dot Plot Maker — Free Online Statistical Visualization Suite",
+    "h1": "Free Dot Plot Maker — Create Dot Plots in Seconds",
     "heroSubtitle": "Visualize distributions instantly with raw observation fidelity. Generate standard univariate dot plots below, or select from our dedicated specialized tools for Cleveland dot plots, box plots, histograms, and classroom worksheets.",
     "intro": "Transform your raw data into professional, publication-ready Cleveland dot plots. Simply paste your data, upload a spreadsheet, and customize your chart using our interactive BI-grade editor.",
     "toolTitle": "Pro Dot Plot Editor",

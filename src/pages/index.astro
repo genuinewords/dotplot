@@ -12,7 +12,7 @@ import { t } from "@src/i18n/utils";
 const locale = defaultLocale;
 ---
 
-<BaseLayout locale={locale} title={t(locale, "home.title")} description={t(locale, "home.description")}>
+<BaseLayout locale={locale} title={t(locale, "home.title")} description={t(locale, "home.description")} exactTitle={true}>
   <HomepageSchema locale={locale} slot="head" />
 
   <div class="page-content">

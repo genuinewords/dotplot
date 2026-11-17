@@ -271,7 +271,7 @@ const { locale = defaultLocale } = Astro.props;
         <!-- Data Input Card -->
         <div class="card animate-entrance delay-3 text-left">
           <div class="flex items-center justify-between mb-4">
-            <h2 class="font-semibold" style="color: var(--fg);">Data Input</h2>
+            <h3 class="font-semibold text-base" style="color: var(--fg); margin: 0;">Data Input</h3>
             <div class="flex gap-1">
               <button class="tab-btn active" data-tab="manual" onclick="switchDotplotTab('manual')">Manual</button>
               <button class="tab-btn" data-tab="paste" onclick="switchDotplotTab('paste')">Paste</button>
@@ -326,7 +326,7 @@ const { locale = defaultLocale } = Astro.props;
 
         <!-- Datasets List -->
         <div class="card animate-entrance delay-4 text-left">
-          <h2 class="font-semibold mb-4" style="color: var(--fg);">Active Datasets</h2>
+          <h3 class="font-semibold text-base mb-4" style="color: var(--fg); margin: 0 0 1rem 0;">Active Datasets</h3>
           <div id="datasets-list" class="space-y-2">
             <!-- Datasets will be rendered here -->
           </div>
@@ -334,7 +334,7 @@ const { locale = defaultLocale } = Astro.props;
 
         <!-- Style Controls -->
         <div class="card animate-entrance delay-5 text-left">
-          <h2 class="font-semibold mb-4" style="color: var(--fg);">Style Options</h2>
+          <h3 class="font-semibold text-base mb-4" style="color: var(--fg); margin: 0 0 1rem 0;">Style Options</h3>
           
           <div class="space-y-4">
             <div>
@@ -442,7 +442,7 @@ const { locale = defaultLocale } = Astro.props;
 
         <!-- Data Preview -->
         <div class="card animate-entrance delay-5 text-left">
-          <h2 class="font-semibold mb-4" style="color: var(--fg);">Data Frequency Table</h2>
+          <h3 class="font-semibold text-base mb-4" style="color: var(--fg); margin: 0 0 1rem 0;">Data Frequency Table</h3>
           <div id="frequency-table" class="overflow-x-auto">
             <table class="w-full text-sm">
               <thead>
