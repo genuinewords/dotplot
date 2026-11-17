@@ -12,6 +12,7 @@ import siteConfig from "@src/config/site.json";
 interface Props {
   title?: string;
   description?: string;
+  image?: string;
   locale?: Locale;
   canonicalUrl?: string;
   ogType?: string;
@@ -25,6 +26,7 @@ const {
   ogType = "website",
   pageType = null,
   exactTitle = false,
+  image = siteConfig.metaImage,
 } = Astro.props;
 
 const title = Astro.props.title || t(locale, "site.title");
@@ -85,17 +87,17 @@ const resolvedCanonicalUrl = normalizeCanonicalUrl(canonicalUrl);
     <meta property="og:url" content={resolvedCanonicalUrl} />
     <meta property="og:site_name" content={siteConfig.siteName} />
     <meta property="og:locale" content={ogLocale} />
-    <meta property="og:image" content={`${siteConfig.siteUrl}${siteConfig.metaImage}`} />
+    <meta property="og:image" content={image.startsWith("http") ? image : `${siteConfig.siteUrl}${image}`} />
     <meta property="og:image:width" content={String(siteConfig.metaImageWidth)} />
     <meta property="og:image:height" content={String(siteConfig.metaImageHeight)} />
-    <meta property="og:image:alt" content={siteConfig.metaImageAlt} />
+    <meta property="og:image:alt" content={title} />
     <meta property="og:type" content={ogType} />
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={fullTitle} />
     <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content={`${siteConfig.siteUrl}${siteConfig.metaImage}`} />
+    <meta name="twitter:image" content={image.startsWith("http") ? image : `${siteConfig.siteUrl}${image}`} />
 
     <!-- Organization Schema -->
     <script type="application/ld+json" set:html={JSON.stringify({
