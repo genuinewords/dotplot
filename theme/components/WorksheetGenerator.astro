@@ -124,36 +124,6 @@ const { topic, title, toolUrl, toolName } = Astro.props;
       </div>
     </div>
   </div>
-
-  <!-- Email Gate Modal for Answer Key -->
-  <div class="email-modal-backdrop" id="email-modal-backdrop" style="display: none;">
-    <div class="email-modal glass-card">
-      <button type="button" class="modal-close-btn" id="modal-close-btn" aria-label="Close dialog">&times;</button>
-      <div class="modal-badge-wrapper">
-        <span class="modal-badge">Teacher & Student Resource</span>
-      </div>
-      <h3 class="modal-title">Unlock Complete Answer Keys</h3>
-      <p class="modal-desc">
-        Enter your email address to instantly reveal live-computed answer keys, step-by-step numerical solutions, and correct graph diagrams for all 4 statistics worksheet topics for this session.
-      </p>
-
-      <form id="email-unlock-form" class="modal-form">
-        <div class="modal-input-group">
-          <input type="email" id="unlock-email-input" class="modal-input" placeholder="teacher@school.edu" required />
-        </div>
-        <label class="modal-checkbox-label">
-          <input type="checkbox" id="newsletter-opt-in" checked />
-          <span>Send free printable classroom statistics worksheets and lesson plans (optional)</span>
-        </label>
-        <button type="submit" class="btn-primary" style="width: 100%; justify-content: center; margin-top: 1rem;">
-          <span>Unlock Answer Keys Now →</span>
-        </button>
-      </form>
-      <p class="modal-footer-note">
-        🔒 Student worksheets remain 100% free to print anytime without entering an email. We respect your privacy.
-      </p>
-    </div>
-  </div>
 </div>
 
 <style>
@@ -530,115 +500,6 @@ const { topic, title, toolUrl, toolName } = Astro.props;
   }
 
   /* ════════════════════════════════════════════════════════════════
-     EMAIL GATE MODAL
-     ════════════════════════════════════════════════════════════════ */
-  .email-modal-backdrop {
-    position: fixed;
-    inset: 0;
-    z-index: 999;
-    background: rgba(10, 10, 26, 0.75);
-    backdrop-filter: blur(8px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 1.5rem;
-  }
-
-  .email-modal {
-    background: #12122a;
-    border: 1px solid var(--color-border);
-    border-radius: 20px;
-    max-width: 480px;
-    width: 100%;
-    padding: 2.25rem;
-    position: relative;
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
-    animation: modalIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-
-  @keyframes modalIn {
-    from { opacity: 0; transform: scale(0.95) translateY(10px); }
-    to { opacity: 1; transform: scale(1) translateY(0); }
-  }
-
-  .modal-close-btn {
-    position: absolute;
-    top: 1rem;
-    right: 1.25rem;
-    background: none;
-    border: none;
-    font-size: 1.75rem;
-    color: var(--color-text-muted);
-    cursor: pointer;
-    line-height: 1;
-  }
-
-  .modal-close-btn:hover {
-    color: var(--color-text-primary);
-  }
-
-  .modal-badge {
-    background: rgba(0, 212, 170, 0.1);
-    color: var(--color-primary);
-    border: 1px solid rgba(0, 212, 170, 0.3);
-    border-radius: 999px;
-    font-size: 0.75rem;
-    font-weight: 600;
-    padding: 0.25rem 0.75rem;
-    text-transform: uppercase;
-    display: inline-block;
-    margin-bottom: 0.75rem;
-  }
-
-  .modal-title {
-    font-size: 1.4rem;
-    font-weight: 800;
-    color: var(--color-text-primary);
-    margin: 0 0 0.5rem;
-  }
-
-  .modal-desc {
-    font-size: 0.92rem;
-    color: var(--color-text-secondary);
-    line-height: 1.5;
-    margin: 0 0 1.5rem;
-  }
-
-  .modal-input {
-    width: 100%;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid var(--color-border);
-    color: var(--color-text-primary);
-    padding: 0.85rem 1rem;
-    border-radius: 12px;
-    font-size: 1rem;
-    outline: none;
-  }
-
-  .modal-input:focus {
-    border-color: var(--color-primary);
-    box-shadow: 0 0 0 3px rgba(0, 212, 170, 0.2);
-  }
-
-  .modal-checkbox-label {
-    display: flex;
-    align-items: flex-start;
-    gap: 0.6rem;
-    margin-top: 1rem;
-    font-size: 0.82rem;
-    color: var(--color-text-muted);
-    cursor: pointer;
-  }
-
-  .modal-footer-note {
-    font-size: 0.78rem;
-    color: var(--color-text-muted);
-    margin: 1.25rem 0 0;
-    text-align: center;
-    line-height: 1.4;
-  }
-
-  /* ════════════════════════════════════════════════════════════════
      CLEAN PRINT CSS (US Letter + A4)
      ════════════════════════════════════════════════════════════════ */
   @media print {
@@ -657,7 +518,6 @@ const { topic, title, toolUrl, toolName } = Astro.props;
     .site-header,
     .site-footer,
     .generator-controls,
-    .email-modal-backdrop,
     .static-seo-content,
     .ad-unit,
     .dot-bg,
@@ -1091,22 +951,8 @@ const { topic, title, toolUrl, toolName } = Astro.props;
     const answerKeyPaper = document.getElementById("answer-key-paper") as HTMLElement;
     const answersContainer = document.getElementById("answers-container") as HTMLElement;
 
-    // Modal elements
-    const emailModal = document.getElementById("email-modal-backdrop") as HTMLElement;
-    const modalCloseBtn = document.getElementById("modal-close-btn") as HTMLButtonElement;
-    const emailForm = document.getElementById("email-unlock-form") as HTMLFormElement;
-    const emailInput = document.getElementById("unlock-email-input") as HTMLInputElement;
-
     let currentSeed = Math.floor(100000 + Math.random() * 900000);
     seedInput.value = currentSeed.toString();
-
-    function getUnlocked(): boolean {
-      return sessionStorage.getItem("worksheet_email_unlocked") === "true";
-    }
-
-    function setUnlocked(val: boolean) {
-      if (val) sessionStorage.setItem("worksheet_email_unlocked", "true");
-    }
 
     function generateWorksheet() {
       const seedVal = parseInt(seedInput.value, 10);
@@ -1317,7 +1163,7 @@ const { topic, title, toolUrl, toolName } = Astro.props;
       window.print();
     });
 
-    // Answer Key toggle logic with Email Gate
+    // Answer Key toggle logic (Instant, zero email requirement)
     function toggleKeyVisibility() {
       const isVisible = answerKeyPaper.style.display !== "none";
       if (isVisible) {
@@ -1326,38 +1172,13 @@ const { topic, title, toolUrl, toolName } = Astro.props;
       } else {
         answerKeyPaper.style.display = "block";
         keyBtnText.textContent = "Hide Answer Key";
-        // Scroll to answer key
+        // Scroll smoothly to answer key
         answerKeyPaper.scrollIntoView({ behavior: "smooth" });
       }
     }
 
     toggleAnswerKeyBtn.addEventListener("click", () => {
-      if (getUnlocked()) {
-        toggleKeyVisibility();
-      } else {
-        emailModal.style.display = "flex";
-        emailInput.focus();
-      }
-    });
-
-    modalCloseBtn.addEventListener("click", () => {
-      emailModal.style.display = "none";
-    });
-
-    emailModal.addEventListener("click", (e) => {
-      if (e.target === emailModal) {
-        emailModal.style.display = "none";
-      }
-    });
-
-    emailForm.addEventListener("submit", (e) => {
-      e.preventDefault();
-      const email = emailInput.value.trim();
-      if (email && email.includes("@")) {
-        setUnlocked(true);
-        emailModal.style.display = "none";
-        toggleKeyVisibility();
-      }
+      toggleKeyVisibility();
     });
 
     // Initial generation
