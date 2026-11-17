@@ -213,7 +213,7 @@ const { locale = defaultLocale } = Astro.props;
               <div id="cs-drop-zone" style="border: 2px dashed var(--border); border-radius: 8px; padding: 2rem 1rem; text-align: center; cursor: pointer; transition: all 0.2s ease;">
                 <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="1.5" style="margin: 0 auto 0.5rem;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
                 <div class="text-sm" style="color: var(--muted);">Drop .csv here or click to browse</div>
-                <input type="file" id="cs-file-input" accept=".csv,.tsv" style="display: none;">
+                <input type="file" id="cs-file-input" accept=".csv,.tsv" style="display: none;" aria-label="Upload CSV or TSV data file">
               </div>
             </div>
           </div>
