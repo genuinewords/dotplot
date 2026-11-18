@@ -19,6 +19,21 @@
       "permanent": true
     },
     {
+      "source": "/sitemap.xml",
+      "destination": "/sitemap-index.xml",
+      "statusCode": 301
+    },
+    {
+      "source": "/:locale(ar|bg|bn|de|es|fr|hi|id|it|ja|ko|ms|pl|pt|ru|sv|tr)",
+      "destination": "/",
+      "statusCode": 301
+    },
+    {
+      "source": "/:locale(ar|bg|bn|de|es|fr|hi|id|it|ja|ko|ms|pl|pt|ru|sv|tr)/:path*",
+      "destination": "/:path*",
+      "statusCode": 301
+    },
+    {
       "source": "/real-world-dot-plot-examples",
       "destination": "/blog/real-world-dot-plot-examples/",
       "permanent": true

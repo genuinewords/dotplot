@@ -51,7 +51,23 @@ try {
 
     // Explicit redirects that must match BEFORE the trailing slash rule
     // and match both with and without trailing slash
+    const localeRegex = "(?:ar|bg|bn|de|es|fr|hi|id|it|ja|ko|ms|pl|pt|ru|sv|tr)";
     const mandatoryRedirects = [
+      {
+        src: "^/sitemap\\.xml$",
+        headers: { Location: "/sitemap-index.xml" },
+        status: 301,
+      },
+      {
+        src: `^/${localeRegex}(?:/)?$`,
+        headers: { Location: "/" },
+        status: 301,
+      },
+      {
+        src: `^/${localeRegex}/(.+?)(?:/)?$`,
+        headers: { Location: "/$1/" },
+        status: 301,
+      },
       {
         src: "^/dot-plot-vs-histogram(?:/)?$",
         headers: { Location: "/blog/dot-plot-vs-histogram/" },
@@ -72,6 +88,8 @@ try {
     // Filter out existing partial/duplicate rules for these paths
     const filteredRoutes = (config.routes || []).filter((r) => {
       if (r.src && (
+        r.src.includes("sitemap.xml") ||
+        r.src.includes(localeRegex) ||
         r.src.includes("dot-plot-vs-histogram") ||
         r.src.includes("about-us") ||
         r.src.includes("contact-us")
